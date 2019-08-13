@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="" />
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/login/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/login/LoginView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/menu/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/menu/MenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/login/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/login/LoginView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/menu/MenuView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/menu/MenuView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1PFr9J6iO3tmXAvxhEuKhkCdD5V" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/META-INF/resources/icons" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -65,6 +87,19 @@
       <updated>1565480532943</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="com.vaadin.designer2.intellij.settings.SizePresetsSettingsComponent">
     <option name="sizePresets">

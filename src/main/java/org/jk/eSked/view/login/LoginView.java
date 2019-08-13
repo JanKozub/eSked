@@ -20,6 +20,8 @@ import org.jk.eSked.services.users.UserService;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 @Route(value = "login")
@@ -30,6 +32,7 @@ class LoginView extends VerticalLayout {
     private final PasswordField passwordTyped;
     private final UserService userService;
     private final GroupSynService groupSynService;
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
     public LoginView(UserService userService, GroupSynService groupSynService) {
         this.userService = userService;
@@ -73,6 +76,7 @@ class LoginView extends VerticalLayout {
     }
 
     private void login(String uTyped, String pTyped) {
+        LOGGER.log(Level.INFO, "start");
         pTyped = User.encodePassword(pTyped);
 
         Collection<User> users = userService.getUsers();
@@ -83,7 +87,7 @@ class LoginView extends VerticalLayout {
                 userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
                 if (user.getGroupCode() != 0)
                     groupSynService.SynchronizeWGroup(user.getId(), user.getGroupCode());
-                UI.getCurrent().navigate("schedule");
+                UI.getCurrent().navigate("test");
                 if (user.isDarkTheme())
                     UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
                 else
