@@ -7,16 +7,16 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import org.jk.eSked.component.EventGrid;
-import org.jk.eSked.component.SimplePopup;
-import org.jk.eSked.component.schedule.ScheduleGrid;
+import org.jk.eSked.components.EventGrid;
+import org.jk.eSked.components.dialogs.SimplePopup;
+import org.jk.eSked.components.schedule.ScheduleGrid;
 import org.jk.eSked.model.User;
+import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.services.LoginService;
 
 class UserFoundView extends VerticalLayout {
     private final int PASS = 0;

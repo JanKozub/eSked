@@ -7,8 +7,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.component.SimplePopup;
+import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.services.GroupSynService;
@@ -38,28 +39,42 @@ class SettingsEntry extends VerticalLayout {
 
         switch (type) {
             case USERNAME:
-                textField.setEnabled(false);
                 label.setText("Nazwa");
-                textField.setValue("Nazwa: " + VaadinSession.getCurrent().getAttribute(User.class).getUsername());
+                textField.setValue(VaadinSession.getCurrent().getAttribute(User.class).getUsername());
+                textField.setReadOnly(true);
+                textField.addThemeVariants(TextFieldVariant.LUMO_ALIGN_CENTER);
+                textField.setErrorMessage("Pole nie może być puste");
                 button.addClickListener(event -> {
-                    Dialog dialog = new Dialog();
-
-                    TextField newUsername = new TextField();
-                    newUsername.setPlaceholder("Nowa Nazwa");
-                    Button confirm = new Button("Potwierdź", event1 -> {
+                    textField.setValue("");
+                    textField.setReadOnly(false);
+                    textField.setPlaceholder("Nowa Nazwa");
+                    button.setText("Potwierdź");
+                    button.addClickListener(e -> {
+                        System.out.println("val = " + textField.getValue());
                         Collection<String> usernames = userService.getUsernames();
-                        if (!newUsername.getValue().equals("") && !usernames.contains(newUsername.getValue())) {
-                            userService.changeUsername(userId, newUsername.getValue());
-                            textField.setValue("Nazwa: " + newUsername.getValue());
-                            dialog.close();
-                        } else {
-                            simplePopup.open("Pole nie może być puste");
-                        }
+                        if (!textField.getValue().equals("") && !usernames.contains(textField.getValue())) {
+                            textField.setInvalid(false);
+                            userService.changeUsername(userId, textField.getValue());
+                        } else textField.setInvalid(true);
+                        textField.setValue(textField.getValue());
+                        textField.setReadOnly(true);
+                        button.setText("Zmień");
                     });
-                    confirm.setWidth("100%");
-                    VerticalLayout layout = new VerticalLayout(newUsername, confirm);
-                    dialog.add(layout);
-                    dialog.open();
+//                    textField.clear();
+//                    textField.setReadOnly(false);
+//                    textField.setPlaceholder("Nowa Nazwa");
+//                    textField.setErrorMessage("Pole nie może być puste");
+//                    button.setText("Potwierdź");
+//                    button.addClickListener(e -> {
+//                        System.out.println("nazwa: "  + textField.getValue());
+//                        Collection<String> usernames = userService.getUsernames();
+//                        if (!textField.getValue().equals("") && !usernames.contains(textField.getValue())) {
+//                            userService.changeUsername(userId, textField.getValue());
+//                        }else textField.setInvalid(true);
+//                        textField.setValue("Nazwa: " + textField.getValue());
+//                        textField.setReadOnly(true);
+//                        button.setText("Zmień");
+//                    });
                 });
                 break;
             case PASSWORD:

@@ -12,20 +12,6 @@
         <version>2.1.6.RELEASE</version>
     </parent>
 
-    <pluginRepositories>
-        <!-- Repository needed for prerelease versions of Vaadin -->
-        <pluginRepository>
-            <id>vaadin-prereleases</id>
-            <url>https://maven.vaadin.com/vaadin-prereleases</url>
-            <snapshots><enabled>false</enabled></snapshots>
-        </pluginRepository>
-        <!-- Repository needed for the snapshot versions of Vaadin -->
-        <pluginRepository>            <id>vaadin-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases><enabled>false</enabled></releases>
-        </pluginRepository>
-    </pluginRepositories>
-
     <repositories>
         <repository>
             <id>vaadin-prereleases</id>
@@ -48,7 +34,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>14.0.0.beta2</version>
+                <version>14.0.0.rc9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

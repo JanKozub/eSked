@@ -8,6 +8,8 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -22,8 +24,8 @@ import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.view.events.EventDialogMethods;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class AddNewEventDialog extends Dialog {
         TextField textField = new TextField();
         textField.setPlaceholder("Temat");
         textField.setWidth("50%");
+        textField.setErrorMessage("Pole nie może być puste");
 
         ComboBox<EventType> eventType = new ComboBox<>();
         eventType.setPlaceholder("Rodzaj");
@@ -70,22 +73,31 @@ public class AddNewEventDialog extends Dialog {
         eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
         eventType.setItemLabelGenerator(EventType::getDescription);
         eventType.setWidth("50%");
+        eventType.setErrorMessage("Pole nie może być puste");
 
         HorizontalLayout dataFields = new HorizontalLayout(textField, eventType);
         dataFields.setWidth("100%");
 
-        Div line = new Div();
-        line.getStyle().set("background-color", "black");
-        line.setHeight("3px");
-        line.setWidth("100%");
-
         Button addButton = new Button("Dodaj!", e -> {
-            EventDialogMethods eventDialogMethods = new EventDialogMethods();
-            eventDialogMethods.onAdd(eventService, eventDate,
-                    scheduleEntry.getHour(), eventType.getValue(), textField.getValue(), userID);
-            close();
+            if (textField.getValue() != null && !textField.getValue().equals("")) {
+                textField.setInvalid(false);
+                if (eventType.getValue() != null) {
+                    eventType.setInvalid(false);
+                    long time = eventDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+                    UUID id = UUID.randomUUID();
+                    ScheduleEvent event = new ScheduleEvent(userID, id, time, scheduleEntry.getHour(),
+                            eventType.getValue(), textField.getValue(), Instant.now().toEpochMilli());
+                    eventService.addEvent(event);
+                    Notification notification = new Notification("Dodano wydarzenie", 3000, Notification.Position.TOP_END);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    textField.clear();
+                    notification.open();
+                    close();
+                } else eventType.setInvalid(true);
+            } else textField.setInvalid(true);
         });
         addButton.setWidth("100%");
+        addButton.setHeight("15%");
 
         Div eventListLabel = new Div();
         eventListLabel.setText("Wydarzenia w tym dniu: ");
@@ -111,10 +123,6 @@ public class AddNewEventDialog extends Dialog {
             icon.addClickListener(event -> {
                 eventService.deleteEvent(new ScheduleEvent(userID, e.getId(), e.getDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
                         e.getHour(), e.getEventType(), e.getTopic(), e.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()));
-                int groupCode = userService.getGroupCode(userID);
-                String groupName = groupsService.getGroupName(groupCode);
-                UUID groupLeaderId = groupsService.getLeaderId(groupName);
-
                 updateEvents();
             });
             return icon;
@@ -123,7 +131,7 @@ public class AddNewEventDialog extends Dialog {
         eventGrid.setSizeFull();
         eventGrid.setVerticalScrollingEnabled(true);
 
-        VerticalLayout mainLayout = new VerticalLayout(dialogClose, nameOfDialog, dataFields, addButton, line, eventListLabel, eventGrid);
+        VerticalLayout mainLayout = new VerticalLayout(dialogClose, nameOfDialog, dataFields, addButton, eventListLabel, eventGrid);
         mainLayout.setSizeFull();
 
         setWidth("450px");

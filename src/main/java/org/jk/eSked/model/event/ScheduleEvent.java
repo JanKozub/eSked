@@ -10,23 +10,31 @@ public class ScheduleEvent {
     private final UUID userId;
     private final UUID id;
     private final LocalDate date;
+    private final long dateTimestamp;
     private final int hour;
     private final EventType eventType;
     private final String topic;
     private final LocalDate createdDate;
+    private final long createdDateTimestamp;
 
     public ScheduleEvent(UUID userId, UUID id, long date, int hour, EventType eventType, String topic, long createdDate) {
         this.userId = userId;
         this.id = id;
+        this.dateTimestamp = date;
         this.date = Instant.ofEpochMilli(date).atZone(ZoneOffset.systemDefault()).toLocalDate();
         this.hour = hour;
         this.eventType = eventType;
         this.topic = topic;
+        this.createdDateTimestamp = createdDate;
         this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneOffset.systemDefault()).toLocalDate();
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public long getDateTimestamp() {
+        return dateTimestamp;
     }
 
     public LocalDate getDate() {
@@ -47,6 +55,14 @@ public class ScheduleEvent {
 
     public LocalDate getCreatedDate() {
         return createdDate;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public long getCreatedDateTimestamp() {
+        return createdDateTimestamp;
     }
 
     @Override

@@ -7,14 +7,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.component.AdminReturnButton;
+import org.jk.eSked.components.AdminReturnButton;
 import org.jk.eSked.model.User;
+import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.services.LoginService;
 import org.jk.eSked.view.menu.MenuView;
 
 @SuppressWarnings("unused")
@@ -29,9 +29,9 @@ class UsersPageView extends VerticalLayout {
                 Grid<User> userGrid = new Grid<>();
                 userGrid.setHeightByRows(true);
                 userGrid.setSelectionMode(Grid.SelectionMode.NONE);
-                userGrid.addColumn(User::getUsername).setHeader("Nazwa użytkownika").setResizable(true);
-                userGrid.addColumn(User::getLastLoggedDate).setHeader("Ostatnio zalogowany").setResizable(true);
-                userGrid.addColumn(User::getId).setHeader("ID").setResizable(true);
+                userGrid.addColumn(User::getUsername).setHeader("Nazwa użytkownika");
+                userGrid.addColumn(User::getLastLoggedDate).setHeader("Ostatnio zalogowany");
+                userGrid.addColumn(User::getId).setHeader("ID");
                 userGrid.addColumn(new ComponentRenderer<>(user -> {
                     Button button = new Button("Szczegóły", event -> {
                         removeAll();
@@ -50,6 +50,7 @@ class UsersPageView extends VerticalLayout {
                 })).setFlexGrow(0);
                 userGrid.setItems(userService.getUsers());
                 userGrid.setRowsDraggable(false);
+                userGrid.getColumns().forEach(column -> column.setAutoWidth(true));
                 add(new AdminReturnButton(), userGrid);
             }
         }

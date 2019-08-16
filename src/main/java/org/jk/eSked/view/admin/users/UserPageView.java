@@ -5,15 +5,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.component.AdminReturnButton;
-import org.jk.eSked.component.SimplePopup;
+import org.jk.eSked.components.AdminReturnButton;
+import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.model.User;
+import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.services.LoginService;
 import org.jk.eSked.view.menu.MenuView;
 
 

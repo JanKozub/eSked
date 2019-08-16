@@ -1,11 +1,7 @@
 package org.jk.eSked.view;
 
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.component.schedule.ScheduleGrid;
-import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;

@@ -5,35 +5,40 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.component.SimplePopup;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
+import org.jk.eSked.model.event.ScheduleEvent;
+import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.schedule.ScheduleService;
-import org.jk.eSked.services.LoginService;
 import org.jk.eSked.view.menu.MenuView;
 
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Route(value = "events/new", layout = MenuView.class)
 @PageTitle("Nowe Wydarzenie")
 public class NewEventView extends HorizontalLayout {
 
-    public NewEventView(LoginService loginService, ScheduleService scheduleService, EventService eventService) {
-        SimplePopup simplePopup = new SimplePopup();
+    private Collection<Event> events;
 
+    public NewEventView(LoginService loginService, ScheduleService scheduleService, EventService eventService) {
         if (loginService.checkIfUserIsLogged()) {
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
 
@@ -74,14 +79,18 @@ public class NewEventView extends HorizontalLayout {
                 List<Event> eventsOnDay = new ArrayList<>();
                 if (datePicker.getValue() != null) {
                     if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY || datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
-                        simplePopup.open("Sobota ani niedziela nie istnieją na planie");
+                        datePicker.setErrorMessage("Sobota ani niedziela nie istnieją na planie");
+                        datePicker.setInvalid(true);
                         datePicker.setValue(null);
                     } else {
                         if (datePicker.getValue().isBefore(LocalDate.now())) {
                             datePicker.clear();
-                            simplePopup.open("Nie możesz ustawić wydarzenia w przeszłości");
+                            datePicker.setErrorMessage("Nie możesz ustawić wydarzenia w przeszłości");
+                            datePicker.setInvalid(true);
                         } else {
-                            Collection<Event> events = eventService.getEvents(datePicker.getValue(), userId);
+                            datePicker.setInvalid(false);
+                            datePicker.setErrorMessage("Data musi być wskazana");
+                            events = eventService.getEvents(datePicker.getValue(), userId);
                             for (Event event : events) {
                                 if (event.getDate().equals(datePicker.getValue())) {
                                     eventsOnDay.add(event);
@@ -92,26 +101,22 @@ public class NewEventView extends HorizontalLayout {
                     eventGrid.setItems(eventsOnDay);
                 }
             });
+            datePicker.setErrorMessage("Data musi być wskazana");
 
             ComboBox<EventType> eventType = new ComboBox<>();
-            eventType.setAllowCustomValue(false);
             eventType.setItems(EventType.values());
             eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
             eventType.setPlaceholder("Rodzaj");
             eventType.setItemLabelGenerator(EventType::getDescription);
             eventType.setWidth("50%");
+            eventType.setErrorMessage("Pole nie może być puste");
 
-            ComboBox<Integer> hourBox = new ComboBox<>();
-            hourBox.setAllowCustomValue(true);
-            int maxHour = 0;
-            for (ScheduleEntry entry : entries) {
-                if (entry.getHour() > maxHour) maxHour = entry.getHour();
-            }
-            List<Integer> hours = new ArrayList<>();
-            for (int i = 0; i <= maxHour; i++) hours.add(i + 1);
-            hourBox.setItems(hours);
+            NumberField hourBox = new NumberField();
+            hourBox.setHasControls(true);
+            hourBox.setMin(1);
             hourBox.setPlaceholder("Godzina");
             hourBox.setWidth("50%");
+            hourBox.setErrorMessage("Pole nie może być puste");
 
             HorizontalLayout horizontalContainer = new HorizontalLayout();
             horizontalContainer.setWidth("100%");
@@ -120,18 +125,34 @@ public class NewEventView extends HorizontalLayout {
             TextField textField = new TextField();
             textField.setWidth("100%");
             textField.setPlaceholder("Temat");
+            textField.setErrorMessage("Pole nie może być puste");
 
             Button addButton = new Button("Dodaj!", e -> {
-                EventDialogMethods eventDialogMethods = new EventDialogMethods();
-                if (hourBox.getValue() != null) {
-                    if (eventDialogMethods.onAdd(eventService, datePicker.getValue(),
-                            hourBox.getValue() - 1, eventType.getValue(), textField.getValue(), userId)) {
-                        datePicker.clear();
-                        eventType.clear();
-                        hourBox.clear();
-                        textField.clear();
-                    }
-                } else simplePopup.open("Pole z godziną nie może być puste");
+                if (!datePicker.isEmpty()) {
+                    datePicker.setInvalid(false);
+                    if (eventType.getValue() != null) {
+                        eventType.setInvalid(false);
+                        if (!hourBox.isEmpty()) {
+                            hourBox.setInvalid(false);
+                            if (textField.getValue() != null && !textField.getValue().equals("")) {
+                                textField.setInvalid(false);
+                                long time = datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+                                UUID id = UUID.randomUUID();
+                                ScheduleEvent event = new ScheduleEvent(userId, id, time, (int) Math.round(hourBox.getValue()),
+                                        eventType.getValue(), textField.getValue(), Instant.now().toEpochMilli());
+                                eventService.addEvent(event);
+                                events = eventService.getEvents(datePicker.getValue(), userId);
+                                datePicker.clear();
+                                eventType.clear();
+                                hourBox.clear();
+                                Notification notification = new Notification("Dodano wydarzenie " + textField.getValue(), 3000, Notification.Position.TOP_END);
+                                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                                textField.clear();
+                                notification.open();
+                            } else textField.setInvalid(true);
+                        } else hourBox.setInvalid(true);
+                    } else eventType.setInvalid(true);
+                } else datePicker.setInvalid(true);
             });
             addButton.setWidth("100%");
 
