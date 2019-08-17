@@ -1,7 +1,7 @@
 package org.jk.eSked.configuration;
 
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.type.TypeHandler;
-import org.h2.jdbcx.JdbcDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,15 +34,23 @@ class DatabaseConfiguation {
 
         @Bean
         public DataSource dataSourceLocal(@Value("${database:file:~/test}") String databasePath) throws SQLException {
-            JdbcDataSource dataSource = new JdbcDataSource();
+            String url = "jdbc:h2:" + databasePath;
+
+            PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", url, "sa", "");
+            dataSource.setPoolMaximumActiveConnections(10);
+
+            //JdbcDataSource dataSource = new JdbcDataSource();
             //dataSource.setUrl("jdbc:h2:file:~/test");
-            dataSource.setUrl("jdbc:h2:" + databasePath);
-            dataSource.setUser("");
-            dataSource.setPassword("");
+            //dataSource.setUrl("jdbc:h2:" + databasePath);
+            //dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+            //dataSource.setUser("sa");
+            //dataSource.setPassword("");
+
 
             try(Connection c = dataSource.getConnection()) {
                 initializeDatabase(c);
             }
+
 
             return dataSource;
         }
