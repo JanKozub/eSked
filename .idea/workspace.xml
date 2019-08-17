@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings">
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db-init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db-init.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/META-INF/esked.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" afterDir="false" />
@@ -95,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565689674316</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="-DB optimization">
+      <created>1566035448643</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1566035448643</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -117,7 +123,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="WIP" />
     <MESSAGE value="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings" />
+    <MESSAGE value="-DB optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="-DB optimization" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
