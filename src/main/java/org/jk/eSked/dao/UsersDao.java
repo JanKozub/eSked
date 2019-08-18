@@ -31,11 +31,23 @@ public interface UsersDao {
     })
     List<String> getUsernames();
 
+    @Select("SELECT * FROM Users WHERE id = #{userId}")
+    @ConstructorArgs({
+            @Arg(column = "Username", javaType = String.class)
+    })
+    String getUsername(UUID userId);
+
     @Select("SELECT * FROM Users")
     @ConstructorArgs({
             @Arg(column = "email", javaType = String.class)
     })
     List<String> getEmails();
+
+    @Select("SELECT * FROM Users WHERE id = #{userId}")
+    @ConstructorArgs({
+            @Arg(column = "email", javaType = String.class)
+    })
+    String getEmail(UUID userId);
 
     @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, lastLoggedDate) " +
             "VALUES(#{userId}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{synWGroup},#{createdDate}, #{lastLoggedDate})")

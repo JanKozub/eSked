@@ -1,7 +1,7 @@
 package org.jk.eSked.services.groups;
 
-import org.jk.eSked.model.entry.Entry;
 import org.jk.eSked.model.Group;
+import org.jk.eSked.model.entry.Entry;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -18,6 +18,8 @@ public interface GroupsService {
 
     String getGroupName(int groupCode);
 
+    Collection<String> getGroupsNames();
+
     Collection<Group> getGroups();
 
     Collection<Entry> getEntries(int groupCode);
@@ -29,4 +31,6 @@ public interface GroupsService {
     boolean isGroupAccepted(int groupCode);
 
     void setGroupAccepted(int groupCode);
+
+    void synchronizeWGroup(UUID userId, int groupCode);
 }

@@ -18,13 +18,12 @@ import org.jk.eSked.components.dialogs.InfoDialog;
 import org.jk.eSked.components.dialogs.NewUserDialog;
 import org.jk.eSked.components.dialogs.ProblemDialog;
 import org.jk.eSked.model.User;
-import org.jk.eSked.services.GroupSynService;
+import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
 
 import java.time.Instant;
 import java.util.Collection;
 
-@SuppressWarnings("unused")
 @Route(value = "login")
 @PageTitle("Logowanie")
 @PWA(name = "Web schedule for students!", shortName = "eSked", iconPath = "img/icons/logo.png")
@@ -33,11 +32,11 @@ class LoginView extends VerticalLayout {
     private final TextField usernameField;
     private final PasswordField passwordField;
     private final UserService userService;
-    private final GroupSynService groupSynService;
+    private final GroupsService groupsService;
 
-    public LoginView(UserService userService, GroupSynService groupSynService) {
+    public LoginView(UserService userService, GroupsService groupsService) {
         this.userService = userService;
-        this.groupSynService = groupSynService;
+        this.groupsService = groupsService;
 
         if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
 
@@ -88,7 +87,7 @@ class LoginView extends VerticalLayout {
                 VaadinSession.getCurrent().setAttribute(User.class, user);
                 userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
                 if (user.getGroupCode() != 0)
-                    groupSynService.SynchronizeWGroup(user.getId(), user.getGroupCode());
+                    groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
                 UI.getCurrent().navigate("schedule");
                 if (user.isDarkTheme())
                     UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");

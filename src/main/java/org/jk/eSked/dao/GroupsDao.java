@@ -39,6 +39,12 @@ public interface GroupsDao {
     })
     List<GroupEntry> getGroupEntries(int groupCode);
 
+    @Select("SELECT * FROM Groups")
+    @ConstructorArgs({
+            @Arg(column = "name", javaType = String.class),
+    })
+    List<String> getGroupsNames();
+
     @Delete("DELETE FROM Groups WHERE groupCode = #{groupCode} AND hour = #{hour} AND day = #{day}")
     void deleteGroupEntry(int groupCode, int hour, int day);
 

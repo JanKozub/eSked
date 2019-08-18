@@ -46,6 +46,11 @@ public class DBUserService implements UserService {
     }
 
     @Override
+    public String getUserName(UUID userId) {
+        return usersDao.getUsername(userId);
+    }
+
+    @Override
     public void changeUsername(UUID userId, String newUsername) {
         usersDao.changeUsername(userId, newUsername);
     }
@@ -53,6 +58,11 @@ public class DBUserService implements UserService {
     @Override
     public void changePassword(UUID userId, String newPassword) {
         usersDao.changePassword(userId, newPassword);
+    }
+
+    @Override
+    public String getEmail(UUID userId) {
+        return usersDao.getEmail(userId);
     }
 
     @Override

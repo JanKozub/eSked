@@ -1,9 +1,14 @@
 package org.jk.eSked.services.groups;
 
 import org.jk.eSked.dao.GroupsDao;
+import org.jk.eSked.model.Group;
 import org.jk.eSked.model.entry.Entry;
 import org.jk.eSked.model.entry.GroupEntry;
-import org.jk.eSked.model.Group;
+import org.jk.eSked.model.event.Event;
+import org.jk.eSked.model.event.ScheduleEvent;
+import org.jk.eSked.services.events.EventService;
+import org.jk.eSked.services.schedule.ScheduleService;
+import org.jk.eSked.services.users.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
@@ -15,9 +20,15 @@ import java.util.UUID;
 @Service
 public class DBGroupsService implements GroupsService {
     private final GroupsDao groupsDao;
+    private final ScheduleService scheduleService;
+    private final EventService eventService;
+    private final UserService userService;
 
-    public DBGroupsService(GroupsDao groupsDao) {
+    public DBGroupsService(GroupsDao groupsDao, ScheduleService scheduleService, EventService eventService, UserService userService) {
         this.groupsDao = groupsDao;
+        this.scheduleService = scheduleService;
+        this.eventService = eventService;
+        this.userService = userService;
     }
 
     @Override
@@ -44,6 +55,11 @@ public class DBGroupsService implements GroupsService {
                 if (groupEntry.getGroupCode() == groupCode) return groupEntry.getName();
             }
         return "brak";
+    }
+
+    @Override
+    public Collection<String> getGroupsNames() {
+        return groupsDao.getGroupsNames();
     }
 
     @Override
@@ -111,5 +127,26 @@ public class DBGroupsService implements GroupsService {
     @Override
     public void setGroupAccepted(int groupCode) {
         groupsDao.setGroupAccepted(groupCode, true);
+    }
+
+    @Override
+    public void synchronizeWGroup(UUID userId, int groupCode) {
+        if (groupCode != 0) {
+            scheduleService.deleteScheduleEntries(userId);
+            scheduleService.setScheduleEntries(userId, getEntries(userService.getGroupCode(userId)));
+
+            if (userService.isSynWGroup(userId)) {
+                Collection<Event> groupEvents = eventService.getAllEvents(getLeaderId(
+                        getGroupName(userService.getGroupCode(userId))));
+                Collection<Event> events = eventService.getAllEvents(userId);
+                for (Event parseEvent : groupEvents) {
+                    if (events.stream().noneMatch(streamEvent -> parseEvent.getId().equals(streamEvent.getId()))) {
+                        eventService.addEvent(new ScheduleEvent(userId, parseEvent.getId(), parseEvent.getDateTimestamp(),
+                                parseEvent.getHour(), parseEvent.getEventType(), parseEvent.getTopic(),
+                                parseEvent.getCreatedDateTimestamp()));
+                    }
+                }
+            }
+        }
     }
 }

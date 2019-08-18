@@ -145,7 +145,7 @@ public class NewEventView extends HorizontalLayout {
                                 datePicker.clear();
                                 eventType.clear();
                                 hourBox.clear();
-                                Notification notification = new Notification("Dodano wydarzenie " + textField.getValue(), 3000, Notification.Position.TOP_END);
+                                Notification notification = new Notification("Dodano wydarzenie " + textField.getValue(), 5000, Notification.Position.TOP_END);
                                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                                 textField.clear();
                                 notification.open();
