@@ -10,7 +10,6 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.components.AdminReturnButton;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -22,7 +21,7 @@ import org.jk.eSked.view.menu.MenuView;
 @PageTitle("Użytkownicy")
 class UsersPageView extends VerticalLayout {
 
-    UsersPageView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, TimeService timeService) {
+    UsersPageView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -35,7 +34,7 @@ class UsersPageView extends VerticalLayout {
                 userGrid.addColumn(new ComponentRenderer<>(user -> {
                     Button button = new Button("Szczegóły", event -> {
                         removeAll();
-                        UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, timeService, user);
+                        UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, user);
                         add(userFoundView);
                     });
                     return new HorizontalLayout(button);

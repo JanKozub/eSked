@@ -12,7 +12,6 @@ import org.jk.eSked.components.schedule.ScheduleGridNewEntries;
 import org.jk.eSked.model.Group;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -25,14 +24,12 @@ import java.util.Collection;
 @PageTitle("Zatwierdzanie Grup")
 class GroupsView extends VerticalLayout {
     private final ScheduleService scheduleService;
-    private final TimeService timeService;
     private final GroupsService groupsService;
     private final EventService eventService;
     private final UserService userService;
 
-    public GroupsView(LoginService loginService, ScheduleService scheduleService, TimeService timeService, GroupsService groupsService, EventService eventService, UserService userService) {
+    public GroupsView(LoginService loginService, ScheduleService scheduleService, GroupsService groupsService, EventService eventService, UserService userService) {
         this.scheduleService = scheduleService;
-        this.timeService = timeService;
         this.groupsService = groupsService;
         this.eventService = eventService;
         this.userService = userService;
@@ -92,8 +89,8 @@ class GroupsView extends VerticalLayout {
             add(layout);
         });
         button.setWidth("100%");
-        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, timeService, groupCode);
-        EventGrid eventGrid = new EventGrid(scheduleService, eventService, timeService, groupsService.getLeaderId(groupCode));
+        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, groupCode);
+        EventGrid eventGrid = new EventGrid(scheduleService, eventService, groupsService.getLeaderId(groupCode));
         return new VerticalLayout(button, scheduleGridNewEntries, eventGrid);
     }
 }

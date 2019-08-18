@@ -1,6 +1,7 @@
 package org.jk.eSked.view.login;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.Icon;
@@ -10,12 +11,12 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.CheckTimeTheme;
 import org.jk.eSked.components.dialogs.InfoDialog;
 import org.jk.eSked.components.dialogs.NewUserDialog;
 import org.jk.eSked.components.dialogs.ProblemDialog;
-import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.GroupSynService;
 import org.jk.eSked.services.users.UserService;
@@ -26,10 +27,11 @@ import java.util.Collection;
 @SuppressWarnings("unused")
 @Route(value = "login")
 @PageTitle("Logowanie")
+@PWA(name = "Web schedule for students!", shortName = "eSked", iconPath = "img/icons/logo.png")
 class LoginView extends VerticalLayout {
 
-    private final TextField usernameTyped;
-    private final PasswordField passwordTyped;
+    private final TextField usernameField;
+    private final PasswordField passwordField;
     private final UserService userService;
     private final GroupSynService groupSynService;
 
@@ -40,17 +42,19 @@ class LoginView extends VerticalLayout {
         if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
 
         Icon icon = new Icon(VaadinIcon.USER);
-        usernameTyped = new TextField("Nazwa użytkownika:");
+        usernameField = new TextField("Nazwa użytkownika:");
 
-        passwordTyped = new PasswordField("Hasło:");
+        passwordField = new PasswordField("Hasło:");
+        passwordField.setErrorMessage("Nazwa użytkownika lub hasło niepoprawne. Spróbuj ponownie");
 
-        Button loginButton = new Button("Zaloguj!", click -> login(usernameTyped.getValue(), passwordTyped.getValue()));
+        Button loginButton = new Button("Zaloguj!", click -> login(usernameField.getValue(), passwordField.getValue()));
+        loginButton.addClickShortcut(Key.ENTER);
 
-        NewUserDialog dialog = new NewUserDialog(userService);
+        NewUserDialog newUserDialog = new NewUserDialog(userService);
         Icon newUser = new Icon(VaadinIcon.PLUS_CIRCLE);
         newUser.setSize("25px");
         newUser.getStyle().set("cursor", "pointer");
-        newUser.addClickListener(e -> dialog.open());
+        newUser.addClickListener(e -> newUserDialog.open());
 
         Icon forgotPass = new Icon(VaadinIcon.WRENCH);
         forgotPass.setSize("25px");
@@ -67,7 +71,7 @@ class LoginView extends VerticalLayout {
         VerticalLayout icons = new VerticalLayout(newUser, forgotPass, info);
         icons.setAlignItems(Alignment.END);
 
-        VerticalLayout mainLayout = new VerticalLayout(icon, usernameTyped, passwordTyped, loginButton);
+        VerticalLayout mainLayout = new VerticalLayout(icon, usernameField, passwordField, loginButton);
         mainLayout.setAlignItems(Alignment.CENTER);
         mainLayout.getStyle().set("margin-top", "-100px");
 
@@ -94,10 +98,9 @@ class LoginView extends VerticalLayout {
             }
         }
         if (!userFound) {
-            SimplePopup popup = new SimplePopup();
-            popup.open("Nazwa użytkownika lub hasło niepoprawne!");
-            usernameTyped.setValue("");
-            passwordTyped.setValue("");
+            usernameField.setInvalid(true);
+            passwordField.setInvalid(true);
+            passwordField.setValue("");
         }
 
     }

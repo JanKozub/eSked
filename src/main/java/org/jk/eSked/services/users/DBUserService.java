@@ -29,6 +29,11 @@ public class DBUserService implements UserService {
     }
 
     @Override
+    public Collection<String> getEmails() {
+        return usersDao.getEmails();
+    }
+
+    @Override
     public void addUser(User user) {
         usersDao.persistUser(user.getId(), user.getUsername(), user.getPassword(), user.isDarkTheme(), user.isScheduleHours(),
                 user.getEmail(), user.getGroupCode(), user.isSynWGroup(), user.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),

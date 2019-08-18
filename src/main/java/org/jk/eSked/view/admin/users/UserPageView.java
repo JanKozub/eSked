@@ -6,10 +6,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.components.AdminReturnButton;
-import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -21,7 +19,7 @@ import org.jk.eSked.view.menu.MenuView;
 @PageTitle("Sprawdź Użytkownika")
 class UserPageView extends VerticalLayout {
 
-    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, GroupsService groupsService, TimeService timeService) {
+    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, GroupsService groupsService) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -29,16 +27,21 @@ class UserPageView extends VerticalLayout {
                 textField.setWidth("50%");
 
                 Button button = new Button("Szukaj", event -> {
-                    if (textField.getValue() == null || textField.getValue().equals("")) {
-                        SimplePopup simplePopup = new SimplePopup();
-                        simplePopup.open("Wprowadzona wartość jest niepoprawna");
+                    if (textField.getValue().equals("")) {
+                        textField.setErrorMessage("Pole nie może być puste");
+                        textField.setInvalid(true);
                         textField.clear();
                     } else {
+                        textField.setInvalid(false);
                         User user = findUser(userService, textField.getValue());
                         if (user != null) {
+                            textField.setInvalid(false);
                             removeAll();
-                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, timeService, user);
+                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, user);
                             add(userFoundView);
+                        } else {
+                            textField.setErrorMessage("Użytkownik nie istnieje");
+                            textField.setInvalid(true);
                         }
                     }
                 });
@@ -56,8 +59,6 @@ class UserPageView extends VerticalLayout {
                 return user;
             }
         }
-        SimplePopup simplePopup = new SimplePopup();
-        simplePopup.open("Nie znaleziono użytkownika");
         return null;
     }
 }

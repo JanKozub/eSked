@@ -31,6 +31,12 @@ public interface UsersDao {
     })
     List<String> getUsernames();
 
+    @Select("SELECT * FROM Users")
+    @ConstructorArgs({
+            @Arg(column = "email", javaType = String.class)
+    })
+    List<String> getEmails();
+
     @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, lastLoggedDate) " +
             "VALUES(#{userId}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{synWGroup},#{createdDate}, #{lastLoggedDate})")
     void persistUser(UUID userId, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long createdDate, long lastLoggedDate);

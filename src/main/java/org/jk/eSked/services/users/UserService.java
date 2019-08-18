@@ -13,6 +13,8 @@ public interface UserService {
 
     Collection<String> getUsernames();
 
+    Collection<String> getEmails();
+
     void changeUsername(UUID userId, String newUsername);
 
     void changePassword(UUID userId, String newPassword);

@@ -94,6 +94,7 @@ public class User {
         return darkTheme == user.darkTheme &&
                 scheduleHours == user.scheduleHours &&
                 groupCode == user.groupCode &&
+                synWGroup == user.synWGroup &&
                 Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
@@ -104,6 +105,8 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, darkTheme, scheduleHours, email, groupCode, createdDate, LastLoggedDate);
+        return Objects.hash(id, username, password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, LastLoggedDate);
     }
+
+
 }

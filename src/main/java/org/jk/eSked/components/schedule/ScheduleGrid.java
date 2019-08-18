@@ -14,7 +14,6 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -30,7 +29,6 @@ import java.util.*;
 public class ScheduleGrid extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final EventService eventService;
-    private final TimeService timeService;
     private final GroupsService groupsService;
     private final UserService userService;
     private static final boolean NEXT_WEEK = true;
@@ -44,16 +42,15 @@ public class ScheduleGrid extends VerticalLayout {
     private Collection<Event> events;
     private final UUID userID;
 
-    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, TimeService timeService, UUID userID) {
+    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, UUID userID) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
-        this.timeService = timeService;
         this.groupsService = groupsService;
         this.userService = userService;
         this.userID = userID;
 
         if (startOfWeek == null) {
-            startOfWeek = timeService.firstDayOfWeek(timeService.getCurrentDate());
+            startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
         }
 
         entries = scheduleService.getScheduleEntries(userID);
@@ -157,7 +154,7 @@ public class ScheduleGrid extends VerticalLayout {
 
     private void changeWeek(boolean weekType) {
         int deltaDays = (weekType == NEXT_WEEK) ? -7 : 7;
-        startOfWeek = timeService.firstDayOfWeek(startOfWeek.plusDays(deltaDays));
+        startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
         refreshDates();
         refresh();
     }

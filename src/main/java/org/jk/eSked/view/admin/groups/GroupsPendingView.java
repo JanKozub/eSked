@@ -11,7 +11,6 @@ import org.jk.eSked.components.AdminReturnButton;
 import org.jk.eSked.components.schedule.ScheduleGridNewEntries;
 import org.jk.eSked.model.Group;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
@@ -23,14 +22,11 @@ import java.util.Collection;
 @PageTitle("Zatwierdzanie Grup")
 class GroupsPendingView extends VerticalLayout {
     private final ScheduleService scheduleService;
-    private final TimeService timeService;
     private final GroupsService groupsService;
     private final UserService userService;
 
-
-    public GroupsPendingView(LoginService loginService, ScheduleService scheduleService, TimeService timeService, GroupsService groupsService, UserService userService) {
+    public GroupsPendingView(LoginService loginService, ScheduleService scheduleService, GroupsService groupsService, UserService userService) {
         this.scheduleService = scheduleService;
-        this.timeService = timeService;
         this.groupsService = groupsService;
         this.userService = userService;
 
@@ -83,7 +79,7 @@ class GroupsPendingView extends VerticalLayout {
             add(layout);
         });
         button.setWidth("100%");
-        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, timeService, groupCode);
+        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, groupCode);
 
         return new VerticalLayout(button, scheduleGridNewEntries);
     }

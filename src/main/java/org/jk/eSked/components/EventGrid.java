@@ -14,7 +14,6 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.ScheduleEvent;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.schedule.ScheduleService;
 
@@ -29,7 +28,6 @@ import java.util.UUID;
 
 public class EventGrid extends VerticalLayout {
     private final EventService eventService;
-    private final TimeService timeService;
     private final UUID userID;
     private static final boolean NEXT_WEEK = true;
     private static final boolean PREVIOUS_WEEK = false;
@@ -39,13 +37,12 @@ public class EventGrid extends VerticalLayout {
     private LocalDate startOfWeek;
     private final Collection<ScheduleEntry> entries;
 
-    public EventGrid(ScheduleService scheduleService, EventService eventService, TimeService timeService, UUID userID) {
+    public EventGrid(ScheduleService scheduleService, EventService eventService, UUID userID) {
         this.eventService = eventService;
-        this.timeService = timeService;
         this.userID = userID;
 
         if (startOfWeek == null) {
-            startOfWeek = timeService.firstDayOfWeek(timeService.getCurrentDate());
+            startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
         }
 
         Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
@@ -125,7 +122,7 @@ public class EventGrid extends VerticalLayout {
 
     private void changeWeek(boolean weekType) {
         int deltaDays = (weekType == NEXT_WEEK) ? -7 : 7;
-        startOfWeek = timeService.firstDayOfWeek(startOfWeek.plusDays(deltaDays));
+        startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
         refreshDates();
         reload();
     }

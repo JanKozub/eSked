@@ -8,11 +8,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.components.EventGrid;
-import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.components.schedule.ScheduleGrid;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -28,7 +26,7 @@ class UserFoundView extends VerticalLayout {
     private TextField password;
     private TextField email;
 
-    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, TimeService timeService, User user) {
+    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, User user) {
         this.userService = userService;
 
         if (loginService.checkIfUserIsLogged()) {
@@ -78,11 +76,11 @@ class UserFoundView extends VerticalLayout {
 
                 Label scheduleLabel = new Label("Plan");
 
-                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, groupsService, timeService, user.getId());
+                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, groupsService, user.getId());
 
                 Label eventsLabel = new Label("Wydarzenia");
 
-                VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, timeService, user.getId());
+                VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, user.getId());
 
                 Label deleteLabel = new Label("Usuń konto");
                 Button deleteButton = new Button("Usuń", e -> {
@@ -103,39 +101,86 @@ class UserFoundView extends VerticalLayout {
         TextField newText = new TextField();
         TextField confirmText = new TextField();
         Button confirmBt = new Button("Potwierdź");
-        SimplePopup simplePopup = new SimplePopup();
         switch (version) {
             case 0:
                 newText.setPlaceholder("Nowe hasło");
                 confirmText.setPlaceholder("Potwierdź hasło");
                 confirmBt.addClickListener(event -> {
-                    if (newText.getValue() != null && !newText.getValue().equals("") && newText.getValue().equals(confirmText.getValue())) {
-                        userService.changePassword(user.getId(), User.encodePassword(newText.getValue()));
-                        password.setValue("Hasło: " + User.encodePassword(newText.getValue()));
-                        dialog.close();
-                    } else simplePopup.open("Wartości pól nie są identyczne lub pole jest puste");
+                    if (!newText.getValue().equals("")) {
+                        newText.setInvalid(false);
+                        confirmText.setInvalid(false);
+                        if (newText.getValue().equals(confirmText.getValue())) {
+                            newText.setInvalid(false);
+                            confirmText.setInvalid(false);
+                            userService.changePassword(user.getId(), User.encodePassword(newText.getValue()));
+                            password.setValue("Hasło: " + User.encodePassword(newText.getValue()));
+                            dialog.close();
+                        } else {
+                            confirmText.setErrorMessage("Hasła nie są identyczne");
+                            confirmText.setInvalid(true);
+                            newText.setInvalid(true);
+                        }
+                    } else {
+                        confirmText.setErrorMessage("Pole z hasłem nie może być puste");
+                        confirmText.setInvalid(true);
+                        newText.setInvalid(true);
+                    }
                 });
                 break;
             case 1:
                 newText.setPlaceholder("Nowa nazwa");
                 confirmText.setPlaceholder("Potwierdź nazwe");
                 confirmBt.addClickListener(event -> {
-                    if (newText.getValue() != null && !newText.getValue().equals("") && newText.getValue().equals(confirmText.getValue())) {
-                        userService.changeUsername(user.getId(), newText.getValue());
-                        username.setValue("Nazwa: " + newText.getValue());
-                        dialog.close();
-                    } else simplePopup.open("Wartości pól nie są identyczne lub pole jest puste");
+                    if (!newText.getValue().equals("")) {
+                        newText.setInvalid(false);
+                        confirmText.setInvalid(false);
+                        if (newText.getValue().equals(confirmText.getValue())) {
+                            newText.setInvalid(false);
+                            confirmText.setInvalid(false);
+                            userService.changeUsername(user.getId(), newText.getValue());
+                            username.setValue("Nazwa: " + newText.getValue());
+                            dialog.close();
+                        } else {
+                            confirmText.setErrorMessage("Nazwy nie są identyczne");
+                            newText.setInvalid(true);
+                            confirmText.setInvalid(true);
+                        }
+                    } else {
+                        confirmText.setErrorMessage("Pole z nazwą nie może być puste");
+                        newText.setInvalid(true);
+                        confirmText.setInvalid(true);
+                    }
                 });
                 break;
             case 2:
                 newText.setPlaceholder("Nowy email");
                 confirmText.setPlaceholder("Potwierdź email");
                 confirmBt.addClickListener(event -> {
-                    if (newText.getValue() != null && !newText.getValue().equals("") && newText.getValue().equals(confirmText.getValue()) && newText.getValue().contains("@")) {
-                        userService.changeEmail(user.getId(), newText.getValue());
-                        email.setValue("Email: " + newText.getValue());
-                        dialog.close();
-                    } else simplePopup.open("Wartości pól nie są identyczne lub pole jest puste");
+                    if (!newText.getValue().equals("")) {
+                        newText.setInvalid(false);
+                        confirmText.setInvalid(false);
+                        if (newText.getValue().equals(confirmText.getValue())) {
+                            newText.setInvalid(false);
+                            confirmText.setInvalid(false);
+                            if (newText.getValue().contains("@")) {
+                                userService.changeEmail(user.getId(), newText.getValue());
+                                email.setValue("Email: " + newText.getValue());
+                                dialog.close();
+                            } else {
+                                confirmText.setErrorMessage("Podana wartość nie jest emailem");
+                                newText.setInvalid(true);
+                                confirmText.setInvalid(true);
+                            }
+                        } else {
+                            confirmText.setErrorMessage("Pola nie są identyczne");
+                            newText.setInvalid(true);
+                            confirmText.setInvalid(true);
+                        }
+                    } else {
+                        confirmText.setErrorMessage("Pole z email'em nie może być puste");
+                        newText.setInvalid(true);
+                        confirmText.setInvalid(true);
+                    }
                 });
                 break;
         }

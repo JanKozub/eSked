@@ -14,15 +14,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.dialogs.SimplePopup;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.entry.Entry;
 import org.jk.eSked.model.entry.ScheduleEntry;
-import org.jk.eSked.services.TimeService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -42,7 +41,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     private final UUID userID;
     private Collection<Entry> entries;
 
-    public ScheduleGridNewEntries(ScheduleService scheduleService, GroupsService groupsService, UserService userService, TimeService timeService, int type) {
+    public ScheduleGridNewEntries(ScheduleService scheduleService, GroupsService groupsService, UserService userService, int type) {
         this.scheduleService = scheduleService;
         this.groupsService = groupsService;
         this.userID = VaadinSession.getCurrent().getAttribute(User.class).getId();
@@ -51,7 +50,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         entries = scheduleService.getEntries(userID);
 
         if (startOfWeek == null) {
-            startOfWeek = timeService.firstDayOfWeek(timeService.getCurrentDate());
+            startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
         }
 
         scheduleGrid = new Grid<>();
@@ -132,6 +131,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         Button addButton = new Button("Dodaj!", event -> {
             if (textField.getValue() != null && !textField.getValue().equals("")) {
+                textField.setInvalid(false);
                 entries = scheduleService.getEntries(userID);
                 boolean create = true;
                 for (Entry entry : entries) {
@@ -159,8 +159,8 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                     confirmDialog(dialog, entry);
                 }
             } else {
-                SimplePopup simplePopup = new SimplePopup();
-                simplePopup.open("Pola nie moga byc puste");
+                textField.setErrorMessage("Pole nie może być puste");
+                textField.setInvalid(true);
             }
         });
         addButton.setWidth("100%");
