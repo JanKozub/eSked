@@ -121,8 +121,8 @@ public class AddNewEventDialog extends Dialog {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");
             icon.addClickListener(event -> {
-                eventService.deleteEvent(new ScheduleEvent(userID, e.getId(), e.getDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                        e.getHour(), e.getEventType(), e.getTopic(), e.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                eventService.deleteEvent(new ScheduleEvent(userID, e.getId(), e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                        e.getHour(), e.getEventType(), e.getTopic(), e.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli()));
                 updateEvents();
             });
             return icon;

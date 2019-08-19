@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.LocalDateRenderer;
+import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.ScheduleEvent;
@@ -90,7 +90,7 @@ public class EventGrid extends VerticalLayout {
             return "brak";
         }) {
         }).setHeader("Lekcja(Godz)");
-        eventGrid.addColumn(new LocalDateRenderer<>(Event::getDate, DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
+        eventGrid.addColumn(new LocalDateTimeRenderer<>(Event::getDate, DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
         eventGrid.addColumn(Event::getDate).setHeader("Data");
         eventGrid.addColumn(Event::getTopic).setHeader("Temat");
         eventGrid.addColumn(new ComponentRenderer<>(e -> {
@@ -98,9 +98,9 @@ public class EventGrid extends VerticalLayout {
             icon.getStyle().set("cursor", "pointer");
             icon.addClickListener(event -> {
                 eventService.deleteEvent(new ScheduleEvent(userID, e.getId(),
-                        e.getDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                        e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
                         e.getHour(), e.getEventType(), e.getTopic(),
-                        e.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                        e.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli()));
                 reload();
             });
             return icon;

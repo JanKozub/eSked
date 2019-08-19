@@ -1,38 +1,34 @@
 package org.jk.eSked.model.event;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Event {
     private final UUID id;
-    private final LocalDate date;
+    private final LocalDateTime date;
     private final long dateTimestamp;
     private final int hour;
     private final EventType eventType;
     private final String topic;
-    private final LocalDate createdDate;
+    private final LocalDateTime createdDate;
     private final long createdDateTimestamp;
 
     public Event(UUID id, long date, int hour, EventType eventType, String topic, long createdDate) {
         this.id = id;
-        this.date = Instant.ofEpochMilli(date).atZone(ZoneOffset.systemDefault()).toLocalDate();
+        this.date = Instant.ofEpochMilli(date).atZone(ZoneOffset.systemDefault()).toLocalDateTime();
         this.dateTimestamp = date;
         this.hour = hour;
         this.eventType = eventType;
         this.topic = topic;
-        this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneOffset.systemDefault()).toLocalDate();
+        this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneOffset.systemDefault()).toLocalDateTime();
         this.createdDateTimestamp = createdDate;
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public LocalDate getDate() {
-        return date;
     }
 
     public int getHour() {
@@ -47,16 +43,20 @@ public class Event {
         return topic;
     }
 
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
     public long getDateTimestamp() {
         return dateTimestamp;
     }
 
     public long getCreatedDateTimestamp() {
         return createdDateTimestamp;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
     @Override

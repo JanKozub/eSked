@@ -2,8 +2,8 @@ package org.jk.eSked.model;
 
 import java.security.MessageDigest;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,8 +16,8 @@ public class User {
     private final String email;
     private final int groupCode;
     private final boolean synWGroup;
-    private final LocalDate createdDate;
-    private final LocalDate LastLoggedDate;
+    private final LocalDateTime createdDate;
+    private final LocalDateTime LastLoggedDate;
 
     public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long timestampAccCreated, long timestampLastLogged) {
         this.id = id;
@@ -28,8 +28,8 @@ public class User {
         this.email = email;
         this.groupCode = groupCode;
         this.synWGroup = synWGroup;
-        this.createdDate = Instant.ofEpochMilli(timestampAccCreated).atZone(ZoneOffset.systemDefault()).toLocalDate();
-        this.LastLoggedDate = Instant.ofEpochMilli(timestampLastLogged).atZone(ZoneOffset.systemDefault()).toLocalDate();
+        this.createdDate = Instant.ofEpochMilli(timestampAccCreated).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        this.LastLoggedDate = Instant.ofEpochMilli(timestampLastLogged).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public UUID getId() {
@@ -64,11 +64,11 @@ public class User {
         return synWGroup;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public LocalDate getLastLoggedDate() {
+    public LocalDateTime getLastLoggedDate() {
         return LastLoggedDate;
     }
 

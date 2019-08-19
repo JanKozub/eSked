@@ -17,12 +17,17 @@ import org.jk.eSked.components.CheckTimeTheme;
 import org.jk.eSked.components.dialogs.InfoDialog;
 import org.jk.eSked.components.dialogs.NewUserDialog;
 import org.jk.eSked.components.dialogs.ProblemDialog;
+import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
+import org.jk.eSked.model.event.Event;
+import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Route(value = "login")
 @PageTitle("Logowanie")
@@ -33,10 +38,12 @@ class LoginView extends VerticalLayout {
     private final PasswordField passwordField;
     private final UserService userService;
     private final GroupsService groupsService;
+    private final EventService eventService;
 
-    public LoginView(UserService userService, GroupsService groupsService) {
+    public LoginView(UserService userService, GroupsService groupsService, EventService eventService) {
         this.userService = userService;
         this.groupsService = groupsService;
+        this.eventService = eventService;
 
         if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
 
@@ -85,9 +92,19 @@ class LoginView extends VerticalLayout {
         for (User user : users) {
             if (user.getUsername().equals(uTyped) && user.getPassword().equals(pTyped)) {
                 VaadinSession.getCurrent().setAttribute(User.class, user);
-                userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
-                if (user.getGroupCode() != 0)
+                if (user.getGroupCode() != 0) {
                     groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
+                }
+                Collection<Event> events = eventService.getAllEvents(user.getId());
+                List<Notification> notifications = new ArrayList<>();
+                for (Event event : events) {
+                    if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
+                        notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
+                    }
+                }
+                VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
+                userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+
                 UI.getCurrent().navigate("schedule");
                 if (user.isDarkTheme())
                     UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
@@ -101,7 +118,6 @@ class LoginView extends VerticalLayout {
             passwordField.setInvalid(true);
             passwordField.setValue("");
         }
-
     }
 
     @Override
@@ -110,4 +126,5 @@ class LoginView extends VerticalLayout {
         CheckTimeTheme checkTimeTheme = new CheckTimeTheme();
         checkTimeTheme.check();
     }
+
 }

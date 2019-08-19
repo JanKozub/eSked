@@ -36,8 +36,8 @@ public class DBUserService implements UserService {
     @Override
     public void addUser(User user) {
         usersDao.persistUser(user.getId(), user.getUsername(), user.getPassword(), user.isDarkTheme(), user.isScheduleHours(),
-                user.getEmail(), user.getGroupCode(), user.isSynWGroup(), user.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                user.getLastLoggedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli());
+                user.getEmail(), user.getGroupCode(), user.isSynWGroup(), user.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                user.getLastLoggedDate().toInstant(ZoneOffset.UTC).toEpochMilli());
     }
 
     @Override

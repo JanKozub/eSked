@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,9 +44,12 @@ public class DBEventService implements EventService {
     private Collection<Event> parseScheduleEvents(Collection<ScheduleEvent> scheduleEvents) {
         List<Event> events = new ArrayList<>();
         for (ScheduleEvent scheduleEvent : scheduleEvents) {
-            events.add(new Event(scheduleEvent.getId(), scheduleEvent.getDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                    scheduleEvent.getHour(), scheduleEvent.getEventType(), scheduleEvent.getTopic(),
-                    scheduleEvent.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()));
+            events.add(new Event(scheduleEvent.getId(),
+                    scheduleEvent.getDateTimestamp(),
+                    scheduleEvent.getHour(),
+                    scheduleEvent.getEventType(),
+                    scheduleEvent.getTopic(),
+                    scheduleEvent.getCreatedDateTimestamp()));
         }
         return events;
     }

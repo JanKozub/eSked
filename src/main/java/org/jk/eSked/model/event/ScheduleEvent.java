@@ -1,8 +1,6 @@
 package org.jk.eSked.model.event;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,7 +12,7 @@ public class ScheduleEvent {
     private final int hour;
     private final EventType eventType;
     private final String topic;
-    private final LocalDate createdDate;
+    private final LocalDateTime createdDate;
     private final long createdDateTimestamp;
 
     public ScheduleEvent(UUID userId, UUID id, long date, int hour, EventType eventType, String topic, long createdDate) {
@@ -26,7 +24,7 @@ public class ScheduleEvent {
         this.eventType = eventType;
         this.topic = topic;
         this.createdDateTimestamp = createdDate;
-        this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneOffset.systemDefault()).toLocalDate();
+        this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public UUID getId() {
@@ -53,7 +51,7 @@ public class ScheduleEvent {
         return topic;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 

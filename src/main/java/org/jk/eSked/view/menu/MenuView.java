@@ -7,9 +7,11 @@ import com.github.appreciated.app.layout.component.menu.left.builder.LeftAppMenu
 import com.github.appreciated.app.layout.component.menu.left.builder.LeftSubMenuBuilder;
 import com.github.appreciated.app.layout.component.menu.left.items.LeftClickableItem;
 import com.github.appreciated.app.layout.component.menu.left.items.LeftNavigationItem;
+import com.github.appreciated.app.layout.entity.DefaultBadgeHolder;
 import com.github.appreciated.app.layout.entity.Section;
 import com.github.appreciated.app.layout.notification.DefaultNotificationHolder;
 import com.github.appreciated.app.layout.notification.component.AppBarNotificationButton;
+import com.github.appreciated.app.layout.notification.entitiy.DefaultNotification;
 import com.github.appreciated.app.layout.router.AppLayoutRouterLayout;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
@@ -17,6 +19,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.CheckTimeTheme;
+import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.users.UserService;
@@ -28,6 +31,7 @@ import org.jk.eSked.view.schedule.NewEntryView;
 import org.jk.eSked.view.schedule.ScheduleView;
 import org.jk.eSked.view.settings.SettingsView;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,16 +40,27 @@ public class MenuView extends AppLayoutRouterLayout {
 
     private static final Logger LOGGER = Logger.getLogger(MenuView.class.getName());
     private final UserService userService;
-    @SuppressWarnings("FieldCanBeLocal")
-    private final DefaultNotificationHolder notifications;
+    private Collection<Notification> notificationsList;
 
     public MenuView(LoginService loginService, UserService userService) {
         this.userService = userService;
-        notifications = new DefaultNotificationHolder(newStatus -> {
+        DefaultNotificationHolder notifications = new DefaultNotificationHolder(newStatus -> {
 
         });
-        //DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
+        try {
+            DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
+            notificationsList = VaadinSession.getCurrent().getAttribute(Collection.class);
 
+            if (!notificationsList.isEmpty()) {
+                for (Notification notification : notificationsList) {
+                    DefaultNotification defaultNotification = new DefaultNotification("Nowe Wydarzenie", notification.getEventTopic());
+                    defaultNotification.setCreationTime(notification.getTime());
+                    notifications.addNotification(defaultNotification);
+                }
+            }
+        } catch (NullPointerException ex) {
+
+        }
         if (loginService.checkIfUserIsLoggedAsAdmin()) {
             init(AppLayoutBuilder
                     .get(Behaviour.LEFT_RESPONSIVE_HYBRID)
@@ -106,8 +121,4 @@ public class MenuView extends AppLayoutRouterLayout {
         checkTimeTheme.check();
         UI.getCurrent().navigate("login");
     }
-
-//    public void newNotification(String topic, String description) {
-//        notifications.addNotification(new DefaultNotification(topic, description));
-//    }
 }

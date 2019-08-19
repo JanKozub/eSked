@@ -26,10 +26,7 @@ import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.view.menu.MenuView;
 
-import java.time.DayOfWeek;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.*;
 
 @Route(value = "events/new", layout = MenuView.class)
@@ -92,7 +89,7 @@ public class NewEventView extends HorizontalLayout {
                             datePicker.setErrorMessage("Data musi być wskazana");
                             events = eventService.getEvents(datePicker.getValue(), userId);
                             for (Event event : events) {
-                                if (event.getDate().equals(datePicker.getValue())) {
+                                if (event.getDate().toLocalDate().equals(datePicker.getValue())) {
                                     eventsOnDay.add(event);
                                 }
                             }
@@ -137,10 +134,12 @@ public class NewEventView extends HorizontalLayout {
                             if (textField.getValue() != null && !textField.getValue().equals("")) {
                                 textField.setInvalid(false);
                                 long time = datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+                                long createdData = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
                                 UUID id = UUID.randomUUID();
-                                ScheduleEvent event = new ScheduleEvent(userId, id, time, (int) Math.round(hourBox.getValue()),
-                                        eventType.getValue(), textField.getValue(), Instant.now().toEpochMilli());
+                                ScheduleEvent event = new ScheduleEvent(userId, id, time, (int) Math.round(hourBox.getValue()), //OK
+                                        eventType.getValue(), textField.getValue(), createdData);
                                 eventService.addEvent(event);
+
                                 events = eventService.getEvents(datePicker.getValue(), userId);
                                 datePicker.clear();
                                 eventType.clear();
