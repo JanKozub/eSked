@@ -53,4 +53,7 @@ public interface GroupsDao {
 
     @Update("UPDATE Groups SET isAccepted = #{isAccepted} WHERE groupCode = #{groupCode}")
     void setGroupAccepted(int groupCode, boolean isAccepted);
+
+    @Delete("DELETE FROM GROUPS WHERE groupCode = #{groupCode}")
+    void setGroupDeclined(int groupCode);
 }

@@ -32,5 +32,7 @@ public interface GroupsService {
 
     void setGroupAccepted(int groupCode);
 
+    void setGroupDeclined(int groupCode);
+
     void synchronizeWGroup(UUID userId, int groupCode);
 }

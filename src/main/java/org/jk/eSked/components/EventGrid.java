@@ -91,7 +91,7 @@ public class EventGrid extends VerticalLayout {
         }) {
         }).setHeader("Lekcja(Godz)");
         eventGrid.addColumn(new LocalDateTimeRenderer<>(Event::getDate, DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
-        eventGrid.addColumn(Event::getDate).setHeader("Data");
+        eventGrid.addColumn(event -> event.getDate().toLocalDate()).setHeader("Data");
         eventGrid.addColumn(Event::getTopic).setHeader("Temat");
         eventGrid.addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);

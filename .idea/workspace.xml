@@ -1,32 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Added synchronized notifications to schedule">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/Notification.java" afterDir="false" />
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/EventGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/EventGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/event/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/event/ScheduleEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/event/ScheduleEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/events/DBEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/events/DBEventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/users/DBUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/users/DBUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/NewEventView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/NewEventView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/login/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/login/LoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/menu/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/menu/MenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/GroupsDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/GroupsDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/DBGroupsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/DBGroupsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/GroupsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/GroupsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsPendingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsPendingView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/GroupsDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/GroupsDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/Event.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/Event.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/ScheduleEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/ScheduleEvent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/DBEventService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/DBEventService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/DBUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/DBUserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/DBGroupsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/DBGroupsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/GroupsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/GroupsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsPendingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsPendingView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/login/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/login/LoginView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/menu/MenuView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/menu/MenuView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -145,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566168910236</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-Added synchronized notifications to schedule">
+      <created>1566179522863</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1566179522863</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">

@@ -62,6 +62,18 @@ class GroupsPendingView extends VerticalLayout {
             });
             return button;
         })).setHeader("Akceptuj");
+        groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
+            Button button = new Button("Odrzuć");
+            button.getStyle().set("color", "red");
+            button.addClickListener(event -> {
+                groupsService.setGroupDeclined(e.getCode());
+                Collection<Group> groups = groupsService.getGroups();
+                groups.removeIf(Group::isAccepted);
+                groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));
+            });
+            return button;
+        })).setHeader("Odrzuć");
+
         Collection<Group> groups = groupsService.getGroups();
         groups.removeIf(Group::isAccepted);
         groupEntryGrid.setItems(groups);

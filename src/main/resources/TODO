@@ -1,8 +1,4 @@
--OPCJA EVENTY GRUPOWE I KAZDY BY OTRZYMYWAL EVENTY DOT. GRUPY
--MenuView/36 -> OLEJ WARNING BO POTEM PRZY DODAWANIU SIE PRZYDA
 -Dodaj opcje rozsylania emailow zapomnialem hasla i potwierdzenia rejstracji
 -UserFoundView -> dodaj generyczne komponenty
 -Mobile layout
 -potwierdzenie nowego emaila mailem
--przycisk odrzucania w akceptowaniu grup
--napraw data w eventGrid

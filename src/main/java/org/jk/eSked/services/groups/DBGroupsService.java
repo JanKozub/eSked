@@ -130,6 +130,11 @@ public class DBGroupsService implements GroupsService {
     }
 
     @Override
+    public void setGroupDeclined(int groupCode) {
+        groupsDao.setGroupDeclined(groupCode);
+    }
+
+    @Override
     public void synchronizeWGroup(UUID userId, int groupCode) {
         if (groupCode != 0) {
             scheduleService.deleteScheduleEntries(userId);
