@@ -1,4 +1,4 @@
-package org.jk.eSked.view.menu;
+package org.jk.eSked.view;
 
 import com.github.appreciated.app.layout.behaviour.Behaviour;
 import com.github.appreciated.app.layout.builder.AppLayoutBuilder;
@@ -23,7 +23,6 @@ import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.view.AboutAppView;
 import org.jk.eSked.view.admin.AdminView;
 import org.jk.eSked.view.events.EventsView;
 import org.jk.eSked.view.events.NewEventView;

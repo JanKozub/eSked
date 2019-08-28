@@ -24,7 +24,7 @@ import org.jk.eSked.model.event.ScheduleEvent;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.schedule.ScheduleService;
-import org.jk.eSked.view.menu.MenuView;
+import org.jk.eSked.view.MenuView;
 
 import java.time.*;
 import java.util.*;

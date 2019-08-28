@@ -11,7 +11,7 @@ import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.schedule.ScheduleService;
-import org.jk.eSked.view.menu.MenuView;
+import org.jk.eSked.view.MenuView;
 
 @Route(value = "events", layout = MenuView.class)
 @PageTitle("Wydarzenia")

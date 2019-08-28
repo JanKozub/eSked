@@ -1,4 +1,4 @@
-package org.jk.eSked.view.login;
+package org.jk.eSked.view;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Key;

@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.services.LoginService;
-import org.jk.eSked.view.menu.MenuView;
+import org.jk.eSked.view.MenuView;
 
 @Route(value = "admin", layout = MenuView.class)
 @PageTitle("Panel Admininstratora")

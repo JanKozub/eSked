@@ -16,7 +16,7 @@ import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.view.menu.MenuView;
+import org.jk.eSked.view.MenuView;
 
 import java.util.Collection;
 

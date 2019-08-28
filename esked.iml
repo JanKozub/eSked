@@ -253,5 +253,8 @@
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:neon-animation:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:paper-badge:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.ocpsoft.prettytime:prettytime:4.0.2.Final" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.5.0-b01" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:javax.mail-api:1.6.2" level="project" />
   </component>
 </module>

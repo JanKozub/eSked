@@ -11,6 +11,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.VaadinSession;
@@ -66,14 +67,12 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         scheduleGrid.setHeightByRows(true);
         scheduleGrid.setVerticalScrollingEnabled(true);
 
-        Button less = new Button(new Icon(VaadinIcon.ARROW_UP), event -> removeRow());
-        less.setWidth("100%");
         Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> addRow());
         more.setWidth("100%");
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        add(scheduleGrid, less, more);
+        add(scheduleGrid, more);
     }
 
     private Component rowRenderer(Button e, int day) {
@@ -109,67 +108,85 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         scheduleGrid.setItems(buttons);
     }
 
-    private void removeRow() {
-        int size = buttons.size();
-        if (size > 0) {
-            int maxNum = Integer.parseInt(buttons.get(size - 1).getText());
-            buttons.remove(maxNum);
-        }
-        scheduleGrid.setItems(buttons);
-    }
-
     private void newEntryDialog(int day, int hour) {
         Dialog dialog = new Dialog();
 
+        Label label = new Label("Nowy przedmiot");
 
-        ComboBox<String> textField = new ComboBox<>();
-        textField.isAllowCustomValue();
-        textField.setItems("INF", "J.Niem", "J.ANG", "J.POL", "MAT", "CHEM", "BIOL",
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.setItems("INF", "J.Niem", "J.ANG", "J.POL", "MAT", "CHEM", "BIOL",
                 "FIZ", "GEO", "WF", "REL", "HIST", "EDB", "WOS", "PLA", "G.W.");
-        textField.setPlaceholder("Wpisz/ustaw nazwe przedmiotu");
-        textField.setWidth("100%");
+        comboBox.setPlaceholder("Wybierz przedmiot");
+        comboBox.setWidth("100%");
+
+        TextField textField = new TextField();
+        textField.setPlaceholder("Własny przedmiot");
+
+        HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
 
         Button addButton = new Button("Dodaj!", event -> {
-            if (textField.getValue() != null && !textField.getValue().equals("")) {
-                textField.setInvalid(false);
-                entries = scheduleService.getEntries(userID);
-                boolean create = true;
-                for (Entry entry : entries) {
-                    if (entry.getHour() == hour && entry.getDay() == day) {
-                        create = false;
-                        break;
-                    }
-                }
-                Entry entry = new Entry(hour, day, textField.getValue(), Instant.now().toEpochMilli());
-                if (create) {
-                    if (type == 0)
-                        scheduleService.addScheduleEntry(
-                                new ScheduleEntry(userID, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli()));
-                    else {
-                        String groupName = groupsService.getGroupName(type);
-                        groupsService.addEntryToGroup(true, groupName, type,
-                                groupsService.getLeaderId(groupName),
-                                entry.getHour(), entry.getDay(), entry.getSubject(),
-                                entry.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli());
-                    }
+            String value = "";
+            if (comboBox.getValue() != null && !comboBox.getValue().equals("")) {
+                value = comboBox.getValue();
+            }
 
-                    dialog.close();
-                    refresh();
+            if (!textField.getValue().equals("")) {
+                value = textField.getValue();
+            }
+
+            if (!value.equals("")) {
+                if (comboBox.getValue() != null && !comboBox.getValue().equals("") && !textField.getValue().equals("")) {
+                    comboBox.setErrorMessage("Można wybrać tylko jedna opcje");
+                    comboBox.setInvalid(true);
+                    textField.setInvalid(true);
+                    comboBox.clear();
+                    textField.clear();
                 } else {
-                    confirmDialog(dialog, entry);
+                    addEvent(day, hour, value, dialog);
                 }
             } else {
-                textField.setErrorMessage("Pole nie może być puste");
+                comboBox.setErrorMessage("Jedno z pól nie moze być puste");
                 textField.setInvalid(true);
+                comboBox.setInvalid(true);
             }
         });
+
         addButton.setWidth("100%");
 
-        VerticalLayout verticalLayout = new VerticalLayout(textField, addButton);
+        VerticalLayout verticalLayout = new VerticalLayout(label, layout, addButton);
         verticalLayout.setAlignItems(Alignment.CENTER);
 
         dialog.add(verticalLayout);
         dialog.open();
+    }
+
+    private void addEvent(int day, int hour, String value, Dialog dialog) {
+        entries = scheduleService.getEntries(userID);
+        boolean create = true;
+        for (Entry entry : entries) {
+            if (entry.getHour() == hour && entry.getDay() == day) {
+                create = false;
+                break;
+            }
+        }
+        Entry entry = new Entry(hour, day, value, Instant.now().toEpochMilli());
+        if (create) {
+            if (type == 0)
+                scheduleService.addScheduleEntry(
+                        new ScheduleEntry(userID, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli()));
+            else {
+                String groupName = groupsService.getGroupName(type);
+                groupsService.addEntryToGroup(true, groupName, type,
+                        groupsService.getLeaderId(groupName),
+                        entry.getHour(), entry.getDay(), entry.getSubject(),
+                        entry.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli());
+            }
+
+            dialog.close();
+            refresh();
+        } else {
+            confirmDialog(dialog, entry);
+        }
     }
 
     private void confirmDialog(Dialog dialog2, Entry entry) {

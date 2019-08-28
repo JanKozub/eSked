@@ -1,6 +1,12 @@
 package org.jk.eSked.view.settings;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -9,7 +15,7 @@ import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.view.menu.MenuView;
+import org.jk.eSked.view.MenuView;
 
 @Route(value = "settings", layout = MenuView.class)
 @PageTitle("Ustawienia")
@@ -19,18 +25,57 @@ public class SettingsView extends VerticalLayout {
 
     public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, ScheduleService scheduleService) {
         if (loginService.checkIfUserIsLogged()) {
+            setSizeFull();
             setAlignItems(Alignment.CENTER);
-            add(new Settingsbutton("Nazwa", user.getUsername(), "Zmień", SettingsEntryType.USERNAME, userService, groupsService, scheduleService),
-                    new Settingsbutton("Email", user.getEmail(), "Zmień", SettingsEntryType.EMAIL, userService, groupsService, scheduleService),
-                    new Settingsbutton("Hasło", "", "Zmień", SettingsEntryType.PASSWORD, userService, groupsService, scheduleService),
-                    new Settingsbutton("Kod Grupy", Integer.toString(user.getGroupCode()), "Zmień", SettingsEntryType.SETGROUPCODE, userService, groupsService, scheduleService),
-                    new Settingsbutton("Automatyczna synchronizacja z grupą", "", "", SettingsEntryType.AUTOSYNWGROUP, userService, groupsService, scheduleService),
-                    new Settingsbutton("Synchronizuj Z Grupą", "", "Synchronizuj", SettingsEntryType.SYNWGROUP, userService, groupsService, scheduleService),
-                    new Settingsbutton("Stwórz nową grupę", "", "Dodaj", SettingsEntryType.ADDGROUP, userService, groupsService, scheduleService),
-                    new Settingsbutton("Przełącz wygląd strony ", "", "", SettingsEntryType.CHANGETHEME, userService, groupsService, scheduleService),
-                    new Settingsbutton("Wyświetlanie godzin w planie lekcji", "", "", SettingsEntryType.TURNHOURS, userService, groupsService, scheduleService),
-                    new Settingsbutton("Usuń konto", "", "Usuń", SettingsEntryType.DELETEACC, userService, groupsService, scheduleService)
-            );
+//ACCOUNT
+            Label accountLabel = new Label("Użytkownik");
+
+            FormLayout accountForm = new FormLayout();
+            accountForm.add(new TextFieldInput("Nazwa", userService.getUserName(user.getId())));
+            accountForm.add(new PasswordFieldInput("Hasło", "dupa"));
+            accountForm.add(new TextFieldInput("Email", userService.getEmail(user.getId())));
+            RadioButtonGroup<String> languageGroup = new RadioButtonGroup<>();
+            languageGroup.setLabel("Język");
+            languageGroup.setItems("Polski", "English");
+            accountForm.add(languageGroup);
+//GROUPS
+            Label groupsLabel = new Label("Grupy");
+
+            FormLayout groupsForm = new FormLayout();
+            groupsForm.add(new TextFieldInput("Kod", Integer.toString(userService.getGroupCode(user.getId()))));
+            RadioButtonGroup<String> autoSync = new RadioButtonGroup<>();
+            autoSync.setLabel("Automatyczna Synchronizacja");
+            autoSync.setItems("Włącz", "Wyłącz");
+            groupsForm.add(autoSync);
+            groupsForm.add(new Button("Synchronizuj z grupą"));
+            groupsForm.add(new Button("Nowa grupa"));
+//SCHEDULE
+            Label other = new Label("Inne");
+
+            RadioButtonGroup<String> scheduleHours = new RadioButtonGroup<>();
+            scheduleHours.setLabel("godziny w planie");
+            scheduleHours.setItems("Tak", "Nie");
+
+            RadioButtonGroup<String> theme = new RadioButtonGroup<>();
+            theme.setLabel("Styl strony");
+            theme.setItems("Jasny", "Ciemny");
+
+            HorizontalLayout layout = new HorizontalLayout(scheduleHours, theme);
+            layout.setAlignItems(Alignment.CENTER);
+
+            VerticalLayout verticalLayout = new VerticalLayout(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, other, new Line(), layout);
+            verticalLayout.setWidth("50%");
+            verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER, layout);
+
+            add(verticalLayout);
+        }
+    }
+
+    private static class Line extends Div {
+        private Line() {
+            getStyle().set("background-color", "#d8e1ed");
+            setWidth("100%");
+            setHeight("3px");
         }
     }
 }
