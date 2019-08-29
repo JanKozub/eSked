@@ -1,16 +1,18 @@
-package org.jk.eSked.view.settings;
+package org.jk.eSked.components.settingsFields;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class TextFieldInput extends HorizontalLayout {
-    public TextFieldInput(String name, String data) {
-        TextField textField = new TextField(name);
-        textField.setPlaceholder(data);
+class SettingsTextField extends HorizontalLayout {
+    Button button;
+    TextField textField;
 
-        Button button = new Button("Zmień");
+    SettingsTextField() {
+        textField = new TextField();
+        textField.setReadOnly(true);
 
+        button = new Button("Zmień");
         textField.setWidth("80%");
         button.setWidth("20%");
         button.getStyle().set("margin-top", "auto");
