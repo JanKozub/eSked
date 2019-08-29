@@ -46,7 +46,7 @@ public class DBUserService implements UserService {
     }
 
     @Override
-    public String getUserName(UUID userId) {
+    public String getUsername(UUID userId) {
         return usersDao.getUsername(userId);
     }
 

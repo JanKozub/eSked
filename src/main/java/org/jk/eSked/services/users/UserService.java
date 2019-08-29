@@ -15,7 +15,7 @@ public interface UserService {
 
     Collection<String> getEmails();
 
-    String getUserName(UUID userId);
+    String getUsername(UUID userId);
 
     void changeUsername(UUID userId, String newUsername);
 

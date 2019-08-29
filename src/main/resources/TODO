@@ -1,5 +1,4 @@
 -Dodaj opcje rozsylania emailow zapomnialem hasla i potwierdzenia rejstracji
--UserFoundView -> dodaj generyczne komponenty
 -Mobile layout
 -potwierdzenie nowego emaila mailem
 -szyfrowanie danych o emailu
@@ -9,3 +8,4 @@
 -wysylanie potwierdzenia hasla na mail
 -theme lini w settingsach
 -widok dodawania grupy
+-Form layout -> panel admina

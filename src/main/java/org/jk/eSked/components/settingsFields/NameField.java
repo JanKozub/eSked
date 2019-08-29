@@ -11,7 +11,7 @@ import java.util.UUID;
 public class NameField extends SettingsTextField {
     public NameField(UUID userId, UserService userService) {
         textField.setLabel("Nazwa");
-        textField.setValue(userService.getUserName(userId));
+        textField.setValue(userService.getUsername(userId));
         button.addClickListener(buttonClickEvent -> onClick(userId, userService));
     }
 
@@ -44,7 +44,7 @@ public class NameField extends SettingsTextField {
                 textField.setErrorMessage("Pole z nową nazwą nie może być puste");
                 textField.setInvalid(true);
             }
-            textField.setValue(userService.getUserName(userId));
+            textField.setValue(userService.getUsername(userId));
             textField.setReadOnly(true);
             remove(button1);
             add(button);

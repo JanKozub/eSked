@@ -14,6 +14,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
+import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -110,13 +111,32 @@ public class ScheduleGrid extends VerticalLayout {
             int hour = Integer.parseInt(e.getText());
             if (entry.getHour() == hour && entry.getDay() == day) {
                 List<Event> entryEvents = new ArrayList<>();
+                String color = "#2c3d52";
                 for (Event event : events) {
-                    if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1))
+                    if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
                         entryEvents.add(event);
+                        if (event.getEventType() == EventType.TEST) {
+                            color = "#c43737";
+                        } else {
+                            if (event.getEventType() == EventType.QUIZ) {
+                                color = "#e88133";
+                            } else {
+                                if (event.getEventType() == EventType.QUESTIONS) {
+                                    color = "#ebbf23";
+                                } else {
+                                    if (event.getEventType() == EventType.HOMEWORK) {
+                                        color = "#46c768";
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 String subject = entry.getSubject();
                 button.addClickListener(event -> addNewEvent(new ScheduleEntry(userID, hour, day, subject, Instant.now().toEpochMilli())));
                 button.setText(subject + "(" + entryEvents.size() + ")");
+                button.getStyle().set("background-color", color);
+                button.getStyle().set("color", "white");
                 return button;
             }
         }
