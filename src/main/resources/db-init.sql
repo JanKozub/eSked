@@ -47,12 +47,18 @@
 --    email VARCHAR NOT NULL,
 --    password VARCHAR NOT NULL
 --);
-
+--create TABLE Hours(
+--    userId UUID NOT NULL,
+--    hour INT NOT NULL,
+--    data VARCHAR NOT NULL
+--);
+--
 --DROP TABLE IF EXISTS EVENTS;
 --DROP TABLE IF EXISTS SCHEDULEENTRY;
 --DROP TABLE IF EXISTS USERS;
 --DROP TABLE IF EXISTS GROUPS;
 --DROP TABLE IF EXISTS EMAILINFO;
+--DROP TABLE IF EXISTS HOURS
 --
 --   UUID DEFAULT_USER_ID = UUID.fromString("d995360d-1c4f-48fe-8760-0fe064770f5b");
 --    insert into ScheduleEntry(userId, hour, day, subject) values('d995360d-1c4f-48fe-8760-0fe064770f5b', 0, 0, 'WF')

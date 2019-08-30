@@ -4,14 +4,18 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.jk.eSked.components.Line;
 import org.jk.eSked.components.settingsFields.EmailField;
 import org.jk.eSked.components.settingsFields.GroupCodeField;
 import org.jk.eSked.components.settingsFields.MyPasswordField;
@@ -19,7 +23,7 @@ import org.jk.eSked.components.settingsFields.NameField;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.groups.GroupsService;
-import org.jk.eSked.services.schedule.ScheduleService;
+import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.MenuView;
 
@@ -30,7 +34,7 @@ import java.util.UUID;
 public class SettingsView extends VerticalLayout {
 
 
-    public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, ScheduleService scheduleService) {
+    public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService) {
 
         if (loginService.checkIfUserIsLogged()) {
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
@@ -75,6 +79,9 @@ public class SettingsView extends VerticalLayout {
             else scheduleHours.setValue("Nie");
             scheduleHours.addValueChangeListener(valueChange -> userService.setScheduleHours(userId, valueChange.getValue().equals("Tak")));
 
+            Button setHours = new Button("Ustaw godziny");
+            setHours.addClickListener(buttonClickEvent -> openDialog(userId, hoursService));
+
             RadioButtonGroup<String> theme = new RadioButtonGroup<>();
             theme.setLabel("Styl strony");
             theme.setItems("Jasny", "Ciemny");
@@ -89,9 +96,9 @@ public class SettingsView extends VerticalLayout {
                     UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
             });
 
-            HorizontalLayout layout = new HorizontalLayout(scheduleHours, theme);
-            layout.setAlignItems(Alignment.CENTER);
+            FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);
 
+//DELETE ACCOUNT
             Button deleteButton = new Button("Usuń konto");
             deleteButton.getStyle().set("color", "red");
             deleteButton.setWidth("100%");
@@ -108,19 +115,49 @@ public class SettingsView extends VerticalLayout {
                 dialog.open();
             });
 
-            VerticalLayout verticalLayout = new VerticalLayout(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, other, new Line(), layout, new Line(), deleteButton);
+            VerticalLayout verticalLayout = new VerticalLayout(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, other, new Line(), otherForm, new Line(), deleteButton);
             verticalLayout.setWidth("50%");
-            verticalLayout.setHorizontalComponentAlignment(Alignment.CENTER, layout);
-
             add(verticalLayout);
         }
     }
 
-    private static class Line extends Div {
-        private Line() {
-            getStyle().set("background-color", "#d8e1ed");
-            setWidth("100%");
-            setHeight("3px");
-        }
+    private void openDialog(UUID userId, HoursService hoursService) {
+        Dialog dialog = new Dialog();
+        int currentHour = 1;
+        Label name = new Label("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
+        name.getStyle().set("margin-left", "auto");
+        name.getStyle().set("margin-right", "auto");
+        HorizontalLayout nameLabel = new HorizontalLayout(name);
+        nameLabel.setWidth("100%");
+
+        TextField fromHour = new TextField("Od");
+
+        fromHour.setValueChangeMode(ValueChangeMode.TIMEOUT);
+        fromHour.setValueChangeTimeout(50);
+
+        fromHour.addValueChangeListener(event -> {
+//        if (Character.isLetter(fromHour.getValue().charAt(fromHour.getValue().length() - 1))) fromHour.setValue(fromHour.getValue().substring(0, fromHour.getValue().length() - 1));
+            if (fromHour.getValue().length() == 2) fromHour.setValue(fromHour.getValue() + ":");
+            if (fromHour.getValue().length() > 5) fromHour.setInvalid(true);
+            else fromHour.setInvalid(false);
+        });
+
+        TextField toHour = new TextField("Do");
+
+        VerticalLayout timeLayout = new VerticalLayout(fromHour, toHour);
+
+        Icon icon = new Icon(VaadinIcon.ARROW_DOWN);
+        icon.getStyle().set("height", "100%");
+
+        HorizontalLayout middleLayout = new HorizontalLayout(timeLayout, icon);
+        middleLayout.setVerticalComponentAlignment(Alignment.CENTER, icon);
+        Button confirm = new Button("Potwierdź");
+        confirm.setWidth("100%");
+
+        dialog.add(nameLabel, middleLayout, confirm);
+
+        dialog.setWidth("100%");
+        dialog.setHeight("50%");
+        dialog.open();
     }
 }

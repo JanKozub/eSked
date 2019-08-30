@@ -111,7 +111,14 @@ public class ScheduleGrid extends VerticalLayout {
             int hour = Integer.parseInt(e.getText());
             if (entry.getHour() == hour && entry.getDay() == day) {
                 List<Event> entryEvents = new ArrayList<>();
-                String color = "#2c3d52";
+                String color = "";
+                if (userService.getDarkTheme(userID)) {
+                    button.getStyle().set("color", "white");
+                    color = "#2c3d52";
+                } else {
+                    button.getStyle().set("color", "#1676f3");
+                    color = "#f3f5f7";
+                }
                 for (Event event : events) {
                     if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
                         entryEvents.add(event);
@@ -136,7 +143,6 @@ public class ScheduleGrid extends VerticalLayout {
                 button.addClickListener(event -> addNewEvent(new ScheduleEntry(userID, hour, day, subject, Instant.now().toEpochMilli())));
                 button.setText(subject + "(" + entryEvents.size() + ")");
                 button.getStyle().set("background-color", color);
-                button.getStyle().set("color", "white");
                 return button;
             }
         }
