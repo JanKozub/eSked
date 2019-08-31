@@ -2,18 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/Line.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/HoursDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/model/ScheduleHour.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/DBHoursService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/HoursService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/AdminView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/settings/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/settings/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/EmailDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/DB/DBEmailInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/DB/DBEmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db-init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db-init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/AdminView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/AdminView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/settings/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/settings/SettingsView.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,14 +29,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CoverageViewManager">
-    <option name="myElementSize" value="241" />
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -44,21 +46,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Jan\Desktop\Java\esked\src\main" />
-      <recent name="C:\Users\Jan\Desktop\esked\src\main\webapp\img" />
-      <recent name="C:\Users\Jan\Desktop\esked\src\main\webapp" />
-      <recent name="C:\Users\Jan\Desktop\esked\src\main\webapp\icons" />
-      <recent name="C:\Users\Jan\Desktop\esked\src\main\resources\META-INF\resources\icons" />
-    </key>
-    <key name="MoveInnerDialog.RECENTS_KEY">
-      <recent name="org.jk.eSked.view.settings" />
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.jk.eSked.components.settingsFields" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Jan\Desktop\esked\src\main\webapp\img\icons" />
       <recent name="C:\Users\Jan\Desktop\esked\src\main\resources" />
       <recent name="C:\Users\Jan\Desktop\esked\src\main\resources\META-INF\resources\icons" />
       <recent name="C:\Users\Jan\Desktop\esked\src\main\java\org\jk\eSked" />
@@ -76,7 +69,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.jk.eSked.Application" />
       <module name="esked" />
@@ -91,23 +84,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmailService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.jk.eSked.services.EmailService" />
-      <module name="esked" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.jk.eSked.services.emailService.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Application" />
-        <item itemvalue="Application.EmailService" />
       </list>
     </recent_temporary>
   </component>
@@ -136,49 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566035448643</updated>
     </task>
-    <task id="LOCAL-00003" summary="-Deleted useless directory&#10;-Deleted TimeService&#10;-Deleted SimplePopup&#10;-Added new error popups instead of dialogs&#10;-Changed app icon&#10;-WIP on settings tab">
-      <created>1566088000784</created>
+    <task id="LOCAL-00003" summary="-DB optimization">
+      <created>1566035463519</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1566088000784</updated>
+      <updated>1566035463519</updated>
     </task>
-    <task id="LOCAL-00004" summary="-GroupSynService deleted&#10;-Added new SettingsView layout // still work in progress">
-      <created>1566168910236</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1566168910236</updated>
-    </task>
-    <task id="LOCAL-00005" summary="-Added synchronized notifications to schedule">
-      <created>1566179522863</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1566179522863</updated>
-    </task>
-    <task id="LOCAL-00006" summary="-Minor fixes">
-      <created>1566180222052</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1566180222052</updated>
-    </task>
-    <task id="LOCAL-00007" summary="-Allowed to insert custom schedule entries names &#10;-Preparation for email sending service&#10;-New Settings tab design&#10;-Moved classes">
-      <created>1567026590973</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1567026590973</updated>
-    </task>
-    <task id="LOCAL-00008" summary="-Added new Settings design">
-      <created>1567037245788</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1567037245788</updated>
-    </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -201,29 +145,16 @@
     <MESSAGE value="WIP" />
     <MESSAGE value="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings" />
     <MESSAGE value="-DB optimization" />
-    <MESSAGE value="-Deleted useless directory&#10;-Deleted TimeService&#10;-Deleted SimplePopup&#10;-Added new error popups instead of dialogs&#10;-Changed app icon&#10;-WIP on settings tab" />
-    <MESSAGE value="-GroupSynService deleted&#10;-Added new SettingsView layout // still work in progress" />
-    <MESSAGE value="-Added synchronized notifications to schedule" />
-    <MESSAGE value="-Minor fixes" />
-    <MESSAGE value="-Allowed to insert custom schedule entries names &#10;-Preparation for email sending service&#10;-New Settings tab design&#10;-Moved classes" />
-    <MESSAGE value="-Added new Settings design" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Added new Settings design" />
+    <option name="LAST_COMMIT_MESSAGE" value="-DB optimization" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="events" />
-      </configuration>
-    </watches-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/esked$Application.ic" NAME="Application Coverage Results" MODIFIED="1566313088387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/eSked$Application.ic" NAME="Application Coverage Results" MODIFIED="1566031639733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.jk.eSked.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/eSked$Application.ic" NAME="Application Coverage Results" MODIFIED="1566031639733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/esked$Application.ic" NAME="Application Coverage Results" MODIFIED="1565692060080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.jk.eSked.*</FILTER>
     </SUITE>
   </component>

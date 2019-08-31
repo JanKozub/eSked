@@ -1,11 +1,11 @@
 -Dodaj opcje rozsylania emailow zapomnialem hasla i potwierdzenia rejstracji
 -Mobile layout
 -potwierdzenie nowego emaila mailem
--szyfrowanie danych o emailu
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -dodaj ustawianie godzin w planie
 -zmiana jezyków
 -wysylanie potwierdzenia hasla na mail
--theme lini w settingsach
 -widok dodawania grupy
 -potwierdzenie rejstracji
+posprzataj kod w settings view przerob kontrolki
+properties dla email
