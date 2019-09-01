@@ -2,18 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/icons/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/icons/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/EmailField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/EmailField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/GroupCodeField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/GroupCodeField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/MyPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/MyPasswordField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/HoursDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/dao/HoursDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/DBHoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/DBHoursService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/HoursService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/hours/HoursService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserFoundView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserFoundView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserPageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/settings/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/settings/SettingsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/HoursDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/HoursDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/DBHoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/DBHoursService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/HoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/HoursService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/settings/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/settings/SettingsView.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -115,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566035463519</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-Completed settings layout&#10;-Added app icons">
+      <created>1567340348107</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1567340348107</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -138,7 +157,8 @@
     <MESSAGE value="WIP" />
     <MESSAGE value="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings" />
     <MESSAGE value="-DB optimization" />
-    <option name="LAST_COMMIT_MESSAGE" value="-DB optimization" />
+    <MESSAGE value="-Completed settings layout&#10;-Added app icons" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Completed settings layout&#10;-Added app icons" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

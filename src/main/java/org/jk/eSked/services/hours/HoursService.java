@@ -11,6 +11,8 @@ public interface HoursService {
 
     Collection<ScheduleHour> getScheduleHours(UUID userId);
 
+    ScheduleHour getScheduleHour(UUID userId, int hour);
+
     void deleteScheduleHours(UUID userId);
 
     int getScheduleMaxHour(UUID userId);

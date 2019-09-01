@@ -33,6 +33,11 @@ public class DBHoursService implements HoursService {
     }
 
     @Override
+    public ScheduleHour getScheduleHour(UUID userId, int hour) {
+        return hoursDao.getHour(userId, hour);
+    }
+
+    @Override
     public void deleteScheduleHours(UUID userId) {
         hoursDao.deleteHours(userId);
     }

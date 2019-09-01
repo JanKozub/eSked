@@ -12,11 +12,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
+import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.schedule.AddNewEventDialog;
@@ -43,7 +45,7 @@ public class ScheduleGrid extends VerticalLayout {
     private Collection<Event> events;
     private final UUID userID;
 
-    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, UUID userID) {
+    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, UUID userID) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
         this.groupsService = groupsService;
@@ -88,7 +90,13 @@ public class ScheduleGrid extends VerticalLayout {
 
         scheduleGrid = new Grid<>();
         if (userService.getScheduleHours(userID))
-            scheduleGrid.addColumn(new ComponentRenderer<>(e -> new Label(Integer.toString(Integer.parseInt(e.getText()) + 1)))).setHeader("G|D").setTextAlign(ColumnTextAlign.CENTER).setFlexGrow(0);
+            scheduleGrid.addColumn(new ComponentRenderer<>(e -> {
+                String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
+                ScheduleHour scheduleHour = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1);
+                if (scheduleHour != null)
+                    text = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1).getData();
+                return new Label(text);
+            })).setHeader("G|D").setTextAlign(ColumnTextAlign.CENTER);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setTextAlign(ColumnTextAlign.CENTER);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setTextAlign(ColumnTextAlign.CENTER);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setTextAlign(ColumnTextAlign.CENTER);

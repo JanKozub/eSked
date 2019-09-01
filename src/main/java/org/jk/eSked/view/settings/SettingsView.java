@@ -20,6 +20,7 @@ import org.jk.eSked.components.settingsFields.EmailField;
 import org.jk.eSked.components.settingsFields.GroupCodeField;
 import org.jk.eSked.components.settingsFields.MyPasswordField;
 import org.jk.eSked.components.settingsFields.NameField;
+import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.groups.GroupsService;
@@ -27,7 +28,10 @@ import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.MenuView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Route(value = "settings", layout = MenuView.class)
 @PageTitle("Ustawienia")
@@ -132,7 +136,7 @@ public class SettingsView extends VerticalLayout {
 
     private void openDialog(UUID userId, HoursService hoursService) {
         Dialog dialog = new Dialog();
-        int currentHour = 1;
+        AtomicInteger currentHour = new AtomicInteger(1);
         Label name = new Label("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
@@ -140,18 +144,18 @@ public class SettingsView extends VerticalLayout {
         nameLabel.setWidth("100%");
 
         TextField fromHour = new TextField("Od");
-
         fromHour.setValueChangeMode(ValueChangeMode.TIMEOUT);
         fromHour.setValueChangeTimeout(50);
 
-        fromHour.addValueChangeListener(event -> {
-//        if (Character.isLetter(fromHour.getValue().charAt(fromHour.getValue().length() - 1))) fromHour.setValue(fromHour.getValue().substring(0, fromHour.getValue().length() - 1));
-            if (fromHour.getValue().length() == 2) fromHour.setValue(fromHour.getValue() + ":");
-            if (fromHour.getValue().length() > 5) fromHour.setInvalid(true);
-            else fromHour.setInvalid(false);
-        });
+        AtomicInteger lastReadFromHour = new AtomicInteger();
+        fromHour.addValueChangeListener(event -> isInputValueValid(fromHour, lastReadFromHour));
 
         TextField toHour = new TextField("Do");
+        toHour.setValueChangeMode(ValueChangeMode.TIMEOUT);
+        toHour.setValueChangeTimeout(50);
+
+        AtomicInteger lastReadToHour = new AtomicInteger();
+        toHour.addValueChangeListener(event -> isInputValueValid(toHour, lastReadToHour));
 
         VerticalLayout timeLayout = new VerticalLayout(fromHour, toHour);
 
@@ -160,13 +164,80 @@ public class SettingsView extends VerticalLayout {
 
         HorizontalLayout middleLayout = new HorizontalLayout(timeLayout, icon);
         middleLayout.setVerticalComponentAlignment(Alignment.CENTER, icon);
-        Button confirm = new Button("Potwierdź");
+        Button confirm = new Button("Następny");
         confirm.setWidth("100%");
+        List<ScheduleHour> hoursList = new ArrayList<>();
+
+        confirm.addClickListener(event -> {
+            if (currentHour.get() == hoursService.getScheduleMaxHour(userId) - 1) confirm.setText("Potwierdź");
+
+            if (!fromHour.isEmpty()) {
+                fromHour.setInvalid(false);
+                if (!toHour.isEmpty()) {
+                    toHour.setInvalid(false);
+                    if (fromHour.getValue().matches("(?:[0-1][0-9]|2[0-4]):[0-5]\\d")) {
+                        fromHour.setInvalid(false);
+                        if (toHour.getValue().matches("(?:[0-1][0-9]|2[0-4]):[0-5]\\d")) {
+                            toHour.setInvalid(false);
+                            hoursList.add(new ScheduleHour(userId, currentHour.get(), fromHour.getValue() + "-" + toHour.getValue()));
+                            currentHour.set(currentHour.get() + 1);
+                            name.setText("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
+                            if (currentHour.get() == hoursService.getScheduleMaxHour(userId) + 1) {
+                                hoursService.deleteScheduleHours(userId);
+                                hoursService.setScheduleHours(hoursList);
+                                dialog.close();
+                            }
+                            fromHour.clear();
+                            toHour.clear();
+                        } else {
+                            toHour.setErrorMessage("Podana wartość nie jest godziną");
+                            toHour.setInvalid(true);
+                        }
+                    } else {
+                        fromHour.setErrorMessage("Podana wartość nie jest godziną");
+                        fromHour.setInvalid(true);
+                    }
+                } else {
+                    toHour.setErrorMessage("Pole nie może być puste");
+                    toHour.setInvalid(true);
+                }
+            } else {
+                fromHour.setErrorMessage("Pole nie może być puste");
+                fromHour.setInvalid(true);
+            }
+        });
 
         dialog.add(nameLabel, middleLayout, confirm);
 
         dialog.setWidth("100%");
         dialog.setHeight("50%");
         dialog.open();
+    }
+
+    private void isInputValueValid(TextField textField, AtomicInteger integer) {
+        int length = textField.getValue().length();
+        if (!textField.isEmpty()) {
+            if (Character.isLetter(textField.getValue().charAt(length - 1))) textField.setInvalid(true);
+        } else {
+            textField.setErrorMessage("Pole nie może być puste");
+            textField.setInvalid(true);
+        }
+        if (length == 2 && integer.get() == 1) textField.setValue(textField.getValue() + ":");
+        if (length == 3 && integer.get() == 4) textField.setValue(textField.getValue().substring(0, length - 1));
+        if (length > 5) {
+            textField.setErrorMessage("Ilość znaków jest zbyt duża");
+            textField.setInvalid(true);
+        } else textField.setInvalid(false);
+        if (length < 5) {
+            textField.setErrorMessage("Godzina musi zawierć 4 znaki");
+            textField.setInvalid(true);
+        } else {
+            if (length > 5) {
+                textField.setErrorMessage("Ilość znaków jest zbyt duża");
+                textField.setInvalid(true);
+            } else textField.setInvalid(false);
+        }
+
+        integer.set(length);
     }
 }

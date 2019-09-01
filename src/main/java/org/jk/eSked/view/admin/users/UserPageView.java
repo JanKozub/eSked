@@ -10,6 +10,7 @@ import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
+import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.MenuView;
@@ -19,7 +20,7 @@ import org.jk.eSked.view.MenuView;
 @PageTitle("Sprawdź Użytkownika")
 class UserPageView extends VerticalLayout {
 
-    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, GroupsService groupsService) {
+    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, GroupsService groupsService, HoursService hoursService) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -37,7 +38,7 @@ class UserPageView extends VerticalLayout {
                         if (user != null) {
                             textField.setInvalid(false);
                             removeAll();
-                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, user);
+                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, hoursService, user);
                             add(userFoundView);
                         } else {
                             textField.setErrorMessage("Użytkownik nie istnieje");

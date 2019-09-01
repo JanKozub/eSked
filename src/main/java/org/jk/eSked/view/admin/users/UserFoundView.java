@@ -15,12 +15,13 @@ import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
+import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 
 class UserFoundView extends VerticalLayout {
 
-    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, User user) {
+    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, User user) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -43,7 +44,7 @@ class UserFoundView extends VerticalLayout {
                 InfoBox accountCreatedAtLayout = new InfoBox("Konto utwożone dnia: ", user.getCreatedDate().toString());
 
                 Label scheduleLabel = new Label("Plan");
-                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, groupsService, user.getId());
+                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, groupsService, hoursService, user.getId());
                 Label eventsLabel = new Label("Wydarzenia");
                 VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, user.getId());
 
