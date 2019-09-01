@@ -38,5 +38,7 @@ public class NameField extends SettingsTextField {
         Notification notification = new Notification("Zmieniono nazwę na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         notification.open();
+
+        completeEdit();
     }
 }

@@ -1,59 +1,47 @@
 package org.jk.eSked.components.settingsFields;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.services.users.UserService;
 
+import javax.validation.ValidationException;
 import java.util.UUID;
 
 public class GroupCodeField extends SettingsTextField {
+    private UUID userId;
+    private UserService userService;
+
     public GroupCodeField(UUID userId, UserService userService) {
-        textField.setLabel("Kod");
-        String code;
-        if (userService.getGroupCode(userId) == 0) code = "brak";
-        else code = Integer.toString(userService.getGroupCode(userId));
-        textField.setValue(code);
-        button.addClickListener(buttonClickEvent -> onClick(userId, userService));
+        super("Kod grupy", "Nowy kod");
+        this.userId = userId;
+        this.userService = userService;
+        int code = userService.getGroupCode(userId);
+        if (code == 0) setValue("Brak");
+        else setValue(Integer.toString(code));
     }
 
-    private void onClick(UUID userId, UserService userService) {
-        remove(button);
-        Button button1 = new Button("Potwierdź");
-        button1.getStyle().set("margin-top", "auto");
-        button1.setWidth("50%");
-        add(button1);
-        textField.setInvalid(false);
-        textField.clear();
-        textField.setReadOnly(false);
-        textField.setPlaceholder("Nowy kod");
-        button1.addClickListener(buttonClickEvent1 -> {
-            if (!textField.getValue().equals("")) {
-                textField.setInvalid(false);
-                if (textField.getValue().matches("[0-9]+")) {
-                    textField.setInvalid(false);
-                    if (textField.getValue().length() == 4) {
-                        textField.setInvalid(false);
-                        userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
-                        Notification notification = new Notification("Kod został zmieniony na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
-                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                        notification.open();
-                    } else {
-                        textField.setErrorMessage("Kod musi zawierać 4 liczby");
-                        textField.setInvalid(true);
-                    }
-                } else {
-                    textField.setErrorMessage("Kod musi być liczbą");
-                    textField.setInvalid(true);
-                }
-            } else {
-                textField.setErrorMessage("Pole nie może być puste");
-                textField.setInvalid(true);
-            }
-            textField.setValue(Integer.toString(userService.getGroupCode(userId)));
-            textField.setReadOnly(true);
-            remove(button1);
-            add(button);
-        });
+    @Override
+    protected void validateInput(String input) {
+        if (StringUtils.isBlank(input))
+            throw new ValidationException("Pole z Kodem nie może być puste");
+
+        if (!textField.getValue().matches("[0-9]+"))
+            throw new ValidationException("Kod nie może zawierać liter");
+
+        if (textField.getValue().length() != 4)
+            throw new ValidationException("Kod musi zawierać 4 cyfry");
+
+        //TODO GRUPA ISTNIEJE / NIE ISTNIEJE
+    }
+
+    @Override
+    protected void commitInput(String input) {
+        userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
+        Notification notification = new Notification("Kod został zmieniony na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        notification.open();
+
+        completeEdit();
     }
 }

@@ -10,45 +10,40 @@ import com.vaadin.flow.component.textfield.TextField;
 import javax.validation.ValidationException;
 
 abstract class SettingsTextField extends VerticalLayout {
-    Label label;
-    Button button;
-    Button commitButton;
+    private Button button;
+    private Button commitButton;
     TextField textField;
 
-    private String baseName;
     private String editName;
 
-
-    protected SettingsTextField() {
-        this("Nazwa", "Nowa nazwa");
-    }
-
-    protected SettingsTextField(String baseName, String editName) {
-        this.baseName = baseName;
+    SettingsTextField(String baseName, String editName) {
         this.editName = editName;
 
-        label = new Label(baseName);
+        Label label = new Label(baseName);
+        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        label.getStyle().set("font-weight", "500");
+        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
         add(label);
 
         textField = new TextField();
         textField.setReadOnly(true);
-        textField.setWidth("80%");
+        textField.setWidth("70%");
 
         button = new Button("Zmień");
-        button.setWidth("20%");
+        button.setWidth("30%");
         button.addClickListener(this::onStartEdit);
 
         commitButton = new Button("Potwierdź");
-        commitButton.setWidth("20%");
+        commitButton.setWidth("40%");
         commitButton.addClickListener(this::onCommit);
-        //button.getStyle().set("margin-top", "auto");
 
         HorizontalLayout buttons = new HorizontalLayout();
 
         buttons.add(textField);
-        buttons.expand(textField);
+        buttons.setWidth("100%");
         buttons.add(button);
 
+        setPadding(false);
         setSpacing(false);
         add(buttons);
     }
@@ -59,16 +54,17 @@ abstract class SettingsTextField extends VerticalLayout {
     }
 
 
-    protected void onStartEdit(ClickEvent event) {
+    private void onStartEdit(ClickEvent event) {
         HorizontalLayout parent = (HorizontalLayout) button.getParent().get();
         parent.replace(button, commitButton);
 
+        textField.setWidth("60%");
         textField.clear();
         textField.setReadOnly(false);
         textField.setPlaceholder(editName);
     }
 
-    protected void onCommit(ClickEvent event) {
+    private void onCommit(ClickEvent event) {
         try {
             validateInput(textField.getValue());
             textField.setInvalid(false);
@@ -80,19 +76,15 @@ abstract class SettingsTextField extends VerticalLayout {
         }
     }
 
+    protected abstract void validateInput(String input);
 
-    protected void validateInput(String input) {
-    }
+    protected abstract void commitInput(String input);
 
-    // SHOULD BE ABSTRACT
-    protected void commitInput(String input) {
-
-    }
-
-    protected void completeEdit() {
+    void completeEdit() {
+        textField.setWidth("70%");
         textField.setReadOnly(true);
 
-        HorizontalLayout parent = (HorizontalLayout) button.getParent().get();
+        HorizontalLayout parent = (HorizontalLayout) commitButton.getParent().get();
         parent.replace(commitButton, button);
     }
 

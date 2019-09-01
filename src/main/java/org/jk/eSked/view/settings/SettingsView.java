@@ -51,7 +51,11 @@ public class SettingsView extends VerticalLayout {
             languageGroup.setLabel("Język");
             languageGroup.setItems("Polski", "English");
             languageGroup.setValue("Polski");
+            languageGroup.getStyle().set("padding-top", "0px");
+            languageGroup.getStyle().set("margin-top", "auto");
+
             accountForm.add(languageGroup);
+
 //GROUPS
             Label groupsLabel = new Label("Grupy");
 
@@ -59,6 +63,7 @@ public class SettingsView extends VerticalLayout {
             groupsForm.add(new GroupCodeField(userId, userService));
             Button groupSyn = new Button("Synchronizuj z grupą");
             groupSyn.addClickListener(buttonClickEvent -> groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId)));
+            groupSyn.getStyle().set("margin-top", "auto");
             groupsForm.add(groupSyn);
             RadioButtonGroup<String> autoSync = new RadioButtonGroup<>();
             autoSync.setLabel("Automatyczna Synchronizacja");
@@ -68,6 +73,8 @@ public class SettingsView extends VerticalLayout {
             autoSync.addValueChangeListener(valueChange -> userService.setSynWGroup(userId, valueChange.getValue().equals("Włącz")));
             groupsForm.add(autoSync);
             Button newGroup = new Button("Nowa grupa");
+            newGroup.getStyle().set("margin-top", "auto");
+            newGroup.getStyle().set("margin-bottom", "auto");
             groupsForm.add(newGroup);
 //SCHEDULE
             Label other = new Label("Inne");
@@ -80,6 +87,8 @@ public class SettingsView extends VerticalLayout {
             scheduleHours.addValueChangeListener(valueChange -> userService.setScheduleHours(userId, valueChange.getValue().equals("Tak")));
 
             Button setHours = new Button("Ustaw godziny");
+            setHours.getStyle().set("margin-top", "auto");
+            setHours.getStyle().set("margin-bottom", "auto");
             setHours.addClickListener(buttonClickEvent -> openDialog(userId, hoursService));
 
             RadioButtonGroup<String> theme = new RadioButtonGroup<>();
