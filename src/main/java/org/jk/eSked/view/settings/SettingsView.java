@@ -28,8 +28,11 @@ import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.MenuView;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -237,7 +240,31 @@ public class SettingsView extends VerticalLayout {
                 textField.setInvalid(true);
             } else textField.setInvalid(false);
         }
-
         integer.set(length);
+    }
+
+    private void openGroupDialog(UUID userId, GroupsService groupsService) {//TODO WYSWIETLANIE ZE ADMIN MUSI POTWIERDZIC
+        Label name = new Label("Nowa Grupa");
+        name.getStyle().set("margin-left", "auto");
+        name.getStyle().set("margin-right", "auto");
+        HorizontalLayout nameLabel = new HorizontalLayout(name);
+        nameLabel.setWidth("100%");
+
+        TextField groupName = new TextField();
+        groupName.setWidth("100%");
+
+        Button confirm = new Button("Dodaj");
+        confirm.setWidth("100%");
+        confirm.addClickListener(event -> {
+            if (!groupName.isEmpty()) {
+                groupName.setInvalid(false);
+                Random random = new Random();
+                groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+            } else {
+                groupName.setErrorMessage("Pole nie może być puste");
+                groupName.setInvalid(true);
+            }
+        });
+        add(nameLabel, groupName, confirm);
     }
 }

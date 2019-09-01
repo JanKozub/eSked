@@ -10,7 +10,7 @@ public interface GroupsService {
 
     int doesGroupExist(String name);
 
-    void addEntryToGroup(boolean isAccepted, String name, int groupCode, UUID leaderId, int hour, int day, String subject, long createdDate);
+    void addGroup(UUID userId, String name, int groupCode, long createdDate);
 
     void deleteGroupEntry(int groupCode, int hour, int day);
 
