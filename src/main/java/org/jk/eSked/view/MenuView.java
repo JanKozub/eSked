@@ -28,7 +28,6 @@ import org.jk.eSked.view.events.EventsView;
 import org.jk.eSked.view.events.NewEventView;
 import org.jk.eSked.view.schedule.NewEntryView;
 import org.jk.eSked.view.schedule.ScheduleView;
-import org.jk.eSked.view.settings.SettingsView;
 
 import java.util.Collection;
 import java.util.logging.Level;

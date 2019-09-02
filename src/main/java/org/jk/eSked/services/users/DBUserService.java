@@ -114,4 +114,19 @@ public class DBUserService implements UserService {
     public void setSynWGroup(UUID userId, boolean state) {
         usersDao.setSynWGroup(userId, state);
     }
+
+    @Override
+    public String getEmailFromUsername(String username) {
+        return usersDao.getEmailFromUsername(username);
+    }
+
+    @Override
+    public UUID getIdFromUsername(String username) {
+        return usersDao.getIdFromUsername(username);
+    }
+
+    @Override
+    public void changeGenCode(UUID userId, int newCode) {
+        usersDao.setGenCode(userId, newCode);
+    }
 }

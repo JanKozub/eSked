@@ -66,7 +66,7 @@ class LoginView extends VerticalLayout {
         Icon forgotPass = new Icon(VaadinIcon.WRENCH);
         forgotPass.setSize("25px");
         forgotPass.getStyle().set("cursor", "pointer");
-        ProblemDialog problemDialog = new ProblemDialog();
+        ProblemDialog problemDialog = new ProblemDialog(userService, emailService);
         forgotPass.addClickListener(e -> problemDialog.open());
 
         Icon info = new Icon(VaadinIcon.INFO_CIRCLE);

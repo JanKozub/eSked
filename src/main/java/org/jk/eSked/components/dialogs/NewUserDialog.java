@@ -3,6 +3,8 @@ package org.jk.eSked.components.dialogs;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -62,7 +64,7 @@ public class NewUserDialog extends Dialog {
                                     try {
                                         emailService.sendNewUserEmail(emailField.getValue(), usernameField.getValue(), genCode);
                                     } catch (MessagingException ex) {
-                                        //TODO ERROR MESSAGE
+
                                     }
                                     removeAll();
 
@@ -76,6 +78,11 @@ public class NewUserDialog extends Dialog {
                                         if (codeField.getValue().equals(Integer.toString(genCode))) {
                                             codeField.setInvalid(false);
                                             userService.addUser(user);
+
+                                            Notification notification = new Notification("Konto zostało poprawnie stworzone!", 5000, Notification.Position.TOP_END);
+                                            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                                            notification.open();
+
                                             close();
                                         } else {
                                             codeField.setErrorMessage("Podany kod jest nie prawidłowy");

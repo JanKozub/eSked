@@ -1,9 +1,13 @@
--Dodaj opcje rozsylania emailow zapomnialem hasla i potwierdzenia rejstracji
 -Mobile layout
 -potwierdzenie nowego emaila mailem
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
--dodaj ustawianie godzin w planie
 -zmiana jezyków
 -wysylanie potwierdzenia hasla na mail
--potwierdzenie rejstracji
-properties dla email
+-gdy zmieniasz hasło bo zapomniales to loginButton triggeruje enter i podswietla sie na czerono poniewaz dialog jest otwarty
+-Przy dodawaniu grupy poinformuj ze admin musi ja potwierdzić przed dodaniem
+-validateInput w GroupCodeField -> sprawdz czy taka grupa istnieje przed akceptacja kodu grupy
+-Dodaj generyczne powiadomienia ktore bo generalnie wszystkie sa bardzo podone (style itp)
+-NewUserDialog -> sprawdzaj czy email jest juz w bazie danych
+-lepsze kody generowane bo te sa strasznie slabe i mozna je zlamac w 30 sekund mega slabo
+-ProblemDialog:63 wyswietlanie bledu wysylania
+-NewUserDialog:67 wyswietlanie bledu wysylania

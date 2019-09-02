@@ -31,8 +31,6 @@ public class GroupCodeField extends SettingsTextField {
 
         if (textField.getValue().length() != 4)
             throw new ValidationException("Kod musi zawierać 4 cyfry");
-
-        //TODO GRUPA ISTNIEJE / NIE ISTNIEJE
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.jk.eSked.view.settings;
+package org.jk.eSked.view;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -26,7 +26,6 @@ import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
-import org.jk.eSked.view.MenuView;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -244,7 +243,7 @@ public class SettingsView extends VerticalLayout {
         integer.set(length);
     }
 
-    private void openGroupDialog(UUID userId, GroupsService groupsService) {//TODO WYSWIETLANIE ZE ADMIN MUSI POTWIERDZIC
+    private void openGroupDialog(UUID userId, GroupsService groupsService) {
         Dialog dialog = new Dialog();
         Label name = new Label("Nowa Grupa");
         name.getStyle().set("margin-left", "auto");

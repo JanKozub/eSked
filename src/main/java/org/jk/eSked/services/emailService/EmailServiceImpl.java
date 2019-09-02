@@ -38,16 +38,25 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendNewUserEmail(String email, String username, int code) throws MessagingException {
-        generateMailMessage = new MimeMessage(getMailSession);
-        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        generateMailMessage.setSubject("Potwierdź rejstracje na eSked!");
-        String emailBody = "Witaj " + username + "," + "<br><br>Dziękujemy za zarejstrowanie się na naszej stronie, oto twój kod weryfikacji: " + "<br><br>" + code + "<br><br> Z poważaniem, <br>Zespół eSked";
-        generateMailMessage.setContent(emailBody, "text/html; charset=ISO-8859-2");
-        transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
+        String emailBody = "Witaj " + username + "," +
+                "<br><br>Dziękujemy za zarejstrowanie się na naszej stronie, oto twój kod weryfikacji: " +
+                "<br><br>" + code + "<br><br> Z poważaniem, <br>Zespół eSked";
+
+        generateAndSendMessage(email, "Potwierdź rejstrację w eSked!", emailBody);
     }
 
     @Override
-    public void sendForgotPasswordEmail(String email, String username, int code) {
+    public void sendForgotPasswordEmail(String email, String username, int code) throws MessagingException {
+        String emailBody = "Witaj " + username + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
+                "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+        generateAndSendMessage(email, "Prośba zmiany hasła w eSked!", emailBody);
+    }
 
+    private void generateAndSendMessage(String email, String subject, String body) throws MessagingException {
+        generateMailMessage = new MimeMessage(getMailSession);
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        generateMailMessage.setSubject(subject);
+        generateMailMessage.setContent(body, "text/html; charset=ISO-8859-2");
+        transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
     }
 }

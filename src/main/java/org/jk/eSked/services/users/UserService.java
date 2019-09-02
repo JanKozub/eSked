@@ -44,4 +44,10 @@ public interface UserService {
     boolean isSynWGroup(UUID userId);
 
     void setSynWGroup(UUID userId, boolean state);
+
+    String getEmailFromUsername(String username);
+
+    UUID getIdFromUsername(String username);
+
+    void changeGenCode(UUID userId, int newCode);
 }

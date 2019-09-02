@@ -104,4 +104,19 @@ public interface UsersDao {
 
     @Update("UPDATE USERS SET synWGroup = #{state} WHERE id = #{userId}")
     void setSynWGroup(UUID userId, boolean state);
+
+    @Select("SELECT * FROM USERS WHERE username = #{username}")
+    @ConstructorArgs({
+            @Arg(column = "email", javaType = String.class)
+    })
+    String getEmailFromUsername(String username);
+
+    @Select("SELECT * FROM USERS WHERE username = #{username}")
+    @ConstructorArgs({
+            @Arg(column = "id", javaType = UUID.class)
+    })
+    UUID getIdFromUsername(String username);
+
+    @Update("UPDATE USERS SET genCode = #{newCode} WHERE id = #{userId}")
+    void setGenCode(UUID userId, int newCode);
 }
