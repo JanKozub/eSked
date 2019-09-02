@@ -18,8 +18,9 @@ public class User {
     private final boolean synWGroup;
     private final LocalDateTime createdDate;
     private final LocalDateTime LastLoggedDate;
+    private final int genCode;
 
-    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long timestampAccCreated, long timestampLastLogged) {
+    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long timestampAccCreated, long timestampLastLogged, int genCode) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -30,6 +31,7 @@ public class User {
         this.synWGroup = synWGroup;
         this.createdDate = Instant.ofEpochMilli(timestampAccCreated).atZone(ZoneId.systemDefault()).toLocalDateTime();
         this.LastLoggedDate = Instant.ofEpochMilli(timestampLastLogged).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        this.genCode = genCode;
     }
 
     public UUID getId() {
@@ -70,6 +72,10 @@ public class User {
 
     public LocalDateTime getLastLoggedDate() {
         return LastLoggedDate;
+    }
+
+    public int getGenCode() {
+        return genCode;
     }
 
     public static String encodePassword(String password) {

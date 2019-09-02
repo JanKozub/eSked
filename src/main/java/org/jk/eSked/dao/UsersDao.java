@@ -22,6 +22,7 @@ public interface UsersDao {
             @Arg(column = "synWGroup", javaType = boolean.class),
             @Arg(column = "createdDate", javaType = long.class),
             @Arg(column = "lastLoggedDate", javaType = long.class),
+            @Arg(column = "genCode", javaType = int.class)
     })
     List<User> getUsers();
 
@@ -49,9 +50,9 @@ public interface UsersDao {
     })
     String getEmail(UUID userId);
 
-    @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, lastLoggedDate) " +
-            "VALUES(#{userId}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{synWGroup},#{createdDate}, #{lastLoggedDate})")
-    void persistUser(UUID userId, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long createdDate, long lastLoggedDate);
+    @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, lastLoggedDate, genCode) " +
+            "VALUES(#{userId}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{synWGroup},#{createdDate}, #{lastLoggedDate}, #{genCode})")
+    void persistUser(UUID userId, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long createdDate, long lastLoggedDate, int genCode);
 
     @Update("UPDATE Users SET USERNAME = #{newUsername} WHERE id = #{userId}")
     void changeUsername(UUID userId, String newUsername);

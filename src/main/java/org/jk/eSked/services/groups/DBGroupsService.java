@@ -43,11 +43,18 @@ public class DBGroupsService implements GroupsService {
     }
 
     @Override
-    public void addGroup(UUID userId, String name, int groupCode, long createdDate) {
+    public boolean addGroup(UUID userId, String name, int groupCode, long createdDate) {
         Collection<Entry> entries = scheduleService.getEntries(userId);
+        if (entries.isEmpty()) return false;
         for (Entry entry : entries) {
             groupsDao.addEntryToGroup(false, name, groupCode, userId, entry.getHour(), entry.getDay(), entry.getSubject(), createdDate);
         }
+        return true;
+    }
+
+    @Override
+    public void addEntryToGroup(boolean isAccepted, String name, int groupCode, UUID userId, int hour, int day, String subject, long createdDate) {
+        groupsDao.addEntryToGroup(isAccepted, name, groupCode, userId, hour, day, subject, createdDate);
     }
 
     @Override

@@ -82,6 +82,7 @@ public class SettingsView extends VerticalLayout {
             Button newGroup = new Button("Nowa grupa");
             newGroup.getStyle().set("margin-top", "auto");
             newGroup.getStyle().set("margin-bottom", "auto");
+            newGroup.addClickListener(event -> openGroupDialog(userId, groupsService));
             groupsForm.add(newGroup);
 //SCHEDULE
             Label other = new Label("Inne");
@@ -244,6 +245,7 @@ public class SettingsView extends VerticalLayout {
     }
 
     private void openGroupDialog(UUID userId, GroupsService groupsService) {//TODO WYSWIETLANIE ZE ADMIN MUSI POTWIERDZIC
+        Dialog dialog = new Dialog();
         Label name = new Label("Nowa Grupa");
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
@@ -259,12 +261,19 @@ public class SettingsView extends VerticalLayout {
             if (!groupName.isEmpty()) {
                 groupName.setInvalid(false);
                 Random random = new Random();
-                groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+                if (groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())) {
+                    groupName.setInvalid(false);
+                    dialog.close();
+                } else {
+                    groupName.setErrorMessage("Musisz mieć wpisy w tabeli aby stworzyć grupę");
+                    groupName.setInvalid(true);
+                }
             } else {
                 groupName.setErrorMessage("Pole nie może być puste");
                 groupName.setInvalid(true);
             }
         });
-        add(nameLabel, groupName, confirm);
+        dialog.add(nameLabel, groupName, confirm);
+        dialog.open();
     }
 }

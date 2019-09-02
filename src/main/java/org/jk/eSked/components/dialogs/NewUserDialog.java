@@ -9,15 +9,18 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.model.User;
+import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;
 
+import javax.mail.MessagingException;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Random;
 import java.util.UUID;
 
 public class NewUserDialog extends Dialog {
 
-    public NewUserDialog(UserService userService) {
+    public NewUserDialog(UserService userService, EmailService emailService) {
         Collection<String> usernames = userService.getUsernames();
         Collection<String> emails = userService.getEmails();
 
@@ -53,9 +56,33 @@ public class NewUserDialog extends Dialog {
                                 if (passwordField.getValue().equals(passwordFieldCheck.getValue())) {
                                     passwordField.setInvalid(false);
                                     UUID ID = UUID.randomUUID();
-                                    User user = new User(ID, usernameField.getValue(), User.encodePassword(passwordField.getValue()), false, true, emailField.getValue(), 0, false, Instant.now().toEpochMilli(), Instant.now().toEpochMilli());
-                                    userService.addUser(user);
-                                    close();
+                                    Random random = new Random();
+                                    int genCode = random.nextInt(89999) + 10000;
+                                    User user = new User(ID, usernameField.getValue(), User.encodePassword(passwordField.getValue()), false, true, emailField.getValue(), 0, false, Instant.now().toEpochMilli(), Instant.now().toEpochMilli(), genCode);
+                                    try {
+                                        emailService.sendNewUserEmail(emailField.getValue(), usernameField.getValue(), genCode);
+                                    } catch (MessagingException ex) {
+                                        //TODO ERROR MESSAGE
+                                    }
+                                    removeAll();
+
+                                    Label label = new Label("Przepisz kod wysłany na podany email");
+
+                                    TextField codeField = new TextField();
+                                    codeField.setPlaceholder("Kod");
+
+                                    Button confirm = new Button("Potwierdź");
+                                    confirm.addClickListener(event -> {
+                                        if (codeField.getValue().equals(Integer.toString(genCode))) {
+                                            codeField.setInvalid(false);
+                                            userService.addUser(user);
+                                            close();
+                                        } else {
+                                            codeField.setErrorMessage("Podany kod jest nie prawidłowy");
+                                            codeField.setInvalid(true);
+                                        }
+                                    });
+                                    add(label, codeField, confirm);
                                 } else {
                                     passwordField.setErrorMessage("Hasła nie są identyczne");
                                     passwordField.setInvalid(true);

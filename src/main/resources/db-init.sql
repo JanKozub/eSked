@@ -27,6 +27,7 @@
 --    synWGroup boolean NOT NULL,
 --    createdDate BIGINT NOT NULL,
 --    lastLoggedDate BIGINT NOT NULL,
+--    genCode INT NOT NULL,
 --);
 --
 --create TABLE Groups (

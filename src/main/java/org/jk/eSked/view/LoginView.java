@@ -20,6 +20,7 @@ import org.jk.eSked.components.dialogs.ProblemDialog;
 import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.event.Event;
+import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
@@ -40,7 +41,7 @@ class LoginView extends VerticalLayout {
     private final GroupsService groupsService;
     private final EventService eventService;
 
-    public LoginView(UserService userService, GroupsService groupsService, EventService eventService) {
+    public LoginView(UserService userService, GroupsService groupsService, EventService eventService, EmailService emailService) {
         this.userService = userService;
         this.groupsService = groupsService;
         this.eventService = eventService;
@@ -56,7 +57,7 @@ class LoginView extends VerticalLayout {
         Button loginButton = new Button("Zaloguj!", click -> login(usernameField.getValue(), passwordField.getValue()));
         loginButton.addClickShortcut(Key.ENTER);
 
-        NewUserDialog newUserDialog = new NewUserDialog(userService);
+        NewUserDialog newUserDialog = new NewUserDialog(userService, emailService);
         Icon newUser = new Icon(VaadinIcon.PLUS_CIRCLE);
         newUser.setSize("25px");
         newUser.getStyle().set("cursor", "pointer");

@@ -27,7 +27,7 @@ public class ProblemDialog extends Dialog {
         Icon emailIcon = new Icon(VaadinIcon.ENVELOPE);
         Label emailLabel = new Label("Kontakt");
         emailLabel.getStyle().set("font-weight", "bold");
-        Label email = new Label("info.schedule@gmail.com");
+        Label email = new Label("eskedinfo@gmail.com");
         email.getStyle().set("font-weight", "bold");
         HorizontalLayout emailLayout = new HorizontalLayout(emailIcon, emailLabel);
 
