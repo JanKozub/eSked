@@ -23,16 +23,14 @@ import org.jk.eSked.components.settingsFields.NameField;
 import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
+import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Route(value = "settings", layout = MenuView.class)
@@ -40,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SettingsView extends VerticalLayout {
 
 
-    public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService) {
+    public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService) {
 
         if (loginService.checkIfUserIsLogged()) {
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
@@ -50,9 +48,9 @@ public class SettingsView extends VerticalLayout {
             Label accountLabel = new Label("Użytkownik");
 
             FormLayout accountForm = new FormLayout();
-            accountForm.add(new NameField(userId, userService));
-            accountForm.add(new MyPasswordField(userId, userService));
-            accountForm.add(new EmailField(userId, userService));
+            accountForm.add(new NameField(userId, userService, emailService));
+            accountForm.add(new MyPasswordField(userId, userService, emailService));
+            accountForm.add(new EmailField(userId, userService, emailService));
             RadioButtonGroup<String> languageGroup = new RadioButtonGroup<>();
             languageGroup.setLabel("Język");
             languageGroup.setItems("Polski", "English");
@@ -130,6 +128,7 @@ public class SettingsView extends VerticalLayout {
                 dialog.add(button);
                 dialog.open();
             });
+            deleteButton.setWidth("100%");
 
             VerticalLayout verticalLayout = new VerticalLayout(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, other, new Line(), otherForm, new Line(), deleteButton);
             verticalLayout.setWidth("50%");
@@ -259,12 +258,18 @@ public class SettingsView extends VerticalLayout {
         confirm.addClickListener(event -> {
             if (!groupName.isEmpty()) {
                 groupName.setInvalid(false);
-                Random random = new Random();
-                if (groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())) {
-                    groupName.setInvalid(false);
-                    dialog.close();
+                Collection<String> groups = groupsService.getGroupsNames();
+                if (!groups.contains(groupName.getValue())) {
+                    Random random = new Random();
+                    if (groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())) {
+                        groupName.setInvalid(false);
+                        dialog.close();
+                    } else {
+                        groupName.setErrorMessage("Musisz mieć wpisy w tabeli aby stworzyć grupę");
+                        groupName.setInvalid(true);
+                    }
                 } else {
-                    groupName.setErrorMessage("Musisz mieć wpisy w tabeli aby stworzyć grupę");
+                    groupName.setErrorMessage("grupa z taką nazwą już istnieje");
                     groupName.setInvalid(true);
                 }
             } else {

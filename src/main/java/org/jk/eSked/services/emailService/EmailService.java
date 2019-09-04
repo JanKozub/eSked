@@ -4,7 +4,6 @@ import javax.mail.MessagingException;
 
 public interface EmailService {
 
-    void sendNewUserEmail(String email, String username, int code) throws MessagingException;
+    void sendEmail(String email, String subject, String emailBody) throws MessagingException;
 
-    void sendForgotPasswordEmail(String email, String username, int code) throws MessagingException;
 }

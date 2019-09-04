@@ -13,6 +13,7 @@ import org.jk.eSked.components.settingsFields.MyPasswordField;
 import org.jk.eSked.components.settingsFields.NameField;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
+import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
@@ -21,20 +22,20 @@ import org.jk.eSked.services.users.UserService;
 
 class UserFoundView extends VerticalLayout {
 
-    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, User user) {
+    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService, User user) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
 
                 Label mainLabel = new Label("Dane");
 
-                NameField nameField = new NameField(user.getId(), userService);
+                NameField nameField = new NameField(user.getId(), userService, emailService);
                 nameField.setWidth("50%");
 
-                MyPasswordField myPasswordField = new MyPasswordField(user.getId(), userService);
+                MyPasswordField myPasswordField = new MyPasswordField(user.getId(), userService, emailService);
                 myPasswordField.setWidth("50%");
 
-                EmailField emailField = new EmailField(user.getId(), userService);
+                EmailField emailField = new EmailField(user.getId(), userService, emailService);
                 emailField.setWidth("50%");
 
                 InfoBox idLayout = new InfoBox("ID Użytkownika: ", user.getId().toString());

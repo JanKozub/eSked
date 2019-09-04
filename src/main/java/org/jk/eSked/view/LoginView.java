@@ -9,6 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
@@ -32,7 +33,7 @@ import java.util.List;
 
 @Route(value = "login")
 @PageTitle("Logowanie")
-@PWA(name = "Web schedule for students!", shortName = "eSked", iconPath = "img/icons/logo.png")
+@PWA(name = "eSked - schedule app!", shortName = "eSked", iconPath = "img/icons/logo.png")
 class LoginView extends VerticalLayout {
 
     private final TextField usernameField;
@@ -49,13 +50,19 @@ class LoginView extends VerticalLayout {
         if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
 
         Icon icon = new Icon(VaadinIcon.USER);
-        usernameField = new TextField("Nazwa użytkownika:");
+        usernameField = new TextField("Nazwa użytkownika lub email:");
 
         passwordField = new PasswordField("Hasło:");
         passwordField.setErrorMessage("Nazwa użytkownika lub hasło niepoprawne. Spróbuj ponownie");
 
         Button loginButton = new Button("Zaloguj!", click -> login(usernameField.getValue(), passwordField.getValue()));
-        loginButton.addClickShortcut(Key.ENTER);
+        passwordField.setValueChangeTimeout(5);
+        passwordField.setValueChangeMode(ValueChangeMode.TIMEOUT);
+        passwordField.addValueChangeListener(event -> {
+
+            if (passwordField.getValue().length() >= 1)
+                loginButton.addClickShortcut(Key.ENTER);
+        });
 
         NewUserDialog newUserDialog = new NewUserDialog(userService, emailService);
         Icon newUser = new Icon(VaadinIcon.PLUS_CIRCLE);
@@ -91,27 +98,29 @@ class LoginView extends VerticalLayout {
         Collection<User> users = userService.getUsers();
         boolean userFound = false;
         for (User user : users) {
-            if (user.getUsername().equals(uTyped) && user.getPassword().equals(pTyped)) {
-                VaadinSession.getCurrent().setAttribute(User.class, user);
-                if (user.getGroupCode() != 0) {
-                    groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
-                }
-                Collection<Event> events = eventService.getAllEvents(user.getId());
-                List<Notification> notifications = new ArrayList<>();
-                for (Event event : events) {
-                    if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
-                        notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
+            if (user.getUsername().equals(uTyped) || user.getEmail().equals(uTyped)) {
+                if (user.getPassword().equals(pTyped)) {
+                    VaadinSession.getCurrent().setAttribute(User.class, user);
+                    if (user.getGroupCode() != 0) {
+                        groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
                     }
-                }
-                VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
-                userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+                    Collection<Event> events = eventService.getAllEvents(user.getId());
+                    List<Notification> notifications = new ArrayList<>();
+                    for (Event event : events) {
+                        if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
+                            notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
+                        }
+                    }
+                    VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
+                    userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
 
-                UI.getCurrent().navigate("schedule");
-                if (user.isDarkTheme())
-                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
-                else
-                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
-                userFound = true;
+                    UI.getCurrent().navigate("schedule");
+                    if (user.isDarkTheme())
+                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
+                    else
+                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
+                    userFound = true;
+                }
             }
         }
         if (!userFound) {

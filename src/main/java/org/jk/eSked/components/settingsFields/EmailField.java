@@ -1,23 +1,34 @@
 package org.jk.eSked.components.settingsFields;
 
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.model.User;
+import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;
 
+import javax.mail.MessagingException;
 import javax.validation.ValidationException;
 import java.util.Collection;
+import java.util.Random;
 import java.util.UUID;
 
 public class EmailField extends SettingsTextField {
 
     private UUID userId;
     private UserService userService;
+    private EmailService emailService;
 
-    public EmailField(UUID userId, UserService userService) {
+    public EmailField(UUID userId, UserService userService, EmailService emailService) {
         super("Email", "Nowy Email");
         this.userId = userId;
         this.userService = userService;
+        this.emailService = emailService;
         setValue(userService.getEmail(userId));
     }
 
@@ -38,12 +49,53 @@ public class EmailField extends SettingsTextField {
 
     @Override
     protected void commitInput(String input) {
-        userService.changeEmail(userId, textField.getValue());
+        Random random = new Random();
+        int code = random.nextInt(89999) + 10000;
 
-        Notification notification = new Notification("Zmieniono email na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-        notification.open();
+        try {
 
-        completeEdit();
+            String emailBody = "Witaj " + userService.getUsername(VaadinSession.getCurrent().getAttribute(User.class).getId()) +
+                    "," + "<br><br>Twój kod zmiany emailu to: " + "<br><br>" + code +
+                    "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+            emailService.sendEmail(input, "Potwierdzenie zmiany emailu w eSked!", emailBody);
+        } catch (MessagingException ex) {
+
+        }
+
+        removeAll();
+        TextField codeField = new TextField();
+        codeField.setPlaceholder("Kod z email");
+        codeField.setWidth("60%");
+        codeField.getStyle().set("margin-top", "0px");
+
+        Button button = new Button("Potwierdź");
+        button.setWidth("40%");
+
+        button.addClickListener(click -> {
+            if (codeField.getValue().equals(Integer.toString(code))) {
+                userService.changeEmail(userId, textField.getValue());
+
+                SuccessNotification notification = new SuccessNotification("Zmieniono email na \"" + textField.getValue() + "\"");
+                notification.open();
+
+                completeEdit(userService.getEmail(userId));
+            } else {
+                codeField.setErrorMessage("Podany kod jest nie prawidłowy");
+                codeField.setInvalid(true);
+            }
+        });
+        Label label = new Label("Email");
+        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        label.getStyle().set("font-weight", "500");
+        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
+        label.getStyle().set("margin-top", "0px");
+        HorizontalLayout layout = new HorizontalLayout(codeField, button);
+        layout.setPadding(false);
+        layout.getStyle().set("margin-top", "0px");
+        VerticalLayout verticalLayout = new VerticalLayout(label, layout);
+        verticalLayout.setPadding(false);
+        layout.setWidth("100%");
+        verticalLayout.setWidth("100%");
+        add(verticalLayout);
     }
 }

@@ -3,6 +3,42 @@
   <component name="ChangeListManager">
     <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/NewUserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/NewUserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/ProblemDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/ProblemDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/EmailField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/EmailField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/GroupCodeField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/GroupCodeField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/MyPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/MyPasswordField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/NameField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settingsFields/SettingsTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserFoundView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserFoundView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserPageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/NewEventView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/NewEventView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/NewUserDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/NewUserDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/ProblemDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/ProblemDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/NameField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/NameField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/SettingsTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/SettingsTextField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/LoginView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567453019421</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="-WIP">
+      <created>1567631901583</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1567631901583</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -177,7 +220,8 @@
     <MESSAGE value="-Completed schedule hours change option in settings &#10;-Added renderer for hours in schedule" />
     <MESSAGE value="-Added new group option in settings" />
     <MESSAGE value="-Now during registration process you have to confirm your account tho email&#10;-Change user object structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Now during registration process you have to confirm your account tho email&#10;-Change user object structure" />
+    <MESSAGE value="-WIP" />
+    <option name="LAST_COMMIT_MESSAGE" value="-WIP" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

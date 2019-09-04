@@ -4,132 +4,144 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.shared.Registration;
+import org.jk.eSked.components.SuccessNotification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;
 
 import javax.mail.MessagingException;
+import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.Random;
 
 public class ProblemDialog extends Dialog {
+    private final UserService userService;
+    private final TextField passField;
+    private Button passButton;
+    private Registration registration;
 
     public ProblemDialog(UserService userService, EmailService emailService) {
+        this.userService = userService;
+        this.passField = new TextField();
+        this.passButton = new Button("Wyślij");
 
-        Icon passIcon = new Icon(VaadinIcon.CLOSE_CIRCLE);
-        Label passLabel = new Label("Odzyskaj Hasło");
-        passLabel.getStyle().set("font-weight", "bold");
-        TextField passField = new TextField();
-        passField.setPlaceholder("Nazwa Użytkownika");
-        Button passButton = new Button("Wyślij");
-        passButton.addClickShortcut(Key.ENTER);
+        add(createMainLayout());
 
-        HorizontalLayout passLabelLayout = new HorizontalLayout(passIcon, passLabel);
-        HorizontalLayout passFieldLayout = new HorizontalLayout(passField, passButton);
-        passFieldLayout.setWidth("100%");
-
-        Icon emailIcon = new Icon(VaadinIcon.ENVELOPE);
-        Label emailLabel = new Label("Kontakt");
-        emailLabel.getStyle().set("font-weight", "bold");
-        Label email = new Label("eskedinfo@gmail.com");
-        email.getStyle().set("font-weight", "bold");
-        HorizontalLayout emailLayout = new HorizontalLayout(emailIcon, emailLabel);
-
-        VerticalLayout mainLayout = new VerticalLayout(passLabelLayout, passFieldLayout, emailLayout, email);
-        mainLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
-        add(mainLayout);
-
-        passButton.addClickListener(event -> {
-            if (!passField.isEmpty()) {
+        registration = passButton.addClickListener(event -> {
+            try {
+                validateNameInput(passField.getValue());
                 passField.setInvalid(false);
-                Collection<String> users = userService.getUsernames();
-                if (users.contains(passField.getValue())) {
-                    passField.setInvalid(false);
-                    Random random = new Random();
-                    int code = random.nextInt(89999) + 10000;
+                Random random = new Random();
+                int code = random.nextInt(89999) + 10000;
+                String emailBody = "Witaj " + passField.getValue() + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
+                        "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+                emailService.sendEmail(userService.getEmailFromUsername(passField.getValue()), "Potwierdzenie zmiany hasła w eSked!", emailBody);
+
+                passField.setWidth("60%");
+                passField.setPlaceholder("Kod z wiad. email");
+                passField.clear();
+
+                passButton.setText("Potwierdź");
+                passButton.setWidth("40%");
+                registration = passButton.addClickListener(newEvent -> {
                     try {
-                        emailService.sendForgotPasswordEmail(userService.getEmailFromUsername(passField.getValue()), passField.getValue(), code);
-                    } catch (MessagingException ex) {
+                        validateCode(passField.getValue(), code);
+                        passField.setInvalid(false);
 
-                    }
-                    TextField codeField = new TextField();
-                    codeField.setPlaceholder("Kod z wiad. email");
-                    codeField.setWidth("100%");
+                        PasswordField pass1 = new PasswordField("Nowe Hasło");
+                        PasswordField pass2 = new PasswordField("Powtórz Nowe Hasło");
+                        Button confirm = new Button("Zmień hasło!", event3 -> {
+                            try {
+                                validatePasswords(pass1.getValue(), pass2.getValue());
+                                pass1.setInvalid(false);
+                                pass2.setInvalid(false);
+                                userService.changePassword(userService.getIdFromUsername(passField.getValue()), User.encodePassword(pass1.getValue()));
 
-                    Button button = new Button("Potwierdź", newEvent -> {
-                        if (!codeField.isEmpty()) {
-                            codeField.setInvalid(false);
-                            if (codeField.getValue().equals(Integer.toString(code))) {
-                                codeField.setInvalid(false);
-                                PasswordField pass1 = new PasswordField("Nowe Hasło");
+                                SuccessNotification notification = new SuccessNotification("Zmieniono hasło!");
+                                notification.open();
 
-                                PasswordField pass2 = new PasswordField("Powtórz Nowe Hasło");
-
-                                Button confirm = new Button("Zmień hasło!", event3 -> {
-                                    if (!pass1.isEmpty()) {
-                                        pass1.setInvalid(false);
-                                        if (!pass2.isEmpty()) {
-                                            pass2.setInvalid(false);
-                                            if (pass1.getValue().equals(pass2.getValue())) {
-                                                pass1.setInvalid(false);
-                                                userService.changePassword(userService.getIdFromUsername(passField.getValue()), User.encodePassword(pass1.getValue()));
-
-                                                Notification notification = new Notification("Zmieniono hasło", 5000, Notification.Position.TOP_END);
-                                                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                                                notification.open();
-
-                                                close();
-                                                removeAll();
-                                                passField.clear();
-                                                add(mainLayout);
-                                            } else {
-                                                pass1.setErrorMessage("Hasła nie są identyczne");
-                                                pass1.setInvalid(true);
-                                            }
-                                        } else {
-                                            pass2.setErrorMessage("Pole nie może być puste");
-                                            pass2.setInvalid(true);
-                                        }
-                                    } else {
-                                        pass1.setErrorMessage("Pole nie może być puste");
-                                        pass1.setInvalid(true);
-                                    }
-                                });
-                                confirm.addClickShortcut(Key.ENTER);
-                                confirm.setWidth("100%");
-                                VerticalLayout layout = new VerticalLayout(pass1, pass2, confirm);
+                                close();
                                 removeAll();
-                                add(layout);
-                            } else {
-                                codeField.setErrorMessage("Podany kod jest nie prawidłowy");
-                                codeField.setInvalid(true);
+                                passButton.setText("Zmień");
+                                passField.clear();
+                                add(createMainLayout());
+
+                            } catch (ValidationException ex) {
+                                pass2.setErrorMessage(ex.getMessage());
+                                pass1.setInvalid(true);
+                                pass2.setInvalid(true);
                             }
-                        } else {
-                            codeField.setErrorMessage("Pole nie może być puste");
-                            codeField.setInvalid(true);
-                        }
-                    });
-                    button.addClickShortcut(Key.ENTER);
-                    button.setWidth("100%");
-                    removeAll();
-                    add(codeField, button);
-                } else {
-                    passField.setErrorMessage("Użytkownik nie istnieje");
-                    passField.setInvalid(true);
-                }
-            } else {
-                passField.setErrorMessage("Pole nie może być puste");
+                        });
+                        confirm.addClickShortcut(Key.ENTER);
+                        confirm.setWidth("100%");
+                        VerticalLayout layout = new VerticalLayout(pass1, pass2, confirm);
+                        removeAll();
+                        add(layout);
+                    } catch (ValidationException ex) {
+                        passField.setErrorMessage(ex.getMessage());
+                        passField.setInvalid(true);
+                    }
+                });
+            } catch (ValidationException ex) {
+                passField.setErrorMessage(ex.getMessage());
+                passField.setInvalid(true);
+            } catch (MessagingException mex) {
+                passField.setErrorMessage("Email error contact admin");
                 passField.setInvalid(true);
             }
         });
+    }
+
+    private VerticalLayout createMainLayout() {
+        Label passLabel = new Label("Odzyskaj Hasło");
+        passLabel.getStyle().set("font-weight", "bold");
+
+        passField.setPlaceholder("Nazwa Użytkownika");
+        passField.setWidth("70%");
+
+        passButton.setText("Wyślij");
+        passButton.addClickShortcut(Key.ENTER);
+        passButton.setWidth("30%");
+
+        HorizontalLayout passFieldLayout = new HorizontalLayout(passField, passButton);
+        passFieldLayout.setWidth("100%");
+
+        Label emailLabel = new Label("Kontakt:");
+        emailLabel.getStyle().set("font-weight", "bold");
+        Label email = new Label("eskedinfo@gmail.com");
+        email.getStyle().set("font-weight", "bold");
+
+        VerticalLayout mainLayout = new VerticalLayout(passLabel, passFieldLayout, emailLabel, email);
+        mainLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+
+        return mainLayout;
+    }
+
+    private void validateNameInput(String intput) {
+        if (intput.isEmpty()) throw new ValidationException("Pole nie może być puste");
+
+        Collection<String> users = userService.getUsernames();
+        if (!users.contains(intput)) throw new ValidationException("Użytkownik z taką nazwą nie istnieje");
+    }
+
+    private void validatePasswords(String input1, String input2) {
+        if (input1.isEmpty()) throw new ValidationException("Pola nie mogą być puste");
+
+        if (input2.isEmpty()) throw new ValidationException("Pola nie mogą być puste");
+
+        if (!input1.equals(input2)) throw new ValidationException("Hasła muszą być identyczne");
+
+    }
+
+    private void validateCode(String input, int code) {
+        if (input.isEmpty()) throw new ValidationException("Pole nie może być puste");
+
+        if (!input.equals(Integer.toString(code))) throw new ValidationException("Podany kod jest nie prawidłowy");
     }
 }

@@ -1,8 +1,7 @@
 package org.jk.eSked.components.settingsFields;
 
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.components.SuccessNotification;
 import org.jk.eSked.services.users.UserService;
 
 import javax.validation.ValidationException;
@@ -36,10 +35,8 @@ public class GroupCodeField extends SettingsTextField {
     @Override
     protected void commitInput(String input) {
         userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
-        Notification notification = new Notification("Kod został zmieniony na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        SuccessNotification notification = new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"");
         notification.open();
-
-        completeEdit();
+        completeEdit(Integer.toString(userService.getGroupCode(userId)));
     }
 }

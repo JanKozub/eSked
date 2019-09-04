@@ -8,14 +8,13 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
+import org.jk.eSked.components.SuccessNotification;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
@@ -88,10 +87,9 @@ public class AddNewEventDialog extends Dialog {
                     ScheduleEvent event = new ScheduleEvent(userID, id, time, scheduleEntry.getHour(),
                             eventType.getValue(), textField.getValue(), Instant.now().toEpochMilli());
                     eventService.addEvent(event);
-                    Notification notification = new Notification("Dodano wydarzenie", 3000, Notification.Position.TOP_END);
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                    textField.clear();
+                    SuccessNotification notification = new SuccessNotification("Dodano wydarzenie!");
                     notification.open();
+                    textField.clear();
                     close();
                 } else eventType.setInvalid(true);
             } else textField.setInvalid(true);

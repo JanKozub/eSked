@@ -14,9 +14,11 @@ abstract class SettingsTextField extends VerticalLayout {
     private Button commitButton;
     TextField textField;
 
+    private String baseName;
     private String editName;
 
     SettingsTextField(String baseName, String editName) {
+        this.baseName = baseName;
         this.editName = editName;
 
         Label label = new Label(baseName);
@@ -80,12 +82,37 @@ abstract class SettingsTextField extends VerticalLayout {
 
     protected abstract void commitInput(String input);
 
-    void completeEdit() {
-        textField.setWidth("70%");
-        textField.setReadOnly(true);
+    void completeEdit(String data) {
+        removeAll();
 
-        HorizontalLayout parent = (HorizontalLayout) commitButton.getParent().get();
-        parent.replace(commitButton, button);
+        Label label = new Label(baseName);
+        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        label.getStyle().set("font-weight", "500");
+        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
+        add(label);
+
+        textField = new TextField();
+        textField.setReadOnly(true);
+        textField.setValue(data);
+        textField.setWidth("70%");
+
+        button = new Button("Zmień");
+        button.setWidth("30%");
+        button.addClickListener(this::onStartEdit);
+
+        commitButton = new Button("Potwierdź");
+        commitButton.setWidth("40%");
+        commitButton.addClickListener(this::onCommit);
+
+        HorizontalLayout buttons = new HorizontalLayout();
+
+        buttons.add(textField);
+        buttons.setWidth("100%");
+        buttons.add(button);
+
+        setPadding(false);
+        setSpacing(false);
+        add(buttons);
     }
 
 }
