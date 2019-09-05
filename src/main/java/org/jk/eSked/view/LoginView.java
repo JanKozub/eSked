@@ -1,22 +1,19 @@
 package org.jk.eSked.view;
 
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.login.LoginI18n;
+import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.CheckTimeTheme;
-import org.jk.eSked.components.dialogs.InfoDialog;
-import org.jk.eSked.components.dialogs.NewUserDialog;
 import org.jk.eSked.components.dialogs.ProblemDialog;
 import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
@@ -36,98 +33,87 @@ import java.util.List;
 @PWA(name = "eSked - schedule app!", shortName = "eSked", iconPath = "img/icons/logo.png")
 class LoginView extends VerticalLayout {
 
-    private final TextField usernameField;
-    private final PasswordField passwordField;
     private final UserService userService;
-    private final GroupsService groupsService;
-    private final EventService eventService;
 
     public LoginView(UserService userService, GroupsService groupsService, EventService eventService, EmailService emailService) {
         this.userService = userService;
-        this.groupsService = groupsService;
-        this.eventService = eventService;
 
         if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
 
-        Icon icon = new Icon(VaadinIcon.USER);
-        usernameField = new TextField("Nazwa użytkownika lub email:");
-
-        passwordField = new PasswordField("Hasło:");
-        passwordField.setErrorMessage("Nazwa użytkownika lub hasło niepoprawne. Spróbuj ponownie");
-
-        Button loginButton = new Button("Zaloguj!", click -> login(usernameField.getValue(), passwordField.getValue()));
-        passwordField.setValueChangeTimeout(5);
-        passwordField.setValueChangeMode(ValueChangeMode.TIMEOUT);
-        passwordField.addValueChangeListener(event -> {
-
-            if (passwordField.getValue().length() >= 1)
-                loginButton.addClickShortcut(Key.ENTER);
-        });
-
-        NewUserDialog newUserDialog = new NewUserDialog(userService, emailService);
-        Icon newUser = new Icon(VaadinIcon.PLUS_CIRCLE);
-        newUser.setSize("25px");
-        newUser.getStyle().set("cursor", "pointer");
-        newUser.addClickListener(e -> newUserDialog.open());
-
-        Icon forgotPass = new Icon(VaadinIcon.WRENCH);
-        forgotPass.setSize("25px");
-        forgotPass.getStyle().set("cursor", "pointer");
-        ProblemDialog problemDialog = new ProblemDialog(userService, emailService);
-        forgotPass.addClickListener(e -> problemDialog.open());
-
-        Icon info = new Icon(VaadinIcon.INFO_CIRCLE);
-        info.setSize("25px");
-        info.getStyle().set("cursor", "pointer");
-        InfoDialog infoDialog = new InfoDialog();
-        info.addClickListener(e -> infoDialog.open());
-
-        VerticalLayout icons = new VerticalLayout(newUser, forgotPass, info);
-        icons.setAlignItems(Alignment.END);
-
-        VerticalLayout mainLayout = new VerticalLayout(icon, usernameField, passwordField, loginButton);
-        mainLayout.setAlignItems(Alignment.CENTER);
-        mainLayout.getStyle().set("margin-top", "-100px");
-
-        add(icons, mainLayout);
+        add(loginLayout(eventService, groupsService, emailService));
     }
 
-    private void login(String uTyped, String pTyped) {
-        pTyped = User.encodePassword(pTyped);
+    private LoginOverlay loginLayout(EventService eventService, GroupsService groupsService, EmailService emailService) {
+        LoginOverlay loginOverlay = new LoginOverlay();
+        H1 title = new H1();
+        title.getStyle().set("color", "var(--lumo-base-color)");
+        Icon icon = VaadinIcon.CALENDAR.create();
+        icon.setSize("30px");
+        icon.getStyle().set("top", "-4px");
+        title.add(icon);
+        title.add(new Text(" eSked"));
+        loginOverlay.setTitle(title);
 
-        Collection<User> users = userService.getUsers();
-        boolean userFound = false;
-        for (User user : users) {
-            if (user.getUsername().equals(uTyped) || user.getEmail().equals(uTyped)) {
-                if (user.getPassword().equals(pTyped)) {
-                    VaadinSession.getCurrent().setAttribute(User.class, user);
-                    if (user.getGroupCode() != 0) {
-                        groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
-                    }
-                    Collection<Event> events = eventService.getAllEvents(user.getId());
-                    List<Notification> notifications = new ArrayList<>();
-                    for (Event event : events) {
-                        if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
-                            notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
-                        }
-                    }
-                    VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
-                    userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+        loginOverlay.setTitle(title);
+        loginOverlay.addLoginListener(login -> {
+            User user = authenticate(login.getUsername(), login.getPassword());
 
-                    UI.getCurrent().navigate("schedule");
-                    if (user.isDarkTheme())
-                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
-                    else
-                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
-                    userFound = true;
+            if (user != null) {
+                loginOverlay.setOpened(false);
+                VaadinSession.getCurrent().setAttribute(User.class, user);
+                if (user.getGroupCode() != 0) {
+                    groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
                 }
+                Collection<Event> events = eventService.getAllEvents(user.getId());
+                List<Notification> notifications = new ArrayList<>();
+                for (Event event : events) {
+                    if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
+                        notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
+                    }
+                }
+                VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
+                userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+
+                UI.getCurrent().navigate("schedule");
+                if (user.isDarkTheme())
+                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
+                else
+                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
+            } else {
+                loginOverlay.setError(true);
             }
-        }
-        if (!userFound) {
-            usernameField.setInvalid(true);
-            passwordField.setInvalid(true);
-            passwordField.setValue("");
-        }
+        });
+        loginOverlay.addForgotPasswordListener(forgotPasswordEvent -> {
+            ProblemDialog problemDialog = new ProblemDialog(userService, emailService);
+            problemDialog.open();
+        });
+
+        loginOverlay.setI18n(createPolishI18n());
+        loginOverlay.setOpened(true);
+        return loginOverlay;
+    }
+
+    private User authenticate(String input, String password) {
+        Collection<User> users = userService.getUsers();
+        for (User user : users)
+            if (user.getUsername().equals(input) || user.getEmail().equals(input))
+                if (user.getPassword().equals(User.encodePassword(password))) return user;
+        return null;
+    }
+
+    private LoginI18n createPolishI18n() {
+        final LoginI18n i18n = LoginI18n.createDefault();
+
+        i18n.setHeader(new LoginI18n.Header());
+        i18n.getForm().setTitle("Zaloguj się");
+        i18n.getForm().setUsername("Nazwa użytkownika lub hasło");
+        i18n.getForm().setPassword("Hasło");
+        i18n.getForm().setSubmit("Zaloguj się");
+        i18n.getForm().setForgotPassword("Stwórz konto lub odzyskaj hasło");
+        i18n.getErrorMessage().setTitle("Nieprawidłowe dane");
+        i18n.getErrorMessage().setMessage("Sprawdź czy wprowadzone dane są prawidłowe i spróbuj ponownie.");
+        i18n.setAdditionalInformation("Kontakt z admininstratorem pod adresem eskedinfo@gmail.com");
+        return i18n;
     }
 
     @Override
@@ -136,5 +122,4 @@ class LoginView extends VerticalLayout {
         CheckTimeTheme checkTimeTheme = new CheckTimeTheme();
         checkTimeTheme.check();
     }
-
 }

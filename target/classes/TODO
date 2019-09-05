@@ -2,11 +2,8 @@
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -zmiana jezyków
 -Przy dodawaniu grupy poinformuj ze admin musi ja potwierdzić przed dodaniem
--NewUserDialog -> sprawdzaj czy email jest juz w bazie danych
 -lepsze kody generowane bo te sa strasznie slabe i mozna je zlamac w 30 sekund mega slabo
--ProblemDialog:63 wyswietlanie bledu wysylania
--NewUserDialog:67 wyswietlanie bledu wysylania
 -dodaj jakies info gdy ktos zmieni haslo - wysylaj email z info ze mozesz zmienic jezeli to nie ty
 -przejdz na nowa wersje menu layout
--ValidationExeption w NewUserView
 -dodaj jakies miejsce na notatki
+-textField.setValueChangeMode(ValueChangeMode.EAGER); w zmianie godzin w planie

@@ -22,12 +22,14 @@ import java.util.Random;
 
 public class ProblemDialog extends Dialog {
     private final UserService userService;
+    private final EmailService emailService;
     private final TextField passField;
     private Button passButton;
     private Registration registration;
 
     public ProblemDialog(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
         this.passField = new TextField();
         this.passButton = new Button("Wyślij");
 
@@ -99,6 +101,15 @@ public class ProblemDialog extends Dialog {
     }
 
     private VerticalLayout createMainLayout() {
+        Label newUserLabel = new Label("Stwórz konto");
+        newUserLabel.getStyle().set("font-weight", "bold");
+
+        Button newUser = new Button("Utwórz", click -> {
+            close();
+            new NewUserDialog(userService, emailService).open();
+        });
+        newUser.setWidth("100%");
+
         Label passLabel = new Label("Odzyskaj Hasło");
         passLabel.getStyle().set("font-weight", "bold");
 
@@ -112,12 +123,7 @@ public class ProblemDialog extends Dialog {
         HorizontalLayout passFieldLayout = new HorizontalLayout(passField, passButton);
         passFieldLayout.setWidth("100%");
 
-        Label emailLabel = new Label("Kontakt:");
-        emailLabel.getStyle().set("font-weight", "bold");
-        Label email = new Label("eskedinfo@gmail.com");
-        email.getStyle().set("font-weight", "bold");
-
-        VerticalLayout mainLayout = new VerticalLayout(passLabel, passFieldLayout, emailLabel, email);
+        VerticalLayout mainLayout = new VerticalLayout(newUserLabel, newUser, passLabel, passFieldLayout);
         mainLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
 
         return mainLayout;

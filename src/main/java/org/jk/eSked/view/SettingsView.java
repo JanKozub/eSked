@@ -115,11 +115,11 @@ public class SettingsView extends VerticalLayout {
 //DELETE ACCOUNT
             Button deleteButton = new Button("Usuń konto");
             deleteButton.getStyle().set("color", "red");
-            deleteButton.setWidth("100%");
             deleteButton.addClickListener(buttonClickEvent -> {
                 Dialog dialog = new Dialog();
                 Button button = new Button("Potwierdź");
                 button.getStyle().set("color", "red");
+                button.setWidth("100%");
                 button.addClickListener(buttonClickEvent1 -> {
                     userService.deleteUser(userId);
                     UI.getCurrent().navigate("login");
