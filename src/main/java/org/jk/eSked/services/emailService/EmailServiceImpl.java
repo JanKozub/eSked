@@ -19,7 +19,7 @@ public class EmailServiceImpl implements EmailService {
     private static Transport transport;
 
     public EmailServiceImpl() throws MessagingException, IOException {
-        FileReader reader = new FileReader("C:\\Users\\Jan\\Desktop\\Java\\esked\\src\\main\\resources\\email.properties");
+        FileReader reader = new FileReader("src/main/resources/email.properties");
 
         Properties p = new Properties();
         p.load(reader);

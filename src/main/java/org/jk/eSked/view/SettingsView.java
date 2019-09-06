@@ -2,25 +2,24 @@ package org.jk.eSked.view;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.Line;
+import org.jk.eSked.components.ScheduleHoursSetter;
 import org.jk.eSked.components.settingsFields.EmailField;
 import org.jk.eSked.components.settingsFields.GroupCodeField;
 import org.jk.eSked.components.settingsFields.MyPasswordField;
 import org.jk.eSked.components.settingsFields.NameField;
-import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.emailService.EmailService;
@@ -30,8 +29,9 @@ import org.jk.eSked.services.users.UserService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collection;
+import java.util.Random;
+import java.util.UUID;
 
 @Route(value = "settings", layout = MenuView.class)
 @PageTitle("Ustawienia")
@@ -91,10 +91,8 @@ public class SettingsView extends VerticalLayout {
             else scheduleHours.setValue("Nie");
             scheduleHours.addValueChangeListener(valueChange -> userService.setScheduleHours(userId, valueChange.getValue().equals("Tak")));
 
-            Button setHours = new Button("Ustaw godziny");
-            setHours.getStyle().set("margin-top", "auto");
-            setHours.getStyle().set("margin-bottom", "auto");
-            setHours.addClickListener(buttonClickEvent -> openDialog(userId, hoursService));
+            Details setHours = new Details("Ustaw godziny", new ScheduleHoursSetter(userId, hoursService));
+            setHours.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
 
             RadioButtonGroup<String> theme = new RadioButtonGroup<>();
             theme.setLabel("Styl strony");
@@ -134,112 +132,6 @@ public class SettingsView extends VerticalLayout {
             verticalLayout.setWidth("50%");
             add(verticalLayout);
         }
-    }
-
-    private void openDialog(UUID userId, HoursService hoursService) {
-        Dialog dialog = new Dialog();
-        AtomicInteger currentHour = new AtomicInteger(1);
-        Label name = new Label("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
-        name.getStyle().set("margin-left", "auto");
-        name.getStyle().set("margin-right", "auto");
-        HorizontalLayout nameLabel = new HorizontalLayout(name);
-        nameLabel.setWidth("100%");
-
-        TextField fromHour = new TextField("Od");
-        fromHour.setValueChangeMode(ValueChangeMode.TIMEOUT);
-        fromHour.setValueChangeTimeout(50);
-
-        AtomicInteger lastReadFromHour = new AtomicInteger();
-        fromHour.addValueChangeListener(event -> isInputValueValid(fromHour, lastReadFromHour));
-
-        TextField toHour = new TextField("Do");
-        toHour.setValueChangeMode(ValueChangeMode.TIMEOUT);
-        toHour.setValueChangeTimeout(50);
-
-        AtomicInteger lastReadToHour = new AtomicInteger();
-        toHour.addValueChangeListener(event -> isInputValueValid(toHour, lastReadToHour));
-
-        VerticalLayout timeLayout = new VerticalLayout(fromHour, toHour);
-
-        Icon icon = new Icon(VaadinIcon.ARROW_DOWN);
-        icon.getStyle().set("height", "100%");
-
-        HorizontalLayout middleLayout = new HorizontalLayout(timeLayout, icon);
-        middleLayout.setVerticalComponentAlignment(Alignment.CENTER, icon);
-        Button confirm = new Button("Następny");
-        confirm.setWidth("100%");
-        List<ScheduleHour> hoursList = new ArrayList<>();
-
-        confirm.addClickListener(event -> {
-            if (currentHour.get() == hoursService.getScheduleMaxHour(userId) - 1) confirm.setText("Potwierdź");
-
-            if (!fromHour.isEmpty()) {
-                fromHour.setInvalid(false);
-                if (!toHour.isEmpty()) {
-                    toHour.setInvalid(false);
-                    if (fromHour.getValue().matches("(?:[0-1][0-9]|2[0-4]):[0-5]\\d")) {
-                        fromHour.setInvalid(false);
-                        if (toHour.getValue().matches("(?:[0-1][0-9]|2[0-4]):[0-5]\\d")) {
-                            toHour.setInvalid(false);
-                            hoursList.add(new ScheduleHour(userId, currentHour.get(), fromHour.getValue() + "-" + toHour.getValue()));
-                            currentHour.set(currentHour.get() + 1);
-                            name.setText("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
-                            if (currentHour.get() == hoursService.getScheduleMaxHour(userId) + 1) {
-                                hoursService.deleteScheduleHours(userId);
-                                hoursService.setScheduleHours(hoursList);
-                                dialog.close();
-                            }
-                            fromHour.clear();
-                            toHour.clear();
-                        } else {
-                            toHour.setErrorMessage("Podana wartość nie jest godziną");
-                            toHour.setInvalid(true);
-                        }
-                    } else {
-                        fromHour.setErrorMessage("Podana wartość nie jest godziną");
-                        fromHour.setInvalid(true);
-                    }
-                } else {
-                    toHour.setErrorMessage("Pole nie może być puste");
-                    toHour.setInvalid(true);
-                }
-            } else {
-                fromHour.setErrorMessage("Pole nie może być puste");
-                fromHour.setInvalid(true);
-            }
-        });
-
-        dialog.add(nameLabel, middleLayout, confirm);
-
-        dialog.setWidth("100%");
-        dialog.setHeight("50%");
-        dialog.open();
-    }
-
-    private void isInputValueValid(TextField textField, AtomicInteger integer) {
-        int length = textField.getValue().length();
-        if (!textField.isEmpty()) {
-            if (Character.isLetter(textField.getValue().charAt(length - 1))) textField.setInvalid(true);
-        } else {
-            textField.setErrorMessage("Pole nie może być puste");
-            textField.setInvalid(true);
-        }
-        if (length == 2 && integer.get() == 1) textField.setValue(textField.getValue() + ":");
-        if (length == 3 && integer.get() == 4) textField.setValue(textField.getValue().substring(0, length - 1));
-        if (length > 5) {
-            textField.setErrorMessage("Ilość znaków jest zbyt duża");
-            textField.setInvalid(true);
-        } else textField.setInvalid(false);
-        if (length < 5) {
-            textField.setErrorMessage("Godzina musi zawierć 4 znaki");
-            textField.setInvalid(true);
-        } else {
-            if (length > 5) {
-                textField.setErrorMessage("Ilość znaków jest zbyt duża");
-                textField.setInvalid(true);
-            } else textField.setInvalid(false);
-        }
-        integer.set(length);
     }
 
     private void openGroupDialog(UUID userId, GroupsService groupsService) {

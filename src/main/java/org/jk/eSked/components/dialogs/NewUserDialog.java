@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
 
-public class NewUserDialog extends Dialog {
+class NewUserDialog extends Dialog {
     private final UserService userService;
 
-    public NewUserDialog(UserService userService, EmailService emailService) {
+    NewUserDialog(UserService userService, EmailService emailService) {
         this.userService = userService;
 
         VerticalLayout layout = new VerticalLayout();
@@ -92,7 +92,7 @@ public class NewUserDialog extends Dialog {
                         passwordField.setInvalid(true);
                         passwordFieldCheck.setInvalid(true);
                     } catch (MessagingException mex) {
-                        passwordFieldCheck.setErrorMessage("Email error contact admin");
+                        passwordFieldCheck.setErrorMessage("Email error contact admin " + mex.getMessage());
                         passwordFieldCheck.setInvalid(true);
                     }
                 } catch (ValidationException ex) {
