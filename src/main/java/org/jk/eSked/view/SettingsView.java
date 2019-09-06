@@ -59,7 +59,6 @@ public class SettingsView extends VerticalLayout {
             languageGroup.getStyle().set("margin-top", "auto");
 
             accountForm.add(languageGroup);
-
 //GROUPS
             Label groupsLabel = new Label("Grupy");
 
