@@ -57,7 +57,6 @@ class LoginView extends VerticalLayout {
         loginOverlay.setTitle(title);
         loginOverlay.addLoginListener(login -> {
             User user = authenticate(login.getUsername(), login.getPassword());
-
             if (user != null) {
                 loginOverlay.setOpened(false);
                 VaadinSession.getCurrent().setAttribute(User.class, user);
@@ -106,13 +105,13 @@ class LoginView extends VerticalLayout {
 
         i18n.setHeader(new LoginI18n.Header());
         i18n.getForm().setTitle("Zaloguj się");
-        i18n.getForm().setUsername("Nazwa użytkownika lub hasło");
+        i18n.getForm().setUsername("Nazwa użytkownika lub email");
         i18n.getForm().setPassword("Hasło");
         i18n.getForm().setSubmit("Zaloguj się");
         i18n.getForm().setForgotPassword("Stwórz konto lub odzyskaj hasło");
         i18n.getErrorMessage().setTitle("Nieprawidłowe dane");
         i18n.getErrorMessage().setMessage("Sprawdź czy wprowadzone dane są prawidłowe i spróbuj ponownie.");
-        i18n.setAdditionalInformation("Kontakt z admininstratorem pod adresem eskedinfo@gmail.com");
+        i18n.setAdditionalInformation("Kontakt z admininstratorem pod adresem: eskedinfo@gmail.com");
         return i18n;
     }
 

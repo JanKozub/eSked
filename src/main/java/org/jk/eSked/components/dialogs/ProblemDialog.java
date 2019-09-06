@@ -41,16 +41,16 @@ public class ProblemDialog extends Dialog {
                 passField.setInvalid(false);
                 Random random = new Random();
                 int code = random.nextInt(89999) + 10000;
-                String emailBody = "Witaj " + passField.getValue() + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
+                String username = passField.getValue();
+                String emailBody = "Witaj " + username + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
                         "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
                 emailService.sendEmail(userService.getEmailFromUsername(passField.getValue()), "Potwierdzenie zmiany hasła w eSked!", emailBody);
 
-                passField.setWidth("60%");
                 passField.setPlaceholder("Kod z wiad. email");
                 passField.clear();
 
-                passButton.setText("Potwierdź");
-                passButton.setWidth("40%");
+
+                //passButton.setText("Potwierdź"); //TODO FIX
                 registration = passButton.addClickListener(newEvent -> {
                     try {
                         validateCode(passField.getValue(), code);
@@ -63,7 +63,7 @@ public class ProblemDialog extends Dialog {
                                 validatePasswords(pass1.getValue(), pass2.getValue());
                                 pass1.setInvalid(false);
                                 pass2.setInvalid(false);
-                                userService.changePassword(userService.getIdFromUsername(passField.getValue()), User.encodePassword(pass1.getValue()));
+                                userService.changePassword(userService.getIdFromUsername(username), User.encodePassword(pass2.getValue()));
 
                                 SuccessNotification notification = new SuccessNotification("Zmieniono hasło!");
                                 notification.open();
@@ -114,11 +114,11 @@ public class ProblemDialog extends Dialog {
         passLabel.getStyle().set("font-weight", "bold");
 
         passField.setPlaceholder("Nazwa Użytkownika");
-        passField.setWidth("70%");
+        passField.setWidth("60%");
 
         passButton.setText("Wyślij");
         passButton.addClickShortcut(Key.ENTER);
-        passButton.setWidth("30%");
+        passButton.setWidth("40%");
 
         HorizontalLayout passFieldLayout = new HorizontalLayout(passField, passButton);
         passFieldLayout.setWidth("100%");

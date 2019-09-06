@@ -96,7 +96,7 @@ public class ScheduleGrid extends VerticalLayout {
                 if (scheduleHour != null)
                     text = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1).getData();
                 return new Label(text);
-            })).setHeader("G|D").setTextAlign(ColumnTextAlign.CENTER).setFlexGrow(1);
+            })).setHeader("G|D").setTextAlign(ColumnTextAlign.CENTER).setFlexGrow(0);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setTextAlign(ColumnTextAlign.CENTER);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setTextAlign(ColumnTextAlign.CENTER);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setTextAlign(ColumnTextAlign.CENTER);
@@ -105,6 +105,7 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
         scheduleGrid.setHeightByRows(true);
         scheduleGrid.setVerticalScrollingEnabled(true);
+        scheduleGrid.recalculateColumnWidths();
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 

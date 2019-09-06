@@ -7,3 +7,4 @@
 -przejdz na nowa wersje menu layout
 -dodaj jakies miejsce na notatki
 -textField.setValueChangeMode(ValueChangeMode.EAGER); w zmianie godzin w planie
+-admin nie musi potwierdzac zmian mailem

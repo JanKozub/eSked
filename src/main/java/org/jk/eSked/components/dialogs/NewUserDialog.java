@@ -62,7 +62,7 @@ public class NewUserDialog extends Dialog {
                         String emailBody = "Witaj " + usernameField.getValue() + "," +
                                 "<br><br>Dziękujemy za zarejstrowanie się na naszej stronie, oto twój kod weryfikacji: " +
                                 "<br><br>" + genCode + "<br><br> Z poważaniem, <br>Zespół eSked";
-                        emailService.sendEmail(emailField.getValue(), usernameField.getValue(), emailBody);
+                        emailService.sendEmail("Potwierdzenie rejstracji w eSked!", usernameField.getValue(), emailBody);
 
                         removeAll();
 

@@ -70,6 +70,8 @@ public class MyPasswordField extends VerticalLayout {
 
     private void onCommit(ClickEvent event) {
         try {
+            String pass = passwordField.getValue();
+            validatePassword(pass);
             Random random = new Random();
             int code = random.nextInt(89999) + 10000;
 
@@ -101,7 +103,8 @@ public class MyPasswordField extends VerticalLayout {
 
             button.addClickListener(click -> {
                 if (codeField.getValue().equals(Integer.toString(code))) {
-                    userService.changePassword(userId, User.encodePassword(codeField.getValue()));
+                    System.out.println(codeField.getValue());
+                    userService.changePassword(userId, User.encodePassword(pass));
 
                     Notification notification = new Notification("Twoje hasło zostało zmienione!", 5000, Notification.Position.TOP_END);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -151,5 +154,9 @@ public class MyPasswordField extends VerticalLayout {
         setPadding(false);
         setSpacing(false);
         add(buttons);
+    }
+
+    private void validatePassword(String password) {
+        if (password.isEmpty()) throw new ValidationException("Pole nie może być puste");
     }
 }

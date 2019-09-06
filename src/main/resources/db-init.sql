@@ -1,3 +1,9 @@
+--DROP TABLE IF EXISTS EVENTS;
+--DROP TABLE IF EXISTS SCHEDULEENTRY;
+--DROP TABLE IF EXISTS USERS;
+--DROP TABLE IF EXISTS GROUPS;
+--DROP TABLE IF EXISTS HOURS;
+--
 --create TABLE Events (
 --    userId UUID NOT NULL,
 --    id UUID NOT NULL,
@@ -45,26 +51,3 @@
 --    hour INT NOT NULL,
 --    data VARCHAR NOT NULL
 --);
---
---DROP TABLE IF EXISTS EVENTS;
---DROP TABLE IF EXISTS SCHEDULEENTRY;
---DROP TABLE IF EXISTS USERS;
---DROP TABLE IF EXISTS GROUPS;
---DROP TABLE IF EXISTS HOURS
---
---   UUID DEFAULT_USER_ID = UUID.fromString("d995360d-1c4f-48fe-8760-0fe064770f5b");
---    insert into ScheduleEntry(userId, hour, day, subject) values('d995360d-1c4f-48fe-8760-0fe064770f5b', 0, 0, 'WF')
---
---
---alter table UsersPageView add column userId UUID;
---alter table events add column userId UUID;
---alter table scheduleentry add column userId UUID;
---
---update UsersPageView set id = random_uuid() where id is null;
---
---update events set userId = 'd995360d-1c4f-48fe-8760-0fe064770f5b'
---update scheduleentry set userId = 'd995360d-1c4f-48fe-8760-0fe064770f5b'
---
---alter table events alter column userId set not null;
---alter table scheduleentry alter column userId set not null;
---alter table UsersPageView alter column id set not null;
