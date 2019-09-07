@@ -18,10 +18,10 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.CheckTimeTheme;
 import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
+import org.jk.eSked.services.ThemeService;
 import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.admin.AdminView;
 import org.jk.eSked.view.events.EventsView;
@@ -38,17 +38,16 @@ public class MenuView extends AppLayoutRouterLayout {
 
     private static final Logger LOGGER = Logger.getLogger(MenuView.class.getName());
     private final UserService userService;
-    private Collection<Notification> notificationsList;
 
     public MenuView(LoginService loginService, UserService userService) {
         this.userService = userService;
         DefaultNotificationHolder notifications = new DefaultNotificationHolder(newStatus -> {
 
         });
-        try {
-            DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
-            notificationsList = VaadinSession.getCurrent().getAttribute(Collection.class);
 
+        DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
+        try {
+            Collection<Notification> notificationsList = VaadinSession.getCurrent().getAttribute(Collection.class);
             if (!notificationsList.isEmpty()) {
                 for (Notification notification : notificationsList) {
                     DefaultNotification defaultNotification = new DefaultNotification("Nowe Wydarzenie", notification.getEventTopic());
@@ -57,8 +56,9 @@ public class MenuView extends AppLayoutRouterLayout {
                 }
             }
         } catch (NullPointerException ex) {
-
+            LOGGER.log(Level.INFO, "unable to load notifications for user " + UI.getCurrent().getSession().getBrowser().getAddress());
         }
+
         if (loginService.checkIfUserIsLoggedAsAdmin()) {
             init(AppLayoutBuilder
                     .get(Behaviour.LEFT_RESPONSIVE_HYBRID)
@@ -99,6 +99,7 @@ public class MenuView extends AppLayoutRouterLayout {
                             .build())
                     .build());
         }
+
     }
 
     @Override
@@ -115,8 +116,8 @@ public class MenuView extends AppLayoutRouterLayout {
 
     private void logout() {
         VaadinSession.getCurrent().close();
-        CheckTimeTheme checkTimeTheme = new CheckTimeTheme();
-        checkTimeTheme.check();
+        ThemeService themeService = new ThemeService();
+        themeService.check();
         UI.getCurrent().navigate("login");
     }
 }

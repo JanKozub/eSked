@@ -124,9 +124,4 @@ public class DBUserService implements UserService {
     public UUID getIdFromUsername(String username) {
         return usersDao.getIdFromUsername(username);
     }
-
-    @Override
-    public void changeGenCode(UUID userId, int newCode) {
-        usersDao.setGenCode(userId, newCode);
-    }
 }

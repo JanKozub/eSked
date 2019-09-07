@@ -1,4 +1,4 @@
-package org.jk.eSked.components.dialogs;
+package org.jk.eSked.components.login;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;

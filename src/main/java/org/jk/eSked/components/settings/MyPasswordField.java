@@ -1,4 +1,4 @@
-package org.jk.eSked.components.settingsFields;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
@@ -21,9 +21,9 @@ public class MyPasswordField extends VerticalLayout {
     private Button button;
     private PasswordField passwordField;
     private Button commitButton;
-    private UserService userService;
-    private UUID userId;
-    private EmailService emailService;
+    private final UserService userService;
+    private final UUID userId;
+    private final EmailService emailService;
 
     public MyPasswordField(UUID userId, UserService userService, EmailService emailService) {
         this.userId = userId;
@@ -116,11 +116,9 @@ public class MyPasswordField extends VerticalLayout {
                     codeField.setInvalid(true);
                 }
             });
-        } catch (ValidationException ex) {
+        } catch (ValidationException | MessagingException ex) {
             passwordField.setErrorMessage(ex.getMessage());
             passwordField.setInvalid(true);
-        } catch (MessagingException mex) {
-
         }
     }
 

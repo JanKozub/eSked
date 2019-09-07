@@ -9,8 +9,6 @@ public interface HoursService {
 
     void setScheduleHours(Collection<ScheduleHour> hours);
 
-    Collection<ScheduleHour> getScheduleHours(UUID userId);
-
     ScheduleHour getScheduleHour(UUID userId, int hour);
 
     void deleteScheduleHours(UUID userId);

@@ -1,4 +1,4 @@
-package org.jk.eSked.components.schedule;
+package org.jk.eSked.components.grids;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

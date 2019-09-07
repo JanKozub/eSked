@@ -3,7 +3,7 @@ package org.jk.eSked.view.schedule;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.components.schedule.ScheduleGridNewEntries;
+import org.jk.eSked.components.grids.ScheduleGridNewEntries;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;

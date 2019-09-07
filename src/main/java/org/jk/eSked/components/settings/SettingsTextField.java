@@ -1,4 +1,4 @@
-package org.jk.eSked.components.settingsFields;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
+import javax.mail.MessagingException;
 import javax.validation.ValidationException;
 
 abstract class SettingsTextField extends VerticalLayout {
@@ -14,8 +15,8 @@ abstract class SettingsTextField extends VerticalLayout {
     private Button commitButton;
     TextField textField;
 
-    private String baseName;
-    private String editName;
+    private final String baseName;
+    private final String editName;
 
     SettingsTextField(String baseName, String editName) {
         this.baseName = baseName;
@@ -50,16 +51,10 @@ abstract class SettingsTextField extends VerticalLayout {
         add(buttons);
     }
 
-
-    protected void setValue(String value) {
-        textField.setValue(value);
-    }
-
-
     private void onStartEdit(ClickEvent event) {
-        HorizontalLayout parent = (HorizontalLayout) button.getParent().get();
+        HorizontalLayout parent = (HorizontalLayout) button.getParent().orElse(null);
+        assert parent != null;
         parent.replace(button, commitButton);
-
         textField.setWidth("60%");
         textField.clear();
         textField.setReadOnly(false);
@@ -71,16 +66,15 @@ abstract class SettingsTextField extends VerticalLayout {
             validateInput(textField.getValue());
             textField.setInvalid(false);
             commitInput(textField.getValue());
-        } catch (ValidationException ex) {
+        } catch (ValidationException | MessagingException ex) {
             textField.setErrorMessage(ex.getMessage());
             textField.setInvalid(true);
-
         }
     }
 
     protected abstract void validateInput(String input);
 
-    protected abstract void commitInput(String input);
+    protected abstract void commitInput(String input) throws MessagingException;
 
     void completeEdit(String data) {
         removeAll();

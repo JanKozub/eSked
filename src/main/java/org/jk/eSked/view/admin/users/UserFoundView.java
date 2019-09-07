@@ -6,23 +6,22 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import org.jk.eSked.components.EventGrid;
-import org.jk.eSked.components.schedule.ScheduleGrid;
-import org.jk.eSked.components.settingsFields.EmailField;
-import org.jk.eSked.components.settingsFields.MyPasswordField;
-import org.jk.eSked.components.settingsFields.NameField;
+import org.jk.eSked.components.grids.EventGrid;
+import org.jk.eSked.components.grids.ScheduleGrid;
+import org.jk.eSked.components.settings.EmailField;
+import org.jk.eSked.components.settings.MyPasswordField;
+import org.jk.eSked.components.settings.NameField;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.events.EventService;
-import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 
 class UserFoundView extends VerticalLayout {
 
-    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService, User user) {
+    UserFoundView(LoginService loginService, ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, EmailService emailService, User user) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -45,7 +44,7 @@ class UserFoundView extends VerticalLayout {
                 InfoBox accountCreatedAtLayout = new InfoBox("Konto utwożone dnia: ", user.getCreatedDate().toString());
 
                 Label scheduleLabel = new Label("Plan");
-                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, groupsService, hoursService, user.getId());
+                VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService, user.getId());
                 Label eventsLabel = new Label("Wydarzenia");
                 VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, user.getId());
 

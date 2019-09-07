@@ -24,7 +24,7 @@ public class EmailServiceImpl implements EmailService {
     private static Properties properties;
     private static Properties mailServerProperties;
 
-    public EmailServiceImpl() throws IOException {
+    private EmailServiceImpl() throws IOException {
         URL resource = EmailServiceImpl.class.getClassLoader().getResource("email.properties");
         log.info("Loading resource from {}", resource);
 

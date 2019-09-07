@@ -14,7 +14,7 @@ import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
@@ -143,7 +143,7 @@ public class NewEventView extends HorizontalLayout {
                                 datePicker.clear();
                                 eventType.clear();
                                 hourBox.clear();
-                                SuccessNotification notification = new SuccessNotification("Dodano wydarzenie" + "textField.getValue()");
+                                SuccessNotification notification = new SuccessNotification("Dodano wydarzenie" + textField.getValue());
                                 notification.open();
                                 textField.clear();
                             } else textField.setInvalid(true);

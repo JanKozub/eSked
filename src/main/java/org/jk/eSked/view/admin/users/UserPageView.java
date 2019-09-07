@@ -5,12 +5,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.components.AdminReturnButton;
+import org.jk.eSked.components.myImpl.AdminReturnButton;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.events.EventService;
-import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
@@ -21,7 +20,7 @@ import org.jk.eSked.view.MenuView;
 @PageTitle("Sprawdź Użytkownika")
 class UserPageView extends VerticalLayout {
 
-    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, GroupsService groupsService, HoursService hoursService, EmailService emailService) {
+    UserPageView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService) {
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -39,7 +38,7 @@ class UserPageView extends VerticalLayout {
                         if (user != null) {
                             textField.setInvalid(false);
                             removeAll();
-                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, groupsService, hoursService, emailService, user);
+                            UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, hoursService, emailService, user);
                             add(userFoundView);
                         } else {
                             textField.setErrorMessage("Użytkownik nie istnieje");

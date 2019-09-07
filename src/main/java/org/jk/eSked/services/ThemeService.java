@@ -1,11 +1,11 @@
-package org.jk.eSked.components;
+package org.jk.eSked.services;
 
 import com.vaadin.flow.component.UI;
 
 import java.time.LocalDateTime;
 
-public class CheckTimeTheme {
-    public CheckTimeTheme() {
+public class ThemeService {
+    public ThemeService() {
     }
 
     public void check() {

@@ -3,8 +3,8 @@ package org.jk.eSked.model;
 import java.time.LocalDateTime;
 
 public class Notification {
-    private String eventTopic;
-    private LocalDateTime time;
+    private final String eventTopic;
+    private final LocalDateTime time;
 
     public Notification(String eventTopic, LocalDateTime time) {
         this.eventTopic = eventTopic;
@@ -15,15 +15,7 @@ public class Notification {
         return eventTopic;
     }
 
-    public void setEventTopic(String eventTopic) {
-        this.eventTopic = eventTopic;
-    }
-
     public LocalDateTime getTime() {
         return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
     }
 }

@@ -1,4 +1,4 @@
-package org.jk.eSked.components;
+package org.jk.eSked.components.grids;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;

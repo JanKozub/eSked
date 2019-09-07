@@ -1,24 +1,24 @@
-package org.jk.eSked.components.settingsFields;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.UI;
 import org.apache.commons.lang3.StringUtils;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.services.users.UserService;
 
 import javax.validation.ValidationException;
 import java.util.UUID;
 
 public class GroupCodeField extends SettingsTextField {
-    private UUID userId;
-    private UserService userService;
+    private final UUID userId;
+    private final UserService userService;
 
     public GroupCodeField(UUID userId, UserService userService) {
         super("Kod grupy", "Nowy kod");
         this.userId = userId;
         this.userService = userService;
         int code = userService.getGroupCode(userId);
-        if (code == 0) setValue("Brak");
-        else setValue(Integer.toString(code));
+        if (code == 0) textField.setValue("Brak");
+        else textField.setValue(Integer.toString(code));
     }
 
     @Override

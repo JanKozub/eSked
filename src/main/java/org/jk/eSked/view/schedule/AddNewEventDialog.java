@@ -14,15 +14,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.model.event.ScheduleEvent;
 import org.jk.eSked.services.events.EventService;
-import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
-import org.jk.eSked.services.users.UserService;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,7 +41,7 @@ public class AddNewEventDialog extends Dialog {
     private Runnable action;
 
 
-    public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, GroupsService groupsService, UserService userService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userID) {
+    public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userID) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
         this.eventDate = startOfWeek.plusDays(scheduleEntry.getDay());

@@ -12,14 +12,9 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.GroupCreator;
-import org.jk.eSked.components.Line;
-import org.jk.eSked.components.ScheduleHoursSetter;
-import org.jk.eSked.components.SuccessNotification;
-import org.jk.eSked.components.settingsFields.EmailField;
-import org.jk.eSked.components.settingsFields.GroupCodeField;
-import org.jk.eSked.components.settingsFields.MyPasswordField;
-import org.jk.eSked.components.settingsFields.NameField;
+import org.jk.eSked.components.myImpl.Line;
+import org.jk.eSked.components.myImpl.SuccessNotification;
+import org.jk.eSked.components.settings.*;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.emailService.EmailService;
@@ -31,7 +26,7 @@ import java.util.UUID;
 
 @Route(value = "settings", layout = MenuView.class)
 @PageTitle("Ustawienia")
-public class SettingsView extends VerticalLayout {
+class SettingsView extends VerticalLayout {
 
     public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService) {
 

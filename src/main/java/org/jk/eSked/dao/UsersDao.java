@@ -116,7 +116,4 @@ public interface UsersDao {
             @Arg(column = "id", javaType = UUID.class)
     })
     UUID getIdFromUsername(String username);
-
-    @Update("UPDATE USERS SET genCode = #{newCode} WHERE id = #{userId}")
-    void setGenCode(UUID userId, int newCode);
 }

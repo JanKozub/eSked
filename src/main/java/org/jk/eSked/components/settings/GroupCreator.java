@@ -1,10 +1,11 @@
-package org.jk.eSked.components;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
 

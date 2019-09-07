@@ -13,11 +13,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.CheckTimeTheme;
-import org.jk.eSked.components.dialogs.ProblemDialog;
+import org.jk.eSked.components.login.loginExceptionDialog;
 import org.jk.eSked.model.Notification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.event.Event;
+import org.jk.eSked.services.ThemeService;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.groups.GroupsService;
@@ -82,10 +82,7 @@ class LoginView extends VerticalLayout {
                 loginOverlay.setError(true);
             }
         });
-        loginOverlay.addForgotPasswordListener(forgotPasswordEvent -> {
-            ProblemDialog problemDialog = new ProblemDialog(userService, emailService);
-            problemDialog.open();
-        });
+        loginOverlay.addForgotPasswordListener(forgotPasswordEvent -> new loginExceptionDialog(userService, emailService).open());
 
         loginOverlay.setI18n(createPolishI18n());
         loginOverlay.setOpened(true);
@@ -118,7 +115,7 @@ class LoginView extends VerticalLayout {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        CheckTimeTheme checkTimeTheme = new CheckTimeTheme();
-        checkTimeTheme.check();
+        ThemeService themeService = new ThemeService();
+        themeService.check();
     }
 }

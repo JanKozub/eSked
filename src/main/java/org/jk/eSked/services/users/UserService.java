@@ -48,6 +48,4 @@ public interface UserService {
     String getEmailFromUsername(String username);
 
     UUID getIdFromUsername(String username);
-
-    void changeGenCode(UUID userId, int newCode);
 }

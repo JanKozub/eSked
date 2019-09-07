@@ -1,4 +1,4 @@
-package org.jk.eSked.components.settingsFields;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -7,7 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;
@@ -20,16 +20,16 @@ import java.util.UUID;
 
 public class EmailField extends SettingsTextField {
 
-    private UUID userId;
-    private UserService userService;
-    private EmailService emailService;
+    private final UUID userId;
+    private final UserService userService;
+    private final EmailService emailService;
 
     public EmailField(UUID userId, UserService userService, EmailService emailService) {
         super("Email", "Nowy Email");
         this.userId = userId;
         this.userService = userService;
         this.emailService = emailService;
-        setValue(userService.getEmail(userId));
+        textField.setValue(userService.getEmail(userId));
     }
 
     @Override
@@ -48,19 +48,14 @@ public class EmailField extends SettingsTextField {
     }
 
     @Override
-    protected void commitInput(String input) {
+    protected void commitInput(String input) throws MessagingException {
         Random random = new Random();
         int code = random.nextInt(89999) + 10000;
 
-        try {
-
-            String emailBody = "Witaj " + userService.getUsername(VaadinSession.getCurrent().getAttribute(User.class).getId()) +
-                    "," + "<br><br>Twój kod zmiany emailu to: " + "<br><br>" + code +
-                    "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
-            emailService.sendEmail(input, "Potwierdzenie zmiany emailu w eSked!", emailBody);
-        } catch (MessagingException ex) {
-
-        }
+        String emailBody = "Witaj " + userService.getUsername(VaadinSession.getCurrent().getAttribute(User.class).getId()) +
+                "," + "<br><br>Twój kod zmiany emailu to: " + "<br><br>" + code +
+                "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+        emailService.sendEmail(input, "Potwierdzenie zmiany emailu w eSked!", emailBody);
 
         removeAll();
         TextField codeField = new TextField();

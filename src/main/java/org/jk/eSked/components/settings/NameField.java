@@ -1,4 +1,4 @@
-package org.jk.eSked.components.settingsFields;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -12,16 +12,16 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class NameField extends SettingsTextField {
-    private UUID userId;
-    private UserService userService;
-    private EmailService emailService;
+    private final UUID userId;
+    private final UserService userService;
+    private final EmailService emailService;
 
     public NameField(UUID userId, UserService userService, EmailService emailService) {
         super("Nazwa", "Nowa nazwa");
         this.userId = userId;
         this.userService = userService;
         this.emailService = emailService;
-        setValue(userService.getUsername(userId));
+        textField.setValue(userService.getUsername(userId));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class NameField extends SettingsTextField {
     }
 
     @Override
-    protected void commitInput(String input) {
+    protected void commitInput(String input) throws MessagingException {
         String oldName = userService.getUsername(userId);
         userService.changeUsername(userId, input);
 
@@ -44,14 +44,9 @@ public class NameField extends SettingsTextField {
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         notification.open();
 
-
-        try {
-            String emailBody = "Witaj " + oldName + "," + "<br><br>Twoja nazwa została zmieniona na " + "\"" + input + "\"" + "." + "<br><br> Z poważaniem, <br>Zespół eSked";
-            emailService.sendEmail(userService.getEmail(userId), "Twoja nazwa w eSked została zmieniona!", emailBody);
-        } catch (MessagingException ex) {
-
-        }
-
+        String emailBody = "Witaj " + oldName + "," + "<br><br>Twoja nazwa została zmieniona na " + "\"" + input + "\"" + "." + "<br><br> Z poważaniem, <br>Zespół eSked";
+        emailService.sendEmail(userService.getEmail(userId), "Twoja nazwa w eSked została zmieniona!", emailBody);
+            
         completeEdit(userService.getUsername(userId));
     }
 }

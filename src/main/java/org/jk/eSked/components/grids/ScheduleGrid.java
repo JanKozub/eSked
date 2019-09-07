@@ -1,4 +1,4 @@
-package org.jk.eSked.components.schedule;
+package org.jk.eSked.components.grids;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -17,7 +17,6 @@ import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.services.events.EventService;
-import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
@@ -32,7 +31,6 @@ import java.util.*;
 public class ScheduleGrid extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final EventService eventService;
-    private final GroupsService groupsService;
     private final UserService userService;
     private static final boolean NEXT_WEEK = true;
     private static final boolean PREVIOUS_WEEK = false;
@@ -45,10 +43,9 @@ public class ScheduleGrid extends VerticalLayout {
     private Collection<Event> events;
     private final UUID userID;
 
-    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, GroupsService groupsService, HoursService hoursService, UUID userID) {
+    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, UUID userID) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
-        this.groupsService = groupsService;
         this.userService = userService;
         this.userID = userID;
 
@@ -196,8 +193,7 @@ public class ScheduleGrid extends VerticalLayout {
     }
 
     private void addNewEvent(ScheduleEntry scheduleEntry) {
-        AddNewEventDialog dialog = new AddNewEventDialog(scheduleService, eventService, groupsService,
-                userService, startOfWeek, scheduleEntry, userID);
+        AddNewEventDialog dialog = new AddNewEventDialog(scheduleService, eventService, startOfWeek, scheduleEntry, userID);
         dialog.setRefreshAction(this::refresh);
         dialog.open();
     }

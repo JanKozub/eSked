@@ -1,4 +1,4 @@
-package org.jk.eSked.components;
+package org.jk.eSked.components.settings;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.services.hours.HoursService;
 
@@ -20,14 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleHoursSetter extends VerticalLayout {
     private Registration registration;
-    private List<ScheduleHour> hoursList = new ArrayList<>();
-    private HoursService hoursService;
+    private final List<ScheduleHour> hoursList = new ArrayList<>();
+    private final HoursService hoursService;
     private AtomicInteger currentHour;
-    private Label name;
-    private TextField fromHour = new TextField("Od");
-    private TextField toHour = new TextField("Do");
-    private Button confirm;
-    private UUID userId;
+    private final Label name;
+    private final TextField fromHour = new TextField("Od");
+    private final TextField toHour = new TextField("Do");
+    private final Button confirm;
+    private final UUID userId;
 
     public ScheduleHoursSetter(UUID userId, HoursService hoursService) {
         this.hoursService = hoursService;

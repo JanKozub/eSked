@@ -1,4 +1,4 @@
-package org.jk.eSked.components.dialogs;
+package org.jk.eSked.components.login;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.shared.Registration;
-import org.jk.eSked.components.SuccessNotification;
+import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.emailService.EmailService;
 import org.jk.eSked.services.users.UserService;
@@ -20,14 +20,14 @@ import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.Random;
 
-public class ProblemDialog extends Dialog {
+public class loginExceptionDialog extends Dialog {
     private final UserService userService;
     private final EmailService emailService;
     private final TextField passField;
-    private Button passButton;
+    private final Button passButton;
     private Registration registration;
 
-    public ProblemDialog(UserService userService, EmailService emailService) {
+    public loginExceptionDialog(UserService userService, EmailService emailService) {
         this.userService = userService;
         this.emailService = emailService;
         this.passField = new TextField();
