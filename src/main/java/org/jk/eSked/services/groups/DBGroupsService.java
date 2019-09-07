@@ -43,13 +43,11 @@ public class DBGroupsService implements GroupsService {
     }
 
     @Override
-    public boolean addGroup(UUID userId, String name, int groupCode, long createdDate) {
+    public void addGroup(UUID userId, String name, int groupCode, long createdDate) {
         Collection<Entry> entries = scheduleService.getEntries(userId);
-        if (entries.isEmpty()) return false;
         for (Entry entry : entries) {
             groupsDao.addEntryToGroup(false, name, groupCode, userId, entry.getHour(), entry.getDay(), entry.getSubject(), createdDate);
         }
-        return true;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class DBGroupsService implements GroupsService {
         for (GroupEntry entry : groupEntries) {
             if (entry.getGroupCode() != lastGroupCode) {
                 lastGroupCode = entry.getGroupCode();
-                groups.add(new Group(entry.isAccepted(), entry.getName(), entry.getGroupCode()));
+                groups.add(new Group(entry.isAccepted(), entry.getName(), entry.getGroupCode(), entry.getLeaderId(), entry.getCreatedDate()));
             }
         }
         return groups;
@@ -163,5 +161,21 @@ public class DBGroupsService implements GroupsService {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean hasEntiries(UUID userId) {
+        return !scheduleService.getScheduleEntries(userId).isEmpty();
+    }
+
+    @Override
+    public boolean doesCreatedGroup(UUID userId) {
+        Collection<Group> groups = getGroups();
+
+        for (Group group : groups) {
+            if (group.getLeaderId().compareTo(userId) == 0) return true;
+        }
+
+        return false;
     }
 }

@@ -7,15 +7,15 @@ import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import org.jk.eSked.components.GroupCreator;
 import org.jk.eSked.components.Line;
 import org.jk.eSked.components.ScheduleHoursSetter;
+import org.jk.eSked.components.SuccessNotification;
 import org.jk.eSked.components.settingsFields.EmailField;
 import org.jk.eSked.components.settingsFields.GroupCodeField;
 import org.jk.eSked.components.settingsFields.MyPasswordField;
@@ -27,21 +27,17 @@ import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.users.UserService;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Collection;
-import java.util.Random;
 import java.util.UUID;
 
 @Route(value = "settings", layout = MenuView.class)
 @PageTitle("Ustawienia")
 public class SettingsView extends VerticalLayout {
 
-
     public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService) {
 
         if (loginService.checkIfUserIsLogged()) {
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
+
             setSizeFull();
             setAlignItems(Alignment.CENTER);
 //ACCOUNT
@@ -75,11 +71,16 @@ public class SettingsView extends VerticalLayout {
             else autoSync.setValue("Wyłącz");
             autoSync.addValueChangeListener(valueChange -> userService.setSynWGroup(userId, valueChange.getValue().equals("Włącz")));
             groupsForm.add(autoSync);
-            Button newGroup = new Button("Nowa grupa");
-            newGroup.getStyle().set("margin-top", "auto");
-            newGroup.getStyle().set("margin-bottom", "auto");
-            newGroup.addClickListener(event -> openGroupDialog(userId, groupsService));
+
+            Details newGroup = new Details("Nowa Grupa", new GroupCreator(userId, groupsService, userService));
+            newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
+
             groupsForm.add(newGroup);
+
+            Button groupButton = new Button();
+            groupButton.setWidth("100%");
+            groupButton.getStyle().set("color", "red");
+            groupButton.setVisible(false);
 //SCHEDULE
             Label other = new Label("Inne");
 
@@ -92,6 +93,7 @@ public class SettingsView extends VerticalLayout {
 
             Details setHours = new Details("Ustaw godziny", new ScheduleHoursSetter(userId, hoursService));
             setHours.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
+            if (hoursService.getScheduleMaxHour(userId) == 0) setHours.setEnabled(false);
 
             RadioButtonGroup<String> theme = new RadioButtonGroup<>();
             theme.setLabel("Styl strony");
@@ -127,48 +129,34 @@ public class SettingsView extends VerticalLayout {
             });
             deleteButton.setWidth("100%");
 
-            VerticalLayout verticalLayout = new VerticalLayout(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, other, new Line(), otherForm, new Line(), deleteButton);
+            VerticalLayout verticalLayout = new VerticalLayout();
+            verticalLayout.add(accountLabel, new Line(), accountForm, groupsLabel, new Line(), groupsForm, groupButton, other, new Line(), otherForm, new Line(), deleteButton);
+            if (userService.getGroupCode(userId) != 0) {
+                if (groupsService.getLeaderId(userService.getGroupCode(userId)).compareTo(userId) == 0) {
+                    groupButton.setText("Usuń grupę");
+                    groupButton.addClickListener(click -> deleteGroup(userId, groupsService, userService));
+                } else {
+                    groupButton.setText("Wyjdź z grupy");
+                    groupButton.addClickListener(click -> leaveGroup(userId, userService));
+                }
+                groupButton.setVisible(true);
+            }
             verticalLayout.setWidth("50%");
             add(verticalLayout);
         }
     }
 
-    private void openGroupDialog(UUID userId, GroupsService groupsService) {
-        Dialog dialog = new Dialog();
-        Label name = new Label("Nowa Grupa");
-        name.getStyle().set("margin-left", "auto");
-        name.getStyle().set("margin-right", "auto");
-        HorizontalLayout nameLabel = new HorizontalLayout(name);
-        nameLabel.setWidth("100%");
+    private void leaveGroup(UUID userId, UserService userService) {
+        userService.setGroupCode(userId, 0);
+        UI.getCurrent().getPage().reload();
+    }
 
-        TextField groupName = new TextField();
-        groupName.setWidth("100%");
+    private void deleteGroup(UUID userId, GroupsService groupsService, UserService userService) {
+        groupsService.deleteGroup(userService.getGroupCode(userId));
+        userService.setGroupCode(userId, 0);
+        UI.getCurrent().getPage().reload(); //TODO DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
 
-        Button confirm = new Button("Dodaj");
-        confirm.setWidth("100%");
-        confirm.addClickListener(event -> {
-            if (!groupName.isEmpty()) {
-                groupName.setInvalid(false);
-                Collection<String> groups = groupsService.getGroupsNames();
-                if (!groups.contains(groupName.getValue())) {
-                    Random random = new Random();
-                    if (groupsService.addGroup(userId, groupName.getValue(), random.nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())) {
-                        groupName.setInvalid(false);
-                        dialog.close();
-                    } else {
-                        groupName.setErrorMessage("Musisz mieć wpisy w tabeli aby stworzyć grupę");
-                        groupName.setInvalid(true);
-                    }
-                } else {
-                    groupName.setErrorMessage("grupa z taką nazwą już istnieje");
-                    groupName.setInvalid(true);
-                }
-            } else {
-                groupName.setErrorMessage("Pole nie może być puste");
-                groupName.setInvalid(true);
-            }
-        });
-        dialog.add(nameLabel, groupName, confirm);
-        dialog.open();
+        SuccessNotification notification = new SuccessNotification("Usunięto grupę");
+        notification.open();
     }
 }

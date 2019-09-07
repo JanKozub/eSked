@@ -8,3 +8,5 @@
 -admin nie musi potwierdzac zmian mailem
 -jezeli 3 razy nie to wymien kod
 -przy dodawaniu godzin lista jakie juz sa
+-gdy uzytkownik ma grupe lub czeka na akcept to nie moze robic drugiej
+-stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana

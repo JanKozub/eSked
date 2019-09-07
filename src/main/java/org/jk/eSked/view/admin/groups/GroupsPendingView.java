@@ -56,6 +56,7 @@ class GroupsPendingView extends VerticalLayout {
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
                 groupsService.setGroupAccepted(e.getCode());
+                userService.setGroupCode(e.getLeaderId(), e.getCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));

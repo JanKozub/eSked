@@ -1,5 +1,6 @@
 package org.jk.eSked.components.settingsFields;
 
+import com.vaadin.flow.component.UI;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.components.SuccessNotification;
 import org.jk.eSked.services.users.UserService;
@@ -26,7 +27,7 @@ public class GroupCodeField extends SettingsTextField {
             throw new ValidationException("Pole z Kodem nie może być puste");
 
         if (!textField.getValue().matches("[0-9]+"))
-            throw new ValidationException("Kod nie może zawierać liter");
+            throw new ValidationException("Kod nie może zawierać spacji oraz liter");
 
         if (textField.getValue().length() != 4)
             throw new ValidationException("Kod musi zawierać 4 cyfry");
@@ -35,6 +36,7 @@ public class GroupCodeField extends SettingsTextField {
     @Override
     protected void commitInput(String input) {
         userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
+        UI.getCurrent().getPage().reload();
         SuccessNotification notification = new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"");
         notification.open();
         completeEdit(Integer.toString(userService.getGroupCode(userId)));

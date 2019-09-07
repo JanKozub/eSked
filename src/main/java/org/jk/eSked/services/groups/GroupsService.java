@@ -10,7 +10,7 @@ public interface GroupsService {
 
     int doesGroupExist(String name);
 
-    boolean addGroup(UUID userId, String name, int groupCode, long createdDate);
+    void addGroup(UUID userId, String name, int groupCode, long createdDate);
 
     void addEntryToGroup(boolean isAccepted, String name, int groupCode, UUID userId, int hour, int day, String subject, long createdDate);
 
@@ -37,4 +37,8 @@ public interface GroupsService {
     void setGroupDeclined(int groupCode);
 
     void synchronizeWGroup(UUID userId, int groupCode);
+
+    boolean hasEntiries(UUID userId);
+
+    boolean doesCreatedGroup(UUID userId);
 }

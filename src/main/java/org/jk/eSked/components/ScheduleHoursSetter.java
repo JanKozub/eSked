@@ -65,10 +65,27 @@ public class ScheduleHoursSetter extends VerticalLayout {
 
         VerticalLayout timeLayout = new VerticalLayout(fromHour, toHour);
 
-        if (currentHour.get() == hoursService.getScheduleMaxHour(userId)) confirm.setText("Potwierdź");
-        else confirm.setText("Następny");
+        if (currentHour.get() == 1) {
+            confirm.setText("Potwierdź");
 
-        registration = confirm.addClickListener(this::addHour);
+            registration = confirm.addClickListener(click -> {
+                if (buttonValidation(fromHour) && buttonValidation(toHour)) {
+
+                    hoursList.add(new ScheduleHour(userId, currentHour.get(), fromHour.getValue() + "-" + toHour.getValue()));
+
+                    fromHour.clear();
+                    toHour.clear();
+                    fromHour.setInvalid(false);
+                    toHour.setInvalid(false);
+
+                    submitHours(click);
+                }
+            });
+        } else {
+            confirm.setText("Następny");
+            registration = confirm.addClickListener(this::addHour);
+        }
+
 
         return new VerticalLayout(nameLabel, timeLayout, confirm);
     }
