@@ -21,29 +21,34 @@ public class EmailServiceImpl implements EmailService {
 
     private static Session getMailSession;
     private static Transport transport;
+    private static Properties properties;
+    private static Properties mailServerProperties;
 
-    public EmailServiceImpl() throws MessagingException, IOException {
+    public EmailServiceImpl() throws IOException {
         URL resource = EmailServiceImpl.class.getClassLoader().getResource("email.properties");
         log.info("Loading resource from {}", resource);
 
+        assert resource != null;
         try (InputStream stream = resource.openStream()) {
-            Properties p = new Properties();
-            p.load(stream);
+            properties = new Properties();
+            properties.load(stream);
 
-            Properties mailServerProperties = System.getProperties();
-            mailServerProperties.put("mail.smtp.port", p.getProperty("port"));
+            mailServerProperties = System.getProperties();
+            mailServerProperties.put("mail.smtp.port", properties.getProperty("port"));
             mailServerProperties.put("mail.smtp.auth", "true");
             mailServerProperties.put("mail.smtp.starttls.enable", "true");
-
-            getMailSession = Session.getDefaultInstance(mailServerProperties, null);
-            transport = getMailSession.getTransport("smtp");
-            transport.connect(p.getProperty("host"), p.getProperty("user"), p.getProperty("password"));
         }
     }
 
     @Override
     public void sendEmail(String email, String subject, String emailBody) throws MessagingException {
+        getMailSession = Session.getDefaultInstance(mailServerProperties, null);
+        transport = getMailSession.getTransport("smtp");
+        transport.connect(properties.getProperty("host"), properties.getProperty("user"), properties.getProperty("password"));
+
         generateAndSendMessage(email, subject, emailBody);
+
+        transport.close();
     }
 
     private void generateAndSendMessage(String email, String subject, String body) throws MessagingException {
