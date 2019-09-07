@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Added flyway database">
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/esked.iml" beforeDir="false" afterPath="$PROJECT_DIR$/esked.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/email.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/email.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db-init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db-patches/db-init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db-init.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,6 +42,9 @@
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/db-patches" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.jk.eSked.components.settingsFields" />
     </key>
@@ -204,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567851935383</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="-Fixed email.properties loading bug">
+      <created>1567853655516</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1567853655516</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -236,7 +248,9 @@
     <MESSAGE value="-New Login layout" />
     <MESSAGE value="-Fixes for changing password and other issues" />
     <MESSAGE value="-Fixed email properties bug &#10;-Fixed schedule layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Fixed email properties bug &#10;-Fixed schedule layout" />
+    <MESSAGE value="-Fixed email.properties loading bug" />
+    <MESSAGE value="-Added flyway database" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Added flyway database" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
