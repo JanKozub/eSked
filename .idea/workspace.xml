@@ -1,83 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Fixes for changing password and other issues">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/esked.iml" beforeDir="false" afterPath="$PROJECT_DIR$/esked.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/NewUserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/dialogs/NewUserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/configuration/DatabaseConfiguation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/AdminReturnButton.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/AdminReturnButton.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/CheckTimeTheme.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/CheckTimeTheme.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/EventGrid$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/EventGrid$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/EventGrid.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/EventGrid.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/Line.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/Line.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/SuccessNotification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/SuccessNotification.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/NewUserDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/NewUserDialog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/ProblemDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/dialogs/ProblemDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/email.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/email.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGrid.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGridNewEntries.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/schedule/ScheduleGridNewEntries.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/EmailField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/GroupCodeField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/MyPasswordField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/NameField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/NameField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/SettingsTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/components/settingsFields/SettingsTextField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/configuration/DatabaseConfiguation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/EventsDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/EventsDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/GroupsDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/GroupsDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/HoursDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/HoursDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/ScheduleDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/ScheduleDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/UsersDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/UsersDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/handler/UUIDTypeHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/dao/handler/UUIDTypeHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/Group.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/Group.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/Notification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/Notification.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/ScheduleHour.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/ScheduleHour.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/Entry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/Entry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/GroupEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/GroupEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/ScheduleEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/entry/ScheduleEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/Event.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/Event.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/EventType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/EventType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/ScheduleEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/model/event/ScheduleEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/LoginService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/emailService/EmailServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/DBEventService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/DBEventService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/EventService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/events/EventService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/DBGroupsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/DBGroupsService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/GroupsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/groups/GroupsService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/DBHoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/DBHoursService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/HoursService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/hours/HoursService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/schedule/DBScheduleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/schedule/DBScheduleService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/schedule/ScheduleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/schedule/ScheduleService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/DBUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/DBUserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/services/users/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/AboutAppView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/AboutAppView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/LoginView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/MenuView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/MenuView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/SettingsView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/AdminView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/AdminView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsPendingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsPendingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/groups/GroupsView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView$InfoBox.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserFoundView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UserPageView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/admin/users/UsersPageView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/EventsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/EventsView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/events/NewEventView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/exceptions/NoPathView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/exceptions/NoPathView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/exceptions/RouteNotFoundError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/exceptions/RouteNotFoundError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/AddNewEventDialog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/NewEntryView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/NewEntryView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/jk/eSked/view/schedule/ScheduleView.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -98,6 +29,7 @@
   <component name="ProjectId" id="1PFr9J6iO3tmXAvxhEuKhkCdD5V" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
@@ -265,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567808488149</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="-Fixed email properties bug &#10;-Fixed schedule layout">
+      <created>1567851935383</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1567851935383</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -296,26 +235,11 @@
     <MESSAGE value="-Added option to log in with email and password&#10;-Redesigned and cleaned up ProblemDialog code&#10;-Redesign of newUserDialog&#10;-Added generic email method&#10;-Added my implementation of Notification&#10;-fixed bug with enter getting triggered in wrong time in loginView&#10;-checking does group with that name exists on creating new one&#10;-Information about username change send to account owner's email&#10;-Confirmation with email to change account email&#10;&#10;FIXED COMMIT ERRORS" />
     <MESSAGE value="-New Login layout" />
     <MESSAGE value="-Fixes for changing password and other issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Fixes for changing password and other issues" />
+    <MESSAGE value="-Fixed email properties bug &#10;-Fixed schedule layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Fixed email properties bug &#10;-Fixed schedule layout" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jk/eSked/services/emailService/EmailServiceImpl.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/eSked$Application.ic" NAME="Application Coverage Results" MODIFIED="1566031639733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
