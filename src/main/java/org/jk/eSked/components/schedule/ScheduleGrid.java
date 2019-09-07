@@ -96,7 +96,7 @@ public class ScheduleGrid extends VerticalLayout {
                 if (scheduleHour != null)
                     text = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1).getData();
                 return new Label(text);
-            })).setHeader("G|D").setFlexGrow(0);
+            })).setHeader("G|D").setAutoWidth(true).setFlexGrow(0);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek");
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek");
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa");
@@ -121,7 +121,7 @@ public class ScheduleGrid extends VerticalLayout {
             int hour = Integer.parseInt(e.getText());
             if (entry.getHour() == hour && entry.getDay() == day) {
                 List<Event> entryEvents = new ArrayList<>();
-                String color = "";
+                String color;
                 if (userService.getDarkTheme(userID)) {
                     button.getStyle().set("color", "white");
                     color = "#2c3d52";

@@ -36,7 +36,7 @@ class DatabaseConfiguation {
         public DataSource dataSourceLocal(@Value("${database:file:~/test}") String databasePath) throws SQLException {
             String url = "jdbc:h2:" + databasePath;
 
-            PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", url, "", "");
+            PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", url, "sa", "");
             dataSource.setPoolMaximumActiveConnections(10);
 
             try(Connection c = dataSource.getConnection()) {

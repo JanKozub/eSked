@@ -45,8 +45,8 @@ class NewUserDialog extends Dialog {
         Button addButton = new Button("Zarejstruj się!");
         addButton.setWidth("75%");
         addButton.addClickListener(e -> {
-            validateUsername(usernameField.getValue());
             try {
+                validateUsername(usernameField.getValue());
                 usernameField.setInvalid(false);
                 try {
                     validateEmail(emailField.getValue());
@@ -62,7 +62,7 @@ class NewUserDialog extends Dialog {
                         String emailBody = "Witaj " + usernameField.getValue() + "," +
                                 "<br><br>Dziękujemy za zarejstrowanie się na naszej stronie, oto twój kod weryfikacji: " +
                                 "<br><br>" + genCode + "<br><br> Z poważaniem, <br>Zespół eSked";
-                        emailService.sendEmail("Potwierdzenie rejstracji w eSked!", usernameField.getValue(), emailBody);
+                        emailService.sendEmail(emailField.getValue(), "Potwierdzenie rejstracji w eSked!", emailBody);
 
                         removeAll();
 
