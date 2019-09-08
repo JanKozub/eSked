@@ -27,10 +27,11 @@ public class EmailServiceImpl implements EmailService {
     private String user;
     private String password;
 
-    public EmailServiceImpl(@Value("${port}") String port, @Value("${host}") String host, @Value("${user}") String user, @Value("${password}") String password) throws IOException {
+    public EmailServiceImpl(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.user}") String user, @Value("${smtp.password}") String password) throws IOException {
         this.host = host;
         this.user = user;
         this.password = password;
+        log.info("Starting email service using {}@{}:{}", user, host, port);
         mailServerProperties = System.getProperties();
         mailServerProperties.put("mail.smtp.port", port);
         mailServerProperties.put("mail.smtp.auth", "true");
