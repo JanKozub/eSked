@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 class NoPathView extends VerticalLayout {
 
     public NoPathView() {
-        UI.getCurrent().navigate("esked");
+        UI.getCurrent().navigate("");
         UI.getCurrent().getPage().reload();
     }
 }

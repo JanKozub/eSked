@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Route(value = "esked")
+@Route(value = "")
 @PageTitle("Logowanie")
 @PWA(name = "eSked - schedule app!", shortName = "eSked", iconPath = "img/icons/logo.png")
 class LoginView extends VerticalLayout {

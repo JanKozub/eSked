@@ -28,6 +28,11 @@ public class DBHoursService implements HoursService {
     }
 
     @Override
+    public Collection<ScheduleHour> getHours(UUID userId) {
+        return hoursDao.getHours(userId);
+    }
+
+    @Override
     public ScheduleHour getScheduleHour(UUID userId, int hour) {
         return hoursDao.getHour(userId, hour);
     }

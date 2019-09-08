@@ -59,14 +59,17 @@ public class ScheduleHoursSetter extends VerticalLayout {
     private VerticalLayout mainLayout() {
         removeAll();
         currentHour = new AtomicInteger(1);
+        hoursList.clear();
+        fromHour.setInvalid(false);
+        toHour.setInvalid(false);
 
-        name.setText("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
+        name.setText("Ustaw godziny(" + currentHour.get() + "z" + hoursService.getScheduleMaxHour(userId) + ")");
         HorizontalLayout nameLabel = new HorizontalLayout(name);
         nameLabel.setWidth("100%");
 
         VerticalLayout timeLayout = new VerticalLayout(fromHour, toHour);
 
-        if (currentHour.get() == 1) {
+        if (currentHour.get() == hoursService.getScheduleMaxHour(userId)) {
             confirm.setText("Potwierdź");
 
             registration = confirm.addClickListener(click -> {
@@ -99,10 +102,10 @@ public class ScheduleHoursSetter extends VerticalLayout {
             registration = confirm.addClickListener(this::submitHours);
         }
         if (buttonValidation(fromHour) && buttonValidation(toHour)) {
-            currentHour.set(currentHour.get() + 1);
-            name.setText("Ustaw godziny(" + currentHour + "z" + hoursService.getScheduleMaxHour(userId) + ")");
 
             hoursList.add(new ScheduleHour(userId, currentHour.get(), fromHour.getValue() + "-" + toHour.getValue()));
+            currentHour.set(currentHour.get() + 1);
+            name.setText("Ustaw godziny(" + currentHour.get() + "z" + hoursService.getScheduleMaxHour(userId) + ")");
 
             fromHour.clear();
             toHour.clear();
@@ -114,6 +117,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
     }
 
     private void submitHours(ClickEvent clickEvent) {
+        hoursList.add(new ScheduleHour(userId, currentHour.get(), fromHour.getValue() + "-" + toHour.getValue()));
         hoursService.deleteScheduleHours(userId);
         hoursService.setScheduleHours(hoursList);
         removeAll();

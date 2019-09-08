@@ -83,7 +83,7 @@ public class MenuView extends AppLayoutRouterLayout {
         } else {
             init(AppLayoutBuilder
                     .get(Behaviour.LEFT_RESPONSIVE_HYBRID)
-                    .withTitle("Plan Lekcji")
+                    .withTitle("eSked")
                     .withAppBar(AppBarBuilder.get()
                             .add(new AppBarNotificationButton(VaadinIcon.BELL, notifications))
                             .build())
