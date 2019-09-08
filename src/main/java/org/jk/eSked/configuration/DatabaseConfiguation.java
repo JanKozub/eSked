@@ -38,10 +38,10 @@ class DatabaseConfiguation {
 
 
     @Bean
-    public DataSource dataSourceLocal(@Value("${database:file:~/test}") String databasePath) throws SQLException, IOException {
+    public DataSource dataSourceLocal(@Value("${database:file:~/test}") String databasePath, @Value("${db.username:sa}") String username, @Value("${db.password:sa}") String password) throws SQLException, IOException {
         String url = "jdbc:h2:" + databasePath;
-
-        PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", url, "", "");
+        System.out.println(username + "    " + password);
+        PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", url, username, password);
         dataSource.setPoolMaximumActiveConnections(10);
 
         try (Connection connection = dataSource.getConnection()) {

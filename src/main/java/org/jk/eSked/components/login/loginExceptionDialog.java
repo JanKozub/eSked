@@ -94,7 +94,7 @@ public class loginExceptionDialog extends Dialog {
                 passField.setErrorMessage(ex.getMessage());
                 passField.setInvalid(true);
             } catch (MessagingException mex) {
-                passField.setErrorMessage("Email error contact admin");
+                passField.setErrorMessage("Email error contact admin " + mex.getMessage());
                 passField.setInvalid(true);
             }
         });
