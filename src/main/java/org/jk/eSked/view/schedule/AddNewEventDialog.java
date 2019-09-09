@@ -4,16 +4,16 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.myImpl.SuccessNotification;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
@@ -31,37 +31,25 @@ import java.util.List;
 import java.util.UUID;
 
 public class AddNewEventDialog extends Dialog {
-    private final ScheduleService scheduleService;
-    private final EventService eventService;
-    private final LocalDate startOfWeek;
-    private final UUID userID;
-    private final LocalDate eventDate;
-    private Collection<ScheduleEntry> entries;
-    private final Grid<Event> eventGrid;
     private Runnable action;
+    private EventService eventService;
+    private LocalDate startOfWeek;
+    private UUID userId;
+    private Collection<ScheduleEntry> entries;
 
-
-    public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userID) {
-        this.scheduleService = scheduleService;
+    public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         this.eventService = eventService;
-        this.eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
         this.startOfWeek = startOfWeek;
-        this.userID = userID;
+        this.userId = userId;
 
-        Icon dialogClose = new Icon(VaadinIcon.CLOSE);
-        dialogClose.getStyle().set("margin-left", "auto");
-        dialogClose.getStyle().set("cursor", "pointer");
-        dialogClose.addClickListener(event -> close());
+        LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
-        Label nameOfDialog = new Label("Nowe wydarzenie");
-        nameOfDialog.getStyle().set("margin-left", "auto");
-        nameOfDialog.getStyle().set("margin-right", "auto");
-        nameOfDialog.getStyle().set("font-size", "24px");
+        Label title = new Label("Nowe Wydarzenie");
 
-        TextField textField = new TextField();
-        textField.setPlaceholder("Temat");
-        textField.setWidth("50%");
-        textField.setErrorMessage("Pole nie może być puste");
+        TextField topicField = new TextField();
+        topicField.setPlaceholder("Temat");
+        topicField.setWidth("100%");
+        topicField.setErrorMessage("Pole nie może być puste");
 
         ComboBox<EventType> eventType = new ComboBox<>();
         eventType.setPlaceholder("Rodzaj");
@@ -69,38 +57,36 @@ public class AddNewEventDialog extends Dialog {
         eventType.setItems(EventType.values());
         eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
         eventType.setItemLabelGenerator(EventType::getDescription);
-        eventType.setWidth("50%");
+        eventType.setWidth("100%");
         eventType.setErrorMessage("Pole nie może być puste");
 
-        HorizontalLayout dataFields = new HorizontalLayout(textField, eventType);
-        dataFields.setWidth("100%");
-
-        Button addButton = new Button("Dodaj!", e -> {
-            if (textField.getValue() != null && !textField.getValue().equals("")) {
-                textField.setInvalid(false);
+        Button confirm = new Button("Dodaj", e -> {
+            if (!topicField.isEmpty()) {
+                topicField.setInvalid(false);
                 if (eventType.getValue() != null) {
                     eventType.setInvalid(false);
                     long time = eventDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
                     UUID id = UUID.randomUUID();
-                    ScheduleEvent event = new ScheduleEvent(userID, id, time, scheduleEntry.getHour(),
-                            eventType.getValue(), textField.getValue(), Instant.now().toEpochMilli());
+                    ScheduleEvent event = new ScheduleEvent(userId, id, time, scheduleEntry.getHour(),
+                            eventType.getValue(), topicField.getValue(), Instant.now().toEpochMilli());
                     eventService.addEvent(event);
                     SuccessNotification notification = new SuccessNotification("Dodano wydarzenie!");
                     notification.open();
-                    textField.clear();
+                    topicField.clear();
                     close();
                 } else eventType.setInvalid(true);
-            } else textField.setInvalid(true);
+            } else topicField.setInvalid(true);
         });
-        addButton.setWidth("100%");
-        addButton.setHeight("15%");
+        confirm.setWidth("100%");
 
-        Div eventListLabel = new Div();
-        eventListLabel.setText("Wydarzenia w tym dniu: ");
+        VerticalLayout layout = new VerticalLayout(title, topicField, eventType, confirm);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setWidth("100%");
 
-        eventGrid = new Grid<>();
+        Grid<Event> eventGrid = new Grid<>();
+        updateEvents(eventGrid, eventDate);
 
-        updateEvents();
+        entries = scheduleService.getScheduleEntries(userId);
         eventGrid.addColumn(new BasicRenderer<>(event -> {
             if (entries != null) {
                 for (ScheduleEntry entry : entries) {
@@ -117,34 +103,29 @@ public class AddNewEventDialog extends Dialog {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");
             icon.addClickListener(event -> {
-                eventService.deleteEvent(new ScheduleEvent(userID, e.getId(), e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                eventService.deleteEvent(new ScheduleEvent(userId, e.getId(), e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
                         e.getHour(), e.getEventType(), e.getTopic(), e.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli()));
-                updateEvents();
+                updateEvents(eventGrid, eventDate);
             });
             return icon;
         })).setHeader("Usuń");
         eventGrid.setSelectionMode(Grid.SelectionMode.NONE);
         eventGrid.setSizeFull();
         eventGrid.setVerticalScrollingEnabled(true);
+        eventGrid.setHeightByRows(true);
 
-        VerticalLayout mainLayout = new VerticalLayout(dialogClose, nameOfDialog, dataFields, addButton, eventListLabel, eventGrid);
-        mainLayout.setSizeFull();
+        if (!VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+            setWidth("600px");
+        }
 
-        setWidth("450px");
-        setHeight("525px");
-        setCloseOnOutsideClick(true);
-        setCloseOnEsc(true);
-
-        add(mainLayout);
+        add(layout, eventGrid);
     }
 
-    private void updateEvents() {
-        List<Event> eventsSorted = new ArrayList<>(eventService.getEvents(startOfWeek, userID));
+    private void updateEvents(Grid<Event> eventGrid, LocalDate eventDate) {
+        List<Event> eventsSorted = new ArrayList<>(eventService.getEvents(startOfWeek, userId));
         eventsSorted.removeIf(event -> event.getDate().getDayOfWeek() != eventDate.getDayOfWeek());
-        entries = scheduleService.getScheduleEntries(userID);
-        if (eventsSorted.size() > 0) {
-            eventGrid.setItems(eventsSorted);
-        }
+
+        eventGrid.setItems(eventsSorted);
     }
 
     public void setRefreshAction(Runnable action) {

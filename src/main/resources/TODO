@@ -1,4 +1,3 @@
--Mobile layout
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -zmiana jezyków
 -dodaj jakies info gdy ktos zmieni haslo - wysylaj email z info ze mozesz zmienic jezeli to nie ty
@@ -11,3 +10,5 @@
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
 -importowanie z excela
 -welcone guide
+-groups synch bug u cant add entries when u are in group IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-notification bug

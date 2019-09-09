@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGridNewEntries extends VerticalLayout {
 
@@ -57,12 +58,13 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         scheduleGrid = new Grid<>();
 
         if (userService.getScheduleHours(userID))
-            scheduleGrid.addColumn(new ComponentRenderer<>(e -> new Label(Integer.toString(Integer.parseInt(e.getText()) + 1)))).setHeader("G|D").setTextAlign(ColumnTextAlign.CENTER).setFlexGrow(0);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setTextAlign(ColumnTextAlign.CENTER);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setTextAlign(ColumnTextAlign.CENTER);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setTextAlign(ColumnTextAlign.CENTER);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setTextAlign(ColumnTextAlign.CENTER);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setTextAlign(ColumnTextAlign.CENTER);
+            scheduleGrid.addColumn(new ComponentRenderer<>(e -> new Label(Integer.toString(Integer.parseInt(e.getText()) + 1)))).setHeader("G|D").setFlexGrow(0);
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setKey("4");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
+        scheduleGrid.getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
         scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
         scheduleGrid.setHeightByRows(true);
         scheduleGrid.setVerticalScrollingEnabled(true);
@@ -72,7 +74,31 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        add(scheduleGrid, more);
+        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+            setMobileColumns(1);
+            AtomicInteger triggeredColumn = new AtomicInteger(1);
+            Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {
+                if (triggeredColumn.get() != 5) triggeredColumn.set(triggeredColumn.get() + 1);
+                setMobileColumns(triggeredColumn.get());
+            });
+            next.setWidth("100%");
+            Button prev = new Button(VaadinIcon.ARROW_LEFT.create(), prevColumn -> {
+                if (triggeredColumn.get() != 1) triggeredColumn.set(triggeredColumn.get() - 1);
+                setMobileColumns(triggeredColumn.get());
+            });
+            prev.setWidth("100%");
+            HorizontalLayout layout = new HorizontalLayout(prev, next);
+            layout.setWidth("100%");
+            add(scheduleGrid, layout);
+        } else add(scheduleGrid);
+        add(more);
+    }
+
+    private void setMobileColumns(int pos) {
+        for (int i = 1; i < 6; i++) {
+            if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
+            else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
+        }
     }
 
     private Component rowRenderer(Button e, int day) {

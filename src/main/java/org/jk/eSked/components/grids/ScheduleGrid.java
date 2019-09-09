@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
@@ -27,6 +28,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGrid extends VerticalLayout {
     private final ScheduleService scheduleService;
@@ -49,9 +51,7 @@ public class ScheduleGrid extends VerticalLayout {
         this.userService = userService;
         this.userID = userId;
 
-        if (startOfWeek == null) {
-            startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
-        }
+        if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         entries = scheduleService.getScheduleEntries(userId);
         events = eventService.getEvents(startOfWeek, userId);
@@ -93,21 +93,46 @@ public class ScheduleGrid extends VerticalLayout {
                     text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
                 return new Label(text);
             })).setHeader("G|D").setAutoWidth(true).setFlexGrow(0);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek");
-        scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setKey("4");
+        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
         scheduleGrid.getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
+        scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
         scheduleGrid.setHeightByRows(true);
         scheduleGrid.setVerticalScrollingEnabled(true);
         scheduleGrid.recalculateColumnWidths();
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        add(datePanel, scheduleGrid);
+        add(datePanel);
+        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+            setMobileColumns(1);
+            AtomicInteger triggeredColumn = new AtomicInteger(1);
+            Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {
+                if (triggeredColumn.get() != 5) triggeredColumn.set(triggeredColumn.get() + 1);
+                setMobileColumns(triggeredColumn.get());
+            });
+            next.setWidth("100%");
+            Button prev = new Button(VaadinIcon.ARROW_LEFT.create(), prevColumn -> {
+                if (triggeredColumn.get() != 1) triggeredColumn.set(triggeredColumn.get() - 1);
+                setMobileColumns(triggeredColumn.get());
+            });
+            prev.setWidth("100%");
+            HorizontalLayout layout = new HorizontalLayout(prev, next);
+            layout.setWidth("100%");
+            add(scheduleGrid, layout);
+        } else add(scheduleGrid);
+
         refreshDates();
+    }
+
+    private void setMobileColumns(int pos) {
+        for (int i = 1; i < 6; i++) {
+            if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
+            else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
+        }
     }
 
     private Component rowRenderer(Button e, int day) {
@@ -193,6 +218,10 @@ public class ScheduleGrid extends VerticalLayout {
 
     private void addNewEvent(ScheduleEntry scheduleEntry) {
         AddNewEventDialog dialog = new AddNewEventDialog(scheduleService, eventService, startOfWeek, scheduleEntry, userID);
+        dialog.addDialogCloseActionListener(close -> {
+            refresh();
+            dialog.close();
+        });
         dialog.setRefreshAction(this::refresh);
         dialog.open();
     }

@@ -31,6 +31,7 @@ class SettingsView extends VerticalLayout {
     public SettingsView(LoginService loginService, UserService userService, GroupsService groupsService, HoursService hoursService, EmailService emailService) {
 
         if (loginService.checkIfUserIsLogged()) {
+
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
 
             setSizeFull();
@@ -136,7 +137,9 @@ class SettingsView extends VerticalLayout {
                 }
                 groupButton.setVisible(true);
             }
-            verticalLayout.setWidth("50%");
+            if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile"))
+                verticalLayout.setWidth("100%");
+            else verticalLayout.setWidth("50%");
             add(verticalLayout);
         }
     }

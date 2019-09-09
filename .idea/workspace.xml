@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="">
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/login/NewUserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/login/NewUserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/DBGroupsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/services/groups/DBGroupsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,19 +36,19 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/db-patches" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.jk.eSked.components.settingsFields" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Jan\Desktop\esked\src\main\resources" />
       <recent name="C:\Users\Jan\Desktop\esked\src\main\resources\META-INF\resources\icons" />
       <recent name="C:\Users\Jan\Desktop\esked\src\main\java\org\jk\eSked" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.jk.eSked.components.settingsFields" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/db-patches" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -261,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567977501830</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="-Added schedule hours synchronization">
+      <created>1568053197135</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1568053197135</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -303,7 +311,8 @@
     <MESSAGE value="-changes to services &#10;-preparation for work on server" />
     <MESSAGE value="-fixed depedency bug in menu" />
     <MESSAGE value="-Fixed menu name&#10;-Fixed HoursSetter bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Fixed menu name&#10;-Fixed HoursSetter bugs" />
+    <MESSAGE value="-Added schedule hours synchronization" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Added schedule hours synchronization" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
