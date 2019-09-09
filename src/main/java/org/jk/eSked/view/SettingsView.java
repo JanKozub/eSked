@@ -152,6 +152,7 @@ class SettingsView extends VerticalLayout {
     private void deleteGroup(UUID userId, GroupsService groupsService, UserService userService) {
         groupsService.deleteGroup(userService.getGroupCode(userId));
         userService.setGroupCode(userId, 0);
+
         UI.getCurrent().getPage().reload(); //TODO DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
 
         SuccessNotification notification = new SuccessNotification("Usunięto grupę");

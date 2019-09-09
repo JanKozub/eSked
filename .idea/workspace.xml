@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile">
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Fixed login bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/AddNewEventDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -269,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568053197135</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile&#10;-New newEventDialog layout for mobile&#10;&#10;Overall mobile optimalization">
+      <created>1568062569762</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1568062569762</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -312,7 +317,8 @@
     <MESSAGE value="-fixed depedency bug in menu" />
     <MESSAGE value="-Fixed menu name&#10;-Fixed HoursSetter bugs" />
     <MESSAGE value="-Added schedule hours synchronization" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Added schedule hours synchronization" />
+    <MESSAGE value="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile&#10;-New newEventDialog layout for mobile&#10;&#10;Overall mobile optimalization" />
+    <option name="LAST_COMMIT_MESSAGE" value="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile&#10;-New newEventDialog layout for mobile&#10;&#10;Overall mobile optimalization" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

@@ -60,9 +60,12 @@ class LoginView extends VerticalLayout {
             if (user != null) {
                 loginOverlay.setOpened(false);
                 VaadinSession.getCurrent().setAttribute(User.class, user);
-                if (user.getGroupCode() != 0) {
-                    groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
-                }
+
+                if (groupsService.getGroupsNames().stream().noneMatch(s -> s.equals(groupsService.getGroupName(user.getGroupCode()))))
+                    userService.setGroupCode(user.getId(), 0);
+
+                groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
+
                 Collection<Event> events = eventService.getAllEvents(user.getId());
                 List<Notification> notifications = new ArrayList<>();
                 for (Event event : events) {
