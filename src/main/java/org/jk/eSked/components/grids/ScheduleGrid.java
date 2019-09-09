@@ -43,18 +43,18 @@ public class ScheduleGrid extends VerticalLayout {
     private Collection<Event> events;
     private final UUID userID;
 
-    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, UUID userID) {
+    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, UUID userId) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
         this.userService = userService;
-        this.userID = userID;
+        this.userID = userId;
 
         if (startOfWeek == null) {
             startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
         }
 
-        entries = scheduleService.getScheduleEntries(userID);
-        events = eventService.getEvents(startOfWeek, userID);
+        entries = scheduleService.getScheduleEntries(userId);
+        events = eventService.getEvents(startOfWeek, userId);
 
         Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
         prevWeek.addClickListener(e -> changeWeek(NEXT_WEEK));
@@ -84,14 +84,13 @@ public class ScheduleGrid extends VerticalLayout {
         dateTo.setWidth("25%");
         nextWeek.setWidth("20%");
         datePanel.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-
         scheduleGrid = new Grid<>();
-        if (userService.getScheduleHours(userID))
+        if (userService.getScheduleHours(userId))
             scheduleGrid.addColumn(new ComponentRenderer<>(e -> {
                 String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
-                ScheduleHour scheduleHour = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1);
+                ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
                 if (scheduleHour != null)
-                    text = hoursService.getScheduleHour(userID, Integer.parseInt(e.getText()) + 1).getData();
+                    text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
                 return new Label(text);
             })).setHeader("G|D").setAutoWidth(true).setFlexGrow(0);
         scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek");

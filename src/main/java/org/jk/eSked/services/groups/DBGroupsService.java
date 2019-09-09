@@ -2,11 +2,13 @@ package org.jk.eSked.services.groups;
 
 import org.jk.eSked.dao.GroupsDao;
 import org.jk.eSked.model.Group;
+import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.entry.Entry;
 import org.jk.eSked.model.entry.GroupEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.ScheduleEvent;
 import org.jk.eSked.services.events.EventService;
+import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,14 @@ public class DBGroupsService implements GroupsService {
     private final ScheduleService scheduleService;
     private final EventService eventService;
     private final UserService userService;
+    private final HoursService hoursService;
 
-    public DBGroupsService(GroupsDao groupsDao, ScheduleService scheduleService, EventService eventService, UserService userService) {
+    public DBGroupsService(GroupsDao groupsDao, ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService) {
         this.groupsDao = groupsDao;
         this.scheduleService = scheduleService;
         this.eventService = eventService;
         this.userService = userService;
+        this.hoursService = hoursService;
     }
 
     private int doesGroupExist(String name) {
@@ -140,6 +144,16 @@ public class DBGroupsService implements GroupsService {
         if (groupCode != 0) {
             scheduleService.deleteScheduleEntries(userId);
             scheduleService.setScheduleEntries(userId, getEntries(userService.getGroupCode(userId)));
+
+            if (userId.compareTo(getLeaderId(groupCode)) != 0) {
+                Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode));
+                List<ScheduleHour> newHours = new ArrayList<>();
+                for (ScheduleHour hour : hours) {
+                    newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
+                }
+                hoursService.deleteScheduleHours(userId);
+                hoursService.setScheduleHours(newHours);
+            }
 
             if (userService.isSynWGroup(userId)) {
                 Collection<Event> groupEvents = eventService.getAllEvents(getLeaderId(

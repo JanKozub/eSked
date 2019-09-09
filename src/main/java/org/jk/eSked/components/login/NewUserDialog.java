@@ -1,5 +1,6 @@
 package org.jk.eSked.components.login;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
@@ -43,6 +44,7 @@ class NewUserDialog extends Dialog {
         passwordFieldCheck.setWidth("100%");
 
         Button addButton = new Button("Zarejstruj się!");
+        addButton.addClickShortcut(Key.ENTER);
         addButton.setWidth("75%");
         addButton.addClickListener(e -> {
             try {
