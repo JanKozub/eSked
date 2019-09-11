@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -13,7 +12,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.model.User;
 import org.jk.eSked.model.entry.Entry;
@@ -40,34 +38,42 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
     private final int type;
-    private final UUID userID;
+    private final UUID userId;
     private Collection<Entry> entries;
 
     public ScheduleGridNewEntries(ScheduleService scheduleService, GroupsService groupsService, UserService userService, int type) {
         this.scheduleService = scheduleService;
         this.groupsService = groupsService;
-        this.userID = VaadinSession.getCurrent().getAttribute(User.class).getId();
+        this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
         this.type = type;
 
-        entries = scheduleService.getEntries(userID);
+        entries = scheduleService.getEntries(userId);
 
-        if (startOfWeek == null) {
-            startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
-        }
+        if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
-        scheduleGrid = new Grid<>();
+        scheduleGrid = new Schedule(userService, userId) {
+            @Override
+            Component rowRenderer(Button e, int day) {
+                Button button = new Button("Dodaj");
+                button.setSizeFull();
+                for (Entry entry : entries) {
+                    if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
+                        button.setText(entry.getSubject());
+                        button.addClickListener(clickEvent -> deleteEntryDialog(entry));
+                        button.getStyle().set("color", "green");
+                        return button;
+                    }
+                }
+                button.addClickListener(clickEvent -> newEntryDialog(day, Integer.parseInt(e.getText())));
+                button.getStyle().set("color", "red");
+                return button;
+            }
 
-        if (userService.getScheduleHours(userID))
-            scheduleGrid.addColumn(new ComponentRenderer<>(e -> new Label(Integer.toString(Integer.parseInt(e.getText()) + 1)))).setHeader("G|D").setFlexGrow(0);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setKey("4");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
-        scheduleGrid.getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
-        scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
-        scheduleGrid.setHeightByRows(true);
-        scheduleGrid.setVerticalScrollingEnabled(true);
+            @Override
+            Component hourRenderer(Button e) {
+                return new Label(Integer.toString(Integer.parseInt(e.getText()) + 1));
+            }
+        };
 
         Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> addRow());
         more.setWidth("100%");
@@ -99,22 +105,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
             else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
         }
-    }
-
-    private Component rowRenderer(Button e, int day) {
-        Button button = new Button("Dodaj");
-        button.setSizeFull();
-        for (Entry entry : entries) {
-            if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
-                button.setText(entry.getSubject());
-                button.addClickListener(clickEvent -> deleteEntryDialog(entry));
-                button.getStyle().set("color", "green");
-                return button;
-            }
-        }
-        button.addClickListener(clickEvent -> newEntryDialog(day, Integer.parseInt(e.getText())));
-        button.getStyle().set("color", "red");
-        return button;
     }
 
     private int getMaxHour() {
@@ -187,7 +177,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     }
 
     private void addEvent(int day, int hour, String value, Dialog dialog) {
-        entries = scheduleService.getEntries(userID);
+        entries = scheduleService.getEntries(userId);
         boolean create = true;
         for (Entry entry : entries) {
             if (entry.getHour() == hour && entry.getDay() == day) {
@@ -199,7 +189,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         if (create) {
             if (type == 0)
                 scheduleService.addScheduleEntry(
-                        new ScheduleEntry(userID, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli()));
+                        new ScheduleEntry(userId, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli()));
             else {
                 String groupName = groupsService.getGroupName(type);
                 groupsService.addEntryToGroup(true, groupName, type,
@@ -221,8 +211,8 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         Button yes = new Button("Tak");
         yes.addClickListener(event -> {
             if (type == 0) {
-                ScheduleEntry scheduleEntry = new ScheduleEntry(userID, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli());
-                scheduleService.deleteScheduleEntry(userID, entry.getHour(), entry.getDay());
+                ScheduleEntry scheduleEntry = new ScheduleEntry(userId, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli());
+                scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay());
                 scheduleService.addScheduleEntry(scheduleEntry);
             } else {
                 groupsService.deleteGroupEntry(type, entry.getHour(), entry.getDay());
@@ -252,7 +242,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         Button deleteButton = new Button("Usuń!", event -> {
             if (type == 0) {
-                scheduleService.deleteScheduleEntry(userID, entry.getHour(), entry.getDay());
+                scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay());
             } else {
                 groupsService.deleteGroupEntry(type, entry.getHour(), entry.getDay());
             }
@@ -269,7 +259,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     }
 
     private void refresh() {
-        entries = scheduleService.getEntries(userID);
+        entries = scheduleService.getEntries(userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setDataProvider(dataProvider);
     }

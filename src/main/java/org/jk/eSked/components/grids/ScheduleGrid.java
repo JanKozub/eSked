@@ -2,16 +2,12 @@ package org.jk.eSked.components.grids;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.entry.ScheduleEntry;
@@ -27,86 +23,108 @@ import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGrid extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final EventService eventService;
-    private final UserService userService;
-    private static final boolean NEXT_WEEK = true;
-    private static final boolean PREVIOUS_WEEK = false;
-    private final DatePicker dateFrom;
-    private final DatePicker dateTo;
     private LocalDate startOfWeek;
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
     private Collection<ScheduleEntry> entries;
     private Collection<Event> events;
-    private final UUID userID;
+    private final UUID userId;
 
     public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, UUID userId) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
-        this.userService = userService;
-        this.userID = userId;
+        this.userId = userId;
 
         if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         entries = scheduleService.getScheduleEntries(userId);
         events = eventService.getEvents(startOfWeek, userId);
 
-        Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
-        prevWeek.addClickListener(e -> changeWeek(NEXT_WEEK));
+        scheduleGrid = new Schedule(userService, userId) {
+            @Override
+            Component rowRenderer(Button e, int day) {
+                Button button = new Button("-");
+                button.setSizeFull();
+                for (ScheduleEntry entry : entries) {
+                    int hour = Integer.parseInt(e.getText());
+                    if (entry.getHour() == hour && entry.getDay() == day) {
+                        List<Event> entryEvents = new ArrayList<>();
+                        String color;
+                        if (userService.getDarkTheme(ScheduleGrid.this.userId)) {
+                            button.getStyle().set("color", "white");
+                            color = "#2c3d52";
+                        } else {
+                            button.getStyle().set("color", "#1676f3");
+                            color = "#f3f5f7";
+                        }
+                        for (Event event : events) {
+                            if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
+                                entryEvents.add(event);
+                                if (event.getEventType() == EventType.TEST) {
+                                    color = "#c43737";
+                                } else {
+                                    if (event.getEventType() == EventType.QUIZ) {
+                                        color = "#e88133";
+                                    } else {
+                                        if (event.getEventType() == EventType.QUESTIONS) {
+                                            color = "#ebbf23";
+                                        } else {
+                                            if (event.getEventType() == EventType.HOMEWORK) {
+                                                color = "#46c768";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        String subject = entry.getSubject();
+                        button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, Instant.now().toEpochMilli())));
+                        button.setText(subject + "(" + entryEvents.size() + ")");
+                        button.getStyle().set("background-color", color);
+                        return button;
+                    }
+                }
+                return button;
+            }
 
-        dateFrom = new DatePicker();
-        dateFrom.setI18n(new DatePicker.DatePickerI18n().setWeek("tydzień").setCalendar("kalendarz")
-                .setClear("wyczyść").setToday("dzisiaj")
-                .setCancel("zamknij").setFirstDayOfWeek(1)
-                .setMonthNames(Arrays.asList("styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"))
-                .setWeekdays(Arrays.asList("niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"))
-                .setWeekdaysShort(Arrays.asList("niedź", "pon", "wt", "śr", "czw", "pt", "sob")));
-        dateFrom.addValueChangeListener(event -> setWeekForDay(event.getValue()));
-
-        Icon arrowIcon = new Icon(VaadinIcon.ARROW_RIGHT);
-
-        dateTo = new DatePicker();
-        dateTo.setEnabled(false);
-
-        Button nextWeek = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
-        nextWeek.addClickListener(f -> changeWeek(PREVIOUS_WEEK));
-
-        HorizontalLayout datePanel = new HorizontalLayout(prevWeek, dateFrom, arrowIcon, dateTo, nextWeek);
-        datePanel.setWidth("100%");
-        prevWeek.setWidth("20%");
-        dateFrom.setWidth("25%");
-        arrowIcon.getStyle().set("width", "10%");
-        dateTo.setWidth("25%");
-        nextWeek.setWidth("20%");
-        datePanel.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-        scheduleGrid = new Grid<>();
-        if (userService.getScheduleHours(userId))
-            scheduleGrid.addColumn(new ComponentRenderer<>(e -> {
+            @Override
+            Component hourRenderer(Button e) {
                 String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
                 ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
                 if (scheduleHour != null)
                     text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
                 return new Label(text);
-            })).setHeader("G|D").setAutoWidth(true).setFlexGrow(0);
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setKey("4");
-        scheduleGrid.addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
-        scheduleGrid.getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
-        scheduleGrid.setSelectionMode(Grid.SelectionMode.NONE);
-        scheduleGrid.setHeightByRows(true);
-        scheduleGrid.setVerticalScrollingEnabled(true);
-        scheduleGrid.recalculateColumnWidths();
+            }
+        };
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
+        HorizontalLayout datePanel = new DatePanel(startOfWeek) {
+            @Override
+            void setWeekForDay(LocalDate day) {
+                day = (LocalDate) TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY).adjustInto(day);
+                startOfWeek = day;
+                refresh();
+            }
+
+            @Override
+            void changeWeek(boolean weekType) {
+                int deltaDays = (weekType) ? -7 : 7;
+                startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
+                refresh();
+            }
+        };
         add(datePanel);
+
         if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
@@ -124,8 +142,6 @@ public class ScheduleGrid extends VerticalLayout {
             layout.setWidth("100%");
             add(scheduleGrid, layout);
         } else add(scheduleGrid);
-
-        refreshDates();
     }
 
     private void setMobileColumns(int pos) {
@@ -133,51 +149,6 @@ public class ScheduleGrid extends VerticalLayout {
             if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
             else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
         }
-    }
-
-    private Component rowRenderer(Button e, int day) {
-        Button button = new Button("-");
-        button.setSizeFull();
-        for (ScheduleEntry entry : entries) {
-            int hour = Integer.parseInt(e.getText());
-            if (entry.getHour() == hour && entry.getDay() == day) {
-                List<Event> entryEvents = new ArrayList<>();
-                String color;
-                if (userService.getDarkTheme(userID)) {
-                    button.getStyle().set("color", "white");
-                    color = "#2c3d52";
-                } else {
-                    button.getStyle().set("color", "#1676f3");
-                    color = "#f3f5f7";
-                }
-                for (Event event : events) {
-                    if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
-                        entryEvents.add(event);
-                        if (event.getEventType() == EventType.TEST) {
-                            color = "#c43737";
-                        } else {
-                            if (event.getEventType() == EventType.QUIZ) {
-                                color = "#e88133";
-                            } else {
-                                if (event.getEventType() == EventType.QUESTIONS) {
-                                    color = "#ebbf23";
-                                } else {
-                                    if (event.getEventType() == EventType.HOMEWORK) {
-                                        color = "#46c768";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                String subject = entry.getSubject();
-                button.addClickListener(event -> addNewEvent(new ScheduleEntry(userID, hour, day, subject, Instant.now().toEpochMilli())));
-                button.setText(subject + "(" + entryEvents.size() + ")");
-                button.getStyle().set("background-color", color);
-                return button;
-            }
-        }
-        return button;
     }
 
     private int getMaxHour() {
@@ -197,27 +168,8 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid.setItems(buttons);
     }
 
-    private void setWeekForDay(LocalDate day) {
-        day = (LocalDate) TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY).adjustInto(day);
-        startOfWeek = day;
-        refreshDates();
-        refresh();
-    }
-
-    private void refreshDates() {
-        dateFrom.setValue(startOfWeek);
-        dateTo.setValue(startOfWeek.plusDays(6));
-    }
-
-    private void changeWeek(boolean weekType) {
-        int deltaDays = (weekType == NEXT_WEEK) ? -7 : 7;
-        startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
-        refreshDates();
-        refresh();
-    }
-
     private void addNewEvent(ScheduleEntry scheduleEntry) {
-        AddNewEventDialog dialog = new AddNewEventDialog(scheduleService, eventService, startOfWeek, scheduleEntry, userID);
+        AddNewEventDialog dialog = new AddNewEventDialog(scheduleService, eventService, startOfWeek, scheduleEntry, userId);
         dialog.addDialogCloseActionListener(close -> {
             refresh();
             dialog.close();
@@ -227,8 +179,8 @@ public class ScheduleGrid extends VerticalLayout {
     }
 
     private void refresh() {
-        entries = scheduleService.getScheduleEntries(userID);
-        events = eventService.getEvents(startOfWeek, userID);
+        entries = scheduleService.getScheduleEntries(userId);
+        events = eventService.getEvents(startOfWeek, userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setDataProvider(dataProvider);
     }
