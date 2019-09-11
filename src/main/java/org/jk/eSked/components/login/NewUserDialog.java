@@ -59,7 +59,7 @@ class NewUserDialog extends Dialog {
                         passwordFieldCheck.setInvalid(false);
 
                         int genCode = new Random().nextInt(89999) + 10000;
-                        User user = new User(UUID.randomUUID(), usernameField.getValue(), User.encodePassword(passwordField.getValue()), false, true, emailField.getValue(), 0, false, Instant.now().toEpochMilli(), Instant.now().toEpochMilli(), genCode);
+                        User user = new User(UUID.randomUUID(), usernameField.getValue(), User.encodePassword(passwordField.getValue()), false, true, emailField.getValue(), 0, false, false, Instant.now().toEpochMilli(), Instant.now().toEpochMilli(), genCode);
 
                         String emailBody = "Witaj " + usernameField.getValue() + "," +
                                 "<br><br>Dziękujemy za zarejstrowanie się na naszej stronie, oto twój kod weryfikacji: " +

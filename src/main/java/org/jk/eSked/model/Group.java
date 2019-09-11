@@ -1,40 +1,39 @@
 package org.jk.eSked.model;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 public class Group {
-    private final boolean isAccepted;
     private final String name;
-    private final int code;
+    private final int groupCode;
     private final UUID leaderId;
-    private final LocalDate createdDate;
+    private final boolean isAccepted;
+    private final long createdDate;
 
-    public Group(boolean isAccepted, String name, int code, UUID leaderId, LocalDate createdDate) {
-        this.isAccepted = isAccepted;
+    public Group(String name, int groupCode, UUID leaderId, boolean isAccepted, long createdDate) {
         this.name = name;
-        this.code = code;
+        this.groupCode = groupCode;
         this.leaderId = leaderId;
+        this.isAccepted = isAccepted;
         this.createdDate = createdDate;
-    }
-
-    public boolean isAccepted() {
-        return isAccepted;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getCode() {
-        return code;
+    public int getGroupCode() {
+        return groupCode;
     }
 
     public UUID getLeaderId() {
         return leaderId;
     }
 
-    public LocalDate getCreatedDate() {
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public long getCreatedDate() {
         return createdDate;
     }
 }

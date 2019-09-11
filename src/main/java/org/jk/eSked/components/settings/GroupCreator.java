@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.components.myImpl.SuccessNotification;
+import org.jk.eSked.model.Group;
 import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
 
@@ -38,8 +39,7 @@ public class GroupCreator extends VerticalLayout {
                 try {
                     validateInput(groupName.getValue(), userId, groupsService);
                     groupName.setInvalid(false);
-                    groupsService.addGroup(userId, groupName.getValue(), new Random().nextInt(8999) + 1000, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-
+                    groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
                     removeAll();
 
                     SuccessNotification notification = new SuccessNotification("Prośba o stworzenie grupy została wysłana!");
@@ -62,7 +62,7 @@ public class GroupCreator extends VerticalLayout {
         Collection<String> groups = groupsService.getGroupsNames();
         if (groups.contains(input)) throw new ValidationException("Grupa z taką nazwą już istnieje");
 
-        if (!groupsService.hasEntiries(userId))
+        if (!groupsService.hasEntries(userId))
             throw new ValidationException("Musisz mieć wpisy w tabeli aby stworzyć grupę");
     }
 }

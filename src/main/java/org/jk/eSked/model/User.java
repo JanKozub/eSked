@@ -1,9 +1,6 @@
 package org.jk.eSked.model;
 
 import java.security.MessageDigest;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,12 +12,13 @@ public class User {
     private final boolean scheduleHours;
     private final String email;
     private final int groupCode;
-    private final boolean synWGroup;
-    private final LocalDateTime createdDate;
-    private final LocalDateTime LastLoggedDate;
+    private final boolean eventsSyn;
+    private final boolean tableSyn;
+    private final long createdDate;
+    private final long LastLoggedDate;
     private final int genCode;
 
-    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long timestampAccCreated, long timestampLastLogged, int genCode) {
+    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean eventsSyn, boolean tableSyn, long createdDate, long lastLoggedDate, int genCode) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -28,9 +26,10 @@ public class User {
         this.scheduleHours = scheduleHours;
         this.email = email;
         this.groupCode = groupCode;
-        this.synWGroup = synWGroup;
-        this.createdDate = Instant.ofEpochMilli(timestampAccCreated).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        this.LastLoggedDate = Instant.ofEpochMilli(timestampLastLogged).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        this.eventsSyn = eventsSyn;
+        this.tableSyn = tableSyn;
+        this.createdDate = createdDate;
+        LastLoggedDate = lastLoggedDate;
         this.genCode = genCode;
     }
 
@@ -62,22 +61,6 @@ public class User {
         return groupCode;
     }
 
-    public boolean isSynWGroup() {
-        return synWGroup;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getLastLoggedDate() {
-        return LastLoggedDate;
-    }
-
-    public int getGenCode() {
-        return genCode;
-    }
-
     public static String encodePassword(String password) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA-1").digest(password.getBytes());
@@ -92,6 +75,26 @@ public class User {
         }
     }
 
+    public boolean isEventsSyn() {
+        return eventsSyn;
+    }
+
+    public boolean isTableSyn() {
+        return tableSyn;
+    }
+
+    public long getCreatedDate() {
+        return createdDate;
+    }
+
+    public int getGenCode() {
+        return genCode;
+    }
+
+    public long getLastLoggedDate() {
+        return LastLoggedDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,19 +103,19 @@ public class User {
         return darkTheme == user.darkTheme &&
                 scheduleHours == user.scheduleHours &&
                 groupCode == user.groupCode &&
-                synWGroup == user.synWGroup &&
+                eventsSyn == user.eventsSyn &&
+                tableSyn == user.tableSyn &&
+                createdDate == user.createdDate &&
+                LastLoggedDate == user.LastLoggedDate &&
+                genCode == user.genCode &&
                 Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(createdDate, user.createdDate) &&
-                Objects.equals(LastLoggedDate, user.LastLoggedDate);
+                Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, LastLoggedDate);
+        return Objects.hash(id, username, password, darkTheme, scheduleHours, email, groupCode, eventsSyn, tableSyn, createdDate, LastLoggedDate, genCode);
     }
-
-
 }

@@ -7,11 +7,7 @@ import java.util.UUID;
 
 public interface GroupsService {
 
-    void addGroup(UUID userId, String name, int groupCode, long createdDate);
-
-    void addEntryToGroup(boolean isAccepted, String name, int groupCode, UUID userId, int hour, int day, String subject, long createdDate);
-
-    void deleteGroupEntry(int groupCode, int hour, int day);
+    void addGroup(Group group);
 
     void deleteGroup(int groupCode);
 
@@ -27,11 +23,9 @@ public interface GroupsService {
 
     void setGroupAccepted(int groupCode);
 
-    void setGroupDeclined(int groupCode);
-
     void synchronizeWGroup(UUID userId, int groupCode);
 
-    boolean hasEntiries(UUID userId);
-
     boolean doesCreatedGroup(UUID userId);
+
+    boolean hasEntries(UUID userId);
 }

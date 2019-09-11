@@ -1,4 +1,4 @@
-package org.jk.eSked.model.entry;
+package org.jk.eSked.model;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -8,14 +8,14 @@ public class ScheduleEntry {
     private final int hour;
     private final int day;
     private final String subject;
-    private final long createdTimestamp;
+    private final long createdDate;
 
     public ScheduleEntry(UUID userId, int hour, int day, String subject, long createdDate) {
         this.userId = userId;
         this.hour = hour;
         this.subject = subject;
         this.day = day;
-        this.createdTimestamp = createdDate;
+        this.createdDate = createdDate;
     }
 
     public int getHour() {
@@ -30,8 +30,8 @@ public class ScheduleEntry {
         return day;
     }
 
-    public long getCreatedTimestamp() {
-        return createdTimestamp;
+    public long getCreatedDate() {
+        return createdDate;
     }
 
     @Override

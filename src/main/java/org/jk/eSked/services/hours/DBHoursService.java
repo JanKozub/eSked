@@ -2,8 +2,8 @@ package org.jk.eSked.services.hours;
 
 import org.jk.eSked.dao.HoursDao;
 import org.jk.eSked.dao.ScheduleDao;
+import org.jk.eSked.model.ScheduleEntry;
 import org.jk.eSked.model.ScheduleHour;
-import org.jk.eSked.model.entry.ScheduleEntry;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

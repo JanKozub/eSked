@@ -26,6 +26,8 @@ import org.jk.eSked.services.users.UserService;
 import org.jk.eSked.view.MenuView;
 
 import javax.validation.ValidationException;
+import java.time.Instant;
+import java.time.ZoneId;
 
 
 @Route(value = "admin/user", layout = MenuView.class)
@@ -81,9 +83,9 @@ class FindUserView extends VerticalLayout {
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(user.getId(), userService, emailService, false);
         GroupCodeField groupCode = new GroupCodeField(user.getId(), userService);
-        InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isSynWGroup()));
-        InfoBox createdDate = new InfoBox("Data stworzenia konta: ", user.getCreatedDate().toString());
-        InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", user.getLastLoggedDate().toString());
+        InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
+        InfoBox createdDate = new InfoBox("Data stworzenia konta: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());
+        InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());
 
         Label scheduleLabel = new Label("Plan");
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService, user.getId());

@@ -11,7 +11,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import org.jk.eSked.model.entry.ScheduleEntry;
+import org.jk.eSked.model.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.ScheduleEvent;
 import org.jk.eSked.services.events.EventService;

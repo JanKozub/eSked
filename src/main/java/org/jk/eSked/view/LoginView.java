@@ -24,6 +24,7 @@ import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.users.UserService;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,12 +65,13 @@ class LoginView extends VerticalLayout {
                 if (groupsService.getGroupsNames().stream().noneMatch(s -> s.equals(groupsService.getGroupName(user.getGroupCode()))))
                     userService.setGroupCode(user.getId(), 0);
 
-                groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
+                if (userService.getGroupCode(user.getId()) != 0)
+                    groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
 
                 Collection<Event> events = eventService.getAllEvents(user.getId());
                 List<Notification> notifications = new ArrayList<>();
                 for (Event event : events) {
-                    if (event.getCreatedDate().isAfter(user.getLastLoggedDate())) {
+                    if (event.getCreatedDate().isAfter(Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime())) {
                         notifications.add(new Notification("Temat: " + event.getTopic(), event.getDate()));
                     }
                 }

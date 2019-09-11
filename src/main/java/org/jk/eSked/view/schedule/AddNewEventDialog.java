@@ -15,7 +15,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.components.myImpl.SuccessNotification;
-import org.jk.eSked.model.entry.ScheduleEntry;
+import org.jk.eSked.model.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.model.event.ScheduleEvent;

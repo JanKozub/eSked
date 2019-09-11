@@ -1,7 +1,7 @@
 package org.jk.eSked.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.jk.eSked.model.entry.ScheduleEntry;
+import org.jk.eSked.model.ScheduleEntry;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public interface ScheduleDao {
     })
     List<ScheduleEntry> getScheduleEntries(UUID userId);
 
-    @Insert("INSERT INTO ScheduleEntry(userId, hour, day, subject, createdDate) VALUES(#{userId}, #{hour}, #{day}, #{subject}, #{createdTimestamp})")
+    @Insert("INSERT INTO ScheduleEntry(userId, hour, day, subject, createdDate) VALUES(#{userId}, #{hour}, #{day}, #{subject}, #{createdDate})")
     void persistScheduleEntry(ScheduleEntry scheduleEntry);
 
     @Delete("DELETE FROM ScheduleEntry WHERE userId = #{userId} AND hour = #{hour} AND day = #{day}")

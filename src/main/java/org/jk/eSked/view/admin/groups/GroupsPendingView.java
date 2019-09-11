@@ -42,12 +42,12 @@ class GroupsPendingView extends VerticalLayout {
     private VerticalLayout mainLayout() {
         Grid<Group> groupEntryGrid = new Grid<>();
         groupEntryGrid.addColumn(Group::getName).setHeader("Nazwa");
-        groupEntryGrid.addColumn(Group::getCode).setHeader("Kod Grupy");
+        groupEntryGrid.addColumn(Group::getGroupCode).setHeader("Kod Grupy");
         groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
             Button button = new Button("Szczegóły/Edycja");
             button.addClickListener(event -> {
                 removeAll();
-                add(groupLayout(e.getCode()));
+                add(groupLayout(e.getGroupCode()));
             });
             return button;
         })).setHeader("Szczegóły");
@@ -55,8 +55,8 @@ class GroupsPendingView extends VerticalLayout {
             Button button = new Button("Akceptuj");
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
-                groupsService.setGroupAccepted(e.getCode());
-                userService.setGroupCode(e.getLeaderId(), e.getCode());
+                groupsService.setGroupAccepted(e.getGroupCode());
+                userService.setGroupCode(e.getLeaderId(), e.getGroupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));
@@ -67,7 +67,7 @@ class GroupsPendingView extends VerticalLayout {
             Button button = new Button("Odrzuć");
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
-                groupsService.setGroupDeclined(e.getCode());
+                groupsService.deleteGroup(e.getGroupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));

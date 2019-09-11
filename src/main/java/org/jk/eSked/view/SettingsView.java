@@ -60,13 +60,22 @@ class SettingsView extends VerticalLayout {
             groupSyn.addClickListener(buttonClickEvent -> groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId)));
             groupSyn.getStyle().set("margin-top", "auto");
             groupsForm.add(groupSyn);
-            RadioButtonGroup<String> autoSync = new RadioButtonGroup<>();
-            autoSync.setLabel("Automatyczna Synchronizacja");
-            autoSync.setItems("Włącz", "Wyłącz");
-            if (userService.isSynWGroup(userId)) autoSync.setValue("Włącz");
-            else autoSync.setValue("Wyłącz");
-            autoSync.addValueChangeListener(valueChange -> userService.setSynWGroup(userId, valueChange.getValue().equals("Włącz")));
-            groupsForm.add(autoSync);
+
+            RadioButtonGroup<String> eventSync = new RadioButtonGroup<>();
+            eventSync.setLabel("Synchronizacja z Wydarzeniami");
+            eventSync.setItems("Włącz", "Wyłącz");
+            if (userService.isEventsSyn(userId)) eventSync.setValue("Włącz");
+            else eventSync.setValue("Wyłącz");
+            eventSync.addValueChangeListener(valueChange -> userService.setEventsSyn(userId, valueChange.getValue().equals("Włącz")));
+            groupsForm.add(eventSync);
+
+            RadioButtonGroup<String> tableSync = new RadioButtonGroup<>();
+            tableSync.setLabel("Synchronizacja z Tabelą");
+            tableSync.setItems("Włącz", "Wyłącz");
+            if (userService.isTableSyn(userId)) tableSync.setValue("Włącz");
+            else tableSync.setValue("Wyłącz");
+            tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals("Włącz")));
+            groupsForm.add(tableSync);
 
             Details newGroup = new Details("Nowa Grupa", new GroupCreator(userId, groupsService, userService));
             newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);

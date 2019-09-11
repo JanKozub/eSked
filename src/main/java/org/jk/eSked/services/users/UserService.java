@@ -41,9 +41,13 @@ public interface UserService {
 
     boolean getScheduleHours(UUID userId);
 
-    boolean isSynWGroup(UUID userId);
+    boolean isEventsSyn(UUID userId);
 
-    void setSynWGroup(UUID userId, boolean state);
+    boolean isTableSyn(UUID userId);
+
+    void setEventsSyn(UUID userId, boolean state);
+
+    void setTableSyn(UUID userId, boolean state);
 
     String getEmailFromUsername(String username);
 

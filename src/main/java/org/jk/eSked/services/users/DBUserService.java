@@ -4,7 +4,6 @@ import org.jk.eSked.dao.UsersDao;
 import org.jk.eSked.model.User;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -35,9 +34,7 @@ public class DBUserService implements UserService {
 
     @Override
     public void addUser(User user) {
-        usersDao.persistUser(user.getId(), user.getUsername(), user.getPassword(), user.isDarkTheme(), user.isScheduleHours(),
-                user.getEmail(), user.getGroupCode(), user.isSynWGroup(), user.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                user.getLastLoggedDate().toInstant(ZoneOffset.UTC).toEpochMilli(), user.getGenCode());
+        usersDao.persistUser(user);
     }
 
     @Override
@@ -106,13 +103,23 @@ public class DBUserService implements UserService {
     }
 
     @Override
-    public boolean isSynWGroup(UUID userId) {
-        return usersDao.isSynWGroup(userId);
+    public boolean isEventsSyn(UUID userId) {
+        return usersDao.isEventsSyn(userId);
     }
 
     @Override
-    public void setSynWGroup(UUID userId, boolean state) {
-        usersDao.setSynWGroup(userId, state);
+    public boolean isTableSyn(UUID userId) {
+        return usersDao.isTableSyn(userId);
+    }
+
+    @Override
+    public void setEventsSyn(UUID userId, boolean state) {
+        usersDao.setEventsSyn(userId, state);
+    }
+
+    @Override
+    public void setTableSyn(UUID userId, boolean state) {
+        usersDao.setTableSyn(userId, state);
     }
 
     @Override

@@ -3,8 +3,6 @@ package org.jk.eSked.services.groups;
 import org.jk.eSked.dao.GroupsDao;
 import org.jk.eSked.model.Group;
 import org.jk.eSked.model.ScheduleHour;
-import org.jk.eSked.model.entry.Entry;
-import org.jk.eSked.model.entry.GroupEntry;
 import org.jk.eSked.model.event.Event;
 import org.jk.eSked.model.event.ScheduleEvent;
 import org.jk.eSked.services.events.EventService;
@@ -13,7 +11,6 @@ import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,37 +32,14 @@ public class DBGroupsService implements GroupsService {
         this.hoursService = hoursService;
     }
 
-    private int doesGroupExist(String name) {
-        Collection<GroupEntry> entries = groupsDao.getGroups();
-        for (GroupEntry entry : entries) {
-            if (entry.getName().equals(name)) {
-                return entry.getGroupCode();
-            }
-        }
-        return 0;
-    }
-
     @Override
-    public void addGroup(UUID userId, String name, int groupCode, long createdDate) {
-        Collection<Entry> entries = scheduleService.getEntries(userId);
-        for (Entry entry : entries) {
-            groupsDao.addEntryToGroup(false, name, groupCode, userId, entry.getHour(), entry.getDay(), entry.getSubject(), createdDate);
-        }
-    }
-
-    @Override
-    public void addEntryToGroup(boolean isAccepted, String name, int groupCode, UUID userId, int hour, int day, String subject, long createdDate) {
-        groupsDao.addEntryToGroup(isAccepted, name, groupCode, userId, hour, day, subject, createdDate);
+    public void addGroup(Group group) {
+        groupsDao.addGroup(group);
     }
 
     @Override
     public String getGroupName(int groupCode) {
-        Collection<GroupEntry> entries = groupsDao.getGroupEntries(groupCode);
-        if (entries.size() > 0)
-            for (GroupEntry groupEntry : entries) {
-                if (groupEntry.getGroupCode() == groupCode) return groupEntry.getName();
-            }
-        return "brak";
+        return groupsDao.getGroupName(groupCode);
     }
 
     @Override
@@ -75,16 +49,7 @@ public class DBGroupsService implements GroupsService {
 
     @Override
     public Collection<Group> getGroups() {
-        Collection<GroupEntry> groupEntries = groupsDao.getGroups();
-        int lastGroupCode = 0;
-        List<Group> groups = new ArrayList<>();
-        for (GroupEntry entry : groupEntries) {
-            if (entry.getGroupCode() != lastGroupCode) {
-                lastGroupCode = entry.getGroupCode();
-                groups.add(new Group(entry.isAccepted(), entry.getName(), entry.getGroupCode(), entry.getLeaderId(), entry.getCreatedDate()));
-            }
-        }
-        return groups;
+        return groupsDao.getGroups();
     }
 
     @Override
@@ -93,40 +58,13 @@ public class DBGroupsService implements GroupsService {
     }
 
     @Override
-    public void deleteGroupEntry(int groupCode, int hour, int day) {
-        groupsDao.deleteGroupEntry(groupCode, hour, day);
-    }
-
-    private Collection<Entry> getEntries(int groupCode) {
-        Collection<GroupEntry> groupEntries = groupsDao.getGroupEntries(groupCode);
-        List<Entry> entries = new ArrayList<>();
-        for (GroupEntry groupEntry : groupEntries) {
-            Entry entry = new Entry(groupEntry.getHour(), groupEntry.getDay(), groupEntry.getSubject(),
-                    groupEntry.getCreatedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli());
-            entries.add(entry);
-        }
-        return entries;
-    }
-
-    @Override
     public UUID getLeaderId(String name) {
-        int code = doesGroupExist(name);
-        if (code != 0) {
-            for (GroupEntry groupEntry : groupsDao.getGroupEntries(code)) {
-                if (groupEntry.getName().equals(name)) return groupEntry.getLeaderId();
-            }
-        }
-        return null;
+        return groupsDao.getLeaderIdName(name);
     }
 
     @Override
     public UUID getLeaderId(int groupCode) {
-        if (groupCode != 0) {
-            for (GroupEntry groupEntry : groupsDao.getGroupEntries(groupCode)) {
-                if (groupEntry.getGroupCode() == groupCode) return groupEntry.getLeaderId();
-            }
-        }
-        return null;
+        return groupsDao.getLeaderIdCode(groupCode);
     }
 
     @Override
@@ -135,28 +73,10 @@ public class DBGroupsService implements GroupsService {
     }
 
     @Override
-    public void setGroupDeclined(int groupCode) {
-        groupsDao.setGroupDeclined(groupCode);
-    }
-
-    @Override
     public void synchronizeWGroup(UUID userId, int groupCode) {
-        if (groupCode != 0) {
-            scheduleService.deleteScheduleEntries(userId);
-            scheduleService.setScheduleEntries(userId, getEntries(userService.getGroupCode(userId)));
-
-            if (userId.compareTo(getLeaderId(groupCode)) != 0) {
-                Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode));
-                List<ScheduleHour> newHours = new ArrayList<>();
-                for (ScheduleHour hour : hours) {
-                    newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
-                }
-                hoursService.deleteScheduleHours(userId);
-                hoursService.setScheduleHours(newHours);
-            }
-
-            if (userService.isSynWGroup(userId)) {
-                Collection<Event> groupEvents = eventService.getAllEvents(getLeaderId(
+        if (userId.compareTo(getLeaderId(groupCode)) != 0) {
+            if (userService.isEventsSyn(userId)) {
+                Collection<Event> groupEvents = eventService.getAllEvents(getLeaderId( //EVENTS
                         getGroupName(userService.getGroupCode(userId))));
                 Collection<Event> events = eventService.getAllEvents(userId);
                 for (Event parseEvent : groupEvents) {
@@ -167,13 +87,21 @@ public class DBGroupsService implements GroupsService {
                     }
                 }
             }
+            if (userService.isTableSyn(userId)) {
+                scheduleService.deleteScheduleEntries(userId);//ENTRIES
+                scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntries(getLeaderId(groupCode)));
+
+                Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode)); //HOURS
+                List<ScheduleHour> newHours = new ArrayList<>();
+                for (ScheduleHour hour : hours) {
+                    newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
+                }
+                hoursService.deleteScheduleHours(userId);
+                hoursService.setScheduleHours(newHours);
+            }
         }
     }
 
-    @Override
-    public boolean hasEntiries(UUID userId) {
-        return !scheduleService.getScheduleEntries(userId).isEmpty();
-    }
 
     @Override
     public boolean doesCreatedGroup(UUID userId) {
@@ -184,5 +112,10 @@ public class DBGroupsService implements GroupsService {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean hasEntries(UUID userId) {
+        return scheduleService.getScheduleEntries(userId).size() > 0;
     }
 }

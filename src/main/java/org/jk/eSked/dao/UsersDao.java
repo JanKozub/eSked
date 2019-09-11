@@ -10,6 +10,10 @@ import java.util.UUID;
 @Repository
 public interface UsersDao {
 
+    @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, eventsSyn, tableSyn, createdDate, lastLoggedDate, genCode) " +
+            "VALUES(#{id}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{eventsSyn}, #{tableSyn}, #{createdDate}, #{lastLoggedDate}, #{genCode})")
+    void persistUser(User user);
+
     @Select("SELECT * FROM Users")
     @ConstructorArgs({
             @Arg(column = "id", javaType = UUID.class),
@@ -19,7 +23,8 @@ public interface UsersDao {
             @Arg(column = "ScheduleHours", javaType = boolean.class),
             @Arg(column = "email", javaType = String.class),
             @Arg(column = "groupCode", javaType = int.class),
-            @Arg(column = "synWGroup", javaType = boolean.class),
+            @Arg(column = "eventsSyn", javaType = boolean.class),
+            @Arg(column = "tableSyn", javaType = boolean.class),
             @Arg(column = "createdDate", javaType = long.class),
             @Arg(column = "lastLoggedDate", javaType = long.class),
             @Arg(column = "genCode", javaType = int.class)
@@ -49,10 +54,6 @@ public interface UsersDao {
             @Arg(column = "email", javaType = String.class)
     })
     String getEmail(UUID userId);
-
-    @Insert("INSERT INTO Users(id, Username, Password, darkTheme, scheduleHours, email, groupCode, synWGroup, createdDate, lastLoggedDate, genCode) " +
-            "VALUES(#{userId}, #{username}, #{password}, #{darkTheme}, #{scheduleHours}, #{email}, #{groupCode}, #{synWGroup},#{createdDate}, #{lastLoggedDate}, #{genCode})")
-    void persistUser(UUID userId, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean synWGroup, long createdDate, long lastLoggedDate, int genCode);
 
     @Update("UPDATE Users SET USERNAME = #{newUsername} WHERE id = #{userId}")
     void changeUsername(UUID userId, String newUsername);
@@ -98,12 +99,21 @@ public interface UsersDao {
 
     @Select("SELECT * FROM USERS WHERE id = #{userId}")
     @ConstructorArgs({
-            @Arg(column = "synWGroup", javaType = boolean.class)
+            @Arg(column = "eventsSyn", javaType = boolean.class)
     })
-    boolean isSynWGroup(UUID userId);
+    boolean isEventsSyn(UUID userId);
 
-    @Update("UPDATE USERS SET synWGroup = #{state} WHERE id = #{userId}")
-    void setSynWGroup(UUID userId, boolean state);
+    @Select("SELECT * FROM USERS WHERE id = #{userId}")
+    @ConstructorArgs({
+            @Arg(column = "tableSyn", javaType = boolean.class)
+    })
+    boolean isTableSyn(UUID userId);
+
+    @Update("UPDATE USERS SET eventsSyn = #{state} WHERE id = #{userId}")
+    void setEventsSyn(UUID userId, boolean state);
+
+    @Update("UPDATE USERS SET tableSyn = #{state} WHERE id = #{userId}")
+    void setTableSyn(UUID userId, boolean state);
 
     @Select("SELECT * FROM USERS WHERE username = #{username}")
     @ConstructorArgs({
