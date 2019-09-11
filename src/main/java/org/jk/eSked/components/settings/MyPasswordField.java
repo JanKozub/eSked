@@ -24,11 +24,13 @@ public class MyPasswordField extends VerticalLayout {
     private final UserService userService;
     private final UUID userId;
     private final EmailService emailService;
+    private boolean needConfirm;
 
-    public MyPasswordField(UUID userId, UserService userService, EmailService emailService) {
+    public MyPasswordField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         this.userId = userId;
         this.userService = userService;
         this.emailService = emailService;
+        this.needConfirm = needConfirm;
         Label label = new Label("Hasło");
         label.getStyle().set("font-size", "var(--lumo-font-size-s)");
         label.getStyle().set("font-weight", "500");
@@ -69,56 +71,71 @@ public class MyPasswordField extends VerticalLayout {
     }
 
     private void onCommit(ClickEvent event) {
-        try {
-            String pass = passwordField.getValue();
-            validatePassword(pass);
-            Random random = new Random();
-            int code = random.nextInt(89999) + 10000;
+        if (needConfirm) {
+            try {
+                String pass = passwordField.getValue();
+                validatePassword(pass);
+                Random random = new Random();
+                int code = random.nextInt(89999) + 10000;
 
-            String emailBody = "Witaj " + userService.getUsername(userId) + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
-                    "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
-            emailService.sendEmail(userService.getEmail(userId), "Potwierdzenie zmiany hasła w eSked!", emailBody);
+                String emailBody = "Witaj " + userService.getUsername(userId) + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
+                        "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+                emailService.sendEmail(userService.getEmail(userId), "Potwierdzenie zmiany hasła w eSked!", emailBody);
 
-            removeAll();
+                removeAll();
 
-            Label label = new Label("Hasło");
-            label.getStyle().set("font-size", "var(--lumo-font-size-s)");
-            label.getStyle().set("font-weight", "500");
-            label.getStyle().set("color", "var(--lumo-secondary-text-color)");
-            add(label);
+                Label label = new Label("Hasło");
+                label.getStyle().set("font-size", "var(--lumo-font-size-s)");
+                label.getStyle().set("font-weight", "500");
+                label.getStyle().set("color", "var(--lumo-secondary-text-color)");
+                add(label);
 
-            PasswordField codeField = new PasswordField();
-            codeField.setPlaceholder("Kod zmiany hasła");
-            codeField.setWidth("70%");
-            Button button = new Button("Potwierdź");
-            button.setWidth("40%");
-            HorizontalLayout buttons = new HorizontalLayout();
-            buttons.add(codeField);
-            buttons.setWidth("100%");
-            buttons.add(button);
+                PasswordField codeField = new PasswordField();
+                codeField.setPlaceholder("Kod zmiany hasła");
+                codeField.setWidth("70%");
+                Button button = new Button("Potwierdź");
+                button.setWidth("40%");
+                HorizontalLayout buttons = new HorizontalLayout();
+                buttons.add(codeField);
+                buttons.setWidth("100%");
+                buttons.add(button);
 
-            setPadding(false);
-            setSpacing(false);
-            add(buttons);
+                setPadding(false);
+                setSpacing(false);
+                add(buttons);
 
-            button.addClickListener(click -> {
-                if (codeField.getValue().equals(Integer.toString(code))) {
-                    System.out.println(codeField.getValue());
-                    userService.changePassword(userId, User.encodePassword(pass));
+                button.addClickListener(click -> {
+                    if (codeField.getValue().equals(Integer.toString(code))) {
+                        userService.changePassword(userId, User.encodePassword(pass));
 
-                    Notification notification = new Notification("Twoje hasło zostało zmienione!", 5000, Notification.Position.TOP_END);
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                    notification.open();
+                        Notification notification = new Notification("Twoje hasło zostało zmienione!", 5000, Notification.Position.TOP_END);
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        notification.open();
 
-                    completeEdit();
-                } else {
-                    codeField.setErrorMessage("Podany kod jest nie prawidłowy");
-                    codeField.setInvalid(true);
-                }
-            });
-        } catch (ValidationException | MessagingException ex) {
-            passwordField.setErrorMessage(ex.getMessage());
-            passwordField.setInvalid(true);
+                        completeEdit();
+                    } else {
+                        codeField.setErrorMessage("Podany kod jest nie prawidłowy");
+                        codeField.setInvalid(true);
+                    }
+                });
+            } catch (ValidationException | MessagingException ex) {
+                passwordField.setErrorMessage(ex.getMessage());
+                passwordField.setInvalid(true);
+            }
+        } else {
+            try {
+                validatePassword(passwordField.getValue());
+                userService.changePassword(userId, User.encodePassword(passwordField.getValue()));
+
+                Notification notification = new Notification("Twoje hasło zostało zmienione!", 5000, Notification.Position.TOP_END);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.open();
+
+                completeEdit();
+            } catch (ValidationException ex) {
+                passwordField.setErrorMessage(ex.getMessage());
+                passwordField.setInvalid(true);
+            }
         }
     }
 

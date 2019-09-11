@@ -41,8 +41,8 @@ class SettingsView extends VerticalLayout {
 
             FormLayout accountForm = new FormLayout();
             accountForm.add(new NameField(userId, userService, emailService));
-            accountForm.add(new MyPasswordField(userId, userService, emailService));
-            accountForm.add(new EmailField(userId, userService, emailService));
+            accountForm.add(new MyPasswordField(userId, userService, emailService, true));
+            accountForm.add(new EmailField(userId, userService, emailService, true));
             RadioButtonGroup<String> languageGroup = new RadioButtonGroup<>();
             languageGroup.setLabel("Język");
             languageGroup.setItems("Polski", "English");

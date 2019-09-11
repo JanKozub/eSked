@@ -5,7 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.components.grids.ScheduleGrid;
+import org.jk.eSked.components.schedule.ScheduleGrid;
 import org.jk.eSked.model.User;
 import org.jk.eSked.services.LoginService;
 import org.jk.eSked.services.events.EventService;

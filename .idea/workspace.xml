@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Added schedule compenent">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/DatePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/Schedule.java" afterDir="false" />
+    <list default="true" id="167c98a0-c23b-44d2-9a28-530a7daded4b" name="Default Changelist" comment="-Added schedule compenent&#10;-Added datePanel component &#10;-New schedule layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/DatePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/DatePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/EventGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/EventGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/grids/ScheduleGridNewEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/schedule/ScheduleGridNewEntries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settings/EmailField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settings/EmailField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settings/MyPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/components/settings/MyPasswordField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/LoginView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsPendingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsPendingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/groups/GroupsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserFoundView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UserPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/FindUserView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/admin/users/UsersPageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/EventsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/events/EventsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/NewEntryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/NewEntryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jk/eSked/view/schedule/ScheduleView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TODO" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -284,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568063647448</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="-Added schedule compenent&#10;-Added datePanel component &#10;-New schedule layout">
+      <created>1568213467771</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1568213467771</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -304,7 +324,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP" />
     <MESSAGE value="-New project tree organization&#10;-Moved dialogs to components directory&#10;-Added auto column width method for grids&#10;-Added new notifications and error informations&#10;-Removed onAdd method &#10;-WIP on settings" />
     <MESSAGE value="-DB optimization" />
     <MESSAGE value="-Completed settings layout&#10;-Added app icons" />
@@ -329,7 +348,8 @@
     <MESSAGE value="-Added schedule hours synchronization" />
     <MESSAGE value="-New settings view for mobile&#10;-New schedule view for mobile&#10;-New scheduleNewEntries view for mobile&#10;-New newEventDialog layout for mobile&#10;&#10;Overall mobile optimalization" />
     <MESSAGE value="-Fixed login bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Fixed login bug" />
+    <MESSAGE value="-Added schedule compenent&#10;-Added datePanel component &#10;-New schedule layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Added schedule compenent&#10;-Added datePanel component &#10;-New schedule layout" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

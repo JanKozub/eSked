@@ -33,14 +33,6 @@ class UsersPageView extends VerticalLayout {
                 userGrid.addColumn(User::getLastLoggedDate).setHeader("Ostatnio zalogowany");
                 userGrid.addColumn(User::getId).setHeader("ID");
                 userGrid.addColumn(new ComponentRenderer<>(user -> {
-                    Button button = new Button("Szczegóły", event -> {
-                        removeAll();
-                        UserFoundView userFoundView = new UserFoundView(loginService, scheduleService, eventService, userService, hoursService, emailService, user);
-                        add(userFoundView);
-                    });
-                    return new HorizontalLayout(button);
-                }));
-                userGrid.addColumn(new ComponentRenderer<>(user -> {
                     Button button = new Button("Usuń", event -> {
                         userService.deleteUser(user.getId());
                         userGrid.setItems(userService.getUsers());

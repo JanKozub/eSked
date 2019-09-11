@@ -1,4 +1,4 @@
-package org.jk.eSked.components.grids;
+package org.jk.eSked.components.schedule;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -12,7 +12,6 @@ import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.model.ScheduleHour;
 import org.jk.eSked.model.entry.ScheduleEntry;
 import org.jk.eSked.model.event.Event;
-import org.jk.eSked.model.event.EventType;
 import org.jk.eSked.services.events.EventService;
 import org.jk.eSked.services.hours.HoursService;
 import org.jk.eSked.services.schedule.ScheduleService;
@@ -69,20 +68,19 @@ public class ScheduleGrid extends VerticalLayout {
                         for (Event event : events) {
                             if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
                                 entryEvents.add(event);
-                                if (event.getEventType() == EventType.TEST) {
-                                    color = "#c43737";
-                                } else {
-                                    if (event.getEventType() == EventType.QUIZ) {
+                                switch (event.getEventType()) {
+                                    case TEST:
+                                        color = "#c43737";
+                                        break;
+                                    case QUIZ:
                                         color = "#e88133";
-                                    } else {
-                                        if (event.getEventType() == EventType.QUESTIONS) {
-                                            color = "#ebbf23";
-                                        } else {
-                                            if (event.getEventType() == EventType.HOMEWORK) {
-                                                color = "#46c768";
-                                            }
-                                        }
-                                    }
+                                        break;
+                                    case QUESTIONS:
+                                        color = "#ebbf23";
+                                        break;
+                                    case HOMEWORK:
+                                        color = "#46c768";
+                                        break;
                                 }
                             }
                         }
