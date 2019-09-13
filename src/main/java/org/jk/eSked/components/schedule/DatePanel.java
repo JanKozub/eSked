@@ -14,14 +14,11 @@ abstract class DatePanel extends HorizontalLayout {
     private static final boolean PREVIOUS_WEEK = false;
     private static DatePicker dateFrom;
     private static DatePicker dateTo;
-    private LocalDate startOfWeek;
 
     DatePanel(LocalDate startOfWeek) {
-        this.startOfWeek = startOfWeek;
         Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
         prevWeek.addClickListener(e -> {
-            changeWeek(NEXT_WEEK);
-            refreshDates();
+            refreshDates(changeWeek(NEXT_WEEK));
         });
 
         dateFrom = new DatePicker();
@@ -40,8 +37,7 @@ abstract class DatePanel extends HorizontalLayout {
 
         Button nextWeek = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
         nextWeek.addClickListener(f -> {
-            changeWeek(PREVIOUS_WEEK);
-            refreshDates();
+            refreshDates(changeWeek(PREVIOUS_WEEK));
         });
 
         add(prevWeek, dateFrom, arrowIcon, dateTo, nextWeek);
@@ -53,15 +49,15 @@ abstract class DatePanel extends HorizontalLayout {
         nextWeek.setWidth("20%");
         setDefaultVerticalComponentAlignment(Alignment.CENTER);
 
-        refreshDates();
+        refreshDates(startOfWeek);
     }
 
-    private void refreshDates() {
+    private void refreshDates(LocalDate startOfWeek) {
         dateFrom.setValue(startOfWeek);
         dateTo.setValue(startOfWeek.plusDays(6));
     }
 
     abstract void setWeekForDay(LocalDate day);
 
-    abstract void changeWeek(boolean weekType);
+    abstract LocalDate changeWeek(boolean weekType);
 }

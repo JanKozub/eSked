@@ -115,10 +115,12 @@ public class ScheduleGrid extends VerticalLayout {
             }
 
             @Override
-            void changeWeek(boolean weekType) {
+            LocalDate changeWeek(boolean weekType) {
                 int deltaDays = (weekType) ? -7 : 7;
                 startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
+                //System.out.println(startOfWeek);
                 refresh();
+                return startOfWeek;
             }
         };
         add(datePanel);

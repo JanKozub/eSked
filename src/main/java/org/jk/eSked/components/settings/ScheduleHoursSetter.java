@@ -3,10 +3,12 @@ package org.jk.eSked.components.settings;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 import org.jk.eSked.components.myImpl.SuccessNotification;
@@ -57,6 +59,8 @@ public class ScheduleHoursSetter extends VerticalLayout {
     }
 
     private VerticalLayout mainLayout() {
+        Grid<ScheduleHour> hours = new Grid<>();
+
         removeAll();
         currentHour = new AtomicInteger(1);
         hoursList.clear();
@@ -87,11 +91,19 @@ public class ScheduleHoursSetter extends VerticalLayout {
             });
         } else {
             confirm.setText("Następny");
-            registration = confirm.addClickListener(this::addHour);
+            registration = confirm.addClickListener(buttonClickEvent -> {
+                addHour(buttonClickEvent);
+                hours.setItems(hoursList);
+            });
         }
 
+        hours.addColumn(new TextRenderer<>(scheduleHour -> Integer.toString(scheduleHour.getHour()))).setHeader("Godzina").setAutoWidth(true).setFlexGrow(0);
+        hours.addColumn(new TextRenderer<>(ScheduleHour::getData)).setHeader("Info").setAutoWidth(true).setFlexGrow(0);
+        hours.recalculateColumnWidths();
+        hours.setHeightByRows(true);
+        hours.setItems(hoursService.getHours(userId));
 
-        return new VerticalLayout(nameLabel, timeLayout, confirm);
+        return new VerticalLayout(nameLabel, timeLayout, confirm, hours);
     }
 
     private void addHour(ClickEvent clickEvent) {

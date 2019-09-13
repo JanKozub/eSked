@@ -26,6 +26,8 @@ public class loginExceptionDialog extends Dialog {
     private final TextField passField;
     private final Button passButton;
     private Registration registration;
+    private int counter = 0;
+    private int code = 0;
 
     public loginExceptionDialog(UserService userService, EmailService emailService) {
         this.userService = userService;
@@ -39,21 +41,17 @@ public class loginExceptionDialog extends Dialog {
             try {
                 validateNameInput(passField.getValue());
                 passField.setInvalid(false);
-                Random random = new Random();
-                int code = random.nextInt(89999) + 10000;
+
                 String username = passField.getValue();
-                String emailBody = "Witaj " + username + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
-                        "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
-                emailService.sendEmail(userService.getEmailFromUsername(passField.getValue()), "Potwierdzenie zmiany hasła w eSked!", emailBody);
+                sendEmail(username);
 
                 passField.setPlaceholder("Kod z wiad. email");
                 passField.clear();
 
-
                 //passButton.setText("Potwierdź"); //TODO FIX
                 registration = passButton.addClickListener(newEvent -> {
                     try {
-                        validateCode(passField.getValue(), code);
+                        validateCode(username, passField.getValue(), code);
                         passField.setInvalid(false);
 
                         PasswordField pass1 = new PasswordField("Nowe Hasło");
@@ -85,7 +83,7 @@ public class loginExceptionDialog extends Dialog {
                         VerticalLayout layout = new VerticalLayout(pass1, pass2, confirm);
                         removeAll();
                         add(layout);
-                    } catch (ValidationException ex) {
+                    } catch (ValidationException | MessagingException ex) {
                         passField.setErrorMessage(ex.getMessage());
                         passField.setInvalid(true);
                     }
@@ -98,6 +96,15 @@ public class loginExceptionDialog extends Dialog {
                 passField.setInvalid(true);
             }
         });
+    }
+
+    private void sendEmail(String username) throws MessagingException {
+        Random random = new Random();
+        code = random.nextInt(89999) + 10000;
+        String emailBody = "Witaj " + username + "," + "<br><br>Twój kod zmiany hasła to: " + "<br><br>" + code +
+                "<br><br>" + "Teraz możesz wpisać go na stronie!" + "<br><br> Z poważaniem, <br>Zespół eSked";
+        emailService.sendEmail(userService.getEmailFromUsername(username), "Potwierdzenie zmiany hasła w eSked!", emailBody);
+        //passField.setReadOnly(false);
     }
 
     private VerticalLayout createMainLayout() {
@@ -145,9 +152,18 @@ public class loginExceptionDialog extends Dialog {
 
     }
 
-    private void validateCode(String input, int code) {
-        if (input.isEmpty()) throw new ValidationException("Pole nie może być puste");
+    private void validateCode(String username, String typedCode, int code) throws MessagingException {
+        if (typedCode.isEmpty()) throw new ValidationException("Pole nie może być puste");
 
-        if (!input.equals(Integer.toString(code))) throw new ValidationException("Podany kod jest nie prawidłowy");
+        if (!typedCode.equals(Integer.toString(code))) {
+            counter++;
+            if (counter == 3) {
+                passField.setEnabled(false);
+                counter = 0;
+                sendEmail(username);
+                throw new ValidationException("Podano nieprawidłowy kod zbyt wiele razy. Wysłano kod ponownie");
+            }
+            throw new ValidationException("Podany kod jest nie prawidłowy");
+        }
     }
 }
