@@ -23,7 +23,7 @@ public class EmailField extends SettingsTextField {
     private final UUID userId;
     private final UserService userService;
     private final EmailService emailService;
-    private boolean needConfirm;
+    private final boolean needConfirm;
 
     public EmailField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         super("Email", "Nowy Email");

@@ -47,7 +47,7 @@ class GroupsPendingView extends VerticalLayout {
             Button button = new Button("Szczegóły/Edycja");
             button.addClickListener(event -> {
                 removeAll();
-                add(groupLayout(e.getGroupCode()));
+                add(groupLayout());
             });
             return button;
         })).setHeader("Szczegóły");
@@ -84,7 +84,7 @@ class GroupsPendingView extends VerticalLayout {
         return new VerticalLayout(new AdminReturnButton(), groupEntryGrid);
     }
 
-    private VerticalLayout groupLayout(int groupCode) {
+    private VerticalLayout groupLayout() {
         Button button = new Button("Powrót", event -> {
             removeAll();
             VerticalLayout layout = mainLayout();
@@ -92,7 +92,7 @@ class GroupsPendingView extends VerticalLayout {
             add(layout);
         });
         button.setWidth("100%");
-        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, groupCode);
+        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, userService);
 
         return new VerticalLayout(button, scheduleGridNewEntries);
     }

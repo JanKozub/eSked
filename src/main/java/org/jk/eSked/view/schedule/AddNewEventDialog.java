@@ -32,10 +32,10 @@ import java.util.UUID;
 
 public class AddNewEventDialog extends Dialog {
     private Runnable action;
-    private EventService eventService;
-    private LocalDate startOfWeek;
-    private UUID userId;
-    private Collection<ScheduleEntry> entries;
+    private final EventService eventService;
+    private final LocalDate startOfWeek;
+    private final UUID userId;
+    private final Collection<ScheduleEntry> entries;
 
     public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         this.eventService = eventService;

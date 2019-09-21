@@ -24,7 +24,7 @@ public class MyPasswordField extends VerticalLayout {
     private final UserService userService;
     private final UUID userId;
     private final EmailService emailService;
-    private boolean needConfirm;
+    private final boolean needConfirm;
 
     public MyPasswordField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         this.userId = userId;

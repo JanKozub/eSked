@@ -17,9 +17,7 @@ abstract class DatePanel extends HorizontalLayout {
 
     DatePanel(LocalDate startOfWeek) {
         Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
-        prevWeek.addClickListener(e -> {
-            refreshDates(changeWeek(NEXT_WEEK));
-        });
+        prevWeek.addClickListener(e -> refreshDates(changeWeek(NEXT_WEEK)));
 
         dateFrom = new DatePicker();
         dateFrom.setI18n(new DatePicker.DatePickerI18n().setWeek("tydzień").setCalendar("kalendarz")
@@ -36,9 +34,7 @@ abstract class DatePanel extends HorizontalLayout {
         dateTo.setEnabled(false);
 
         Button nextWeek = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
-        nextWeek.addClickListener(f -> {
-            refreshDates(changeWeek(PREVIOUS_WEEK));
-        });
+        nextWeek.addClickListener(f -> refreshDates(changeWeek(PREVIOUS_WEEK)));
 
         add(prevWeek, dateFrom, arrowIcon, dateTo, nextWeek);
         setWidth("100%");

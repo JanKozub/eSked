@@ -12,7 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.util.Properties;
 
 @Service
@@ -23,11 +22,11 @@ public class EmailServiceImpl implements EmailService {
     private static Session getMailSession;
     private static Transport transport;
     private static Properties mailServerProperties;
-    private String host;
-    private String user;
-    private String password;
+    private final String host;
+    private final String user;
+    private final String password;
 
-    public EmailServiceImpl(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.user}") String user, @Value("${smtp.password}") String password) throws IOException {
+    public EmailServiceImpl(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.user}") String user, @Value("${smtp.password}") String password) {
         this.host = host;
         this.user = user;
         this.password = password;

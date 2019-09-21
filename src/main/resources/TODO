@@ -1,10 +1,12 @@
+
+##IMPORTANT##
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -zmiana jezyków
--dodaj jakies miejsce na notatki
--jezeli 3 razy nie to wymien kod
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
+-new event view mobile layout
+-przerob kod na link do aktywacji konta itp
+
+##TO_THINK_ABOUT##
+-dodaj jakies miejsce na notatki
 -importowanie z excela
 -welcone guide
--notification bug
-
--Zapytaj czemu email blokuje stronke

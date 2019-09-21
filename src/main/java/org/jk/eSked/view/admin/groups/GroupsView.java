@@ -89,7 +89,7 @@ class GroupsView extends VerticalLayout {
             add(layout);
         });
         button.setWidth("100%");
-        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, groupsService, userService, groupCode);
+        ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, userService);
         EventGrid eventGrid = new EventGrid(scheduleService, eventService, groupsService.getLeaderId(groupCode));
         return new VerticalLayout(button, scheduleGridNewEntries, eventGrid);
     }

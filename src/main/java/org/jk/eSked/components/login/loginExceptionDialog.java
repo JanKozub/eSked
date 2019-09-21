@@ -51,7 +51,7 @@ public class loginExceptionDialog extends Dialog {
                 //passButton.setText("Potwierdź"); //TODO FIX
                 registration = passButton.addClickListener(newEvent -> {
                     try {
-                        validateCode(username, passField.getValue(), code);
+                        validateCode(passField.getValue(), code);
                         passField.setInvalid(false);
 
                         PasswordField pass1 = new PasswordField("Nowe Hasło");
@@ -83,9 +83,15 @@ public class loginExceptionDialog extends Dialog {
                         VerticalLayout layout = new VerticalLayout(pass1, pass2, confirm);
                         removeAll();
                         add(layout);
-                    } catch (ValidationException | MessagingException ex) {
+                    } catch (ValidationException ex) {
                         passField.setErrorMessage(ex.getMessage());
                         passField.setInvalid(true);
+                        try {
+                            if (ex.getClass().equals(CodeException.class)) sendEmail(username);
+                        } catch (MessagingException mex) {
+                            passField.setErrorMessage(ex.getMessage());
+                            passField.setInvalid(true);
+                        }
                     }
                 });
             } catch (ValidationException ex) {
@@ -152,7 +158,7 @@ public class loginExceptionDialog extends Dialog {
 
     }
 
-    private void validateCode(String username, String typedCode, int code) throws MessagingException {
+    private void validateCode(String typedCode, int code) {
         if (typedCode.isEmpty()) throw new ValidationException("Pole nie może być puste");
 
         if (!typedCode.equals(Integer.toString(code))) {
@@ -160,10 +166,15 @@ public class loginExceptionDialog extends Dialog {
             if (counter == 3) {
                 passField.setEnabled(false);
                 counter = 0;
-                sendEmail(username);
-                throw new ValidationException("Podano nieprawidłowy kod zbyt wiele razy. Wysłano kod ponownie");
+                throw new CodeException();
             }
             throw new ValidationException("Podany kod jest nie prawidłowy");
+        }
+    }
+
+    private static class CodeException extends ValidationException {
+        private CodeException() {
+            super("Podano nieprawidłowy kod zbyt wiele razy. Wysłano kod ponownie");
         }
     }
 }

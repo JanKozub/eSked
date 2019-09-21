@@ -37,8 +37,8 @@ class FindUserView extends VerticalLayout {
     private final UserService userService;
     private final EventService eventService;
     private final HoursService hoursService;
-    private ScheduleService scheduleService;
-    private EmailService emailService;
+    private final ScheduleService scheduleService;
+    private final EmailService emailService;
 
     FindUserView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService) {
         this.scheduleService = scheduleService;

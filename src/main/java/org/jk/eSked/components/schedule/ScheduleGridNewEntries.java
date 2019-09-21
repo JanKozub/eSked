@@ -3,7 +3,6 @@ package org.jk.eSked.components.schedule;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
@@ -11,18 +10,15 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinSession;
+import org.jk.eSked.components.myImpl.NewEntryDialog;
 import org.jk.eSked.model.ScheduleEntry;
 import org.jk.eSked.model.User;
-import org.jk.eSked.services.groups.GroupsService;
 import org.jk.eSked.services.schedule.ScheduleService;
 import org.jk.eSked.services.users.UserService;
 
-import javax.validation.ValidationException;
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,19 +29,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ScheduleGridNewEntries extends VerticalLayout {
 
     private final ScheduleService scheduleService;
-    private final GroupsService groupsService;
     private LocalDate startOfWeek;
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
-    private final int groupCode;
     private final UUID userId;
     private Collection<ScheduleEntry> entries;
 
-    public ScheduleGridNewEntries(ScheduleService scheduleService, GroupsService groupsService, UserService userService, int groupCode) {
+    public ScheduleGridNewEntries(ScheduleService scheduleService, UserService userService) {
         this.scheduleService = scheduleService;
-        this.groupsService = groupsService;
         this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
-        this.groupCode = groupCode;
+        boolean isMoblie = VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile");
 
         entries = scheduleService.getScheduleEntries(userId);
 
@@ -64,7 +57,12 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                         return button;
                     }
                 }
-                button.addClickListener(clickEvent -> newEntryDialog(day, Integer.parseInt(e.getText())));
+                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, isMoblie) {
+                    @Override
+                    public void refresh() {
+                        ScheduleGridNewEntries.this.refresh();
+                    }
+                });
                 button.getStyle().set("color", "red");
                 return button;
             }
@@ -80,7 +78,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+        if (isMoblie) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
             Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {
@@ -122,99 +120,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             buttons.add(new Button(Integer.toString(maxNum)));
         } else buttons.add(new Button("0"));
         scheduleGrid.setItems(buttons);
-    }
-
-    private void newEntryDialog(int day, int hour) {
-        Dialog dialog = new Dialog();
-
-        Label label = new Label("Nowy przedmiot");
-
-        ComboBox<String> comboBox = new ComboBox<>();
-        comboBox.setItems("INF", "J.Niem", "J.ANG", "J.POL", "MAT", "CHEM", "BIOL",
-                "FIZ", "GEO", "WF", "REL", "HIST", "EDB", "WOS", "PLA", "G.W.");
-        comboBox.setPlaceholder("Wybierz przedmiot");
-        comboBox.setWidth("100%");
-
-        TextField textField = new TextField();
-        textField.setPlaceholder("Własny przedmiot");
-
-        HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
-
-        Button addButton;
-        addButton = new Button("Dodaj!", event -> {
-            String name = "";
-            if (comboBox.getValue() != null && !comboBox.getValue().equals("")) {
-                name = comboBox.getValue();
-            }
-
-            if (!textField.getValue().equals("")) {
-                name = textField.getValue();
-            }
-
-            if (!name.equals("")) {
-                if (comboBox.getValue() == null || comboBox.getValue().equals("") || textField.getValue().equals("")) {
-                    addEntry(day, hour, name, dialog);
-                } else {
-                    comboBox.setErrorMessage("Można wybrać tylko jedna opcje");
-                    comboBox.setInvalid(true);
-                    textField.setInvalid(true);
-                    comboBox.clear();
-                    textField.clear();
-                }
-            } else {
-                comboBox.setErrorMessage("Jedno z pól nie moze być puste");
-                textField.setInvalid(true);
-                comboBox.setInvalid(true);
-            }
-        });
-        addButton.setWidth("100%");
-        addButton.addClickShortcut(Key.ENTER);
-
-        VerticalLayout verticalLayout = new VerticalLayout(label, layout, addButton);
-        verticalLayout.setAlignItems(Alignment.CENTER);
-
-        dialog.add(verticalLayout);
-        dialog.open();
-    }
-
-    private void addEntry(int day, int hour, String name, Dialog dialog) {
-        ScheduleEntry scheduleEntry = new ScheduleEntry(userId, hour, day, name, Instant.now().toEpochMilli());
-        try {
-            validateEntry(day, hour);
-            scheduleService.addScheduleEntry(scheduleEntry);
-            dialog.close();
-            refresh();
-        } catch (ValidationException ex) {
-            confirmDialog(dialog, scheduleEntry);
-        }
-    }
-
-    private void validateEntry(int day, int hour) {
-        entries = scheduleService.getScheduleEntries(userId);
-        for (ScheduleEntry entry : entries) {
-            if (entry.getHour() == hour && entry.getDay() == day) throw new ValidationException();
-        }
-    }
-
-    private void confirmDialog(Dialog dialog2, ScheduleEntry entry) {
-        Dialog dialog = new Dialog();
-        Label label = new Label("Istnieje juz wpis na tym miejscu, usunąc i wprowadzić nowy?");
-        Button yes = new Button("Tak");
-        yes.addClickListener(event -> {
-            scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay());
-            scheduleService.addScheduleEntry(new ScheduleEntry(userId, entry.getHour(), entry.getDay(), entry.getSubject(), Instant.now().toEpochMilli()));
-            scheduleGrid.setItems(buttons);
-            dialog.close();
-            dialog2.close();
-        });
-        Button no = new Button("Nie", event -> dialog.close());
-        HorizontalLayout horizontalLayout = new HorizontalLayout(yes, no);
-        horizontalLayout.setSizeFull();
-        yes.setWidth("50%");
-        no.setWidth("50%");
-        VerticalLayout layout = new VerticalLayout(label, horizontalLayout);
-        dialog.add(layout);
-        dialog.open();
     }
 
     private void deleteEntryDialog(ScheduleEntry entry) {
