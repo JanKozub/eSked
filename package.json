@@ -14,5 +14,6 @@
     "copy-webpack-plugin": "5.0.3",
     "webpack-merge": "4.2.1",
     "raw-loader": "3.0.0"
-  }
+  },
+  "vaadinAppPackageHash": "bfa56a3401120d19ebf20b1c76af890ee925bbd1ab0da40402542a858d6ca01a"
 }
