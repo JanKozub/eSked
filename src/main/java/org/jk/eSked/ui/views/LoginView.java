@@ -18,7 +18,10 @@ import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.BarNotification;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.event.Event;
-import org.jk.eSked.backend.service.*;
+import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.EventService;
+import org.jk.eSked.backend.service.GroupService;
+import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.components.login.loginExceptionDialog;
 
 import java.time.Instant;
@@ -125,7 +128,7 @@ class LoginView extends VerticalLayout {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        ThemeService themeService = new ThemeService();
-        themeService.check();
+//        ThemeService themeService = new ThemeService();
+//        themeService.check();
     }
 }

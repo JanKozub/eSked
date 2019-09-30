@@ -61,7 +61,7 @@ public class EmailService implements EmailDB {
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue("verify");
                 String url = tokenService.encodeToken(tokenValue);
-                url = "http://localhost:8080/verify/" + url;
+                url = "http://" + serverAddress + "/verify/" + url;
                 emailBody = "Aktywuj konto \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWPASSOWRD:

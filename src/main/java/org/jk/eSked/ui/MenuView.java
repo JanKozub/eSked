@@ -1,103 +1,77 @@
 package org.jk.eSked.ui;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Span;
+import com.github.appreciated.app.layout.addons.notification.DefaultNotificationHolder;
+import com.github.appreciated.app.layout.addons.notification.component.NotificationButton;
+import com.github.appreciated.app.layout.component.appbar.AppBarBuilder;
+import com.github.appreciated.app.layout.component.applayout.LeftLayouts;
+import com.github.appreciated.app.layout.component.builder.AppLayoutBuilder;
+import com.github.appreciated.app.layout.component.menu.left.builder.LeftAppMenuBuilder;
+import com.github.appreciated.app.layout.component.menu.left.builder.LeftSubMenuBuilder;
+import com.github.appreciated.app.layout.component.menu.left.items.LeftClickableItem;
+import com.github.appreciated.app.layout.component.menu.left.items.LeftHeaderItem;
+import com.github.appreciated.app.layout.component.menu.left.items.LeftNavigationItem;
+import com.github.appreciated.app.layout.component.router.AppLayoutRouterLayout;
+import com.github.appreciated.app.layout.entity.DefaultBadgeHolder;
+import com.github.appreciated.app.layout.entity.Section;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
-import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.RouteConfiguration;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.VaadinServlet;
-import org.jk.eSked.ui.views.admin.AdminView;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.page.Push;
+import com.vaadin.flow.component.page.Viewport;
+import com.vaadin.flow.spring.annotation.UIScope;
+import org.jk.eSked.ui.views.AboutAppView;
+import org.jk.eSked.ui.views.SettingsView;
+import org.jk.eSked.ui.views.events.EventsView;
+import org.jk.eSked.ui.views.events.NewEventView;
+import org.jk.eSked.ui.views.schedule.NewEntryView;
+import org.jk.eSked.ui.views.schedule.ScheduleView;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-public class MenuView extends AppLayout {
-
-    private final ConfirmDialog confirmDialog = new ConfirmDialog();
-    private final Tabs menu;
+@Push
+@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
+@Component
+@UIScope // optional but useful; allows access to this instance from views, see View1.
+public class MenuView extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
+    private DefaultNotificationHolder notifications = new DefaultNotificationHolder();
+    private DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
 
     public MenuView() {
-        confirmDialog.setCancelable(true);
-        confirmDialog.setConfirmButtonTheme("raised tertiary error");
-        confirmDialog.setCancelButtonTheme("raised tertiary");
+        notifications.addClickListener(notification -> {/* ... */});
 
-        this.setDrawerOpened(false);
-        Span appName = new Span("my-starter-project");
-        appName.addClassName("hide-on-mobile");
+        LeftNavigationItem menuEntry = new LeftNavigationItem("Menu", VaadinIcon.MENU.create(), SettingsView.class);
+        badge.bind(menuEntry.getBadge());
 
-        menu = createMenuTabs();
-
-        this.addToNavbar(appName);
-        this.addToNavbar(true, menu);
-        this.getElement().appendChild(confirmDialog.getElement());
-
-        getElement().addEventListener("search-focus", e -> {
-            getElement().getClassList().add("hide-navbar");
-        });
-
-        getElement().addEventListener("search-blur", e -> {
-            getElement().getClassList().remove("hide-navbar");
-        });
+        init(AppLayoutBuilder.get(LeftLayouts.LeftResponsive.class)
+                .withTitle("App Layout")
+                .withAppBar(AppBarBuilder.get()
+                        .add(new NotificationButton<>(VaadinIcon.BELL, notifications))
+                        .build())
+                .withAppMenu(LeftAppMenuBuilder.get()
+                        .addToSection(Section.HEADER,
+                                new LeftHeaderItem("Menu-Header", "Version 4.0.0", "/frontend/images/logo.png"),
+                                new LeftClickableItem("Clickable Entry", VaadinIcon.COG.create(), clickEvent -> Notification.show("onClick ..."))
+                        )
+                        .add(new LeftNavigationItem("Home", VaadinIcon.HOME.create(), ScheduleView.class),
+                                new LeftNavigationItem("Grid", VaadinIcon.TABLE.create(), EventsView.class),
+                                LeftSubMenuBuilder.get("My Submenu", VaadinIcon.PLUS.create())
+                                        .add(LeftSubMenuBuilder
+                                                        .get("My Submenu", VaadinIcon.PLUS.create())
+                                                        .add(new LeftNavigationItem("Contact", VaadinIcon.CONNECT.create(), NewEntryView.class),
+                                                                new LeftNavigationItem("More", VaadinIcon.COG.create(), NewEventView.class))
+                                                        .build(),
+                                                new LeftNavigationItem("Contact1", VaadinIcon.CONNECT.create(), AboutAppView.class),
+                                                new LeftNavigationItem("More1", VaadinIcon.COG.create(), SettingsView.class))
+                                        .build(),
+                                menuEntry)
+                        .addToSection(Section.FOOTER, new LeftClickableItem("Clickable Entry", VaadinIcon.COG.create(), clickEvent -> Notification.show("onClick ...")))
+                        .build())
+                .build());
     }
 
-    private static Tabs createMenuTabs() {
-        final Tabs tabs = new Tabs();
-        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        tabs.add(getAvailableTabs());
-        return tabs;
+    public DefaultNotificationHolder getNotifications() {
+        return notifications;
     }
 
-    private static Tab[] getAvailableTabs() {
-        final List<Tab> tabs = new ArrayList<>(4);
-        tabs.add(createTab(VaadinIcon.EDIT, "tetete", AdminView.class));
-//		tabs.add(createTab(VaadinIcon.CLOCK,TITLE_DASHBOARD, SettingsView.class));
-        final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
-        final Tab logoutTab = createTab(createLogoutLink(contextPath));
-        tabs.add(logoutTab);
-        return tabs.toArray(new Tab[tabs.size()]);
-    }
-
-    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), icon, title));
-    }
-
-    private static Tab createTab(Component content) {
-        final Tab tab = new Tab();
-        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-        tab.add(content);
-        return tab;
-    }
-
-    private static Anchor createLogoutLink(String contextPath) {
-//		final Anchor a = populateLink(new Anchor(), VaadinIcon.ARROW_RIGHT, TITLE_LOGOUT);
-//		a.setHref(contextPath + "/logout");
-        return new Anchor();
-    }
-
-    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
-        a.add(icon.create());
-        a.add(title);
-        return a;
-    }
-
-    @Override
-    protected void afterNavigation() {
-        super.afterNavigation();
-        confirmDialog.setOpened(false);
-
-        String target = RouteConfiguration.forSessionScope().getUrl(this.getContent().getClass());
-        Optional<Component> tabToSelect = menu.getChildren().filter(tab -> {
-            Component child = tab.getChildren().findFirst().get();
-            return child instanceof RouterLink && ((RouterLink) child).getHref().equals(target);
-        }).findFirst();
-        tabToSelect.ifPresent(tab -> menu.setSelectedTab((Tab) tab));
+    public DefaultBadgeHolder getBadge() {
+        return badge;
     }
 }
