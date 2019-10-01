@@ -1,7 +1,5 @@
 package org.jk.eSked.ui.components.settings;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.textfield.TextField;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -46,10 +44,6 @@ public class EmailField extends SettingsTextField {
 
     @Override
     protected void commitInput(String input) throws Exception {
-        TextField codeField = new TextField();
-        Button button = new Button("Potwierdź");
-        button.setWidth("40%");
-
         if (needConfirm) {
 
             emailService.sendEmail(userService.getUser(userId), EmailType.NEWEMAIL);

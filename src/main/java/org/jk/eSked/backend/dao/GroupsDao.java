@@ -30,7 +30,13 @@ public interface GroupsDao {
     @ConstructorArgs({
             @Arg(column = "name", javaType = String.class),
     })
-    List<String> getGroupsNames();
+    List<String> getGroupNames();
+
+    @Select("SELECT * FROM Groups")
+    @ConstructorArgs({
+            @Arg(column = "groupCode", javaType = int.class),
+    })
+    List<Integer> getGroupCodes();
 
     @Select("SELECT * FROM Groups WHERE groupCode = #{groupCode}")
     @ConstructorArgs({

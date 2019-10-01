@@ -13,7 +13,9 @@ public interface GroupDB {
 
     String getGroupName(int groupCode);
 
-    Collection<String> getGroupsNames();
+    Collection<String> getGroupNames();
+
+    Collection<Integer> getGroupCodes();
 
     Collection<Group> getGroups();
 

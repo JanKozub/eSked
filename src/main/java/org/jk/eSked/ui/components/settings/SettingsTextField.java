@@ -1,6 +1,7 @@
 package org.jk.eSked.ui.components.settings;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -89,6 +90,7 @@ abstract class SettingsTextField extends VerticalLayout {
         button = new Button("Zmień");
         button.setWidth("30%");
         button.addClickListener(this::onStartEdit);
+        button.addClickShortcut(Key.ENTER);
 
         commitButton = new Button("Potwierdź");
         commitButton.setWidth("40%");

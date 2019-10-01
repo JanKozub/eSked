@@ -56,7 +56,7 @@ class LoginView extends VerticalLayout {
                     loginOverlay.setOpened(false);
                     VaadinSession.getCurrent().setAttribute(User.class, user);
 
-                    if (groupsService.getGroupsNames().stream().noneMatch(s -> s.equals(groupsService.getGroupName(user.getGroupCode()))))
+                    if (groupsService.getGroupNames().stream().noneMatch(s -> s.equals(groupsService.getGroupName(user.getGroupCode()))))
                         userService.setGroupCode(user.getId(), 0);
 
                     if (userService.getGroupCode(user.getId()) != 0)

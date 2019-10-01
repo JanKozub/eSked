@@ -63,7 +63,7 @@ public class EmailService implements EmailDB {
                 tokenValue.setValue("verify");
                 url = tokenService.encodeToken(tokenValue);
                 url = "http://" + serverAddress + "/verify/" + url;
-                emailBody = "Aktywuj konto \n<a href=" + url + ">tutaj</a>";
+                emailBody = "Witamy w eSked! Aktywuj konto klikając \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWPASSOWRD:
                 subject = "Potwierdzenie zmiany hasła w eSked";
@@ -71,11 +71,15 @@ public class EmailService implements EmailDB {
                 tokenValue.setValue("password");
                 url = tokenService.encodeToken(tokenValue);
                 url = "http://" + serverAddress + "/password/" + url;
-                emailBody = "Zmień hasło klikajać \n<a href=" + url + ">tutaj</a>";
+                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWUSERNAME:
                 subject = "Twoja nazwa użytkownika została zmieniona";
-                emailBody = "";
+                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Twoja nowa nazwa użytkownika to \"" + user.getUsername() + "\"";
+                break;
+            case NEWEMAIL:
+
+                break;
         }
         generateAndSendMessage(user.getEmail(), subject, emailBody);
 

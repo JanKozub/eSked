@@ -30,6 +30,8 @@ public class SettingsView extends VerticalLayout {
 
     public SettingsView(LoginService loginService, UserService userService, GroupService groupsService, HoursService hoursService, EmailService emailService) {
 
+        groupsService.getGroupCodes();
+
         if (loginService.checkIfUserIsLogged()) {
 
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
@@ -51,12 +53,13 @@ public class SettingsView extends VerticalLayout {
             languageGroup.getStyle().set("margin-top", "auto");
 
             accountForm.add(languageGroup);
-            accountForm.add(new Button("Dodaj Przedmioty Do Planu", buttonClickEvent -> UI.getCurrent().navigate("schedule/new")), 2);
+            accountForm.add(new Button("Dodaj Przedmioty Do Planu",
+                    buttonClickEvent -> UI.getCurrent().navigate("schedule/new")), 2);
 //GROUPS
             Label groupsLabel = new Label("Grupy");
 
             FormLayout groupsForm = new FormLayout();
-            groupsForm.add(new GroupCodeField(userId, userService));
+            groupsForm.add(new GroupCodeField(userId, userService, groupsService));
             Button groupSyn = new Button("Synchronizuj z grupą");
             groupSyn.addClickListener(buttonClickEvent -> groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId)));
             groupSyn.getStyle().set("margin-top", "auto");
@@ -154,14 +157,11 @@ public class SettingsView extends VerticalLayout {
 
     private void leaveGroup(UUID userId, UserService userService) {
         userService.setGroupCode(userId, 0);
-        UI.getCurrent().getPage().reload();
     }
 
     private void deleteGroup(UUID userId, GroupService groupsService, UserService userService) {
         groupsService.deleteGroup(userService.getGroupCode(userId));
         userService.setGroupCode(userId, 0);
-
-        UI.getCurrent().getPage().reload();
 
         new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
     }

@@ -35,13 +35,15 @@ class FindUserView extends VerticalLayout {
     private final HoursService hoursService;
     private final ScheduleService scheduleService;
     private final EmailService emailService;
+    private GroupService groupService;
 
-    FindUserView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService) {
+    FindUserView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
         this.scheduleService = scheduleService;
         this.userService = userService;
         this.eventService = eventService;
         this.hoursService = hoursService;
         this.emailService = emailService;
+        this.groupService = groupService;
 
         if (loginService.checkIfUserIsLogged()) {
             if (loginService.checkIfUserIsLoggedAsAdmin()) {
@@ -78,7 +80,7 @@ class FindUserView extends VerticalLayout {
         InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(user.getId(), userService, emailService, false);
-        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService);
+        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService);
         InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
         InfoBox createdDate = new InfoBox("Data stworzenia konta: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());
         InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());

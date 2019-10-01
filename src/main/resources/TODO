@@ -2,11 +2,12 @@
 -zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -zmiana jezyków
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
--przerob kod na link do aktywacji konta itp
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -update security
 -emailField:64 JAKIES ZABEZPIECZENIE TEGO HASLEM ZE NAJPIERW WPISUJESZ HASLO A POTEM MOZESZ ZMIENIAC RZECZY
 -settingsView:163 -deleteGroup() DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
+-settingView - fix email box
+-settingsView - fix password box
 
 ##TO_THINK_ABOUT##
 -dodaj jakies miejsce na notatki

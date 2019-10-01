@@ -59,7 +59,7 @@ public class GroupCreator extends VerticalLayout {
     private void validateInput(String input, UUID userId, GroupService groupsService) {
         if (input.isEmpty()) throw new ValidationException("Pole nie może być puste");
 
-        Collection<String> groups = groupsService.getGroupsNames();
+        Collection<String> groups = groupsService.getGroupNames();
         if (groups.contains(input)) throw new ValidationException("Grupa z taką nazwą już istnieje");
 
         if (!groupsService.hasEntries(userId))

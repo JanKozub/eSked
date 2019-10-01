@@ -40,8 +40,13 @@ public class GroupService implements GroupDB {
     }
 
     @Override
-    public Collection<String> getGroupsNames() {
-        return groupsDao.getGroupsNames();
+    public Collection<String> getGroupNames() {
+        return groupsDao.getGroupNames();
+    }
+
+    @Override
+    public Collection<Integer> getGroupCodes() {
+        return groupsDao.getGroupCodes();
     }
 
     @Override
