@@ -1,4 +1,6 @@
-package org.jk.eSked.backend.model.event;
+package org.jk.eSked.backend.model;
+
+import org.jk.eSked.backend.model.types.EventType;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

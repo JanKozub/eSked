@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
 @MappedTypes(value = UUID.class)
 @Component
 class UUIDTypeHandler implements TypeHandler<UUID> {

@@ -1,20 +1,11 @@
 package org.jk.eSked.backend.service;
 
 import com.vaadin.flow.component.UI;
-
-import java.time.LocalDateTime;
+import org.jk.eSked.backend.model.types.ThemeType;
 
 public class ThemeService {
-    public ThemeService() {
-    }
-
-    public void check() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        int hour = currentTime.getHour() - 4;
-        if (hour > 15 || hour <= 0) {
-            UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
-        } else {
-            UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
-        }
+    public static void setTheme(ThemeType themeType) {
+        UI.getCurrent().getPage()
+                .executeJs("document.documentElement.setAttribute(\"theme\",\"" + themeType.toString().toLowerCase() + "\")");
     }
 }

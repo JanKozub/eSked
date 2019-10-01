@@ -1,7 +1,7 @@
 package org.jk.eSked.backend.repositories;
 
-import org.jk.eSked.backend.model.EmailType;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.EmailType;
 
 public interface EmailDB {
 

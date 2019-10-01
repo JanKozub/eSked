@@ -1,4 +1,4 @@
-package org.jk.eSked.backend.model;
+package org.jk.eSked.backend.model.schedule;
 
 import java.util.UUID;
 

@@ -1,4 +1,6 @@
-package org.jk.eSked.backend.model.event;
+package org.jk.eSked.backend.model.schedule;
+
+import org.jk.eSked.backend.model.types.EventType;
 
 import java.time.*;
 import java.util.Objects;

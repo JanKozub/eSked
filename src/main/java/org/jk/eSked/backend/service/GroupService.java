@@ -1,10 +1,10 @@
 package org.jk.eSked.backend.service;
 
 import org.jk.eSked.backend.dao.GroupsDao;
+import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.Group;
-import org.jk.eSked.backend.model.ScheduleHour;
-import org.jk.eSked.backend.model.event.Event;
-import org.jk.eSked.backend.model.event.ScheduleEvent;
+import org.jk.eSked.backend.model.schedule.ScheduleEvent;
+import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.repositories.GroupDB;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +98,6 @@ public class GroupService implements GroupDB {
             }
         }
     }
-
 
     @Override
     public boolean doesCreatedGroup(UUID userId) {

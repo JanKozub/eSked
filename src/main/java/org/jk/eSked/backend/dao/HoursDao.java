@@ -1,7 +1,7 @@
 package org.jk.eSked.backend.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.jk.eSked.backend.model.ScheduleHour;
+import org.jk.eSked.backend.model.schedule.ScheduleHour;
 
 import java.util.Collection;
 import java.util.UUID;

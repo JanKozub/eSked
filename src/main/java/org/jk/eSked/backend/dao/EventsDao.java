@@ -1,8 +1,8 @@
 package org.jk.eSked.backend.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.jk.eSked.backend.model.event.EventType;
-import org.jk.eSked.backend.model.event.ScheduleEvent;
+import org.jk.eSked.backend.model.schedule.ScheduleEvent;
+import org.jk.eSked.backend.model.types.EventType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

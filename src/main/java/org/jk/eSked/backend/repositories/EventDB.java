@@ -1,7 +1,7 @@
 package org.jk.eSked.backend.repositories;
 
-import org.jk.eSked.backend.model.event.Event;
-import org.jk.eSked.backend.model.event.ScheduleEvent;
+import org.jk.eSked.backend.model.Event;
+import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 
 import java.time.LocalDate;
 import java.util.Collection;

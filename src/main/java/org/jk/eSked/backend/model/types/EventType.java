@@ -1,4 +1,4 @@
-package org.jk.eSked.backend.model.event;
+package org.jk.eSked.backend.model.types;
 
 public enum EventType {
     HOMEWORK("Zadanie"),

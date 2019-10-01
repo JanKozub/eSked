@@ -1,7 +1,7 @@
 package org.jk.eSked.backend.service;
 
 import org.jk.eSked.backend.dao.ScheduleDao;
-import org.jk.eSked.backend.model.ScheduleEntry;
+import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.repositories.ScheduleDB;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package org.jk.eSked.backend.service;
 
 import org.jk.eSked.backend.dao.EventsDao;
-import org.jk.eSked.backend.model.event.Event;
-import org.jk.eSked.backend.model.event.ScheduleEvent;
+import org.jk.eSked.backend.model.Event;
+import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.repositories.EventDB;
 import org.springframework.stereotype.Service;
 

@@ -15,24 +15,16 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.backend.model.BarNotification;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.model.event.Event;
-import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.EventService;
-import org.jk.eSked.backend.service.GroupService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.model.types.ThemeType;
+import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.components.login.loginExceptionDialog;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Route(value = "login")
 @PageTitle("Logowanie")
-//@Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover")
 @PWA(name = "eSked", shortName = "Schedule app")
 class LoginView extends VerticalLayout {
 
@@ -71,21 +63,12 @@ class LoginView extends VerticalLayout {
                     if (userService.getGroupCode(user.getId()) != 0)
                         groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
 
-                    Collection<Event> events = eventService.getAllEvents(user.getId());
-                    List<BarNotification> notifications = new ArrayList<>();
-                    for (Event event : events) {
-                        if (event.getCreatedDate().isAfter(Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime())) {
-                            notifications.add(new BarNotification("Temat: " + event.getTopic(), event.getDate()));
-                        }
-                    }
-                    VaadinSession.getCurrent().setAttribute(Collection.class, notifications);
                     userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
 
                     UI.getCurrent().navigate("schedule");
-                    if (user.isDarkTheme())
-                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
-                    else
-                        UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
+                    if (user.isDarkTheme()) ThemeService.setTheme(ThemeType.DARK);
+                    else ThemeService.setTheme(ThemeType.WHITE);
+
                 } else {
                     Notification notification = new Notification("Konto nie zostało jeszcze aktywowane", 10000, Notification.Position.TOP_END);
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);

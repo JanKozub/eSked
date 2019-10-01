@@ -1,6 +1,6 @@
 package org.jk.eSked.backend.repositories;
 
-import org.jk.eSked.backend.model.ScheduleHour;
+import org.jk.eSked.backend.model.schedule.ScheduleHour;
 
 import java.util.Collection;
 import java.util.UUID;

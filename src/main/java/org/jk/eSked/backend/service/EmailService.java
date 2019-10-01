@@ -1,8 +1,8 @@
 package org.jk.eSked.backend.service;
 
-import org.jk.eSked.backend.model.EmailType;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.repositories.EmailDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

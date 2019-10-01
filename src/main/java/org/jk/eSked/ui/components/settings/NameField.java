@@ -3,7 +3,7 @@ package org.jk.eSked.ui.components.settings;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import org.apache.commons.lang3.StringUtils;
-import org.jk.eSked.backend.model.EmailType;
+import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.UserService;
 

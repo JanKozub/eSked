@@ -14,10 +14,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.GroupService;
-import org.jk.eSked.backend.service.HoursService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.model.types.ThemeType;
+import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.Line;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
@@ -110,10 +108,8 @@ public class SettingsView extends VerticalLayout {
             theme.addValueChangeListener(valueChange -> {
                 boolean mode = valueChange.getValue().equals("Ciemny");
                 userService.setDarkTheme(userId, mode);
-                if (mode)
-                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"dark\")");
-                else
-                    UI.getCurrent().getPage().executeJs("document.documentElement.setAttribute(\"theme\",\"white\")");
+                if (mode) ThemeService.setTheme(ThemeType.DARK);
+                else ThemeService.setTheme(ThemeType.WHITE);
             });
 
             FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);

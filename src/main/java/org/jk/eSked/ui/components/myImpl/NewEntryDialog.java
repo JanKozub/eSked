@@ -10,8 +10,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.backend.model.ScheduleEntry;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.ScheduleService;
 
 import java.time.Instant;
