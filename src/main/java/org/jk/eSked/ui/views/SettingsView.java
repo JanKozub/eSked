@@ -52,6 +52,7 @@ public class SettingsView extends VerticalLayout {
             languageGroup.getStyle().set("margin-top", "auto");
 
             accountForm.add(languageGroup);
+            accountForm.add(new Button("Dodaj Przedmioty Do Planu", buttonClickEvent -> UI.getCurrent().navigate("schedule/new")), 2);
 //GROUPS
             Label groupsLabel = new Label("Grupy");
 
