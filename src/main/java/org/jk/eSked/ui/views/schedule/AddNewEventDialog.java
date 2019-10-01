@@ -18,6 +18,7 @@ import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EventService;
 import org.jk.eSked.backend.service.ScheduleService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
@@ -70,8 +71,7 @@ public class AddNewEventDialog extends Dialog {
                     ScheduleEvent event = new ScheduleEvent(userId, id, time, scheduleEntry.getHour(),
                             eventType.getValue(), topicField.getValue(), Instant.now().toEpochMilli());
                     eventService.addEvent(event);
-                    SuccessNotification notification = new SuccessNotification("Dodano wydarzenie!");
-                    notification.open();
+                    new SuccessNotification("Dodano wydarzenie!", NotificationType.SHORT).open();
                     topicField.clear();
                     close();
                 } else eventType.setInvalid(true);

@@ -14,6 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.model.types.ThemeType;
 import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.MenuView;
@@ -160,9 +161,8 @@ public class SettingsView extends VerticalLayout {
         groupsService.deleteGroup(userService.getGroupCode(userId));
         userService.setGroupCode(userId, 0);
 
-        UI.getCurrent().getPage().reload(); //TODO DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
+        UI.getCurrent().getPage().reload();
 
-        SuccessNotification notification = new SuccessNotification("Usunięto grupę");
-        notification.open();
+        new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
     }
 }

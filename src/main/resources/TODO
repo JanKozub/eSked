@@ -6,6 +6,7 @@
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -update security
 -emailField:64 JAKIES ZABEZPIECZENIE TEGO HASLEM ZE NAJPIERW WPISUJESZ HASLO A POTEM MOZESZ ZMIENIAC RZECZY
+-settingsView:163 -deleteGroup() DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
 
 ##TO_THINK_ABOUT##
 -dodaj jakies miejsce na notatki

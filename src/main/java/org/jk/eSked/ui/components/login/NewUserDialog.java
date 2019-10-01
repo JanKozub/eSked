@@ -11,9 +11,10 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.time.Instant;
@@ -63,7 +64,7 @@ class NewUserDialog extends Dialog {
 
                         userService.addUser(user);
 
-                        new LongSuccessNotification("Link aktywacyjny został wysłany na podany email!").open();
+                        new SuccessNotification("Link aktywacyjny został wysłany na podany email!", NotificationType.LONG).open();
 
                         close();
                     } catch (ValidationException ex) {

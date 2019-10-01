@@ -2,6 +2,7 @@ package org.jk.eSked.ui.components.settings;
 
 import com.vaadin.flow.component.UI;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
@@ -37,8 +38,7 @@ public class GroupCodeField extends SettingsTextField {
     protected void commitInput(String input) {
         userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
         UI.getCurrent().getPage().reload();
-        SuccessNotification notification = new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"");
-        notification.open();
+        new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"", NotificationType.SHORT).open();
         completeEdit(Integer.toString(userService.getGroupCode(userId)));
     }
 }

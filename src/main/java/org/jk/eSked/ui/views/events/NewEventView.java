@@ -23,6 +23,7 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EventService;
 import org.jk.eSked.backend.service.ScheduleService;
 import org.jk.eSked.ui.MenuView;
@@ -181,15 +182,13 @@ public class NewEventView extends HorizontalLayout {
             ScheduleEvent event = new ScheduleEvent(userId, id, time, (int) Math.round(hourNum.getValue()),
                     eventType.getValue(), topicField.getValue(), createdData);
             eventService.addEvent(event);
-            SuccessNotification notification = new SuccessNotification("Dodano wydarzenie: " + topicField.getValue());
+            new SuccessNotification("Dodano wydarzenie: " + topicField.getValue(), NotificationType.SHORT).open();
 
             datePicker.clear();
             datePicker.setInvalid(false);
             eventType.clear();
             hourNum.clear();
             topicField.clear();
-
-            notification.open();
         } catch (ValidationException ex) {
             Notification notification = new Notification(ex.getMessage(), 5000, Notification.Position.TOP_END);
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);

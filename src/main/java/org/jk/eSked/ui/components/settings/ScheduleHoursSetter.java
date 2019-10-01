@@ -12,6 +12,7 @@ import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.HoursService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
@@ -133,8 +134,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         hoursService.deleteScheduleHours(userId);
         hoursService.setScheduleHours(hoursList);
         removeAll();
-        SuccessNotification notification = new SuccessNotification("Godziny zostały pomyślnie dodane");
-        notification.open();
+        new SuccessNotification("Godziny zostały pomyślnie dodane", NotificationType.SHORT).open();
         registration.remove();
         fromHour.clear();
         toHour.clear();

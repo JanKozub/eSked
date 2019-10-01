@@ -10,9 +10,10 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TokenService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +46,7 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
 
                     userService.changePassword(userId, User.encodePassword(confirmPassword.getValue()));
 
-                    new LongSuccessNotification("Twoje hasło zostało pomyślnie zmienione").open();
+                    new SuccessNotification("Twoje hasło zostało pomyślnie zmienione", NotificationType.LONG).open();
                     UI.getCurrent().navigate("login");
                 } catch (ValidationException ex) {
                     confirmPassword.setErrorMessage(ex.getMessage());

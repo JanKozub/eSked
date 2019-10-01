@@ -9,9 +9,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
@@ -45,7 +46,7 @@ public class loginExceptionDialog extends Dialog {
 
                 emailService.sendEmail(userService.getUser(userService.getIdFromUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
 
-                new LongSuccessNotification("Link do zmiany hasła został wysłany na email").open();
+                new SuccessNotification("Link do zmiany hasła został wysłany na email", NotificationType.LONG).open();
             } catch (Exception ex) {
                 usernameField.setErrorMessage(ex.getMessage());
                 usernameField.setInvalid(true);

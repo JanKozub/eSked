@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.Group;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.GroupService;
 import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
@@ -42,8 +43,7 @@ public class GroupCreator extends VerticalLayout {
                     groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
                     removeAll();
 
-                    SuccessNotification notification = new SuccessNotification("Prośba o stworzenie grupy została wysłana!");
-                    notification.open();
+                    new SuccessNotification("Prośba o stworzenie grupy została wysłana!", NotificationType.SHORT).open();
 
                     add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
 

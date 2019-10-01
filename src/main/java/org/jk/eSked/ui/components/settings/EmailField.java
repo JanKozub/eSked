@@ -4,9 +4,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.textfield.TextField;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
@@ -54,13 +54,12 @@ public class EmailField extends SettingsTextField {
 
             emailService.sendEmail(userService.getUser(userId), EmailType.NEWEMAIL);
 
-            new LongSuccessNotification("Link do zmiany email został wysłany na nowy email");
+            new SuccessNotification("Link do zmiany email został wysłany na nowy email", NotificationType.SHORT);
 
         } else {
             userService.changeEmail(userId, textField.getValue());
 
-            SuccessNotification notification = new SuccessNotification("Zmieniono email na \"" + textField.getValue() + "\"");
-            notification.open();
+            new SuccessNotification("Zmieniono email na \"" + textField.getValue() + "\"", NotificationType.SHORT).open();
 
             completeEdit(userService.getEmail(userId));
         }

@@ -6,9 +6,10 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.TokenValue;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TokenService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
             TokenValue tokenValue = tokenService.decodeToken(url);
             if (tokenValue.getUserId() != null) {
                 userService.setVerified(tokenValue.getUserId(), true);
-                new LongSuccessNotification("Twoje konto zostało aktywowane").open();
+                new SuccessNotification("Twoje konto zostało aktywowane", NotificationType.LONG).open();
             }
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());

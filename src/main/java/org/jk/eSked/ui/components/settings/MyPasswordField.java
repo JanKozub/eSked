@@ -10,9 +10,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.UserService;
-import org.jk.eSked.ui.components.myImpl.LongSuccessNotification;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.UUID;
@@ -77,7 +78,7 @@ public class MyPasswordField extends VerticalLayout {
                 validatePassword(pass);
 
                 emailService.sendEmail(userService.getUser(userId), EmailType.NEWPASSOWRD);
-                new LongSuccessNotification("Link do zmiany hasła został wysłany na twój email");
+                new SuccessNotification("Link do zmiany hasła został wysłany na twój email", NotificationType.LONG);
 
             } catch (Exception ex) {
                 passwordField.setErrorMessage(ex.getMessage());
