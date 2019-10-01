@@ -54,19 +54,24 @@ public class EmailService implements EmailDB {
 
         String subject = "";
         String emailBody = "";
+        String url = "";
+        TokenValue tokenValue = new TokenValue();
         switch (emailType) {
             case NEWUSER:
                 subject = "Potwierdzenie rejstracji w eSked";
-                TokenValue tokenValue = new TokenValue();
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue("verify");
-                String url = tokenService.encodeToken(tokenValue);
+                url = tokenService.encodeToken(tokenValue);
                 url = "http://" + serverAddress + "/verify/" + url;
                 emailBody = "Aktywuj konto \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWPASSOWRD:
                 subject = "Potwierdzenie zmiany hasła w eSked";
-                emailBody = "";
+                tokenValue.setUserId(user.getId());
+                tokenValue.setValue("password");
+                url = tokenService.encodeToken(tokenValue);
+                url = "http://" + serverAddress + "/password/" + url;
+                emailBody = "Zmień hasło klikajać \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWUSERNAME:
                 subject = "Twoja nazwa użytkownika została zmieniona";

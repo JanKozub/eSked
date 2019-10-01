@@ -1,6 +1,5 @@
 package org.jk.eSked.ui.views;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
@@ -106,12 +105,5 @@ class LoginView extends VerticalLayout {
         i18n.getErrorMessage().setMessage("Sprawdź czy wprowadzone dane są prawidłowe i spróbuj ponownie.");
         i18n.setAdditionalInformation("Kontakt z admininstratorem pod adresem: eskedinfo@gmail.com");
         return i18n;
-    }
-
-    @Override
-    protected void onAttach(AttachEvent attachEvent) {
-        super.onAttach(attachEvent);
-//        ThemeService themeService = new ThemeService();
-//        themeService.check();
     }
 }

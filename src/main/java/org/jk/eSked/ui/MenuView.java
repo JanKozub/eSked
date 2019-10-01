@@ -11,9 +11,9 @@ import com.github.appreciated.app.layout.entity.DefaultBadgeHolder;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.page.Viewport;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import org.jk.eSked.ui.views.admin.AdminView;
 import org.jk.eSked.ui.views.events.EventsView;
@@ -35,7 +35,7 @@ public class MenuView extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> 
         MenuBar menuBar = new MenuBar();
 
         menuBar.addItem(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
-        menuBar.addItem(VaadinIcon.POWER_OFF.create(), e -> Notification.show("TO DO LOG OFF"));
+        menuBar.addItem(VaadinIcon.POWER_OFF.create(), e -> logout());
 
         LeftNavigationItem[] tab = tabs();
 
@@ -65,5 +65,11 @@ public class MenuView extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> 
 
     public DefaultBadgeHolder getBadge() {
         return badge;
+    }
+
+    private void logout() {
+        UI.getCurrent().navigate("login");
+        VaadinSession.getCurrent().close();
+        UI.getCurrent().getPage().reload();
     }
 }
