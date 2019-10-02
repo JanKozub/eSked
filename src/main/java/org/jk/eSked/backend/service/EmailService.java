@@ -68,17 +68,30 @@ public class EmailService implements EmailDB {
             case NEWPASSOWRD:
                 subject = "Potwierdzenie zmiany hasła w eSked";
                 tokenValue.setUserId(user.getId());
-                tokenValue.setValue("password");
+                tokenValue.setValue(user.getPassword());
+                url = tokenService.encodeToken(tokenValue);
+                url = "http://" + serverAddress + "/password/" + url;
+                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
+                break;
+            case FORGOTPASS:
+                subject = "Potwierdzenie zmiany hasła w eSked";
+                tokenValue.setUserId(user.getId());
+                tokenValue.setValue("forgot");
                 url = tokenService.encodeToken(tokenValue);
                 url = "http://" + serverAddress + "/password/" + url;
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWUSERNAME:
                 subject = "Twoja nazwa użytkownika została zmieniona";
-                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Twoja nowa nazwa użytkownika to \"" + user.getUsername() + "\"";
+                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Twoja nowa nazwa użytkownika to \"" + user.getUsername() + "\".";
                 break;
             case NEWEMAIL:
-
+                subject = "Potwierdzenie zmiany email w eSked";
+                tokenValue.setUserId(user.getId());
+                tokenValue.setValue(user.getEmail());
+                url = tokenService.encodeToken(tokenValue);
+                url = "http://" + serverAddress + "/email/" + url;
+                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić email kliknij \n<a href=" + url + ">tutaj</a>";
                 break;
         }
         generateAndSendMessage(user.getEmail(), subject, emailBody);

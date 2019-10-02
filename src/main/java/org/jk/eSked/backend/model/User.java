@@ -7,10 +7,10 @@ import java.util.UUID;
 public class User {
     private final UUID id;
     private final String username;
-    private final String password;
+    private String password;
     private final boolean darkTheme;
     private final boolean scheduleHours;
-    private final String email;
+    private String email;
     private final int groupCode;
     private final boolean eventsSyn;
     private final boolean tableSyn;
@@ -59,6 +59,10 @@ public class User {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public boolean isDarkTheme() {
         return darkTheme;
     }
@@ -69,6 +73,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getGroupCode() {

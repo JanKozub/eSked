@@ -16,10 +16,10 @@ import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
-import org.jk.eSked.ui.components.settings.EmailField;
-import org.jk.eSked.ui.components.settings.GroupCodeField;
-import org.jk.eSked.ui.components.settings.MyPasswordField;
-import org.jk.eSked.ui.components.settings.NameField;
+import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
+import org.jk.eSked.ui.components.settings.fields.NameField;
+import org.jk.eSked.ui.components.settings.protectedFields.EmailField;
+import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
 
 import javax.validation.ValidationException;
 import java.time.Instant;

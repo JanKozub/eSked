@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.settings;
+package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;

@@ -1,51 +1,24 @@
-package org.jk.eSked.ui.components.settings;
+package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
-abstract class SettingsTextField extends VerticalLayout {
+abstract class SettingsField extends VerticalLayout {
     private final String baseName;
     private final String editName;
     TextField textField;
     private Button button;
     private Button commitButton;
 
-    SettingsTextField(String baseName, String editName) {
+    SettingsField(String baseName, String editName) {
         this.baseName = baseName;
         this.editName = editName;
 
-        Label label = new Label(baseName);
-        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
-        label.getStyle().set("font-weight", "500");
-        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
-        add(label);
-
-        textField = new TextField();
-        textField.setReadOnly(true);
-        textField.setWidth("70%");
-
-        button = new Button("Zmień");
-        button.setWidth("30%");
-        button.addClickListener(this::onStartEdit);
-
-        commitButton = new Button("Potwierdź");
-        commitButton.setWidth("40%");
-        commitButton.addClickListener(this::onCommit);
-
-        HorizontalLayout buttons = new HorizontalLayout();
-
-        buttons.add(textField);
-        buttons.setWidth("100%");
-        buttons.add(button);
-
-        setPadding(false);
-        setSpacing(false);
-        add(buttons);
+        setMainLayout(baseName);
     }
 
     private void onStartEdit(ClickEvent event) {
@@ -73,7 +46,7 @@ abstract class SettingsTextField extends VerticalLayout {
 
     protected abstract void commitInput(String input) throws Exception;
 
-    void completeEdit(String data) {
+    void setMainLayout(String data) {
         removeAll();
 
         Label label = new Label(baseName);
@@ -90,7 +63,6 @@ abstract class SettingsTextField extends VerticalLayout {
         button = new Button("Zmień");
         button.setWidth("30%");
         button.addClickListener(this::onStartEdit);
-        button.addClickShortcut(Key.ENTER);
 
         commitButton = new Button("Potwierdź");
         commitButton.setWidth("40%");
@@ -106,5 +78,4 @@ abstract class SettingsTextField extends VerticalLayout {
         setSpacing(false);
         add(buttons);
     }
-
 }

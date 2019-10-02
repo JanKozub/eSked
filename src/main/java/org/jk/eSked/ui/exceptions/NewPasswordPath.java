@@ -64,8 +64,13 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     private UUID checkUrl(String url) {
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
-            if (tokenValue.getUserId() != null && tokenValue.getValue().equals("password")) {
-                return tokenValue.getUserId();
+            if (tokenValue.getUserId() != null) {
+                if (tokenValue.getValue().equals("forgot")) return tokenValue.getUserId();
+                else {
+                    userService.changePassword(tokenValue.getUserId(), tokenValue.getValue());
+                    new SuccessNotification("Twoje hasło zostało pomyślnie zmienione", NotificationType.LONG).open();
+                    return null;
+                }
             } else return null;
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());

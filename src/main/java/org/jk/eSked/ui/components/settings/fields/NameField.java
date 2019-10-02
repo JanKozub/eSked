@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.settings;
+package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -11,7 +11,7 @@ import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.UUID;
 
-public class NameField extends SettingsTextField {
+public class NameField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
     private final EmailService emailService;
@@ -46,6 +46,6 @@ public class NameField extends SettingsTextField {
 
         emailService.sendEmail(userService.getUser(userId), EmailType.NEWUSERNAME);
 
-        completeEdit(userService.getUsername(userId));
+        setMainLayout(userService.getUsername(userId));
     }
 }

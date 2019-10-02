@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.settings;
+package org.jk.eSked.ui.components.settings.fields;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -9,7 +9,7 @@ import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import javax.validation.ValidationException;
 import java.util.UUID;
 
-public class GroupCodeField extends SettingsTextField {
+public class GroupCodeField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
     private GroupService groupService;
@@ -44,6 +44,6 @@ public class GroupCodeField extends SettingsTextField {
     protected void commitInput(String input) {
         userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
         new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"", NotificationType.SHORT).open();
-        completeEdit(Integer.toString(userService.getGroupCode(userId)));
+        setMainLayout(Integer.toString(userService.getGroupCode(userId)));
     }
 }
