@@ -24,7 +24,7 @@ import java.util.Collection;
 
 @Route(value = "login")
 @PageTitle("Logowanie")
-@PWA(name = "eSked", shortName = "Schedule app")
+@PWA(name = "eSked", shortName = "Schedule app", iconPath = "META-INF/resources/icons/icon.png", description = "Schedule app for students")
 class LoginView extends VerticalLayout {
 
     private final UserService userService;

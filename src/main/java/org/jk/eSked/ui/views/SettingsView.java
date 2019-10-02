@@ -9,12 +9,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.GroupService;
 import org.jk.eSked.backend.service.HoursService;
 import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.Line;
+import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import org.jk.eSked.ui.components.settings.SettingsTabs;
 
 import java.util.UUID;
@@ -25,7 +27,7 @@ public class SettingsView extends VerticalLayout {
     public SettingsView(LoginService loginService, UserService userService, GroupService groupsService, HoursService hoursService, EmailService emailService) {
 
         if (loginService.checkIfUserIsLogged()) {
-
+            new SuccessNotification("asdasdgfsdkhfghdasjigfhbeadyibguyiadbguiosdbgjklsdhkjl", NotificationType.SHORT).open();
             UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
 
             setSizeFull();
