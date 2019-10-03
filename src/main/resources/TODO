@@ -2,11 +2,10 @@
 -zmiana jezyków
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
 -Skracaj dl tabeli jeżeli nie ma lekcji
--dodaj enter do settings
 -optimalize settings hours like if last hour was after 7 set list from 7<X
--add clear hour button
 
 ##TO_THINK_ABOUT##
+-dodaj enter do settings
 -dodaj jakies miejsce na notatki
 -importowanie z excela
 -welcone guide

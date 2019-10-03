@@ -100,10 +100,9 @@ public class SettingsTabs {
         groupsForm.add(newGroup);
 
         Button groupButton = new Button();
+        groupsForm.add(groupButton);
+        VerticalLayout layout = new VerticalLayout(groupsLabel, new Line(), groupsForm);
 
-        VerticalLayout layout = new VerticalLayout(groupsLabel, new Line(), groupsForm, groupButton);
-
-        groupButton.setWidth("100%");
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
         if (userService.getGroupCode(userId) != 0) {
@@ -156,7 +155,12 @@ public class SettingsTabs {
             SessionService.setAutoTheme();
         });
 
-        FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);
+        Button button = new Button("Usuń aktualne godziny", click -> {
+            hoursService.deleteScheduleHours(userId);
+            new SuccessNotification("Usunięto aktualne godziny", NotificationType.SHORT);
+        });
+
+        FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme, button);
         VerticalLayout layout = new VerticalLayout(other, new Line(), otherForm);
         layout.getStyle().set("margin-top", "0px");
         return layout;

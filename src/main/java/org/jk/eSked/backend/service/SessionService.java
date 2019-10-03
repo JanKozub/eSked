@@ -35,7 +35,6 @@ public class SessionService {
     }
 
     public static void setAutoTheme() {
-        System.out.println("setting theme");
         UI.getCurrent().getPage()
                 .executeJs("document.documentElement.setAttribute(\"theme\",\"" + userService.getTheme(getUserId()).toString().toLowerCase() + "\")");
     }
