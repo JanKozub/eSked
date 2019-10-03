@@ -1,14 +1,9 @@
 ##IMPORTANT##
--zmien napis brak powiadomien w prawym gornym pod dzwonkiem
 -zmiana jezyków
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -update security
--emailField:64 JAKIES ZABEZPIECZENIE TEGO HASLEM ZE NAJPIERW WPISUJESZ HASLO A POTEM MOZESZ ZMIENIAC RZECZY
 -settingsView:163 -deleteGroup() DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
--settingView - fix email box
--settingsView - fix password box
--fix password setter
 -get current user Service
 -dodaj enter do settings
 -generycznie newEmailPath - newPasswordPath itp
