@@ -46,4 +46,8 @@ public class GroupCodeField extends SettingsField {
         new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"", NotificationType.SHORT).open();
         setMainLayout(Integer.toString(userService.getGroupCode(userId)));
     }
+
+    public void clear() {
+        textField.clear();
+    }
 }

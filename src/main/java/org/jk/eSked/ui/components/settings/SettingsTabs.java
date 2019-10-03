@@ -58,16 +58,22 @@ public class SettingsTabs {
         accountForm.add(languageGroup);
         accountForm.add(new Button("Dodaj Przedmioty Do Planu",
                 buttonClickEvent -> UI.getCurrent().navigate("schedule/new")), 2);
-        return new VerticalLayout(accountLabel, new Line(), accountForm);
+        VerticalLayout layout = new VerticalLayout(accountLabel, new Line(), accountForm);
+        layout.getStyle().set("margin-top", "0px");
+        return layout;
     }
 
     public VerticalLayout groupLayout() {
         Label groupsLabel = new Label("Grupy");
 
         FormLayout groupsForm = new FormLayout();
-        groupsForm.add(new GroupCodeField(userId, userService, groupsService));
+        GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupsService);
+        groupsForm.add(groupCodeField);
         Button groupSyn = new Button("Synchronizuj z grupą");
-        groupSyn.addClickListener(buttonClickEvent -> groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId)));
+        groupSyn.addClickListener(buttonClickEvent -> {
+            if (userService.getGroupCode(userId) != 0)
+                groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId));
+        });
         groupSyn.getStyle().set("margin-top", "auto");
         groupsForm.add(groupSyn);
 
@@ -87,26 +93,41 @@ public class SettingsTabs {
         tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals("Włącz")));
         groupsForm.add(tableSync);
 
-        Details newGroup = new Details("Nowa Grupa", new GroupCreator(userId, groupsService, userService));
+        GroupCreator groupCreator = new GroupCreator(userId, groupsService, userService);
+        Details newGroup = new Details("Nowa Grupa", groupCreator);
         newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
 
         groupsForm.add(newGroup);
 
         Button groupButton = new Button();
+
+        VerticalLayout layout = new VerticalLayout(groupsLabel, new Line(), groupsForm, groupButton);
+
         groupButton.setWidth("100%");
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
         if (userService.getGroupCode(userId) != 0) {
             if (groupsService.getLeaderId(userService.getGroupCode(userId)).compareTo(userId) == 0) {
                 groupButton.setText("Usuń grupę");
-                groupButton.addClickListener(click -> deleteGroup(userId, groupsService, userService));
+                groupButton.addClickListener(click -> {
+                    groupsService.deleteGroup(userService.getGroupCode(userId));
+                    userService.setGroupCode(userId, 0);
+                    groupCodeField.clear();
+                    groupCreator.setMainLayout();
+                    new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
+                    layout.remove(groupButton);
+                });
             } else {
                 groupButton.setText("Wyjdź z grupy");
-                groupButton.addClickListener(click -> userService.setGroupCode(userId, 0));
+                groupButton.addClickListener(click -> {
+                    userService.setGroupCode(userId, 0);
+                    layout.remove(groupButton);
+                });
             }
             groupButton.setVisible(true);
         }
-        return new VerticalLayout(groupsLabel, new Line(), groupsForm, groupButton);
+        layout.getStyle().set("margin-top", "0px");
+        return layout;
     }
 
     public VerticalLayout otherLayout() {
@@ -136,13 +157,8 @@ public class SettingsTabs {
         });
 
         FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);
-        return new VerticalLayout(other, new Line(), otherForm);
-    }
-
-    private void deleteGroup(UUID userId, GroupService groupsService, UserService userService) {
-        groupsService.deleteGroup(userService.getGroupCode(userId));
-        userService.setGroupCode(userId, 0);
-
-        new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
+        VerticalLayout layout = new VerticalLayout(other, new Line(), otherForm);
+        layout.getStyle().set("margin-top", "0px");
+        return layout;
     }
 }

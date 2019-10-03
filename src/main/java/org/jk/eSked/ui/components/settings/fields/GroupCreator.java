@@ -19,41 +19,52 @@ import java.util.Random;
 import java.util.UUID;
 
 public class GroupCreator extends VerticalLayout {
+    private UUID userId;
+    private GroupService groupsService;
+
     public GroupCreator(UUID userId, GroupService groupsService, UserService userService) {
+        this.userId = userId;
+        this.groupsService = groupsService;
 
         if (userService.getGroupCode(userId) != 0) add(new Label("Jesteś już w grupie."));
         else if (groupsService.doesCreatedGroup(userId)) {
             add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
         } else {
-            Label name = new Label("Nowa Grupa");
-            name.getStyle().set("margin-left", "auto");
-            name.getStyle().set("margin-right", "auto");
-            HorizontalLayout nameLabel = new HorizontalLayout(name);
-            nameLabel.setWidth("100%");
-
-            TextField groupName = new TextField();
-            groupName.setWidth("100%");
-
-            Button confirm = new Button("Dodaj");
-            confirm.setWidth("100%");
-            confirm.addClickListener(event -> {
-                try {
-                    validateInput(groupName.getValue(), userId, groupsService);
-                    groupName.setInvalid(false);
-                    groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
-                    removeAll();
-
-                    new SuccessNotification("Prośba o stworzenie grupy została wysłana!", NotificationType.SHORT).open();
-
-                    add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
-
-                } catch (ValidationException ex) {
-                    groupName.setErrorMessage(ex.getMessage());
-                    groupName.setInvalid(true);
-                }
-            });
-            add(nameLabel, groupName, confirm);
+            setMainLayout();
         }
+    }
+
+    public void setMainLayout() {
+        removeAll();
+
+        Label name = new Label("Nowa Grupa");
+        name.getStyle().set("margin-left", "auto");
+        name.getStyle().set("margin-right", "auto");
+        HorizontalLayout nameLabel = new HorizontalLayout(name);
+        nameLabel.setWidth("100%");
+
+        TextField groupName = new TextField();
+        groupName.setWidth("100%");
+
+        Button confirm = new Button("Dodaj");
+        confirm.setWidth("100%");
+        confirm.addClickListener(event -> {
+            try {
+                validateInput(groupName.getValue(), userId, groupsService);
+                groupName.setInvalid(false);
+                groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                removeAll();
+
+                new SuccessNotification("Prośba o stworzenie grupy została wysłana!", NotificationType.SHORT).open();
+
+                add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
+
+            } catch (ValidationException ex) {
+                groupName.setErrorMessage(ex.getMessage());
+                groupName.setInvalid(true);
+            }
+        });
+        add(nameLabel, groupName, confirm);
     }
 
     private void validateInput(String input, UUID userId, GroupService groupsService) {
