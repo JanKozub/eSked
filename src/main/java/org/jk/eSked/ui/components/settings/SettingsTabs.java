@@ -153,7 +153,7 @@ public class SettingsTabs {
             boolean mode = valueChange.getValue().equals("Ciemny");
             if (mode) userService.setTheme(userId, ThemeType.DARK);
             else userService.setTheme(userId, ThemeType.WHITE);
-            SessionService.setTheme(userService.getTheme(userId));
+            SessionService.setAutoTheme();
         });
 
         FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);

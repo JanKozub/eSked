@@ -8,6 +8,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.Group;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -28,6 +29,7 @@ class GroupsPendingView extends VerticalLayout {
         this.scheduleService = scheduleService;
         this.groupsService = groupsService;
         this.userService = userService;
+        SessionService.setAutoTheme();
 
         VerticalLayout layout = mainLayout();
         layout.setSizeFull();

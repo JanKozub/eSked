@@ -55,11 +55,11 @@ public interface UserDB {
 
     void setTableSyn(UUID userId, boolean state);
 
-    String getEmailByUsername(String username);
-
     UUID getIdByUsername(String username);
 
     void setVerified(UUID userId, boolean newState);
 
     User getUserByUsername(String username);
+
+    String getUsernameByEmail(String email);
 }

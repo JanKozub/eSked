@@ -16,6 +16,7 @@ import org.jk.eSked.ui.components.schedule.EventGrid;
 public class EventsView extends VerticalLayout {
 
     public EventsView(ScheduleService scheduleService, EventService eventService) {
+        SessionService.setAutoTheme();
         VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, SessionService.getUserId());
         Button newEventButton = new Button("Dodaj nowe wydarzenie", e -> UI.getCurrent().navigate("events/new"));
         newEventButton.setWidth("100%");

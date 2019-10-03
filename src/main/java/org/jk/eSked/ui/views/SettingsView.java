@@ -22,6 +22,7 @@ import java.util.UUID;
 @PageTitle("Ustawienia")
 public class SettingsView extends VerticalLayout {
     public SettingsView(UserService userService, GroupService groupsService, HoursService hoursService, EmailService emailService) {
+        SessionService.setAutoTheme();
         UUID userId = SessionService.getUserId();
 
         setSizeFull();

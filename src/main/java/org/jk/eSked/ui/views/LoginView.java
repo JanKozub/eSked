@@ -10,6 +10,7 @@ import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
@@ -25,9 +26,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.Instant;
 
 @Route(value = "login")
+@PWA(name = "eSked", shortName = "Schedule app", iconPath = "META-INF/resources/icons/icon.png", description = "Schedule app for students")
 @PageTitle("Login")
 public class LoginView extends VerticalLayout {
-
     private LoginOverlay loginOverlay = new LoginOverlay();
     private UserService userService;
     private GroupService groupService;
@@ -47,8 +48,11 @@ public class LoginView extends VerticalLayout {
         loginOverlay.setTitle(title);
         loginOverlay.addLoginListener(form -> {
             try {
+                String username = form.getUsername();
+                if (username.contains("@")) username = userService.getUsernameByEmail(username);
+
                 final Authentication authentication = authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(form.getUsername(), User.encodePassword(form.getPassword())));
+                        .authenticate(new UsernamePasswordAuthenticationToken(username, User.encodePassword(form.getPassword())));
                 if (authentication != null) {
                     loginOverlay.close();
                     VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(form.getUsername()));
@@ -66,7 +70,7 @@ public class LoginView extends VerticalLayout {
     }
 
     private void afterAuth(User user) {
-        SessionService.setTheme(userService.getTheme(user.getId()));
+        SessionService.setAutoTheme();
         userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
 
         if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))

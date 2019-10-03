@@ -8,6 +8,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.ScheduleService;
@@ -33,6 +34,7 @@ class GroupsView extends VerticalLayout {
         this.eventService = eventService;
         this.userService = userService;
 
+        SessionService.setAutoTheme();
         VerticalLayout layout = mainLayout();
         layout.setSizeFull();
         add(layout);

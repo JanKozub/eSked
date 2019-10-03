@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.views.schedule;
+package org.jk.eSked.ui.components.schedule;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -38,7 +38,7 @@ public class AddNewEventDialog extends Dialog {
     private final Collection<ScheduleEntry> entries;
     private Runnable action;
 
-    public AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
+    AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         this.eventService = eventService;
         this.startOfWeek = startOfWeek;
         this.userId = userId;
@@ -128,7 +128,7 @@ public class AddNewEventDialog extends Dialog {
         eventGrid.setItems(eventsSorted);
     }
 
-    public void setRefreshAction(Runnable action) {
+    void setRefreshAction(Runnable action) {
         this.action = action;
     }
 

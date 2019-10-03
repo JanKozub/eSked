@@ -4,11 +4,19 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.model.types.ThemeType;
+import org.jk.eSked.backend.service.user.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class SessionService {
+
+    private static UserService userService;
+
+    public SessionService(UserService userService) {
+        SessionService.userService = userService;
+    }
 
     public static VaadinSession getSession() {
         return VaadinSession.getCurrent();
@@ -26,8 +34,9 @@ public class SessionService {
         return VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile");
     }
 
-    public static void setTheme(ThemeType themeType) {
+    public static void setAutoTheme() {
+        System.out.println("setting theme");
         UI.getCurrent().getPage()
-                .executeJs("document.documentElement.setAttribute(\"theme\",\"" + themeType.toString().toLowerCase() + "\")");
+                .executeJs("document.documentElement.setAttribute(\"theme\",\"" + userService.getTheme(getUserId()).toString().toLowerCase() + "\")");
     }
 }

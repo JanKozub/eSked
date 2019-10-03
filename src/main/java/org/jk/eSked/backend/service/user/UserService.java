@@ -176,11 +176,6 @@ public class UserService implements UserDB {
     //OTHER GETTERS
 
     @Override
-    public String getEmailByUsername(String username) {
-        return usersDao.getEmailFromUsername(username);
-    }
-
-    @Override
     public UUID getIdByUsername(String username) {
         return usersDao.getIdFromUsername(username);
     }
@@ -188,5 +183,10 @@ public class UserService implements UserDB {
     @Override
     public User getUserByUsername(String username) {
         return usersDao.getUserByUsername(username);
+    }
+
+    @Override
+    public String getUsernameByEmail(String email) {
+        return usersDao.getUsernameByEmail(email);
     }
 }

@@ -47,6 +47,7 @@ public class NewEventView extends HorizontalLayout {
         this.eventService = eventService;
         this.eventGrid = new Grid<>();
         this.userId = SessionService.getUserId();
+        SessionService.setAutoTheme();
 
         Label formLabel = new Label("Nowe Wydarzenie");
         formLabel.getStyle().set("margin-left", "auto");

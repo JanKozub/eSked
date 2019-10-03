@@ -17,7 +17,6 @@ import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.views.schedule.AddNewEventDialog;
 
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -59,7 +58,7 @@ public class ScheduleGrid extends VerticalLayout {
                     if (entry.getHour() == hour && entry.getDay() == day) {
                         List<Event> entryEvents = new ArrayList<>();
                         String color;
-                        if (userService.getTheme(ScheduleGrid.this.userId) == ThemeType.WHITE) {
+                        if (userService.getTheme(ScheduleGrid.this.userId) == ThemeType.DARK) {
                             button.getStyle().set("color", "white");
                             color = "#2c3d52";
                         } else {

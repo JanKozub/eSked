@@ -11,6 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
@@ -44,6 +45,7 @@ class FindUserView extends VerticalLayout {
         this.hoursService = hoursService;
         this.emailService = emailService;
         this.groupService = groupService;
+        SessionService.setAutoTheme();
 
         TextField textField = new TextField("Nazwa użytkownika");
         textField.setWidth("50%");

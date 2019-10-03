@@ -8,6 +8,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.ui.MenuView;
 
 @Route(value = "admin", layout = MenuView.class)
@@ -15,6 +16,7 @@ import org.jk.eSked.ui.MenuView;
 public class AdminView extends HorizontalLayout {
 
     public AdminView() {
+        SessionService.setAutoTheme();
         Icon iconUser = new Icon(VaadinIcon.USER);
         Button user = new Button("Użytkownik", iconUser, buttonClickEvent -> UI.getCurrent().navigate("admin/user"));
         user.setHeight("300%");

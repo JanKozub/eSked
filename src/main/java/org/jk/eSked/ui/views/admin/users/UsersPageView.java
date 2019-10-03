@@ -8,20 +8,18 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.user.EventService;
-import org.jk.eSked.backend.service.user.HoursService;
-import org.jk.eSked.backend.service.user.ScheduleService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
 
-@SuppressWarnings("unused")
 @Route(value = "admin/users", layout = MenuView.class)
 @PageTitle("Użytkownicy")
 class UsersPageView extends VerticalLayout {
 
-    UsersPageView(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, EmailService emailService) {
+    UsersPageView(UserService userService) {
+        SessionService.setAutoTheme();
+
         Grid<User> userGrid = new Grid<>();
         userGrid.setHeightByRows(true);
         userGrid.setSelectionMode(Grid.SelectionMode.NONE);

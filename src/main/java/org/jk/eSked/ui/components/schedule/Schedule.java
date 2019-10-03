@@ -23,7 +23,6 @@ abstract class Schedule extends Grid<Button> {
         setHeightByRows(true);
         setVerticalScrollingEnabled(true);
         recalculateColumnWidths();
-        setHeight("60%");
     }
 
     abstract Component rowRenderer(Button e, int day);
