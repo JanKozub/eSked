@@ -19,6 +19,8 @@ import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 public class ScheduleView extends HorizontalLayout {
     public ScheduleView(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService) {
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService, SessionService.getUserId());
+        scheduleGrid.setSizeFull();
+        setSizeFull();
         add(scheduleGrid);
     }
 }
