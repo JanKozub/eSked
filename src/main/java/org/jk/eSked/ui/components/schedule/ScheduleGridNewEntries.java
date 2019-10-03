@@ -11,10 +11,9 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.ScheduleService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.components.myImpl.NewEntryDialog;
 
@@ -37,8 +36,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
     public ScheduleGridNewEntries(ScheduleService scheduleService, UserService userService) {
         this.scheduleService = scheduleService;
-        this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
-        boolean isMoblie = VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile");
+        this.userId = SessionService.getUserId();
 
         entries = scheduleService.getScheduleEntries(userId);
 
@@ -57,7 +55,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                         return button;
                     }
                 }
-                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, isMoblie) {
+                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, SessionService.isSessionMoblie()) {
                     @Override
                     public void refresh() {
                         ScheduleGridNewEntries.this.refresh();
@@ -78,7 +76,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        if (isMoblie) {
+        if (SessionService.isSessionMoblie()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
             Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {

@@ -8,14 +8,10 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
-import org.jk.eSked.backend.service.EventService;
-import org.jk.eSked.backend.service.HoursService;
-import org.jk.eSked.backend.service.ScheduleService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.views.schedule.AddNewEventDialog;
 
 import java.time.DayOfWeek;
@@ -124,7 +120,7 @@ public class ScheduleGrid extends VerticalLayout {
         };
         add(datePanel);
 
-        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+        if (SessionService.isSessionMoblie()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
             Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {

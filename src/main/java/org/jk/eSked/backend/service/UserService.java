@@ -36,7 +36,6 @@ public class UserService implements UserDB {
                             .password("{noop}" + user.getPassword())
                             .roles("USER")
                             .build();
-
             userDetails.add(newUser);
         });
         return userDetails;

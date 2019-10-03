@@ -1,11 +1,11 @@
 package org.jk.eSked.ui.components.settings.protectedFields;
 
-import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
@@ -53,6 +53,6 @@ public class EmailField extends ProtectedSettingsField {
             userService.changeEmail(userId, textField.getValue());
             new SuccessNotification("Zmieniono email na \"" + input + "\"", NotificationType.SHORT).open();
         }
-        setMainLayout(userService.getEmail(VaadinSession.getCurrent().getAttribute(User.class).getId()));
+        setMainLayout(userService.getEmail(SessionService.getUserId()));
     }
 }

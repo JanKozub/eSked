@@ -2,7 +2,6 @@
 -zmiana jezyków
 -stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
 -Skracaj dl tabeli jeżeli nie ma lekcji
--update security
 -settingsView:163 -deleteGroup() DYNAMICZNIE ZAMIAST RELOAD + PRZYCISK USUWANIA WIDOCZNY TYLKO JAK MASZ GRUPE
 -get current user Service
 -dodaj enter do settings

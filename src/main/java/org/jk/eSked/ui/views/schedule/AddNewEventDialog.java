@@ -13,7 +13,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
@@ -21,6 +20,7 @@ import org.jk.eSked.backend.model.types.EventType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EventService;
 import org.jk.eSked.backend.service.ScheduleService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import java.time.Instant;
@@ -87,7 +87,7 @@ public class AddNewEventDialog extends Dialog {
         updateEvents(eventGrid, eventDate);
 
         entries = scheduleService.getScheduleEntries(userId);
-        eventGrid.addColumn(new BasicRenderer<Event, String>(event -> {
+        eventGrid.addColumn(new BasicRenderer<>(event -> {
             if (entries != null) {
                 for (ScheduleEntry entry : entries) {
                     if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
@@ -114,7 +114,7 @@ public class AddNewEventDialog extends Dialog {
         eventGrid.setVerticalScrollingEnabled(true);
         eventGrid.setHeightByRows(true);
 
-        if (!VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile")) {
+        if (!SessionService.isSessionMoblie()) {
             setWidth("600px");
         }
 

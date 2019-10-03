@@ -7,11 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.GroupService;
-import org.jk.eSked.backend.service.HoursService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.Line;
 import org.jk.eSked.ui.components.settings.SettingsTabs;
@@ -22,7 +18,7 @@ import java.util.UUID;
 @PageTitle("Ustawienia")
 public class SettingsView extends VerticalLayout {
     public SettingsView(UserService userService, GroupService groupsService, HoursService hoursService, EmailService emailService) {
-        UUID userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
+        UUID userId = SessionService.getUserId();
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -48,7 +44,7 @@ public class SettingsView extends VerticalLayout {
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(settingsTabs.accountLayout(), settingsTabs.groupLayout(), settingsTabs.otherLayout(), new Line(), deleteButton);
-        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile"))
+        if (SessionService.isSessionMoblie())
             verticalLayout.setWidth("100%");
         else verticalLayout.setWidth("50%");
         add(verticalLayout);

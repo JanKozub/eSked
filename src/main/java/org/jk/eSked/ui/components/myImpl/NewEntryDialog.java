@@ -9,10 +9,9 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.ScheduleService;
+import org.jk.eSked.backend.service.SessionService;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -23,7 +22,7 @@ public abstract class NewEntryDialog extends Dialog {
 
     protected NewEntryDialog(int day, int hour, ScheduleService scheduleService, boolean isMobile) {
         this.scheduleService = scheduleService;
-        this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
+        this.userId = SessionService.getUserId();
 
         Label label = new Label("Nowy przedmiot");
 

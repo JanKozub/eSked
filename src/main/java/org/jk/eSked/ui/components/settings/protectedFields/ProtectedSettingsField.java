@@ -7,9 +7,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.shared.Registration;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.UserService;
 
 import javax.validation.ValidationException;
@@ -133,8 +133,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
     private void validatePassword(String password) {
         if (password.isEmpty()) throw new ValidationException("Pole nie może być puste");
 
-        if (!userService.getUser(VaadinSession.getCurrent()
-                .getAttribute(User.class).getId())
+        if (!userService.getUser(SessionService.getUserId())
                 .getPassword().equals(User.encodePassword(password)))
             throw new ValidationException("Nieprawidłowe hasło");
     }

@@ -16,15 +16,14 @@ import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
-import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EventService;
 import org.jk.eSked.backend.service.ScheduleService;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
@@ -47,7 +46,7 @@ public class NewEventView extends HorizontalLayout {
     public NewEventView(ScheduleService scheduleService, EventService eventService) {
         this.eventService = eventService;
         this.eventGrid = new Grid<>();
-        this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
+        this.userId = SessionService.getUserId();
 
         Label formLabel = new Label("Nowe Wydarzenie");
         formLabel.getStyle().set("margin-left", "auto");
@@ -127,7 +126,7 @@ public class NewEventView extends HorizontalLayout {
 
         VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
 
-        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile"))
+        if (SessionService.isSessionMoblie())
             add(new VerticalLayout(newEventLayout, gridLayout));
         else {
             newEventLayout.setWidth("50%");
