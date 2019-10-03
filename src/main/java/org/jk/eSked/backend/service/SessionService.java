@@ -20,7 +20,7 @@ public class SessionService {
         return VaadinSession.getCurrent().getAttribute(User.class).getId();
     }
 
-    public static boolean isSessionMoblie() {
+    public static boolean isSessionMobile() {
         return VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile");
     }
 }

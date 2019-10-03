@@ -126,7 +126,7 @@ public class NewEventView extends HorizontalLayout {
 
         VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
 
-        if (SessionService.isSessionMoblie())
+        if (SessionService.isSessionMobile())
             add(new VerticalLayout(newEventLayout, gridLayout));
         else {
             newEventLayout.setWidth("50%");

@@ -114,7 +114,7 @@ public class AddNewEventDialog extends Dialog {
         eventGrid.setVerticalScrollingEnabled(true);
         eventGrid.setHeightByRows(true);
 
-        if (!SessionService.isSessionMoblie()) {
+        if (!SessionService.isSessionMobile()) {
             setWidth("600px");
         }
 

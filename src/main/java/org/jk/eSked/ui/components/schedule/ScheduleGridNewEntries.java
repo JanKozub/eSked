@@ -55,7 +55,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                         return button;
                     }
                 }
-                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, SessionService.isSessionMoblie()) {
+                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, SessionService.isSessionMobile()) {
                     @Override
                     public void refresh() {
                         ScheduleGridNewEntries.this.refresh();
@@ -76,7 +76,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         for (int i = 0; i < getMaxHour(); i++) addRow();
 
-        if (SessionService.isSessionMoblie()) {
+        if (SessionService.isSessionMobile()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
             Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {

@@ -44,7 +44,7 @@ public class SettingsView extends VerticalLayout {
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(settingsTabs.accountLayout(), settingsTabs.groupLayout(), settingsTabs.otherLayout(), new Line(), deleteButton);
-        if (SessionService.isSessionMoblie())
+        if (SessionService.isSessionMobile())
             verticalLayout.setWidth("100%");
         else verticalLayout.setWidth("50%");
         add(verticalLayout);

@@ -120,7 +120,7 @@ public class ScheduleGrid extends VerticalLayout {
         };
         add(datePanel);
 
-        if (SessionService.isSessionMoblie()) {
+        if (SessionService.isSessionMobile()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
             Button next = new Button(VaadinIcon.ARROW_RIGHT.create(), nextColumn -> {
