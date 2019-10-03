@@ -44,7 +44,7 @@ public class loginExceptionDialog extends Dialog {
                 validateUsernameInput(userService, usernameField.getValue());
                 usernameField.setInvalid(false);
 
-                emailService.sendEmail(userService.getUser(userService.getIdFromUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
+                emailService.sendEmail(userService.getUser(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
 
                 new SuccessNotification("Link do zmiany hasła został wysłany na email", NotificationType.LONG).open();
             } catch (Exception ex) {

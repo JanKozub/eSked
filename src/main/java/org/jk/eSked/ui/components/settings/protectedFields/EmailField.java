@@ -50,7 +50,7 @@ public class EmailField extends ProtectedSettingsField {
             emailService.sendEmail(user, EmailType.NEWEMAIL);
             new SuccessNotification("Link do zmiany email został wysłany na nowy email", NotificationType.SHORT).open();
         } else {
-            userService.changeEmail(userId, textField.getValue());
+            userService.setEmail(userId, textField.getValue());
             new SuccessNotification("Zmieniono email na \"" + input + "\"", NotificationType.SHORT).open();
         }
         setMainLayout(userService.getEmail(SessionService.getUserId()));

@@ -126,13 +126,13 @@ public class SettingsTabs {
         RadioButtonGroup<String> theme = new RadioButtonGroup<>();
         theme.setLabel("Styl strony");
         theme.setItems("Jasny", "Ciemny");
-        if (userService.getDarkTheme(userId)) theme.setValue("Ciemny");
+        if (userService.getTheme(userId) == ThemeType.DARK) theme.setValue("Ciemny");
         else theme.setValue("Jasny");
         theme.addValueChangeListener(valueChange -> {
             boolean mode = valueChange.getValue().equals("Ciemny");
-            userService.setDarkTheme(userId, mode);
-            if (mode) SessionService.setTheme(ThemeType.DARK);
-            else SessionService.setTheme(ThemeType.WHITE);
+            if (mode) userService.setTheme(userId, ThemeType.DARK);
+            else userService.setTheme(userId, ThemeType.WHITE);
+            SessionService.setTheme(userService.getTheme(userId));
         });
 
         FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);

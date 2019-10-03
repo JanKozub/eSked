@@ -54,7 +54,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
             throw new AccessDeniedException("Cant change password when user equals null");
         } else {
             String username = currentUser.getName();
-            userService.changePassword(userService.getIdFromUsername(username), newPassword);
+            userService.changePassword(userService.getIdByUsername(username), newPassword);
         }
     }
 

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 @Route(value = "email")
 public class NewEmailPath extends VerticalLayout implements HasUrlParameter<String> {
-    private static final Logger log = LoggerFactory.getLogger(NewPasswordPath.class);
+    private static final Logger log = LoggerFactory.getLogger(NewEmailPath.class);
     private UserService userService;
     private TokenService tokenService;
 
@@ -29,7 +29,7 @@ public class NewEmailPath extends VerticalLayout implements HasUrlParameter<Stri
         TokenValue tokenValue = checkUrl(url);
         if (tokenValue != null) {
 
-            userService.changeEmail(tokenValue.getUserId(), tokenValue.getValue());
+            userService.setEmail(tokenValue.getUserId(), tokenValue.getValue());
 
             new SuccessNotification("Twój email został pomyślnie zmieniony", NotificationType.LONG).open();
             UI.getCurrent().navigate("settings");

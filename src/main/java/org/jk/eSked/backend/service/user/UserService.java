@@ -2,6 +2,7 @@ package org.jk.eSked.backend.service.user;
 
 import org.jk.eSked.backend.dao.UsersDao;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.ThemeType;
 import org.jk.eSked.backend.repositories.UserDB;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class UserService implements UserDB {
     public UserService(UsersDao usersDao) {
         this.usersDao = usersDao;
     }
+
+    //USER
 
     @Override
     public Collection<User> getUsers() {
@@ -47,16 +50,6 @@ public class UserService implements UserDB {
     }
 
     @Override
-    public Collection<String> getUsernames() {
-        return usersDao.getUsernames();
-    }
-
-    @Override
-    public Collection<String> getEmails() {
-        return usersDao.getEmails();
-    }
-
-    @Override
     public void addUser(User user) {
         usersDao.persistUser(user);
     }
@@ -66,19 +59,36 @@ public class UserService implements UserDB {
         usersDao.deleteUser(userId);
     }
 
+    //USERNAME
+
+    @Override
+    public Collection<String> getUsernames() {
+        return usersDao.getUsernames();
+    }
+
     @Override
     public String getUsername(UUID userId) {
         return usersDao.getUsername(userId);
     }
 
     @Override
-    public void changeUsername(UUID userId, String newUsername) {
+    public void setUsername(UUID userId, String newUsername) {
         usersDao.changeUsername(userId, newUsername);
     }
+
+    //PASSWORD
 
     @Override
     public void changePassword(UUID userId, String newPassword) {
         usersDao.changePassword(userId, newPassword);
+    }
+
+
+    //EMAIL
+
+    @Override
+    public Collection<String> getEmails() {
+        return usersDao.getEmails();
     }
 
     @Override
@@ -87,24 +97,25 @@ public class UserService implements UserDB {
     }
 
     @Override
-    public void changeEmail(UUID userId, String newEmail) {
+    public void setEmail(UUID userId, String newEmail) {
         usersDao.changeEmail(userId, newEmail);
     }
 
+    //THEME
+
     @Override
-    public boolean getDarkTheme(UUID userId) {
-        return usersDao.getDarkTheme(userId);
+    public ThemeType getTheme(UUID userId) {
+        if (usersDao.getDarkTheme(userId)) return ThemeType.DARK;
+        else return ThemeType.WHITE;
     }
 
     @Override
-    public void setDarkTheme(UUID userId, boolean state) {
-        usersDao.setDarkTheme(userId, state);
+    public void setTheme(UUID userId, ThemeType themeType) {
+        if (themeType == ThemeType.DARK) usersDao.setDarkTheme(userId, true);
+        else usersDao.setDarkTheme(userId, false);
     }
 
-    @Override
-    public void setLastLogged(UUID userId, long time) {
-        usersDao.setLastLogged(userId, time);
-    }
+    //GROUPS
 
     @Override
     public int getGroupCode(UUID userId) {
@@ -116,6 +127,8 @@ public class UserService implements UserDB {
         usersDao.setGroupCode(userId, groupCode);
     }
 
+    //SCHEDULE HOURS
+
     @Override
     public boolean getScheduleHours(UUID userId) {
         return usersDao.getScheduleHours(userId);
@@ -125,6 +138,8 @@ public class UserService implements UserDB {
     public void setScheduleHours(UUID userId, boolean state) {
         usersDao.setScheduleHours(userId, state);
     }
+
+    //SYNCHRONIZATION
 
     @Override
     public boolean isEventsSyn(UUID userId) {
@@ -147,18 +162,27 @@ public class UserService implements UserDB {
     }
 
     @Override
-    public String getEmailFromUsername(String username) {
+    public void setVerified(UUID userId, boolean newState) {
+        usersDao.setVerified(userId, newState);
+    }
+
+    //TIME
+
+    @Override
+    public void setLastLogged(UUID userId, long time) {
+        usersDao.setLastLogged(userId, time);
+    }
+
+    //OTHER GETTERS
+
+    @Override
+    public String getEmailByUsername(String username) {
         return usersDao.getEmailFromUsername(username);
     }
 
     @Override
-    public UUID getIdFromUsername(String username) {
+    public UUID getIdByUsername(String username) {
         return usersDao.getIdFromUsername(username);
-    }
-
-    @Override
-    public void setVerified(UUID userId, boolean newState) {
-        usersDao.setVerified(userId, newState);
     }
 
     @Override

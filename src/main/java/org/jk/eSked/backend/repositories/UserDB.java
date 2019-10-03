@@ -1,6 +1,7 @@
 package org.jk.eSked.backend.repositories;
 
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.ThemeType;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -22,19 +23,19 @@ public interface UserDB {
 
     String getUsername(UUID userId);
 
-    void changeUsername(UUID userId, String newUsername);
+    void setUsername(UUID userId, String newUsername);
 
     void changePassword(UUID userId, String newPassword);
 
     String getEmail(UUID userId);
 
-    void changeEmail(UUID userId, String newEmail);
+    void setEmail(UUID userId, String newEmail);
 
     void deleteUser(UUID userId);
 
-    boolean getDarkTheme(UUID userId);
+    ThemeType getTheme(UUID userId);
 
-    void setDarkTheme(UUID userId, boolean state);
+    void setTheme(UUID userId, ThemeType state);
 
     void setLastLogged(UUID userId, long time);
 
@@ -54,9 +55,9 @@ public interface UserDB {
 
     void setTableSyn(UUID userId, boolean state);
 
-    String getEmailFromUsername(String username);
+    String getEmailByUsername(String username);
 
-    UUID getIdFromUsername(String username);
+    UUID getIdByUsername(String username);
 
     void setVerified(UUID userId, boolean newState);
 

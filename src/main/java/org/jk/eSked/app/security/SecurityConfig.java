@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/VAADIN/**",
                 "/manifest.webmanifest",
                 "/sw.js",
+                "/META-INF/resources/icons/icon.png",
                 "/offline-page.html",
                 "/icons/**",
                 "/images/**");

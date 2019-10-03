@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
+import org.jk.eSked.backend.model.types.ThemeType;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.HoursService;
@@ -58,7 +59,7 @@ public class ScheduleGrid extends VerticalLayout {
                     if (entry.getHour() == hour && entry.getDay() == day) {
                         List<Event> entryEvents = new ArrayList<>();
                         String color;
-                        if (userService.getDarkTheme(ScheduleGrid.this.userId)) {
+                        if (userService.getTheme(ScheduleGrid.this.userId) == ThemeType.WHITE) {
                             button.getStyle().set("color", "white");
                             color = "#2c3d52";
                         } else {

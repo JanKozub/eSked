@@ -38,7 +38,7 @@ public class NameField extends SettingsField {
     @Override
     protected void commitInput(String input) throws Exception {
         String oldName = userService.getUsername(userId);
-        userService.changeUsername(userId, input);
+        userService.setUsername(userId, input);
 
         Notification notification = new Notification("Zmieniono nazwę na \"" + textField.getValue() + "\"", 5000, Notification.Position.TOP_END);
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

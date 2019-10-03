@@ -12,6 +12,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,14 +22,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.Instant;
+
 @Route(value = "login")
 @PageTitle("Login")
 public class LoginView extends VerticalLayout {
 
     private LoginOverlay loginOverlay = new LoginOverlay();
+    private UserService userService;
+    private GroupService groupService;
 
     @Autowired
-    public LoginView(AuthenticationManager authenticationManager, UserService userService) {
+    public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService) {
+        this.userService = userService;
+        this.groupService = groupService;
+
         H1 title = new H1();
         title.getStyle().set("color", "var(--lumo-base-color)");
         Icon icon = VaadinIcon.CALENDAR.create();
@@ -45,7 +54,7 @@ public class LoginView extends VerticalLayout {
                     VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(form.getUsername()));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                    UI.getCurrent().navigate("schedule");
+                    afterAuth(userService.getUser(SessionService.getUserId()));
                 }
             } catch (AuthenticationException ex) {
                 loginOverlay.setError(true);
@@ -54,6 +63,19 @@ public class LoginView extends VerticalLayout {
         loginOverlay.setOpened(true);
         loginOverlay.setI18n(createPolishI18n());
         add(loginOverlay);
+    }
+
+    private void afterAuth(User user) {
+        SessionService.setTheme(userService.getTheme(user.getId()));
+        userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+
+        if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))
+            userService.setGroupCode(user.getId(), 0);
+
+        if (userService.getGroupCode(user.getId()) != 0)
+            groupService.synchronizeWGroup(user.getId(), user.getGroupCode());
+
+        UI.getCurrent().navigate("schedule");
     }
 
     private LoginI18n createPolishI18n() {
