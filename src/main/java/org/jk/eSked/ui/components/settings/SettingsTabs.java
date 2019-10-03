@@ -10,7 +10,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.model.types.ThemeType;
-import org.jk.eSked.backend.service.*;
+import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.HoursService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.Line;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
@@ -127,8 +131,8 @@ public class SettingsTabs {
         theme.addValueChangeListener(valueChange -> {
             boolean mode = valueChange.getValue().equals("Ciemny");
             userService.setDarkTheme(userId, mode);
-            if (mode) ThemeService.setTheme(ThemeType.DARK);
-            else ThemeService.setTheme(ThemeType.WHITE);
+            if (mode) SessionService.setTheme(ThemeType.DARK);
+            else SessionService.setTheme(ThemeType.WHITE);
         });
 
         FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme);

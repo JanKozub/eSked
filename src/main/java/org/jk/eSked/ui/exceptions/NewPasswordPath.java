@@ -12,7 +12,7 @@ import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TokenService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -8,7 +8,11 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.service.*;
+import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.user.EventService;
+import org.jk.eSked.backend.service.user.HoursService;
+import org.jk.eSked.backend.service.user.ScheduleService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.MenuView;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
 

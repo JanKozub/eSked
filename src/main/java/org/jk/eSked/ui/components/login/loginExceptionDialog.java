@@ -11,7 +11,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;

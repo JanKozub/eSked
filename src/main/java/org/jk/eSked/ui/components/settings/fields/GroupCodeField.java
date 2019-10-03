@@ -2,8 +2,8 @@ package org.jk.eSked.ui.components.settings.fields;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.NotificationType;
-import org.jk.eSked.backend.service.GroupService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;

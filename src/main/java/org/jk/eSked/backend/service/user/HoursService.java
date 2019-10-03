@@ -1,4 +1,4 @@
-package org.jk.eSked.backend.service;
+package org.jk.eSked.backend.service.user;
 
 import org.jk.eSked.backend.dao.HoursDao;
 import org.jk.eSked.backend.dao.ScheduleDao;

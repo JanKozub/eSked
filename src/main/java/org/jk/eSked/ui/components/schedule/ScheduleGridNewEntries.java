@@ -12,9 +12,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
-import org.jk.eSked.backend.service.ScheduleService;
 import org.jk.eSked.backend.service.SessionService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.ScheduleService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.NewEntryDialog;
 
 import java.time.DayOfWeek;

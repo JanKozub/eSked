@@ -11,7 +11,11 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
-import org.jk.eSked.backend.service.*;
+import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.EventService;
+import org.jk.eSked.backend.service.user.HoursService;
+import org.jk.eSked.backend.service.user.ScheduleService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.views.schedule.AddNewEventDialog;
 
 import java.time.DayOfWeek;

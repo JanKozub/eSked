@@ -7,8 +7,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.types.NotificationType;
-import org.jk.eSked.backend.service.GroupService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;

@@ -5,7 +5,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.UserService;
 
 import javax.validation.ValidationException;
 import java.util.Collection;

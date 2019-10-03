@@ -10,7 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.shared.Registration;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
-import org.jk.eSked.backend.service.UserService;
+import org.jk.eSked.backend.service.user.UserService;
 
 import javax.validation.ValidationException;
 

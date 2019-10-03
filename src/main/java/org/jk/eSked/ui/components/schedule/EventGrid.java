@@ -14,8 +14,8 @@ import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
-import org.jk.eSked.backend.service.EventService;
-import org.jk.eSked.backend.service.ScheduleService;
+import org.jk.eSked.backend.service.user.EventService;
+import org.jk.eSked.backend.service.user.ScheduleService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

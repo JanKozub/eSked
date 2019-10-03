@@ -1,8 +1,10 @@
 package org.jk.eSked.backend.service;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.ThemeType;
 
 import java.util.UUID;
 
@@ -22,5 +24,10 @@ public class SessionService {
 
     public static boolean isSessionMobile() {
         return VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile");
+    }
+
+    public static void setTheme(ThemeType themeType) {
+        UI.getCurrent().getPage()
+                .executeJs("document.documentElement.setAttribute(\"theme\",\"" + themeType.toString().toLowerCase() + "\")");
     }
 }

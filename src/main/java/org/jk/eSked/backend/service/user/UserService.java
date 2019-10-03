@@ -1,4 +1,4 @@
-package org.jk.eSked.backend.service;
+package org.jk.eSked.backend.service.user;
 
 import org.jk.eSked.backend.dao.UsersDao;
 import org.jk.eSked.backend.model.User;

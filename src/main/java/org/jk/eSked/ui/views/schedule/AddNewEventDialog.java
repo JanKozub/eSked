@@ -18,9 +18,9 @@ import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
 import org.jk.eSked.backend.model.types.NotificationType;
-import org.jk.eSked.backend.service.EventService;
-import org.jk.eSked.backend.service.ScheduleService;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.EventService;
+import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import java.time.Instant;

@@ -22,7 +22,7 @@ org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis
 	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:87) ~[mybatis-3.5.1.jar:3.5.1]
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58) ~[mybatis-3.5.1.jar:3.5.1]
 	at com.sun.proxy.$Proxy133.getHour(Unknown Source) ~[na:na]
-	at org.jk.eSked.backend.service.HoursService.getScheduleHour(HoursService.java:38) ~[classes/:na]<-----------------------------------------------------------------------------TUTAJ
+	at org.jk.eSked.backend.service.user.HoursService.getScheduleHour(HoursService.java:38) ~[classes/:na]<-----------------------------------------------------------------------------TUTAJ
 	at org.jk.eSked.ui.components.schedule.ScheduleGrid$1.hourRenderer(ScheduleGrid.java:100) ~[classes/:na]<-----------------------------------------------------------------------------TUTAJ
 	at com.vaadin.flow.data.renderer.ComponentRenderer.createComponent(ComponentRenderer.java:239) ~[flow-data-2.0.12.jar:2.0.12]
 	at com.vaadin.flow.data.provider.ComponentDataGenerator.createComponent(ComponentDataGenerator.java:94) ~[flow-data-2.0.12.jar:2.0.12]
