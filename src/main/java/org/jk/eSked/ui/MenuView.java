@@ -19,6 +19,7 @@ import org.jk.eSked.ui.views.admin.AdminView;
 import org.jk.eSked.ui.views.events.EventsView;
 import org.jk.eSked.ui.views.events.NewEventView;
 import org.jk.eSked.ui.views.schedule.ScheduleView;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Push
@@ -68,8 +69,8 @@ public class MenuView extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> 
     }
 
     private void logout() {
+        SecurityContextHolder.clearContext();
         UI.getCurrent().navigate("login");
         VaadinSession.getCurrent().close();
-        UI.getCurrent().getPage().reload();
     }
 }

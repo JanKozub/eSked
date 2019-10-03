@@ -17,7 +17,6 @@ import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
@@ -45,98 +44,95 @@ public class NewEventView extends HorizontalLayout {
     private NumberField hourNum;
     private TextField topicField;
 
-    public NewEventView(LoginService loginService, ScheduleService scheduleService, EventService eventService) {
+    public NewEventView(ScheduleService scheduleService, EventService eventService) {
         this.eventService = eventService;
         this.eventGrid = new Grid<>();
+        this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
 
-        if (loginService.checkIfUserIsLogged()) {
-            this.userId = VaadinSession.getCurrent().getAttribute(User.class).getId();
+        Label formLabel = new Label("Nowe Wydarzenie");
+        formLabel.getStyle().set("margin-left", "auto");
+        formLabel.getStyle().set("margin-right", "auto");
+        HorizontalLayout formName = new HorizontalLayout(formLabel);
+        formName.setSizeFull();
 
-            Label formLabel = new Label("Nowe Wydarzenie");
-            formLabel.getStyle().set("margin-left", "auto");
-            formLabel.getStyle().set("margin-right", "auto");
-            HorizontalLayout formName = new HorizontalLayout(formLabel);
-            formName.setSizeFull();
-
-            datePicker = new DatePicker();
-            datePicker.setI18n(datePickerI18n());
-            datePicker.setWidth("100%");
-            datePicker.addValueChangeListener(e -> {
-                try {
-                    validateDate(datePicker.getValue());
-                    datePicker.setInvalid(false);
-                } catch (ValidationException ex) {
-                    datePicker.setErrorMessage(ex.getMessage());
-                    datePicker.setInvalid(true);
-                }
-            });
-
-            eventType = new ComboBox<>();
-            eventType.setItems(EventType.values());
-            eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
-            eventType.setPlaceholder("Rodzaj");
-            eventType.setItemLabelGenerator(EventType::getDescription);
-            eventType.setWidth("100%");
-
-            hourNum = new NumberField();
-            hourNum.setHasControls(true);
-            hourNum.setMin(1);
-            hourNum.setPlaceholder("Godzina");
-            hourNum.setWidth("100%");
-
-            topicField = new TextField();
-            topicField.setPlaceholder("Temat");
-            topicField.setWidth("100%");
-
-            Button addButton = new Button("Dodaj!", onClick -> addEvent());
-            addButton.setWidth("100%");
-
-            FormLayout eventForm = new FormLayout();
-
-            eventForm.setResponsiveSteps(
-                    new FormLayout.ResponsiveStep("15em", 1),
-                    new FormLayout.ResponsiveStep("15em", 2));
-            eventForm.add(formName, datePicker, eventType, hourNum, topicField, addButton);
-            eventForm.setColspan(formName, 2);
-            eventForm.setColspan(datePicker, 2);
-            eventForm.setColspan(eventType, 1);
-            eventForm.setColspan(hourNum, 1);
-            eventForm.setColspan(topicField, 2);
-            eventForm.setColspan(addButton, 2);
-            eventForm.setSizeFull();
-
-            VerticalLayout newEventLayout = new VerticalLayout(eventForm);
-
-            Label gridLabel = new Label("Wydarzenia w tym dniu");
-            gridLabel.getStyle().set("margin-left", "auto");
-            gridLabel.getStyle().set("margin-right", "auto");
-
-            eventGrid.setHeightByRows(true);
-            eventGrid.addColumn(event -> event.getEventType().getDescription()).setHeader("Rodzaj");
-            eventGrid.addColumn(new BasicRenderer<Event, String>(event -> {
-                Collection<ScheduleEntry> entries = scheduleService.getScheduleEntries(userId);
-                if (!entries.isEmpty()) {
-                    for (ScheduleEntry entry : entries) {
-                        if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
-                            return entry.getSubject();
-                    }
-                }
-                return "brak";
-            }) {
-            }).setHeader("Lekcja");
-            eventGrid.addColumn(Event::getHour).setHeader("Godzina");
-            eventGrid.addColumn(Event::getTopic).setHeader("Temat");
-            eventGrid.getStyle().set("margin-top", "0px");
-
-            VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
-
-            if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile"))
-                add(new VerticalLayout(newEventLayout, gridLayout));
-            else {
-                newEventLayout.setWidth("50%");
-                gridLayout.setWidth("50%");
-                add(newEventLayout, gridLayout);
+        datePicker = new DatePicker();
+        datePicker.setI18n(datePickerI18n());
+        datePicker.setWidth("100%");
+        datePicker.addValueChangeListener(e -> {
+            try {
+                validateDate(datePicker.getValue());
+                datePicker.setInvalid(false);
+            } catch (ValidationException ex) {
+                datePicker.setErrorMessage(ex.getMessage());
+                datePicker.setInvalid(true);
             }
+        });
+
+        eventType = new ComboBox<>();
+        eventType.setItems(EventType.values());
+        eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
+        eventType.setPlaceholder("Rodzaj");
+        eventType.setItemLabelGenerator(EventType::getDescription);
+        eventType.setWidth("100%");
+
+        hourNum = new NumberField();
+        hourNum.setHasControls(true);
+        hourNum.setMin(1);
+        hourNum.setPlaceholder("Godzina");
+        hourNum.setWidth("100%");
+
+        topicField = new TextField();
+        topicField.setPlaceholder("Temat");
+        topicField.setWidth("100%");
+
+        Button addButton = new Button("Dodaj!", onClick -> addEvent());
+        addButton.setWidth("100%");
+
+        FormLayout eventForm = new FormLayout();
+
+        eventForm.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("15em", 1),
+                new FormLayout.ResponsiveStep("15em", 2));
+        eventForm.add(formName, datePicker, eventType, hourNum, topicField, addButton);
+        eventForm.setColspan(formName, 2);
+        eventForm.setColspan(datePicker, 2);
+        eventForm.setColspan(eventType, 1);
+        eventForm.setColspan(hourNum, 1);
+        eventForm.setColspan(topicField, 2);
+        eventForm.setColspan(addButton, 2);
+        eventForm.setSizeFull();
+
+        VerticalLayout newEventLayout = new VerticalLayout(eventForm);
+
+        Label gridLabel = new Label("Wydarzenia w tym dniu");
+        gridLabel.getStyle().set("margin-left", "auto");
+        gridLabel.getStyle().set("margin-right", "auto");
+
+        eventGrid.setHeightByRows(true);
+        eventGrid.addColumn(event -> event.getEventType().getDescription()).setHeader("Rodzaj");
+        eventGrid.addColumn(new BasicRenderer<>(event -> {
+            Collection<ScheduleEntry> entries = scheduleService.getScheduleEntries(userId);
+            if (!entries.isEmpty()) {
+                for (ScheduleEntry entry : entries) {
+                    if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
+                        return entry.getSubject();
+                }
+            }
+            return "brak";
+        }) {
+        }).setHeader("Lekcja");
+        eventGrid.addColumn(Event::getHour).setHeader("Godzina");
+        eventGrid.addColumn(Event::getTopic).setHeader("Temat");
+        eventGrid.getStyle().set("margin-top", "0px");
+
+        VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
+
+        if (VaadinSession.getCurrent().getBrowser().getBrowserApplication().contains("Mobile"))
+            add(new VerticalLayout(newEventLayout, gridLayout));
+        else {
+            newEventLayout.setWidth("50%");
+            gridLayout.setWidth("50%");
+            add(newEventLayout, gridLayout);
         }
     }
 

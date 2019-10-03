@@ -48,6 +48,23 @@ public interface UsersDao {
     })
     User getUser(UUID userId);
 
+    @Select("SELECT * FROM Users WHERE username = #{username}")
+    @ConstructorArgs({
+            @Arg(column = "id", javaType = UUID.class),
+            @Arg(column = "Username", javaType = String.class),
+            @Arg(column = "password", javaType = String.class),
+            @Arg(column = "darkTheme", javaType = boolean.class),
+            @Arg(column = "ScheduleHours", javaType = boolean.class),
+            @Arg(column = "email", javaType = String.class),
+            @Arg(column = "groupCode", javaType = int.class),
+            @Arg(column = "eventsSyn", javaType = boolean.class),
+            @Arg(column = "tableSyn", javaType = boolean.class),
+            @Arg(column = "createdDate", javaType = long.class),
+            @Arg(column = "lastLoggedDate", javaType = long.class),
+            @Arg(column = "verified", javaType = boolean.class)
+    })
+    User getUserByUsername(String username);
+
     @Select("SELECT * FROM Users")
     @ConstructorArgs({
             @Arg(column = "Username", javaType = String.class)

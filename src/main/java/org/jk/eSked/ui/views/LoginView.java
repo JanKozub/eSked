@@ -7,38 +7,27 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.model.types.ThemeType;
-import org.jk.eSked.backend.service.*;
-import org.jk.eSked.ui.components.login.loginExceptionDialog;
-
-import java.time.Instant;
-import java.util.Collection;
+import org.jk.eSked.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route(value = "login")
-@PageTitle("Logowanie")
-@PWA(name = "eSked", shortName = "Schedule app", iconPath = "META-INF/resources/icons/icon.png", description = "Schedule app for students")
-class LoginView extends VerticalLayout {
+@PageTitle("Login")
+public class LoginView extends VerticalLayout {
 
-    private final UserService userService;
+    private LoginOverlay loginOverlay = new LoginOverlay();
 
-    public LoginView(UserService userService, GroupService groupsService, EventService eventService, EmailService emailService) {
-        this.userService = userService;
-
-        if (VaadinSession.getCurrent().getSession() == null) VaadinSession.getCurrent().close();
-
-        add(loginLayout(eventService, groupsService, emailService));
-    }
-
-    private LoginOverlay loginLayout(EventService eventService, GroupService groupsService, EmailService emailService) {
-        LoginOverlay loginOverlay = new LoginOverlay();
+    @Autowired
+    public LoginView(AuthenticationManager authenticationManager, UserService userService) {
         H1 title = new H1();
         title.getStyle().set("color", "var(--lumo-base-color)");
         Icon icon = VaadinIcon.CALENDAR.create();
@@ -47,49 +36,24 @@ class LoginView extends VerticalLayout {
         title.add(icon);
         title.add(new Text(" eSked"));
         loginOverlay.setTitle(title);
-
-        loginOverlay.setTitle(title);
-        loginOverlay.addLoginListener(login -> {
-            User user = authenticate(login.getUsername(), login.getPassword());
-            if (user != null) {
-                if (user.isVerified()) {
-                    loginOverlay.setOpened(false);
-                    VaadinSession.getCurrent().setAttribute(User.class, user);
-
-                    if (groupsService.getGroupNames().stream().noneMatch(s -> s.equals(groupsService.getGroupName(user.getGroupCode()))))
-                        userService.setGroupCode(user.getId(), 0);
-
-                    if (userService.getGroupCode(user.getId()) != 0)
-                        groupsService.synchronizeWGroup(user.getId(), user.getGroupCode());
-
-                    userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+        loginOverlay.addLoginListener(form -> {
+            try {
+                final Authentication authentication = authenticationManager
+                        .authenticate(new UsernamePasswordAuthenticationToken(form.getUsername(), User.encodePassword(form.getPassword())));
+                if (authentication != null) {
+                    loginOverlay.close();
+                    VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(form.getUsername()));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
 
                     UI.getCurrent().navigate("schedule");
-                    if (user.isDarkTheme()) ThemeService.setTheme(ThemeType.DARK);
-                    else ThemeService.setTheme(ThemeType.WHITE);
-
-                } else {
-                    Notification notification = new Notification("Konto nie zostało jeszcze aktywowane", 10000, Notification.Position.TOP_END);
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    notification.open();
                 }
-            } else {
+            } catch (AuthenticationException ex) {
                 loginOverlay.setError(true);
             }
         });
-        loginOverlay.addForgotPasswordListener(forgotPasswordEvent -> new loginExceptionDialog(userService, emailService).open());
-
-        loginOverlay.setI18n(createPolishI18n());
         loginOverlay.setOpened(true);
-        return loginOverlay;
-    }
-
-    private User authenticate(String input, String password) {
-        Collection<User> users = userService.getUsers();
-        for (User user : users)
-            if (user.getUsername().equals(input) || user.getEmail().equals(input))
-                if (user.getPassword().equals(User.encodePassword(password))) return user;
-        return null;
+        loginOverlay.setI18n(createPolishI18n());
+        add(loginOverlay);
     }
 
     private LoginI18n createPolishI18n() {

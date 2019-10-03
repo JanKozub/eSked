@@ -9,7 +9,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.*;
 import org.jk.eSked.ui.MenuView;
@@ -37,7 +36,7 @@ class FindUserView extends VerticalLayout {
     private final EmailService emailService;
     private GroupService groupService;
 
-    FindUserView(LoginService loginService, ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
+    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
         this.scheduleService = scheduleService;
         this.userService = userService;
         this.eventService = eventService;
@@ -45,32 +44,28 @@ class FindUserView extends VerticalLayout {
         this.emailService = emailService;
         this.groupService = groupService;
 
-        if (loginService.checkIfUserIsLogged()) {
-            if (loginService.checkIfUserIsLoggedAsAdmin()) {
-                TextField textField = new TextField("Nazwa użytkownika");
-                textField.setWidth("50%");
-                textField.focus();
+        TextField textField = new TextField("Nazwa użytkownika");
+        textField.setWidth("50%");
+        textField.focus();
 
-                Button button = new Button("Szukaj", event -> {
-                    try {
-                        User user = validateInput(textField.getValue());
-                        textField.setInvalid(false);
-                        removeAll();
+        Button button = new Button("Szukaj", event -> {
+            try {
+                User user = validateInput(textField.getValue());
+                textField.setInvalid(false);
+                removeAll();
 
-                        add(userLayout(user));
-                        setAlignItems(Alignment.CENTER);
-                    } catch (ValidationException ex) {
-                        textField.setErrorMessage(ex.getMessage());
-                        textField.setInvalid(true);
-                    }
-                });
-                button.addClickShortcut(Key.ENTER);
-                button.setWidth("50%");
-
+                add(userLayout(user));
                 setAlignItems(Alignment.CENTER);
-                add(new AdminReturnButton(), textField, button);
+            } catch (ValidationException ex) {
+                textField.setErrorMessage(ex.getMessage());
+                textField.setInvalid(true);
             }
-        }
+        });
+        button.addClickShortcut(Key.ENTER);
+        button.setWidth("50%");
+
+        setAlignItems(Alignment.CENTER);
+        add(new AdminReturnButton(), textField, button);
     }
 
     private VerticalLayout userLayout(User user) {

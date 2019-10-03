@@ -1,6 +1,7 @@
 package org.jk.eSked.backend.repositories;
 
 import org.jk.eSked.backend.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -10,6 +11,8 @@ public interface UserDB {
     void addUser(User user);
 
     Collection<User> getUsers();
+
+    Collection<UserDetails> getUserDetails();
 
     User getUser(UUID userId);
 
@@ -56,4 +59,6 @@ public interface UserDB {
     UUID getIdFromUsername(String username);
 
     void setVerified(UUID userId, boolean newState);
+
+    User getUserByUsername(String username);
 }

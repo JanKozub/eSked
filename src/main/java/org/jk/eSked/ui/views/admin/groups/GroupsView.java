@@ -6,7 +6,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jk.eSked.app.LoginService;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EventService;
@@ -28,19 +27,16 @@ class GroupsView extends VerticalLayout {
     private final EventService eventService;
     private final UserService userService;
 
-    public GroupsView(LoginService loginService, ScheduleService scheduleService, GroupService groupsService, EventService eventService, UserService userService) {
+    public GroupsView(ScheduleService scheduleService, GroupService groupsService, EventService eventService, UserService userService) {
         this.scheduleService = scheduleService;
         this.groupsService = groupsService;
         this.eventService = eventService;
         this.userService = userService;
 
-        if (loginService.checkIfUserIsLogged()) {
-            if (loginService.checkIfUserIsLoggedAsAdmin()) {
-                VerticalLayout layout = mainLayout();
-                layout.setSizeFull();
-                add(layout);
-            }
-        }
+        VerticalLayout layout = mainLayout();
+        layout.setSizeFull();
+        add(layout);
+
     }
 
     private VerticalLayout mainLayout() {

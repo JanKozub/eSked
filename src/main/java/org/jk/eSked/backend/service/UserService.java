@@ -3,12 +3,14 @@ package org.jk.eSked.backend.service;
 import org.jk.eSked.backend.dao.UsersDao;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.repositories.UserDB;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
 @Service
 public class UserService implements UserDB {
 
@@ -21,6 +23,23 @@ public class UserService implements UserDB {
     @Override
     public Collection<User> getUsers() {
         return usersDao.getUsers();
+    }
+
+    @Override
+    public Collection<UserDetails> getUserDetails() {
+        Collection<User> users = getUsers();
+        List<UserDetails> userDetails = new ArrayList<>();
+
+        users.forEach(user -> {
+            UserDetails newUser =
+                    org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                            .password("{noop}" + user.getPassword())
+                            .roles("USER")
+                            .build();
+
+            userDetails.add(newUser);
+        });
+        return userDetails;
     }
 
     @Override
@@ -141,5 +160,10 @@ public class UserService implements UserDB {
     @Override
     public void setVerified(UUID userId, boolean newState) {
         usersDao.setVerified(userId, newState);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return usersDao.getUserByUsername(username);
     }
 }
