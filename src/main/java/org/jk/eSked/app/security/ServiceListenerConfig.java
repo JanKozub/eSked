@@ -2,9 +2,10 @@ package org.jk.eSked.app.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.NotFoundException;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import org.jk.eSked.ui.views.LoginView;
+import org.jk.eSked.ui.views.login.LoginView;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,9 +19,12 @@ public class ServiceListenerConfig implements VaadinServiceInitListener {
     }
 
     private void beforeEnter(BeforeEnterEvent event) {
-        if (!LoginView.class.equals(event.getNavigationTarget())
-                && !SecurityUtils.isUserLoggedIn()) {
-            event.rerouteTo(LoginView.class);
+        if (!SecurityUtils.isAccessGranted(event.getNavigationTarget())) {
+            if (SecurityUtils.isUserLoggedIn()) {
+                event.rerouteToError(NotFoundException.class);
+            } else {
+                event.rerouteTo(LoginView.class);
+            }
         }
     }
 }

@@ -6,10 +6,10 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MenuView;
+import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 
-@Route(value = "schedule/new", layout = MenuView.class)
+@Route(value = "schedule/new", layout = Menu.class)
 @PageTitle("Nowy Wpis Do Planu")
 public class NewEntryView extends VerticalLayout {
 

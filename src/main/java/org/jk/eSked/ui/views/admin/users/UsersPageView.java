@@ -10,11 +10,13 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MenuView;
+import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
+import org.springframework.security.access.annotation.Secured;
 
-@Route(value = "admin/users", layout = MenuView.class)
+@Route(value = "admin/users", layout = Menu.class)
 @PageTitle("Użytkownicy")
+@Secured("ROLE_ADMIN")
 class UsersPageView extends VerticalLayout {
 
     UsersPageView(UserService userService) {

@@ -26,15 +26,17 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
 
     @Override
     public void setParameter(BeforeEvent event, String url) {
+        boolean confirmed = false;
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
             if (tokenValue.getUserId() != null) {
                 userService.setVerified(tokenValue.getUserId(), true);
-                new SuccessNotification("Twoje konto zostało aktywowane", NotificationType.LONG).open();
+                confirmed = true;
             }
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());
         }
         UI.getCurrent().navigate("login");
+        if (confirmed) new SuccessNotification("Twoje konto zostało aktywowane", NotificationType.LONG).open();
     }
 }

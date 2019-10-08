@@ -24,14 +24,14 @@ import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.MenuView;
+import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.time.*;
 import java.util.*;
 
-@Route(value = "events/new", layout = MenuView.class)
+@Route(value = "events/new", layout = Menu.class)
 @PageTitle("Nowe Wydarzenie")
 public class NewEventView extends HorizontalLayout {
 

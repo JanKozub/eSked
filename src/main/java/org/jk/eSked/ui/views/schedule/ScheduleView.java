@@ -9,10 +9,10 @@ import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MenuView;
+import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 
-@Route(value = "schedule", layout = MenuView.class)
+@Route(value = "schedule", layout = Menu.class)
 @PageTitle("Plan")
 public class ScheduleView extends HorizontalLayout {
     public ScheduleView(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService) {

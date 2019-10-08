@@ -34,11 +34,18 @@ public class UserService implements UserDB {
         List<UserDetails> userDetails = new ArrayList<>();
 
         users.forEach(user -> {
-            UserDetails newUser =
-                    org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
-                            .password("{noop}" + user.getPassword())
-                            .roles("USER")
-                            .build();
+            UserDetails newUser;
+            if (user.getUsername().equals("admin")) {
+                newUser = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                        .password("{noop}" + user.getPassword())
+                        .roles("USER", "ADMIN")
+                        .build();
+            } else {
+                newUser = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                        .password("{noop}" + user.getPassword())
+                        .roles("USER")
+                        .build();
+            }
             userDetails.add(newUser);
         });
         return userDetails;

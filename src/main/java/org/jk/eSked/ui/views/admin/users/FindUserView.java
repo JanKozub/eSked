@@ -13,7 +13,7 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.*;
-import org.jk.eSked.ui.MenuView;
+import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
@@ -21,14 +21,16 @@ import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.NameField;
 import org.jk.eSked.ui.components.settings.protectedFields.EmailField;
 import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
+import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
 import java.time.Instant;
 import java.time.ZoneId;
 
 
-@Route(value = "admin/user", layout = MenuView.class)
+@Route(value = "admin/user", layout = Menu.class)
 @PageTitle("Sprawdź Użytkownika")
+@Secured("ROLE_ADMIN")
 class FindUserView extends VerticalLayout {
 
     private final UserService userService;
