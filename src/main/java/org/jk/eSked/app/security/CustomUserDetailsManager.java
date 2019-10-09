@@ -1,6 +1,6 @@
 package org.jk.eSked.app.security;
 
-import org.jk.eSked.backend.configuration.ApplicationContextHolder;
+import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

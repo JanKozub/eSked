@@ -18,17 +18,20 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Route(value = "events/new", layout = Menu.class)
@@ -109,12 +112,12 @@ public class NewEventView extends HorizontalLayout {
         gridLabel.getStyle().set("margin-right", "auto");
 
         eventGrid.setHeightByRows(true);
-        eventGrid.addColumn(event -> event.getEventType().getDescription()).setHeader("Rodzaj");
+        eventGrid.addColumn(event -> event.getType().getDescription()).setHeader("Rodzaj");
         eventGrid.addColumn(new BasicRenderer<>(event -> {
             Collection<ScheduleEntry> entries = scheduleService.getScheduleEntries(userId);
             if (!entries.isEmpty()) {
                 for (ScheduleEntry entry : entries) {
-                    if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
+                    if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                         return entry.getSubject();
                 }
             }
@@ -159,11 +162,10 @@ public class NewEventView extends HorizontalLayout {
             throw new ValidationException("Nie możesz ustawić wydarzenia w przeszłości");
 
         List<Event> eventsOnDay = new ArrayList<>();
-        Collection<Event> events = eventService.getEvents(date, userId);
+        Collection<Event> events = eventService.getEventsForWeek(date, userId);
         for (Event event : events) {
-            if (event.getDate().toLocalDate().equals(date)) {
+            if (TimeService.InstantToLocalDate(event.getTimestamp()).equals(date))
                 eventsOnDay.add(event);
-            }
         }
         eventGrid.setItems(eventsOnDay);
     }
@@ -173,10 +175,8 @@ public class NewEventView extends HorizontalLayout {
             validateEvent();
 
             long time = datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
-            long createdData = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-            UUID id = UUID.randomUUID();
-            ScheduleEvent event = new ScheduleEvent(userId, id, time, (int) Math.round(hourNum.getValue()),
-                    eventType.getValue(), topicField.getValue(), createdData);
+            Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
+                    topicField.getValue(), (int) Math.round(hourNum.getValue()), time, Instant.now().toEpochMilli());
             eventService.addEvent(event);
             new SuccessNotification("Dodano wydarzenie: " + topicField.getValue(), NotificationType.SHORT).open();
 

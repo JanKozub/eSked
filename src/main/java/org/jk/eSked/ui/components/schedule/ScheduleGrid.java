@@ -13,6 +13,7 @@ import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.model.types.ThemeType;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.backend.service.user.ScheduleService;
@@ -46,7 +47,7 @@ public class ScheduleGrid extends VerticalLayout {
         if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         entries = scheduleService.getScheduleEntries(userId);
-        events = eventService.getEvents(startOfWeek, userId);
+        events = eventService.getEventsForWeek(startOfWeek, userId);
 
         scheduleGrid = new Schedule(userService, userId) {
             @Override
@@ -66,9 +67,9 @@ public class ScheduleGrid extends VerticalLayout {
                             color = "#f3f5f7";
                         }
                         for (Event event : events) {
-                            if (event.getHour() == hour && event.getDate().getDayOfWeek() == DayOfWeek.of(day + 1)) {
+                            if (event.getHour() == hour && TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
                                 entryEvents.add(event);
-                                switch (event.getEventType()) {
+                                switch (event.getType()) {
                                     case TEST:
                                         color = "#c43737";
                                         break;
@@ -179,7 +180,7 @@ public class ScheduleGrid extends VerticalLayout {
 
     private void refresh() {
         entries = scheduleService.getScheduleEntries(userId);
-        events = eventService.getEvents(startOfWeek, userId);
+        events = eventService.getEventsForWeek(startOfWeek, userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setDataProvider(dataProvider);
     }

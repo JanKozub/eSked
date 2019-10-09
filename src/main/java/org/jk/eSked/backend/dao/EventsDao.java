@@ -1,7 +1,7 @@
 package org.jk.eSked.backend.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
+import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.types.EventType;
 import org.springframework.stereotype.Repository;
 
@@ -10,33 +10,39 @@ import java.util.UUID;
 
 @Repository
 public interface EventsDao {
-    @Select("SELECT * FROM Events WHERE timestamp >= #{startOfWeek} AND timestamp < #{startOfWeek} + CAST(7*24*3600 AS LONG) * 1000 AND userId = #{userId}")
+    @Select("SELECT * FROM Events WHERE timestamp >= #{startOfWeek} AND timestamp < #{startOfWeek} + CAST(7*24*3600 AS LONG) * 1000 AND creatorId = #{creatorId}")
     @ConstructorArgs({
-            @Arg(column = "userId", javaType = UUID.class),
-            @Arg(column = "id", javaType = UUID.class),
-            @Arg(column = "timestamp", javaType = long.class),
-            @Arg(column = "hour", javaType = int.class),
-            @Arg(column = "eventType", javaType = EventType.class),
+            @Arg(column = "creatorId", javaType = UUID.class),
+            @Arg(column = "eventId", javaType = UUID.class),
+            @Arg(column = "type", javaType = EventType.class),
             @Arg(column = "topic", javaType = String.class),
-            @Arg(column = "createdDate", javaType = long.class)
+            @Arg(column = "hour", javaType = int.class),
+            @Arg(column = "timestamp", javaType = long.class),
+            @Arg(column = "createdTimestamp", javaType = long.class)
     })
-    List<ScheduleEvent> getEvents(long startOfWeek, UUID userId);
+    List<Event> getEventsForWeek(long startOfWeek, UUID creatorId);
 
-    @Select("SELECT * FROM Events WHERE userId = #{userId}")
+    @Select("SELECT * FROM Events WHERE creatorId = #{creatorId}")
     @ConstructorArgs({
-            @Arg(column = "userId", javaType = UUID.class),
-            @Arg(column = "id", javaType = UUID.class),
-            @Arg(column = "timestamp", javaType = long.class),
-            @Arg(column = "hour", javaType = int.class),
-            @Arg(column = "eventType", javaType = EventType.class),
+            @Arg(column = "creatorId", javaType = UUID.class),
+            @Arg(column = "eventId", javaType = UUID.class),
+            @Arg(column = "type", javaType = EventType.class),
             @Arg(column = "topic", javaType = String.class),
-            @Arg(column = "createdDate", javaType = long.class)
+            @Arg(column = "hour", javaType = int.class),
+            @Arg(column = "timestamp", javaType = long.class),
+            @Arg(column = "createdTimestamp", javaType = long.class)
     })
-    List<ScheduleEvent> getAllEvents(UUID userId);
+    List<Event> getEvents(UUID userId);
 
-    @Insert("INSERT INTO Events(userId, id, timestamp, hour, eventType, topic, createdDate) VALUES(#{userId}, #{id}, #{dateTimestamp}, #{hour}, #{eventType}, #{topic}, #{createdDateTimestamp})")
-    void persistEvent(ScheduleEvent event);
+    @Select("SELECT * FROM Events WHERE eventId = #{eventId}")
+    @ConstructorArgs({
+            @Arg(column = "eventId", javaType = UUID.class),
+    })
+    List<UUID> getUUIDs(UUID eventId);
 
-    @Delete("DELETE FROM Events WHERE id = #{id}")
-    void deleteEvent(ScheduleEvent event);
+    @Insert("INSERT INTO Events(creatorId, eventId, type, topic, hour, timestamp, createdTimestamp) VALUES(#{creatorId}, #{eventId}, #{type}, #{topic}, #{hour}, #{timestamp}, #{createdTimestamp})")
+    void persistEvent(Event event);
+
+    @Delete("DELETE FROM Events WHERE creatorId = #{creatorId} AND eventId = #{eventId}")
+    void deleteEvent(UUID creatorId, UUID eventId);
 }

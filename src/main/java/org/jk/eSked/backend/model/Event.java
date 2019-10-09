@@ -2,63 +2,82 @@ package org.jk.eSked.backend.model;
 
 import org.jk.eSked.backend.model.types.EventType;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Event {
-    private final UUID id;
-    private final LocalDateTime date;
-    private final long dateTimestamp;
-    private final int hour;
-    private final EventType eventType;
-    private final String topic;
-    private final LocalDateTime createdDate;
-    private final long createdDateTimestamp;
+    private UUID creatorId;
+    private UUID eventId;
+    private EventType type;
+    private String topic;
+    private int hour;
+    private long timestamp;
+    private long createdTimestamp;
 
-    public Event(UUID id, long date, int hour, EventType eventType, String topic, long createdDate) {
-        this.id = id;
-        this.date = Instant.ofEpochMilli(date).atZone(ZoneOffset.systemDefault()).toLocalDateTime();
-        this.dateTimestamp = date;
-        this.hour = hour;
-        this.eventType = eventType;
+    public Event(UUID creatorId, UUID eventId, EventType type, String topic, int hour, long timestamp, long createdTimestamp) {
+        this.creatorId = creatorId;
+        this.eventId = eventId;
+        this.type = type;
         this.topic = topic;
-        this.createdDate = Instant.ofEpochMilli(createdDate).atZone(ZoneOffset.systemDefault()).toLocalDateTime();
-        this.createdDateTimestamp = createdDate;
+        this.hour = hour;
+        this.timestamp = timestamp;
+        this.createdTimestamp = createdTimestamp;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getCreatorId() {
+        return creatorId;
     }
 
-    public int getHour() {
-        return hour;
+    public void setCreatorId(UUID creatorId) {
+        this.creatorId = creatorId;
     }
 
-    public EventType getEventType() {
-        return eventType;
+    public UUID getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     public String getTopic() {
         return topic;
     }
 
-    public long getDateTimestamp() {
-        return dateTimestamp;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
-    public long getCreatedDateTimestamp() {
-        return createdDateTimestamp;
+    public int getHour() {
+        return hour;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public long getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(long createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 
     @Override
@@ -67,15 +86,16 @@ public class Event {
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
         return hour == event.hour &&
-                Objects.equals(id, event.id) &&
-                Objects.equals(date, event.date) &&
-                eventType == event.eventType &&
-                Objects.equals(topic, event.topic) &&
-                Objects.equals(createdDate, event.createdDate);
+                timestamp == event.timestamp &&
+                createdTimestamp == event.createdTimestamp &&
+                Objects.equals(creatorId, event.creatorId) &&
+                Objects.equals(eventId, event.eventId) &&
+                type == event.type &&
+                Objects.equals(topic, event.topic);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, hour, eventType, topic, createdDate);
+        return Objects.hash(creatorId, eventId, type, topic, hour, timestamp, createdTimestamp);
     }
 }

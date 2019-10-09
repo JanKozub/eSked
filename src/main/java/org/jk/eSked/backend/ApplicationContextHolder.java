@@ -1,4 +1,4 @@
-package org.jk.eSked.backend.configuration;
+package org.jk.eSked.backend;
 
 
 import org.springframework.beans.BeansException;

@@ -2,15 +2,12 @@ package org.jk.eSked.backend.service.user;
 
 import org.jk.eSked.backend.dao.EventsDao;
 import org.jk.eSked.backend.model.Event;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.repositories.EventDB;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,36 +20,28 @@ public class EventService implements EventDB {
     }
 
     @Override
-    public Collection<Event> getEvents(LocalDate startOfWeek, UUID userId) {
-        return parseScheduleEvents(eventsDao.getEvents(getStartOfWeekMillis(startOfWeek), userId));
+    public Collection<Event> getEventsForWeek(LocalDate startOfWeek, UUID creatorId) {
+        return eventsDao.getEventsForWeek(getStartOfWeekMillis(startOfWeek), creatorId);
     }
 
     @Override
-    public Collection<Event> getAllEvents(UUID userId) {
-        return parseScheduleEvents(eventsDao.getAllEvents(userId));
+    public Collection<Event> getEvents(UUID creatorId) {
+        return eventsDao.getEvents(creatorId);
     }
 
     @Override
-    public void addEvent(ScheduleEvent event) {
+    public void addEvent(Event event) {
         eventsDao.persistEvent(event);
     }
 
     @Override
-    public void deleteEvent(ScheduleEvent event) {
-        eventsDao.deleteEvent(event);
+    public void deleteEvent(UUID creatorId, UUID eventId) {
+        eventsDao.deleteEvent(creatorId, eventId);
     }
 
-    private Collection<Event> parseScheduleEvents(Collection<ScheduleEvent> scheduleEvents) {
-        List<Event> events = new ArrayList<>();
-        for (ScheduleEvent scheduleEvent : scheduleEvents) {
-            events.add(new Event(scheduleEvent.getId(),
-                    scheduleEvent.getDateTimestamp(),
-                    scheduleEvent.getHour(),
-                    scheduleEvent.getEventType(),
-                    scheduleEvent.getTopic(),
-                    scheduleEvent.getCreatedDateTimestamp()));
-        }
-        return events;
+    @Override
+    public boolean doesUUIDExists(UUID newUUID) {
+        return eventsDao.getUUIDs(newUUID).size() > 0;
     }
 
     private long getStartOfWeekMillis(LocalDate startOfWeek) {
@@ -60,5 +49,11 @@ public class EventService implements EventDB {
                 .atZone(ZoneId.systemDefault())
                 .toInstant()
                 .toEpochMilli();
+    }
+
+    public UUID createEventId() {
+        UUID randomUUID = UUID.randomUUID();
+        while (doesUUIDExists(randomUUID)) randomUUID = UUID.randomUUID();
+        return randomUUID;
     }
 }

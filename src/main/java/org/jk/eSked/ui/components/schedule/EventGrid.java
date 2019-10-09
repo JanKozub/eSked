@@ -13,13 +13,12 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
@@ -37,9 +36,9 @@ public class EventGrid extends VerticalLayout {
     private final Collection<ScheduleEntry> entries;
     private LocalDate startOfWeek;
 
-    public EventGrid(ScheduleService scheduleService, EventService eventService, UUID userID) {
+    public EventGrid(ScheduleService scheduleService, EventService eventService, UUID userId) {
         this.eventService = eventService;
-        this.userID = userID;
+        this.userID = userId;
 
         if (startOfWeek == null) {
             startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
@@ -77,30 +76,29 @@ public class EventGrid extends VerticalLayout {
         eventGrid = new Grid<>();
         eventGrid.setHeightByRows(true);
 
-        entries = scheduleService.getScheduleEntries(userID);
+        entries = scheduleService.getScheduleEntries(userId);
 
-        eventGrid.addColumn(event -> event.getEventType().getDescription()).setHeader("Rodzaj");
-        eventGrid.addColumn(new BasicRenderer<Event, String>(event -> {
+        eventGrid.addColumn(event -> event.getType().getDescription()).setHeader("Rodzaj");
+        eventGrid.addColumn(new BasicRenderer<>(event -> {
             if (entries != null) {
                 for (ScheduleEntry entry : entries) {
-                    if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
+                    if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                         return entry.getSubject() + "(" + entry.getHour() + ")";
                 }
             }
             return "brak";
         }) {
         }).setHeader("Lekcja(Godz)");
-        eventGrid.addColumn(new LocalDateTimeRenderer<>(Event::getDate, DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
-        eventGrid.addColumn(event -> event.getDate().toLocalDate()).setHeader("Data");
+        eventGrid.addColumn(new LocalDateTimeRenderer<>(event2 ->
+                TimeService.InstantToLocalDateTime(event2.getTimestamp()),
+                DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
+        eventGrid.addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader("Data");
         eventGrid.addColumn(Event::getTopic).setHeader("Temat");
         eventGrid.addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");
             icon.addClickListener(event -> {
-                eventService.deleteEvent(new ScheduleEvent(userID, e.getId(),
-                        e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                        e.getHour(), e.getEventType(), e.getTopic(),
-                        e.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                eventService.deleteEvent(userId, e.getEventId());
                 reload();
             });
             return icon;
@@ -135,6 +133,6 @@ public class EventGrid extends VerticalLayout {
     }
 
     private void reload() {
-        eventGrid.setDataProvider(new ListDataProvider<>(eventService.getEvents(startOfWeek, userID)));
+        eventGrid.setDataProvider(new ListDataProvider<>(eventService.getEventsForWeek(startOfWeek, userID)));
     }
 }

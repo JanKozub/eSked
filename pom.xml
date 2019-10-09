@@ -185,11 +185,6 @@
             <artifactId>app-layout-addon</artifactId>
             <version>4.0.0.beta5</version>
         </dependency>
-        <dependency>
-            <groupId>org.webjars.bowergithub.polymerelements</groupId>
-            <artifactId>paper-slider</artifactId>
-            <version>3.0.2</version>
-        </dependency>
     </dependencies>
 
     <build>

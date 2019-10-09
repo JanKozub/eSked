@@ -15,10 +15,10 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.types.EventType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
@@ -67,9 +67,9 @@ public class AddNewEventDialog extends Dialog {
                 if (eventType.getValue() != null) {
                     eventType.setInvalid(false);
                     long time = eventDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
-                    UUID id = UUID.randomUUID();
-                    ScheduleEvent event = new ScheduleEvent(userId, id, time, scheduleEntry.getHour(),
-                            eventType.getValue(), topicField.getValue(), Instant.now().toEpochMilli());
+                    Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
+                            topicField.getValue(), scheduleEntry.getHour(),
+                            time, Instant.now().toEpochMilli());
                     eventService.addEvent(event);
                     new SuccessNotification("Dodano wydarzenie!", NotificationType.SHORT).open();
                     topicField.clear();
@@ -90,21 +90,21 @@ public class AddNewEventDialog extends Dialog {
         eventGrid.addColumn(new BasicRenderer<>(event -> {
             if (entries != null) {
                 for (ScheduleEntry entry : entries) {
-                    if (entry.getHour() == event.getHour() && entry.getDay() == event.getDate().getDayOfWeek().getValue() - 1)
+                    if (entry.getHour() == event.getHour()
+                            && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                         return entry.getSubject();
                 }
             }
             return "brak";
         }) {
         }).setHeader("Lekcja");
-        eventGrid.addColumn(event -> event.getEventType().getDescription()).setHeader("Rodzaj");
+        eventGrid.addColumn(event -> event.getType().getDescription()).setHeader("Rodzaj");
         eventGrid.addColumn(Event::getTopic).setHeader("Temat");
         eventGrid.addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");
             icon.addClickListener(event -> {
-                eventService.deleteEvent(new ScheduleEvent(userId, e.getId(), e.getDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                        e.getHour(), e.getEventType(), e.getTopic(), e.getCreatedDate().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                eventService.deleteEvent(userId, e.getEventId());
                 updateEvents(eventGrid, eventDate);
             });
             return icon;
@@ -122,8 +122,8 @@ public class AddNewEventDialog extends Dialog {
     }
 
     private void updateEvents(Grid<Event> eventGrid, LocalDate eventDate) {
-        List<Event> eventsSorted = new ArrayList<>(eventService.getEvents(startOfWeek, userId));
-        eventsSorted.removeIf(event -> event.getDate().getDayOfWeek() != eventDate.getDayOfWeek());
+        List<Event> eventsSorted = new ArrayList<>(eventService.getEventsForWeek(startOfWeek, userId));
+        eventsSorted.removeIf(event -> TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek() != eventDate.getDayOfWeek());
 
         eventGrid.setItems(eventsSorted);
     }

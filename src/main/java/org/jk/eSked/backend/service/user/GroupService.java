@@ -3,7 +3,6 @@ package org.jk.eSked.backend.service.user;
 import org.jk.eSked.backend.dao.GroupsDao;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.Group;
-import org.jk.eSked.backend.model.schedule.ScheduleEvent;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.repositories.GroupDB;
 import org.springframework.stereotype.Service;
@@ -78,14 +77,12 @@ public class GroupService implements GroupDB {
     public void synchronizeWGroup(UUID userId, int groupCode) {
         if (userId.compareTo(getLeaderId(groupCode)) != 0) {
             if (userService.isEventsSyn(userId)) {
-                Collection<Event> groupEvents = eventService.getAllEvents(getLeaderId( //EVENTS
+                Collection<Event> groupEvents = eventService.getEvents(getLeaderId( //EVENTS
                         getGroupName(userService.getGroupCode(userId))));
-                Collection<Event> events = eventService.getAllEvents(userId);
+                Collection<Event> events = eventService.getEvents(userId);
                 for (Event parseEvent : groupEvents) {
-                    if (events.stream().noneMatch(streamEvent -> parseEvent.getId().equals(streamEvent.getId()))) {
-                        eventService.addEvent(new ScheduleEvent(userId, parseEvent.getId(), parseEvent.getDateTimestamp(),
-                                parseEvent.getHour(), parseEvent.getEventType(), parseEvent.getTopic(),
-                                parseEvent.getCreatedDateTimestamp()));
+                    if (events.stream().noneMatch(event2 -> event2.getEventId().compareTo(parseEvent.getEventId()) == 0)) {
+                        eventService.addEvent(parseEvent);
                     }
                 }
             }
