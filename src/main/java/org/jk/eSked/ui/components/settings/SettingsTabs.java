@@ -48,16 +48,10 @@ public class SettingsTabs {
         accountForm.add(new NameField(userId, userService, emailService));
         accountForm.add(new MyPasswordField(userId, userService, emailService, true));
         accountForm.add(new EmailField(userId, userService, emailService, true));
-        RadioButtonGroup<String> languageGroup = new RadioButtonGroup<>();
-        languageGroup.setLabel("Język");
-        languageGroup.setItems("Polski", "English");
-        languageGroup.setValue("Polski");
-        languageGroup.getStyle().set("padding-top", "0px");
-        languageGroup.getStyle().set("margin-top", "auto");
-
-        accountForm.add(languageGroup);
-        accountForm.add(new Button("Dodaj Przedmioty Do Planu",
-                buttonClickEvent -> UI.getCurrent().navigate("schedule/new")), 2);
+        Button newEntries = new Button("Dodaj Przedmioty Do Planu",
+                buttonClickEvent -> UI.getCurrent().navigate("schedule/new"));
+        newEntries.getStyle().set("margin-top", "auto");
+        accountForm.add(newEntries);
         VerticalLayout layout = new VerticalLayout(accountLabel, new Line(), accountForm);
         layout.getStyle().set("margin-top", "0px");
         return layout;

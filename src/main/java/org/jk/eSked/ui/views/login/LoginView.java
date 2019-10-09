@@ -56,7 +56,7 @@ public class LoginView extends VerticalLayout {
                         .authenticate(new UsernamePasswordAuthenticationToken(username, User.encodePassword(form.getPassword())));
                 if (authentication != null) {
                     loginOverlay.close();
-                    VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(form.getUsername()));
+                    VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(username));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
                     afterAuth(userService.getUser(SessionService.getUserId()));

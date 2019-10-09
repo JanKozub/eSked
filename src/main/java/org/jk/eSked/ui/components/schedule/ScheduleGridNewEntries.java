@@ -71,10 +71,10 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             }
         };
 
-        Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> addRow());
+        Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid));
         more.setWidth("100%");
 
-        for (int i = 0; i < getMaxHour(); i++) addRow();
+        for (int i = 0; i < getMaxHour(); i++) ScheduleGrid.addRow(buttons, scheduleGrid);
 
         if (SessionService.isSessionMobile()) {
             setMobileColumns(1);
@@ -109,15 +109,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             if (entry.getHour() > maxHour) maxHour = entry.getHour();
         }
         return maxHour + 1;
-    }
-
-    private void addRow() {
-        int size = buttons.size();
-        if (size > 0) {
-            int maxNum = Integer.parseInt(buttons.get(size - 1).getText()) + 1;
-            buttons.add(new Button(Integer.toString(maxNum)));
-        } else buttons.add(new Button("0"));
-        scheduleGrid.setItems(buttons);
     }
 
     private void deleteEntryDialog(ScheduleEntry entry) {

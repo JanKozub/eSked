@@ -104,7 +104,7 @@ public class ScheduleGrid extends VerticalLayout {
             }
         };
 
-        for (int i = 0; i < getMaxHour(); i++) addRow();
+        for (int i = 0; i < getMaxHour(); i++) addRow(buttons, scheduleGrid);
 
         HorizontalLayout datePanel = new DatePanel(startOfWeek) {
             @Override
@@ -158,7 +158,7 @@ public class ScheduleGrid extends VerticalLayout {
         return maxHour + 1;
     }
 
-    private void addRow() {
+    static void addRow(List<Button> buttons, Grid<Button> scheduleGrid) {
         int size = buttons.size();
         if (size > 0) {
             int maxNum = Integer.parseInt(buttons.get(size - 1).getText()) + 1;
