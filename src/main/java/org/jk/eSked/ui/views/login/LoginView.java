@@ -16,6 +16,7 @@ import org.jk.eSked.app.security.SecurityUtils;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.login.LoginExceptionDialog;
@@ -25,13 +26,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.Instant;
-
 @Route(value = "login")
 @PageTitle("Login")
 @PWA(name = "eSked", shortName = "Schedule app", iconPath = "META-INF/resources/icons/icon.png", description = "Schedule app for students")
 public class LoginView extends VerticalLayout {
-    private LoginOverlay loginOverlay = new LoginOverlay();
     private UserService userService;
     private GroupService groupService;
 
@@ -46,6 +44,7 @@ public class LoginView extends VerticalLayout {
         icon.getStyle().set("top", "-4px");
         title.add(icon);
         title.add(new Text(" eSked"));
+        LoginOverlay loginOverlay = new LoginOverlay();
         loginOverlay.setTitle(title);
         loginOverlay.addLoginListener(form -> {
             try {
@@ -78,7 +77,7 @@ public class LoginView extends VerticalLayout {
 
     private void afterAuth(User user) {
         SessionService.setAutoTheme();
-        userService.setLastLogged(user.getId(), Instant.now().toEpochMilli());
+        userService.setLastLogged(user.getId(), TimeService.now());
 
         if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))
             userService.setGroupCode(user.getId(), 0);

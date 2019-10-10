@@ -1,6 +1,5 @@
 package org.jk.eSked.ui.components.menu;
 
-import com.github.appreciated.app.layout.addons.notification.DefaultNotificationHolder;
 import com.github.appreciated.app.layout.component.appbar.AppBarBuilder;
 import com.github.appreciated.app.layout.component.applayout.LeftLayouts;
 import com.github.appreciated.app.layout.component.builder.AppLayoutBuilder;
@@ -18,6 +17,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import org.jk.eSked.ui.views.admin.AdminView;
 import org.jk.eSked.ui.views.events.EventsView;
 import org.jk.eSked.ui.views.events.NewEventView;
+import org.jk.eSked.ui.views.messages.MessagesView;
 import org.jk.eSked.ui.views.schedule.ScheduleView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +37,10 @@ import java.util.List;
 @UIScope
 public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
     private static final Logger log = LoggerFactory.getLogger(Menu.class);
-    private DefaultNotificationHolder notifications = new DefaultNotificationHolder();
-    private DefaultBadgeHolder badge = new DefaultBadgeHolder(5);
+    private DefaultBadgeHolder eventsBadge = new DefaultBadgeHolder(5);
+    private DefaultBadgeHolder messagesBadge = new DefaultBadgeHolder(3);
 
     public Menu() {
-        notifications.addClickListener(notification -> {
-        });
         MenuBar menuBar = new MenuBar();
 
         menuBar.addItem(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
@@ -67,7 +65,7 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
                         .add(menuBar)
                         .build())
                 .withAppMenu(LeftAppMenuBuilder.get()
-                        .add(tab[0], tab[1], tab[2])
+                        .add(tab[0], tab[1], tab[2], tab[3])
                         .build())
                 .build());
     }
@@ -75,17 +73,11 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
     private LeftNavigationItem[] tabs() {
         LeftNavigationItem schedule = new LeftNavigationItem("Plan", VaadinIcon.CALENDAR_O.create(), ScheduleView.class);
         LeftNavigationItem events = new LeftNavigationItem("Wydarzenia", VaadinIcon.CALENDAR_CLOCK.create(), EventsView.class);
-        badge.bind(events.getBadge());
+        eventsBadge.bind(events.getBadge());
         LeftNavigationItem newEvent = new LeftNavigationItem("Dodaj Wydarzenie", VaadinIcon.FOLDER_ADD.create(), NewEventView.class);
-        return new LeftNavigationItem[]{schedule, events, newEvent};
-    }
-
-    public DefaultNotificationHolder getNotifications() {
-        return notifications;
-    }
-
-    public DefaultBadgeHolder getBadge() {
-        return badge;
+        LeftNavigationItem messages = new LeftNavigationItem("Wiadomości", VaadinIcon.CALENDAR_CLOCK.create(), MessagesView.class);
+        messagesBadge.bind(messages.getBadge());
+        return new LeftNavigationItem[]{schedule, events, newEvent, messages};
     }
 
     private void logout() {
@@ -93,4 +85,6 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
         UI.getCurrent().navigate("login");
         VaadinSession.getCurrent().close();
     }
+
+
 }

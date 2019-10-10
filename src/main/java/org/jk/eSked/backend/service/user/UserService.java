@@ -90,7 +90,6 @@ public class UserService implements UserDB {
         usersDao.changePassword(userId, newPassword);
     }
 
-
     //EMAIL
 
     @Override

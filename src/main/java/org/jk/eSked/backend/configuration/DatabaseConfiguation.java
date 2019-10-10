@@ -2,6 +2,7 @@ package org.jk.eSked.backend.configuration;
 
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.type.TypeHandler;
+import org.jk.eSked.backend.service.TimeService;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Instant;
 import java.util.List;
 
 @Configuration
@@ -74,7 +74,7 @@ class DatabaseConfiguation {
 
                 String script = new String(initScript.readAllBytes());
                 statement.executeUpdate(script);
-                statement.executeUpdate("INSERT INTO DbPatches(patch_number, applied_date) VALUES(" + version + ", " + Instant.now().toEpochMilli() + ")");
+                statement.executeUpdate("INSERT INTO DbPatches(patch_number, applied_date) VALUES(" + version + ", " + TimeService.now() + ")");
                 return true;
             }
         } else return false;

@@ -23,9 +23,7 @@ import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,10 +64,9 @@ public class AddNewEventDialog extends Dialog {
                 topicField.setInvalid(false);
                 if (eventType.getValue() != null) {
                     eventType.setInvalid(false);
-                    long time = eventDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+                    long time = TimeService.localDateToInstant(eventDate);
                     Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
-                            topicField.getValue(), scheduleEntry.getHour(),
-                            time, Instant.now().toEpochMilli());
+                            topicField.getValue(), scheduleEntry.getHour(), time, TimeService.now());
                     eventService.addEvent(event);
                     new SuccessNotification("Dodano wydarzenie!", NotificationType.SHORT).open();
                     topicField.clear();

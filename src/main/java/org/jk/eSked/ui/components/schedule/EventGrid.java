@@ -89,8 +89,8 @@ public class EventGrid extends VerticalLayout {
             return "brak";
         }) {
         }).setHeader("Lekcja(Godz)");
-        eventGrid.addColumn(new LocalDateTimeRenderer<>(event2 ->
-                TimeService.InstantToLocalDateTime(event2.getTimestamp()),
+        eventGrid.addColumn(new LocalDateTimeRenderer<>(event ->
+                TimeService.InstantToLocalDateTime(event.getTimestamp()),
                 DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
         eventGrid.addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader("Data");
         eventGrid.addColumn(Event::getTopic).setHeader("Temat");

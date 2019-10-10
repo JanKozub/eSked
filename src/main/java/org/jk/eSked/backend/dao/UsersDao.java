@@ -154,12 +154,6 @@ public interface UsersDao {
 
     @Select("SELECT * FROM USERS WHERE username = #{username}")
     @ConstructorArgs({
-            @Arg(column = "email", javaType = String.class)
-    })
-    String getEmailFromUsername(String username);
-
-    @Select("SELECT * FROM USERS WHERE username = #{username}")
-    @ConstructorArgs({
             @Arg(column = "id", javaType = UUID.class)
     })
     UUID getIdFromUsername(String username);

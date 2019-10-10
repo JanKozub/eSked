@@ -12,6 +12,7 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
@@ -24,8 +25,6 @@ import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
-import java.time.Instant;
-import java.time.ZoneId;
 
 
 @Route(value = "admin/user", layout = Menu.class)
@@ -82,8 +81,8 @@ class FindUserView extends VerticalLayout {
         EmailField email = new EmailField(user.getId(), userService, emailService, false);
         GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService);
         InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
-        InfoBox createdDate = new InfoBox("Data stworzenia konta: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());
-        InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", Instant.ofEpochMilli(user.getLastLoggedDate()).atZone(ZoneId.systemDefault()).toLocalDateTime().toString());
+        InfoBox createdDate = new InfoBox("Data stworzenia konta: ", TimeService.InstantToLocalDateTime(user.getCreatedDate()).toString());
+        InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());
 
         Label scheduleLabel = new Label("Plan");
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService, user.getId());

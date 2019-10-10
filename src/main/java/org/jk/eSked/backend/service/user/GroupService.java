@@ -81,7 +81,7 @@ public class GroupService implements GroupDB {
                         getGroupName(userService.getGroupCode(userId))));
                 Collection<Event> events = eventService.getEvents(userId);
                 for (Event parseEvent : groupEvents) {
-                    if (events.stream().noneMatch(event2 -> event2.getEventId().compareTo(parseEvent.getEventId()) == 0)) {
+                    if (events.stream().noneMatch(event -> event.getEventId().compareTo(parseEvent.getEventId()) == 0)) {
                         eventService.addEvent(parseEvent);
                     }
                 }

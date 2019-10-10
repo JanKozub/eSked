@@ -11,9 +11,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 
-import java.time.Instant;
 import java.util.UUID;
 
 public abstract class NewEntryDialog extends Dialog {
@@ -82,7 +82,7 @@ public abstract class NewEntryDialog extends Dialog {
     }
 
     private void addEntry(int day, int hour, String name) {
-        ScheduleEntry scheduleEntry = new ScheduleEntry(userId, hour, day, name, Instant.now().toEpochMilli());
+        ScheduleEntry scheduleEntry = new ScheduleEntry(userId, hour, day, name, TimeService.now());
         scheduleService.addScheduleEntry(scheduleEntry);
         close();
         refresh();

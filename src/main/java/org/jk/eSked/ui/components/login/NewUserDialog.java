@@ -13,11 +13,11 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
-import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -58,7 +58,18 @@ class NewUserDialog extends Dialog {
                         passwordField.setInvalid(false);
                         passwordFieldCheck.setInvalid(false);
 
-                        User user = new User(UUID.randomUUID(), usernameField.getValue(), User.encodePassword(passwordField.getValue()), false, true, emailField.getValue(), 0, false, false, Instant.now().toEpochMilli(), Instant.now().toEpochMilli(), false);
+                        User user = new User(UUID.randomUUID(),
+                                usernameField.getValue(),
+                                User.encodePassword(passwordField.getValue()),
+                                false,
+                                true,
+                                emailField.getValue(),
+                                0,
+                                false,
+                                false,
+                                TimeService.now(),
+                                TimeService.now(),
+                                false);
 
                         emailService.sendEmail(user, EmailType.NEWUSER);
 

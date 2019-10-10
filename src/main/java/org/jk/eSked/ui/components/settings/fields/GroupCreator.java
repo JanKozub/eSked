@@ -7,13 +7,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.types.NotificationType;
+import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
@@ -52,7 +51,7 @@ public class GroupCreator extends VerticalLayout {
             try {
                 validateInput(groupName.getValue(), userId, groupsService);
                 groupName.setInvalid(false);
-                groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, TimeService.now()));
                 removeAll();
 
                 new SuccessNotification("Prośba o stworzenie grupy została wysłana!", NotificationType.SHORT).open();

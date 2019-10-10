@@ -20,7 +20,6 @@ import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
 
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class ScheduleGrid extends VerticalLayout {
                             }
                         }
                         String subject = entry.getSubject();
-                        button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, Instant.now().toEpochMilli())));
+                        button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, TimeService.now())));
                         button.setText(subject + "(" + entryEvents.size() + ")");
                         button.getStyle().set("background-color", color);
                         return button;

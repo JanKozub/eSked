@@ -18,4 +18,8 @@ public class TimeService {
     public static LocalDateTime InstantToLocalDateTime(long timestamp) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.UTC);
     }
+
+    public static long now() {
+        return Instant.now().toEpochMilli();
+    }
 }

@@ -29,9 +29,7 @@ import org.jk.eSked.ui.components.myImpl.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.*;
 
 @Route(value = "events/new", layout = Menu.class)
@@ -174,9 +172,9 @@ public class NewEventView extends HorizontalLayout {
         try {
             validateEvent();
 
-            long time = datePicker.getValue().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+            long time = TimeService.localDateToInstant(datePicker.getValue());
             Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
-                    topicField.getValue(), (int) Math.round(hourNum.getValue()), time, Instant.now().toEpochMilli());
+                    topicField.getValue(), (int) Math.round(hourNum.getValue()), time, TimeService.now());
             eventService.addEvent(event);
             new SuccessNotification("Dodano wydarzenie: " + topicField.getValue(), NotificationType.SHORT).open();
 
