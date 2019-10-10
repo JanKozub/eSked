@@ -45,10 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
                 "/VAADIN/**",
+                "/favicon.ico",
                 "/manifest.webmanifest",
                 "/sw.js",
-                "/META-INF/resources/icons/icon.png",
-                "/offline-page.html",
                 "/icons/**",
                 "/images/**");
     }

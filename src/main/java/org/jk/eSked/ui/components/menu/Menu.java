@@ -83,7 +83,7 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
         LeftNavigationItem events = new LeftNavigationItem("Wydarzenia", VaadinIcon.CALENDAR_CLOCK.create(), EventsView.class);
         eventsBadge.bind(events.getBadge());
         LeftNavigationItem newEvent = new LeftNavigationItem("Dodaj Wydarzenie", VaadinIcon.FOLDER_ADD.create(), NewEventView.class);
-        LeftNavigationItem messages = new LeftNavigationItem("Wiadomości", VaadinIcon.CALENDAR_CLOCK.create(), MessagesView.class);
+        LeftNavigationItem messages = new LeftNavigationItem("Wiadomości", VaadinIcon.ENVELOPE_OPEN_O.create(), MessagesView.class);
         messagesBadge.bind(messages.getBadge());
         return new LeftNavigationItem[]{schedule, events, newEvent, messages};
     }

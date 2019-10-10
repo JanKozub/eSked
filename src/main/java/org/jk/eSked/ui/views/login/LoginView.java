@@ -8,6 +8,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
@@ -17,7 +18,6 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
-import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.login.LoginExceptionDialog;
@@ -29,16 +29,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route(value = "login")
 @PageTitle("Login")
-@PWA(name = "eSked", shortName = "Schedule app", iconPath = "META-INF/resources/icons/icon.png", description = "Schedule app for students")
+@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
+@PWA(name = "eSked", shortName = "eSked", startPath = "login", description = "schedule app")
 public class LoginView extends VerticalLayout {
     private UserService userService;
     private GroupService groupService;
-    private EventService eventService;
 
-    public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService, EventService eventService) {
+    public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService) {
         this.userService = userService;
         this.groupService = groupService;
-        this.eventService = eventService;
 
         H1 title = new H1();
         title.getStyle().set("color", "var(--lumo-base-color)");

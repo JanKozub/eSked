@@ -3,7 +3,6 @@
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74
--add main icon
 
 ##TO_THINK_ABOUT##
 -dodaj enter do settings
