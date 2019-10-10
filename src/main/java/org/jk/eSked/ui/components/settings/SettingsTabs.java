@@ -59,14 +59,17 @@ public class SettingsTabs {
 
     public VerticalLayout groupLayout() {
         Label groupsLabel = new Label("Grupy");
+        Button groupButton = new Button("Wyjdź z grupy");
+        GroupCreator groupCreator = new GroupCreator(userId, groupsService, userService);
 
         FormLayout groupsForm = new FormLayout();
-        GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupsService);
+        GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupsService, groupButton, groupCreator);
         groupsForm.add(groupCodeField);
         Button groupSyn = new Button("Synchronizuj z grupą");
         groupSyn.addClickListener(buttonClickEvent -> {
-            if (userService.getGroupCode(userId) != 0)
+            if (userService.getGroupCode(userId) != 0) {
                 groupsService.synchronizeWGroup(userId, userService.getGroupCode(userId));
+            }
         });
         groupSyn.getStyle().set("margin-top", "auto");
         groupsForm.add(groupSyn);
@@ -87,15 +90,10 @@ public class SettingsTabs {
         tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals("Włącz")));
         groupsForm.add(tableSync);
 
-        GroupCreator groupCreator = new GroupCreator(userId, groupsService, userService);
         Details newGroup = new Details("Nowa Grupa", groupCreator);
         newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
 
         groupsForm.add(newGroup);
-
-        Button groupButton = new Button();
-        groupsForm.add(groupButton);
-        VerticalLayout layout = new VerticalLayout(groupsLabel, new Line(), groupsForm);
 
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
@@ -104,21 +102,28 @@ public class SettingsTabs {
                 groupButton.setText("Usuń grupę");
                 groupButton.addClickListener(click -> {
                     groupsService.deleteGroup(userService.getGroupCode(userId));
-                    userService.setGroupCode(userId, 0);
-                    groupCodeField.clear();
-                    groupCreator.setMainLayout();
                     new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
-                    layout.remove(groupButton);
+                    userService.setGroupCode(userId, 0);
+                    groupCreator.setMainLayout();
+                    groupCodeField.clear();
+                    groupButton.setVisible(false);
                 });
             } else {
                 groupButton.setText("Wyjdź z grupy");
                 groupButton.addClickListener(click -> {
+                    new SuccessNotification("Opuszczono grupę", NotificationType.SHORT).open();
                     userService.setGroupCode(userId, 0);
-                    layout.remove(groupButton);
+                    groupCreator.setMainLayout();
+                    groupCodeField.clear();
+                    groupButton.setVisible(false);
                 });
             }
             groupButton.setVisible(true);
         }
+
+        groupsForm.add(groupButton);
+        VerticalLayout layout = new VerticalLayout(groupsLabel, new Line(), groupsForm);
+
         layout.getStyle().set("margin-top", "0px");
         return layout;
     }

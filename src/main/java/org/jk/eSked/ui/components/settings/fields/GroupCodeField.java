@@ -1,5 +1,6 @@
 package org.jk.eSked.ui.components.settings.fields;
 
+import com.vaadin.flow.component.button.Button;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.GroupService;
@@ -13,12 +14,16 @@ public class GroupCodeField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
     private GroupService groupService;
+    private Button button;
+    private GroupCreator groupCreator;
 
-    public GroupCodeField(UUID userId, UserService userService, GroupService groupService) {
+    public GroupCodeField(UUID userId, UserService userService, GroupService groupService, Button button, GroupCreator groupCreator) {
         super("Kod grupy", "Nowy kod");
         this.userId = userId;
         this.userService = userService;
         this.groupService = groupService;
+        this.button = button;
+        this.groupCreator = groupCreator;
         int code = userService.getGroupCode(userId);
         if (code == 0) textField.setValue("Brak");
         else textField.setValue(Integer.toString(code));
@@ -45,6 +50,8 @@ public class GroupCodeField extends SettingsField {
         userService.setGroupCode(userId, Integer.parseInt(textField.getValue()));
         new SuccessNotification("Kod został zmieniony na \"" + textField.getValue() + "\"", NotificationType.SHORT).open();
         setMainLayout(Integer.toString(userService.getGroupCode(userId)));
+        button.setVisible(true);
+        groupCreator.checkUserStatus();
     }
 
     public void clear() {

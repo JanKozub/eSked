@@ -4,8 +4,6 @@
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74
 -add main icon
--when u change code, add group window is still available
--when entered events badge clears
 
 ##TO_THINK_ABOUT##
 -dodaj enter do settings

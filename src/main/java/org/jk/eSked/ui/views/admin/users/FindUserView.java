@@ -19,6 +19,7 @@ import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
+import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 import org.jk.eSked.ui.components.settings.fields.NameField;
 import org.jk.eSked.ui.components.settings.protectedFields.EmailField;
 import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
@@ -79,7 +80,8 @@ class FindUserView extends VerticalLayout {
         InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(user.getId(), userService, emailService, false);
-        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService);
+        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, new Button(),
+                new GroupCreator(SessionService.getUserId(), groupService, userService));
         InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
         InfoBox createdDate = new InfoBox("Data stworzenia konta: ", TimeService.InstantToLocalDateTime(user.getCreatedDate()).toString());
         InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());

@@ -20,17 +20,14 @@ import java.util.UUID;
 public class GroupCreator extends VerticalLayout {
     private UUID userId;
     private GroupService groupsService;
+    private UserService userService;
 
     public GroupCreator(UUID userId, GroupService groupsService, UserService userService) {
         this.userId = userId;
         this.groupsService = groupsService;
+        this.userService = userService;
 
-        if (userService.getGroupCode(userId) != 0) add(new Label("Jesteś już w grupie."));
-        else if (groupsService.doesCreatedGroup(userId)) {
-            add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
-        } else {
-            setMainLayout();
-        }
+        checkUserStatus();
     }
 
     public void setMainLayout() {
@@ -74,5 +71,15 @@ public class GroupCreator extends VerticalLayout {
 
         if (!groupsService.hasEntries(userId))
             throw new ValidationException("Musisz mieć wpisy w tabeli aby stworzyć grupę");
+    }
+
+    void checkUserStatus() {
+        removeAll();
+        if (userService.getGroupCode(userId) != 0) add(new Label("Jesteś już w grupie."));
+        else if (groupsService.doesCreatedGroup(userId)) {
+            add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
+        } else {
+            setMainLayout();
+        }
     }
 }
