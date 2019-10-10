@@ -74,34 +74,6 @@ public class GroupService implements GroupDB {
     }
 
     @Override
-    public void synchronizeWGroup(UUID userId, int groupCode) {
-        if (userId.compareTo(getLeaderId(groupCode)) != 0) {
-            if (userService.isEventsSyn(userId)) {
-                Collection<Event> groupEvents = eventService.getEvents(getLeaderId( //EVENTS
-                        getGroupName(userService.getGroupCode(userId))));
-                Collection<Event> events = eventService.getEvents(userId);
-                for (Event parseEvent : groupEvents) {
-                    if (events.stream().noneMatch(event -> event.getEventId().compareTo(parseEvent.getEventId()) == 0)) {
-                        eventService.addEvent(parseEvent);
-                    }
-                }
-            }
-            if (userService.isTableSyn(userId)) {
-                scheduleService.deleteScheduleEntries(userId);//ENTRIES
-                scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntries(getLeaderId(groupCode)));
-
-                Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode)); //HOURS
-                List<ScheduleHour> newHours = new ArrayList<>();
-                for (ScheduleHour hour : hours) {
-                    newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
-                }
-                hoursService.deleteScheduleHours(userId);
-                hoursService.setScheduleHours(newHours);
-            }
-        }
-    }
-
-    @Override
     public boolean doesCreatedGroup(UUID userId) {
         Collection<Group> groups = getGroups();
 
@@ -115,5 +87,42 @@ public class GroupService implements GroupDB {
     @Override
     public boolean hasEntries(UUID userId) {
         return scheduleService.getScheduleEntries(userId).size() > 0;
+    }
+
+    @Override
+    public void synchronizeWGroup(UUID userId, int groupCode) {
+        if (userId.compareTo(getLeaderId(groupCode)) != 0) {
+            if (userService.isEventsSyn(userId))
+                synchronizeEvents(userId);
+
+            if (userService.isTableSyn(userId))
+                synchronizeTable(userId, groupCode);
+        }
+    }
+
+    private void synchronizeEvents(UUID userId) {
+        Collection<Event> groupEvents = eventService.getEvents(getLeaderId(
+                getGroupName(userService.getGroupCode(userId))));
+        Collection<Event> events = eventService.getEvents(userId);
+        for (Event parseEvent : groupEvents) {
+            if (events.stream().noneMatch(event -> event.getEventId().compareTo(parseEvent.getEventId()) == 0)) {
+                parseEvent.setUserId(userId);
+                parseEvent.setCheckedFlag(false);
+                eventService.addEvent(parseEvent);
+            }
+        }
+    }
+
+    private void synchronizeTable(UUID userId, int groupCode) {
+        scheduleService.deleteScheduleEntries(userId);
+        scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntries(getLeaderId(groupCode)));
+
+        Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode));
+        List<ScheduleHour> newHours = new ArrayList<>();
+        for (ScheduleHour hour : hours) {
+            newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
+        }
+        hoursService.deleteScheduleHours(userId);
+        hoursService.setScheduleHours(newHours);
     }
 }

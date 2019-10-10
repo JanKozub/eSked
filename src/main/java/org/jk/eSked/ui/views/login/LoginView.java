@@ -17,6 +17,7 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
+import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.login.LoginExceptionDialog;
@@ -32,10 +33,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class LoginView extends VerticalLayout {
     private UserService userService;
     private GroupService groupService;
+    private EventService eventService;
 
-    public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService) {
+    public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService, EventService eventService) {
         this.userService = userService;
         this.groupService = groupService;
+        this.eventService = eventService;
 
         H1 title = new H1();
         title.getStyle().set("color", "var(--lumo-base-color)");
@@ -77,6 +80,7 @@ public class LoginView extends VerticalLayout {
 
     private void afterAuth(User user) {
         SessionService.setAutoTheme();
+
         userService.setLastLogged(user.getId(), TimeService.now());
 
         if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))

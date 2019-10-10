@@ -14,6 +14,8 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
+import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.ui.views.admin.AdminView;
 import org.jk.eSked.ui.views.events.EventsView;
 import org.jk.eSked.ui.views.events.NewEventView;
@@ -37,10 +39,12 @@ import java.util.List;
 @UIScope
 public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
     private static final Logger log = LoggerFactory.getLogger(Menu.class);
-    private DefaultBadgeHolder eventsBadge = new DefaultBadgeHolder(5);
+    private static DefaultBadgeHolder eventsBadge = new DefaultBadgeHolder();
     private DefaultBadgeHolder messagesBadge = new DefaultBadgeHolder(3);
 
-    public Menu() {
+    public Menu(EventService eventService) {
+        eventsBadge.setCount(eventService.getUncheckedEvents(SessionService.getUserId()).size());
+
         MenuBar menuBar = new MenuBar();
 
         menuBar.addItem(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
@@ -70,6 +74,10 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
                 .build());
     }
 
+    public static void setEventsBadge(int badgeNumber) {
+        eventsBadge.setCount(badgeNumber);
+    }
+
     private LeftNavigationItem[] tabs() {
         LeftNavigationItem schedule = new LeftNavigationItem("Plan", VaadinIcon.CALENDAR_O.create(), ScheduleView.class);
         LeftNavigationItem events = new LeftNavigationItem("Wydarzenia", VaadinIcon.CALENDAR_CLOCK.create(), EventsView.class);
@@ -81,8 +89,8 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
     }
 
     private void logout() {
-        SecurityContextHolder.clearContext();
         UI.getCurrent().navigate("login");
+        SecurityContextHolder.clearContext();
         VaadinSession.getCurrent().close();
     }
 

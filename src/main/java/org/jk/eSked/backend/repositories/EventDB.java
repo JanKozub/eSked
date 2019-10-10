@@ -14,7 +14,9 @@ public interface EventDB {
 
     void addEvent(Event event);
 
-    void deleteEvent(UUID creatorId, UUID eventId);
+    void deleteEvent(UUID userId, UUID eventId);
+
+    void setCheckedFlag(UUID eventId, UUID userId, boolean newState);
 
     boolean doesUUIDExists(UUID newUUID);
 }

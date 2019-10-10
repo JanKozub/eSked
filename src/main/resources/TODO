@@ -3,9 +3,9 @@
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74
--gdy synch jest odpalona nie mozesz usuwac eventow
--fix bug with last logged date and created account date - refreshing every log in
--add icon
+-add main icon
+-when u change code, add group window is still available
+-when entered events badge clears
 
 ##TO_THINK_ABOUT##
 -dodaj enter do settings

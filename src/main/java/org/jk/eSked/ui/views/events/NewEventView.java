@@ -173,8 +173,8 @@ public class NewEventView extends HorizontalLayout {
             validateEvent();
 
             long time = TimeService.localDateToInstant(datePicker.getValue());
-            Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
-                    topicField.getValue(), (int) Math.round(hourNum.getValue()), time, TimeService.now());
+            Event event = new Event(userId, eventService.createEventId(), eventType.getValue(), topicField.getValue(),
+                    (int) Math.round(hourNum.getValue()), true, time, TimeService.now());
             eventService.addEvent(event);
             new SuccessNotification("Dodano wydarzenie: " + topicField.getValue(), NotificationType.SHORT).open();
 
@@ -183,6 +183,8 @@ public class NewEventView extends HorizontalLayout {
             eventType.clear();
             hourNum.clear();
             topicField.clear();
+
+            eventGrid.setItems(new ArrayList<>());
         } catch (ValidationException ex) {
             Notification notification = new Notification(ex.getMessage(), 5000, Notification.Position.TOP_END);
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);

@@ -6,6 +6,7 @@ create TABLE Events (
     type VARCHAR NOT NULL,
     topic VARCHAR NOT NULL,
     hour int NOT NULL,
+    checkedFlag boolean NOT NULL,
     timestamp BIGINT NOT NULL,
     createdTimestamp BIGINT NOT NULL
 );

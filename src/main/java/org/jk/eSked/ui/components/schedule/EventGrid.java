@@ -29,7 +29,7 @@ public class EventGrid extends VerticalLayout {
     private static final boolean NEXT_WEEK = true;
     private static final boolean PREVIOUS_WEEK = false;
     private final EventService eventService;
-    private final UUID userID;
+    private final UUID userId;
     private final DatePicker dateFrom;
     private final DatePicker dateTo;
     private final Grid<Event> eventGrid;
@@ -38,7 +38,7 @@ public class EventGrid extends VerticalLayout {
 
     public EventGrid(ScheduleService scheduleService, EventService eventService, UUID userId) {
         this.eventService = eventService;
-        this.userID = userId;
+        this.userId = userId;
 
         if (startOfWeek == null) {
             startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
@@ -133,6 +133,9 @@ public class EventGrid extends VerticalLayout {
     }
 
     private void reload() {
-        eventGrid.setDataProvider(new ListDataProvider<>(eventService.getEventsForWeek(startOfWeek, userID)));
+        Collection<Event> events = eventService.getEventsForWeek(startOfWeek, userId);
+        events.stream().filter(event -> !event.isCheckedFlag())
+                .forEach(event -> eventService.setCheckedFlag(event.getEventId(), userId, true));
+        eventGrid.setDataProvider(new ListDataProvider<>(events));
     }
 }

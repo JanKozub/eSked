@@ -20,13 +20,19 @@ public class EventService implements EventDB {
     }
 
     @Override
-    public Collection<Event> getEventsForWeek(LocalDate startOfWeek, UUID creatorId) {
-        return eventsDao.getEventsForWeek(getStartOfWeekMillis(startOfWeek), creatorId);
+    public Collection<Event> getEventsForWeek(LocalDate startOfWeek, UUID userId) {
+        return eventsDao.getEventsForWeek(getStartOfWeekMillis(startOfWeek), userId);
     }
 
     @Override
-    public Collection<Event> getEvents(UUID creatorId) {
-        return eventsDao.getEvents(creatorId);
+    public Collection<Event> getEvents(UUID userId) {
+        return eventsDao.getEvents(userId);
+    }
+
+    public Collection<Event> getUncheckedEvents(UUID userId) {
+        Collection<Event> events = eventsDao.getEvents(userId);
+        events.removeIf(Event::isCheckedFlag);
+        return events;
     }
 
     @Override
@@ -35,8 +41,13 @@ public class EventService implements EventDB {
     }
 
     @Override
-    public void deleteEvent(UUID creatorId, UUID eventId) {
-        eventsDao.deleteEvent(creatorId, eventId);
+    public void deleteEvent(UUID userId, UUID eventId) {
+        eventsDao.deleteEvent(userId, eventId);
+    }
+
+    @Override
+    public void setCheckedFlag(UUID eventId, UUID userId, boolean newState) {
+        eventsDao.setCheckedFlag(eventId, userId, newState);
     }
 
     @Override

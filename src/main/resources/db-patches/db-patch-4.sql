@@ -2,7 +2,7 @@ drop table Events;
 
 create TABLE Events
 (
-    creatorId        UUID    NOT NULL,
+    userId           UUID    NOT NULL,
     eventId          UUID    NOT NULL,
     type             VARCHAR NOT NULL,
     topic            VARCHAR NOT NULL,
