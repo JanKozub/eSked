@@ -14,7 +14,7 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.menu.Menu;
-import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
+import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 import org.springframework.security.access.annotation.Secured;

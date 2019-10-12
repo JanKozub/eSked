@@ -8,15 +8,18 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.Group;
+import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.menu.Menu;
-import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
+import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 import org.springframework.security.access.annotation.Secured;
 
+import java.time.Instant;
 import java.util.Collection;
 
 @Route(value = "admin/groups/pending", layout = Menu.class)
@@ -26,11 +29,13 @@ class GroupsPendingView extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final GroupService groupsService;
     private final UserService userService;
+    private MessagesService messagesService;
 
-    public GroupsPendingView(ScheduleService scheduleService, GroupService groupsService, UserService userService) {
+    public GroupsPendingView(ScheduleService scheduleService, GroupService groupsService, UserService userService, MessagesService messagesService) {
         this.scheduleService = scheduleService;
         this.groupsService = groupsService;
         this.userService = userService;
+        this.messagesService = messagesService;
         SessionService.setAutoTheme();
 
         VerticalLayout layout = mainLayout();
@@ -50,15 +55,23 @@ class GroupsPendingView extends VerticalLayout {
             });
             return button;
         })).setHeader("Szczegóły");
-        groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
+        groupEntryGrid.addColumn(new ComponentRenderer<>(group -> {
             Button button = new Button("Akceptuj");
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
-                groupsService.setGroupAccepted(e.getGroupCode());
-                userService.setGroupCode(e.getLeaderId(), e.getGroupCode());
+                groupsService.setGroupAccepted(group.getGroupCode());
+                userService.setGroupCode(group.getLeaderId(), group.getGroupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));
+
+                messagesService.addMessageForUser(new Message(
+                        group.getLeaderId(),
+                        messagesService.generateMessageId(),
+                        Instant.now().toEpochMilli(),
+                        "Twoja grupa została zatwierdzona",
+                        false
+                ));
             });
             return button;
         })).setHeader("Akceptuj");

@@ -15,7 +15,7 @@ import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.NewEntryDialog;
+import org.jk.eSked.ui.components.myComponents.NewEntryDialog;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

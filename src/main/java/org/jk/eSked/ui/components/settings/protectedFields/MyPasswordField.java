@@ -1,14 +1,18 @@
 package org.jk.eSked.ui.components.settings.protectedFields;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.ApplicationContextHolder;
+import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
+import java.time.Instant;
 import java.util.UUID;
 
 public class MyPasswordField extends ProtectedSettingsField {
@@ -17,11 +21,13 @@ public class MyPasswordField extends ProtectedSettingsField {
     private final UserService userService;
     private final EmailService emailService;
     private final boolean needConfirm;
+    private MessagesService messagesService;
 
     public MyPasswordField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         super(userService, "Hasło", "", "Nowe Hasło");
         this.userId = userId;
         this.userService = userService;
+        this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
         this.emailService = emailService;
         this.needConfirm = needConfirm;
     }
@@ -42,6 +48,14 @@ public class MyPasswordField extends ProtectedSettingsField {
         } else {
             userService.changePassword(userId, User.encodePassword(input));
             new SuccessNotification("Hasło zostało zmienione", NotificationType.SHORT).open();
+
+            messagesService.addMessageForUser(new Message(
+                    userId,
+                    messagesService.generateMessageId(),
+                    Instant.now().toEpochMilli(),
+                    "Twoje hasło zostało zmienione",
+                    false
+            ));
         }
         setMainLayout("");
     }

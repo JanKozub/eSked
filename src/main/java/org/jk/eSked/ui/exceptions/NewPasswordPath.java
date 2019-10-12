@@ -8,16 +8,19 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
+import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TokenService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.ValidationException;
+import java.time.Instant;
 import java.util.UUID;
 
 @Route(value = "password")
@@ -25,10 +28,12 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     private static final Logger log = LoggerFactory.getLogger(NewPasswordPath.class);
     private UserService userService;
     private TokenService tokenService;
+    private MessagesService messagesService;
 
-    public NewPasswordPath(UserService userService, TokenService tokenService) {
+    public NewPasswordPath(UserService userService, TokenService tokenService, MessagesService messagesService) {
         this.userService = userService;
         this.tokenService = tokenService;
+        this.messagesService = messagesService;
     }
 
     @Override
@@ -47,6 +52,15 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
                     userService.changePassword(userId, User.encodePassword(confirmPassword.getValue()));
 
                     new SuccessNotification("Twoje hasło zostało pomyślnie zmienione", NotificationType.LONG).open();
+
+                    messagesService.addMessageForUser(new Message(
+                            userId,
+                            messagesService.generateMessageId(),
+                            Instant.now().toEpochMilli(),
+                            "Twoje hasło zostało zmienione",
+                            false
+                    ));
+
                     UI.getCurrent().navigate("login");
                 } catch (ValidationException ex) {
                     confirmPassword.setErrorMessage(ex.getMessage());

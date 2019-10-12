@@ -9,7 +9,7 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.HoursService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.time.Duration;

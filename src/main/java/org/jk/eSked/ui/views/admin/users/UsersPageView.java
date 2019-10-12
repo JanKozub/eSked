@@ -11,7 +11,7 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.menu.Menu;
-import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
+import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "admin/users", layout = Menu.class)

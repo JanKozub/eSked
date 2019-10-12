@@ -13,7 +13,7 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.menu.Menu;
-import org.jk.eSked.ui.components.myImpl.Line;
+import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.settings.SettingsTabs;
 
 import java.util.UUID;

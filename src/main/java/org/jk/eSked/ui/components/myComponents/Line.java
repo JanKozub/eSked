@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.myImpl;
+package org.jk.eSked.ui.components.myComponents;
 
 import com.vaadin.flow.component.html.Div;
 

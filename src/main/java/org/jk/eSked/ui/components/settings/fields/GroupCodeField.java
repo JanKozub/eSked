@@ -2,12 +2,16 @@ package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.button.Button;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.ApplicationContextHolder;
+import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
+import java.time.Instant;
 import java.util.UUID;
 
 public class GroupCodeField extends SettingsField {
@@ -16,6 +20,7 @@ public class GroupCodeField extends SettingsField {
     private GroupService groupService;
     private Button button;
     private GroupCreator groupCreator;
+    private MessagesService messagesService;
 
     public GroupCodeField(UUID userId, UserService userService, GroupService groupService, Button button, GroupCreator groupCreator) {
         super("Kod grupy", "Nowy kod");
@@ -24,6 +29,7 @@ public class GroupCodeField extends SettingsField {
         this.groupService = groupService;
         this.button = button;
         this.groupCreator = groupCreator;
+        this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
         int code = userService.getGroupCode(userId);
         if (code == 0) textField.setValue("Brak");
         else textField.setValue(Integer.toString(code));
@@ -52,6 +58,14 @@ public class GroupCodeField extends SettingsField {
         setMainLayout(Integer.toString(userService.getGroupCode(userId)));
         button.setVisible(true);
         groupCreator.checkUserStatus();
+
+        messagesService.addMessageForUser(new Message(
+                userId,
+                messagesService.generateMessageId(),
+                Instant.now().toEpochMilli(),
+                "Twój kod grupy został zmieniony na " + textField.getValue(),
+                false
+        ));
     }
 
     public void clear() {

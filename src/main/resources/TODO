@@ -1,5 +1,6 @@
 ##IMPORTANT##
--stworz service ktory bedzie ci pozwalal na wysylanie powiadomien do uzytkownikow tak jak np gdy ich grupa zostaje zaakceptowana
+-messages layout for phone(adding css to code)
+-settings layout for phone
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74

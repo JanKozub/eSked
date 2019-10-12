@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.myImpl;
+package org.jk.eSked.ui.components.myComponents;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;

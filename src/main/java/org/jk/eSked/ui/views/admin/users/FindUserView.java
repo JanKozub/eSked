@@ -15,7 +15,7 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.menu.Menu;
-import org.jk.eSked.ui.components.myImpl.AdminReturnButton;
+import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;

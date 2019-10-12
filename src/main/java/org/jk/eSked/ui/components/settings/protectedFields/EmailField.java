@@ -1,15 +1,19 @@
 package org.jk.eSked.ui.components.settings.protectedFields;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.ApplicationContextHolder;
+import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -19,6 +23,7 @@ public class EmailField extends ProtectedSettingsField {
     private final UserService userService;
     private final EmailService emailService;
     private final boolean needConfirm;
+    private final MessagesService messagesService;
 
     public EmailField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         super(userService, "Email", userService.getEmail(userId), "Nowy Email");
@@ -26,6 +31,7 @@ public class EmailField extends ProtectedSettingsField {
         this.userService = userService;
         this.emailService = emailService;
         this.needConfirm = needConfirm;
+        this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
     }
 
     @Override
@@ -52,6 +58,13 @@ public class EmailField extends ProtectedSettingsField {
         } else {
             userService.setEmail(userId, textField.getValue());
             new SuccessNotification("Zmieniono email na \"" + input + "\"", NotificationType.SHORT).open();
+            messagesService.addMessageForUser(new Message(
+                    userId,
+                    messagesService.generateMessageId(),
+                    Instant.now().toEpochMilli(),
+                    "Twój email został zmieniony na " + "\"" + input + "\"",
+                    false
+            ));
         }
         setMainLayout(userService.getEmail(SessionService.getUserId()));
     }

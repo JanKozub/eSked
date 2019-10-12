@@ -15,7 +15,7 @@ import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myImpl.SuccessNotification;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;

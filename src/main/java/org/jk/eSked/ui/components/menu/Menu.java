@@ -16,6 +16,7 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.EventService;
+import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.ui.views.admin.AdminView;
 import org.jk.eSked.ui.views.events.EventsView;
 import org.jk.eSked.ui.views.events.NewEventView;
@@ -40,11 +41,11 @@ import java.util.List;
 public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
     private static final Logger log = LoggerFactory.getLogger(Menu.class);
     private static DefaultBadgeHolder eventsBadge = new DefaultBadgeHolder();
-    private DefaultBadgeHolder messagesBadge = new DefaultBadgeHolder(3);
+    private static DefaultBadgeHolder messagesBadge = new DefaultBadgeHolder();
 
-    public Menu(EventService eventService) {
+    public Menu(EventService eventService, MessagesService messagesService) {
         eventsBadge.setCount(eventService.getUncheckedEvents(SessionService.getUserId()).size());
-
+        messagesBadge.setCount(messagesService.getUncheckedMessages(SessionService.getUserId()).size());
         MenuBar menuBar = new MenuBar();
 
         menuBar.addItem(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
@@ -76,6 +77,10 @@ public class Menu extends AppLayoutRouterLayout<LeftLayouts.LeftResponsive> {
 
     public static void setEventsBadge(int badgeNumber) {
         eventsBadge.setCount(badgeNumber);
+    }
+
+    public static void setMessagesBadge(int badgeNumber) {
+        messagesBadge.setCount(badgeNumber);
     }
 
     private LeftNavigationItem[] tabs() {
