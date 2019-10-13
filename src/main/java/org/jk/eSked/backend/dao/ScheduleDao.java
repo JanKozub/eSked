@@ -2,10 +2,12 @@ package org.jk.eSked.backend.dao;
 
 import org.apache.ibatis.annotations.*;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface ScheduleDao {
 
     @Select("SELECT * FROM ScheduleEntry WHERE userId = #{userId}")

@@ -87,7 +87,7 @@ class FindUserView extends VerticalLayout {
         InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());
 
         Label scheduleLabel = new Label("Plan");
-        VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService, user.getId());
+        VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
         Label eventsLabel = new Label("Wydarzenia");
         VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, user.getId());
 

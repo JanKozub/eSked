@@ -29,19 +29,25 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGrid extends VerticalLayout {
+
     private final ScheduleService scheduleService;
     private final EventService eventService;
+    private final UserService userService;
+    private final HoursService hoursService;
+    private final UUID userId;
+
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
-    private final UUID userId;
     private LocalDate startOfWeek;
     private Collection<ScheduleEntry> entries;
     private Collection<Event> events;
 
-    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService, UUID userId) {
+    public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
-        this.userId = userId;
+        this.userService = userService;
+        this.hoursService = hoursService;
+        this.userId = SessionService.getUserId();
 
         if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
@@ -51,56 +57,11 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
-                Button button = new Button("-");
-                button.setSizeFull();
-                for (ScheduleEntry entry : entries) {
-                    int hour = Integer.parseInt(e.getText());
-                    if (entry.getHour() == hour && entry.getDay() == day) {
-                        List<Event> entryEvents = new ArrayList<>();
-                        String color;
-                        if (userService.getTheme(ScheduleGrid.this.userId) == ThemeType.DARK) {
-                            button.getStyle().set("color", "white");
-                            color = "#2c3d52";
-                        } else {
-                            button.getStyle().set("color", "#1676f3");
-                            color = "#f3f5f7";
-                        }
-                        for (Event event : events) {
-                            if (event.getHour() == hour && TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
-                                entryEvents.add(event);
-                                switch (event.getType()) {
-                                    case TEST:
-                                        color = "#c43737";
-                                        break;
-                                    case QUIZ:
-                                        color = "#e88133";
-                                        break;
-                                    case QUESTIONS:
-                                        color = "#ebbf23";
-                                        break;
-                                    case HOMEWORK:
-                                        color = "#46c768";
-                                        break;
-                                }
-                            }
-                        }
-                        String subject = entry.getSubject();
-                        button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, TimeService.now())));
-                        button.setText(subject + "(" + entryEvents.size() + ")");
-                        button.getStyle().set("background-color", color);
-                        return button;
-                    }
-                }
-                return button;
+                return ScheduleGrid.this.rowRenderer(e, day);
             }
-
             @Override
             Component hourRenderer(Button e) {
-                String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
-                ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
-                if (scheduleHour != null)
-                    text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
-                return new Label(text);
+                return ScheduleGrid.this.hourRenderer(e);
             }
         };
 
@@ -182,5 +143,57 @@ public class ScheduleGrid extends VerticalLayout {
         events = eventService.getEventsForWeek(startOfWeek, userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setDataProvider(dataProvider);
+    }
+
+    private Component rowRenderer(Button e, int day) {
+        Button button = new Button("-");
+        button.setSizeFull();
+        for (ScheduleEntry entry : entries) {
+            int hour = Integer.parseInt(e.getText());
+            if (entry.getHour() == hour && entry.getDay() == day) {
+                List<Event> entryEvents = new ArrayList<>();
+                String color;
+                if (userService.getTheme(ScheduleGrid.this.userId) == ThemeType.DARK) {
+                    button.getStyle().set("color", "white");
+                    color = "#2c3d52";
+                } else {
+                    button.getStyle().set("color", "#1676f3");
+                    color = "#f3f5f7";
+                }
+                for (Event event : events) {
+                    if (event.getHour() == hour && TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
+                        entryEvents.add(event);
+                        switch (event.getType()) {
+                            case TEST:
+                                color = "#c43737";
+                                break;
+                            case QUIZ:
+                                color = "#e88133";
+                                break;
+                            case QUESTIONS:
+                                color = "#ebbf23";
+                                break;
+                            case HOMEWORK:
+                                color = "#46c768";
+                                break;
+                        }
+                    }
+                }
+                String subject = entry.getSubject();
+                button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, TimeService.now())));
+                button.setText(subject + "(" + entryEvents.size() + ")");
+                button.getStyle().set("background-color", color);
+                return button;
+            }
+        }
+        return button;
+    }
+
+    private Component hourRenderer(Button e) {
+        String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
+        ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
+        if (scheduleHour != null)
+            text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
+        return new Label(text);
     }
 }

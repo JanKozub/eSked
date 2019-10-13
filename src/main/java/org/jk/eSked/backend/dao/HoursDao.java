@@ -2,10 +2,12 @@ package org.jk.eSked.backend.dao;
 
 import org.apache.ibatis.annotations.*;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.UUID;
 
+@Repository
 public interface HoursDao {
 
     @Select("SELECT * FROM Hours WHERE userId = #{userId} AND hour = #{hour}")
