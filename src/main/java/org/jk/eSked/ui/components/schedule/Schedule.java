@@ -20,9 +20,9 @@ abstract class Schedule extends Grid<Button> {
         addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
         setSelectionMode(Grid.SelectionMode.NONE);
-        setHeightByRows(true);
         setVerticalScrollingEnabled(true);
         recalculateColumnWidths();
+        setHeight("60%");
     }
 
     abstract Component rowRenderer(Button e, int day);

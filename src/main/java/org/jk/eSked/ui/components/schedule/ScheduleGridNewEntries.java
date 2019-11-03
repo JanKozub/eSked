@@ -93,6 +93,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             layout.setWidth("100%");
             add(scheduleGrid, layout);
         } else add(scheduleGrid);
+        setSizeFull();
         add(more);
     }
 

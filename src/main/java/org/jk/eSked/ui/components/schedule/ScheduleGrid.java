@@ -85,6 +85,7 @@ public class ScheduleGrid extends VerticalLayout {
         };
         add(datePanel);
 
+
         if (SessionService.isSessionMobile()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
@@ -100,6 +101,7 @@ public class ScheduleGrid extends VerticalLayout {
             prev.setWidth("100%");
             HorizontalLayout layout = new HorizontalLayout(prev, next);
             layout.setWidth("100%");
+
             add(scheduleGrid, layout);
         } else add(scheduleGrid);
     }
