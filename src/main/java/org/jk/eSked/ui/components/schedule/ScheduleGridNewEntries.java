@@ -61,7 +61,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                     }
                 }
                 button.addClickListener(clickEvent -> {
-                    Dialog dialog = scheduleDialogs.addEntryDialog(day, Integer.parseInt(e.getText()));
+                    Dialog dialog = scheduleDialogs.addEntryDialog(day, Integer.parseInt(e.getText()), false);
                     dialog.addDetachListener(action -> refresh());
                     dialog.open();
                 });

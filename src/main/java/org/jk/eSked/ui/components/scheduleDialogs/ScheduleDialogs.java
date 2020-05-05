@@ -27,7 +27,7 @@ public class ScheduleDialogs {
     }
 
 
-    public Dialog addEntryDialog(int day, int hour) {
+    public Dialog addEntryDialog(int day, int hour, boolean replaceable) {
         dialog = new Dialog();
 
         Label label = new Label("Nowy przedmiot");
@@ -57,8 +57,11 @@ public class ScheduleDialogs {
             if (!name.equals("")) {
                 if (comboBox.getValue() == null || comboBox.getValue().equals("") || textField.getValue().equals("")) {
                     ScheduleEntry scheduleEntry = new ScheduleEntry(userId, hour, day, name, TimeService.now());
-                    scheduleService.addScheduleEntry(scheduleEntry);
                     dialog.close();
+                    if (replaceable) {
+                        scheduleService.deleteScheduleEntry(userId, hour, day);
+                    }
+                    scheduleService.addScheduleEntry(scheduleEntry);
                 } else {
                     comboBox.setErrorMessage("Można wybrać tylko jedna opcje");
                     comboBox.setInvalid(true);
@@ -103,10 +106,11 @@ public class ScheduleDialogs {
         deleteButton.setWidth("10vw");
 
         Button switchButton = new Button("Zamień", event -> {
-            Dialog addDialog = addEntryDialog(entry.getDay(), entry.getHour());
-            addDialog.addDetachListener(e -> scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay()));
+            Dialog addDialog = addEntryDialog(entry.getDay(), entry.getHour(), true);
+            addDialog.addDetachListener(e -> {
+                dialog.close();
+            });
             addDialog.open();
-            dialog.close();
         });
         switchButton.getStyle().set("color", "green");
         switchButton.setWidth("10vw");
