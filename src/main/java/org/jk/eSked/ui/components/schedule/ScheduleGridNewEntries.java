@@ -1,7 +1,6 @@
 package org.jk.eSked.ui.components.schedule;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -15,7 +14,7 @@ import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.myComponents.NewEntryDialog;
+import org.jk.eSked.ui.components.scheduleDialogs.ScheduleDialogs;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -40,6 +39,8 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         entries = scheduleService.getScheduleEntries(userId);
 
+        ScheduleDialogs scheduleDialogs = new ScheduleDialogs(scheduleService, userId);
+
         if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         scheduleGrid = new Schedule(userService, userId) {
@@ -50,16 +51,19 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                 for (ScheduleEntry entry : entries) {
                     if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
                         button.setText(entry.getSubject());
-                        button.addClickListener(clickEvent -> deleteEntryDialog(entry));
+                        button.addClickListener(clickEvent -> {
+                            Dialog dialog = scheduleDialogs.deleteEntryDialog(entry);
+                            dialog.addDetachListener(action -> refresh());
+                            dialog.open();
+                        });
                         button.getStyle().set("color", "green");
                         return button;
                     }
                 }
-                button.addClickListener(clickEvent -> new NewEntryDialog(day, Integer.parseInt(e.getText()), scheduleService, SessionService.isSessionMobile()) {
-                    @Override
-                    public void refresh() {
-                        ScheduleGridNewEntries.this.refresh();
-                    }
+                button.addClickListener(clickEvent -> {
+                    Dialog dialog = scheduleDialogs.addEntryDialog(day, Integer.parseInt(e.getText()));
+                    dialog.addDetachListener(action -> refresh());
+                    dialog.open();
                 });
                 button.getStyle().set("color", "red");
                 return button;
@@ -70,12 +74,12 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                 return new Label(Integer.toString(Integer.parseInt(e.getText()) + 1));
             }
         };
+        scheduleGrid.setHeightByRows(true);
 
         Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid));
         more.setWidth("100%");
 
         for (int i = 0; i < getMaxHour(); i++) ScheduleGrid.addRow(buttons, scheduleGrid);
-
         if (SessionService.isSessionMobile()) {
             setMobileColumns(1);
             AtomicInteger triggeredColumn = new AtomicInteger(1);
@@ -99,8 +103,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
     private void setMobileColumns(int pos) {
         for (int i = 1; i < 6; i++) {
-            if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
-            else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
+            scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(i == pos);
         }
     }
 
@@ -110,28 +113,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
             if (entry.getHour() > maxHour) maxHour = entry.getHour();
         }
         return maxHour + 1;
-    }
-
-    private void deleteEntryDialog(ScheduleEntry entry) {
-        Dialog dialog = new Dialog();
-
-        Label label = new Label("Aktualny przedmiot:");
-        Label name = new Label(entry.getSubject());
-
-        Button deleteButton = new Button("Usuń!", event -> {
-            scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay());
-
-            dialog.close();
-            refresh();
-        });
-        deleteButton.addClickShortcut(Key.ENTER);
-        deleteButton.setWidth("100%");
-
-        VerticalLayout layout = new VerticalLayout(label, name, deleteButton);
-        layout.setAlignItems(Alignment.CENTER);
-
-        dialog.add(layout);
-        dialog.open();
     }
 
     private void refresh() {

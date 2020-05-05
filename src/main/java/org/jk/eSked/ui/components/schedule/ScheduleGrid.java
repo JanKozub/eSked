@@ -59,11 +59,13 @@ public class ScheduleGrid extends VerticalLayout {
             Component rowRenderer(Button e, int day) {
                 return ScheduleGrid.this.rowRenderer(e, day);
             }
+
             @Override
             Component hourRenderer(Button e) {
                 return ScheduleGrid.this.hourRenderer(e);
             }
         };
+        scheduleGrid.setHeightByRows(true);
 
         for (int i = 0; i < getMaxHour(); i++) addRow(buttons, scheduleGrid);
 
@@ -108,8 +110,7 @@ public class ScheduleGrid extends VerticalLayout {
 
     private void setMobileColumns(int pos) {
         for (int i = 1; i < 6; i++) {
-            if (i == pos) scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(true);
-            else scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(false);
+            scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(i == pos);
         }
     }
 

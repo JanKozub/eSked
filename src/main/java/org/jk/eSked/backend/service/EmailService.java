@@ -54,7 +54,7 @@ public class EmailService implements EmailDB {
 
         String subject = "";
         String emailBody = "";
-        String url = "";
+        String url;
         TokenValue tokenValue = new TokenValue();
         switch (emailType) {
             case NEWUSER:
