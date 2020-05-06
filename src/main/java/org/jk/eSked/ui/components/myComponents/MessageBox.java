@@ -11,13 +11,12 @@ import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.MessagesService;
-import org.jk.eSked.ui.components.menu.Menu;
 
 import java.time.LocalDate;
 
 public class MessageBox extends Div {
 
-    private MessagesService messagesService;
+    private final MessagesService messagesService;
 
     public MessageBox(Message message) {
         messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
@@ -41,7 +40,6 @@ public class MessageBox extends Div {
             checkBoxLabel.setVisible(false);
             checkbox.setValue(true);
             checkbox.setEnabled(false);
-            Menu.setMessagesBadge(messagesService.getUncheckedMessages(message.getUserId()).size());
         });
 
         VerticalLayout isSeenLayout = new VerticalLayout(checkBoxLabel, checkbox);

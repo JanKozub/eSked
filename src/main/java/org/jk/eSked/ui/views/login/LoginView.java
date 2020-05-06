@@ -32,8 +32,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @PWA(name = "eSked", shortName = "eSked", startPath = "login", description = "schedule app")
 public class LoginView extends VerticalLayout {
-    private UserService userService;
-    private GroupService groupService;
+    private final UserService userService;
+    private final GroupService groupService;
 
     public LoginView(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService) {
         this.userService = userService;
@@ -57,7 +57,12 @@ public class LoginView extends VerticalLayout {
                         .authenticate(new UsernamePasswordAuthenticationToken(username, User.encodePassword(form.getPassword())));
                 if (authentication != null) {
                     loginOverlay.close();
-                    VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(username));
+                    try {
+                        VaadinSession.getCurrent().getLockInstance().lock();
+                        VaadinSession.getCurrent().setAttribute(User.class, userService.getUserByUsername(username));
+                    } finally {
+                        VaadinSession.getCurrent().getLockInstance().unlock();
+                    }
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
                     afterAuth(userService.getUser(SessionService.getUserId()));

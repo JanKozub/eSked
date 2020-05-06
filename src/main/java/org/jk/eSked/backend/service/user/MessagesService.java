@@ -3,7 +3,6 @@ package org.jk.eSked.backend.service.user;
 import org.jk.eSked.backend.dao.MessagesDao;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.repositories.MessagesDB;
-import org.jk.eSked.ui.components.menu.Menu;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,7 +20,6 @@ public class MessagesService implements MessagesDB {
     @Override
     public void addMessageForUser(Message message) {
         messagesDao.addMessageForUser(message);
-        Menu.setMessagesBadge(getUncheckedMessages(message.getUserId()).size());
     }
 
     @Override

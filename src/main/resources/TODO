@@ -1,6 +1,5 @@
 ##IMPORTANT##
 -messages layout for phone(adding css to code)
--session error when logging on two devices
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74

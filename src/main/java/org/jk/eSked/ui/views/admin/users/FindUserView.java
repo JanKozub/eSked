@@ -1,21 +1,28 @@
 package org.jk.eSked.ui.views.admin.users;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.menu.Menu;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
+import org.jk.eSked.ui.components.myComponents.Line;
+import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
@@ -26,6 +33,7 @@ import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
+import java.util.UUID;
 
 
 @Route(value = "admin/user", layout = Menu.class)
@@ -69,8 +77,50 @@ class FindUserView extends VerticalLayout {
         button.addClickShortcut(Key.ENTER);
         button.setWidth("50%");
 
+        Line line = new Line();
+
+        Text text = new Text("Nazwa");
+
+        TextField username = new TextField("Username");
+
+        TextField email = new TextField("email");
+
+        PasswordField password = new PasswordField("Haslo");
+
+        Button addUser = new Button("Dodaj", e -> {
+            boolean canBeCreated = true;
+            if (userService.getUsernames().contains(username.getValue()))
+                canBeCreated = false;
+            if (userService.getEmails().contains(email.getValue()))
+                canBeCreated = false;
+            if (canBeCreated) {
+                userService.addUser(new User(UUID.randomUUID(),
+                        username.getValue(),
+                        User.encodePassword(password.getValue()),
+                        false,
+                        false,
+                        email.getValue(),
+                        0,
+                        false,
+                        false,
+                        TimeService.now(),
+                        TimeService.now(),
+                        false));
+                SuccessNotification successNotification = new SuccessNotification("dodano", NotificationType.SHORT);
+                successNotification.open();
+            } else {
+                Notification notification = new Notification("nie dodano", NotificationType.SHORT.getDuration());
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setPosition(Notification.Position.TOP_END);
+                notification.open();
+            }
+        });
+
+        VerticalLayout addUserLayout = new VerticalLayout(line, text, username, email, password, addUser);
+        addUserLayout.setAlignItems(Alignment.CENTER);
+
         setAlignItems(Alignment.CENTER);
-        add(new AdminReturnButton(), textField, button);
+        add(new AdminReturnButton(), textField, button, addUserLayout);
     }
 
     private VerticalLayout userLayout(User user) {

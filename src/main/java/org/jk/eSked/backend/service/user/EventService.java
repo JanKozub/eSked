@@ -29,12 +29,6 @@ public class EventService implements EventDB {
         return eventsDao.getEvents(userId);
     }
 
-    public Collection<Event> getUncheckedEvents(UUID userId) {
-        Collection<Event> events = eventsDao.getEvents(userId);
-        events.removeIf(Event::isCheckedFlag);
-        return events;
-    }
-
     @Override
     public void addEvent(Event event) {
         eventsDao.persistEvent(event);

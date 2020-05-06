@@ -18,7 +18,12 @@ public class SessionService {
     }
 
     public static UUID getUserId() {
-        return VaadinSession.getCurrent().getAttribute(User.class).getId();
+        try {
+            VaadinSession.getCurrent().getLockInstance().lock();
+            return VaadinSession.getCurrent().getAttribute(User.class).getId();
+        } finally {
+            VaadinSession.getCurrent().getLockInstance().unlock();
+        }
     }
 
     public static boolean isSessionMobile() {
@@ -29,4 +34,5 @@ public class SessionService {
         UI.getCurrent().getPage()
                 .executeJs("document.documentElement.setAttribute(\"theme\",\"" + userService.getTheme(getUserId()).toString().toLowerCase() + "\")");
     }
+
 }

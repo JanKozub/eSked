@@ -1,6 +1,5 @@
 package org.jk.eSked.ui.views.messages;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -21,7 +20,7 @@ import java.util.List;
 @PageTitle("Wiadomości")
 public class MessagesView extends VerticalLayout {
 
-    private MessagesService messagesService;
+    private final MessagesService messagesService;
 
     public MessagesView(MessagesService messagesService) {
         this.messagesService = messagesService;
@@ -44,10 +43,5 @@ public class MessagesView extends VerticalLayout {
         for (Message message : messages) {
             add(new MessageBox(message));
         }
-    }
-
-    @Override
-    protected void onAttach(AttachEvent attachEvent) {
-        Menu.setMessagesBadge(messagesService.getUncheckedMessages(SessionService.getUserId()).size());
     }
 }
