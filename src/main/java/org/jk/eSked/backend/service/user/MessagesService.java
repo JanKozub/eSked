@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public class MessagesService implements MessagesDB {
 
-    private MessagesDao messagesDao;
+    private final MessagesDao messagesDao;
 
     public MessagesService(MessagesDao messagesDao) {
         this.messagesDao = messagesDao;
@@ -20,6 +20,11 @@ public class MessagesService implements MessagesDB {
     @Override
     public void addMessageForUser(Message message) {
         messagesDao.addMessageForUser(message);
+    }
+
+    @Override
+    public void deleteMessage(UUID messageId) {
+        messagesDao.deleteMessage(messageId);
     }
 
     @Override
@@ -35,11 +40,6 @@ public class MessagesService implements MessagesDB {
     @Override
     public boolean doesMessageIdExists(UUID newMessageId) {
         return messagesDao.doesMessageIdExists(newMessageId).size() > 0;
-    }
-
-    @Override
-    public Collection<Message> getUncheckedMessages(UUID userId) {
-        return messagesDao.getUncheckedMessagesForUser(userId, false);
     }
 
     public UUID generateMessageId() {

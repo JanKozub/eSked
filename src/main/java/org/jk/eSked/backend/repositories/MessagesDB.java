@@ -9,11 +9,12 @@ public interface MessagesDB {
 
     void addMessageForUser(Message message);
 
+    void deleteMessage(UUID messageId);
+
     Collection<Message> getMessagesForUser(UUID userId);
 
     void setCheckedFlag(UUID messageId);
 
     boolean doesMessageIdExists(UUID newMessageId);
 
-    Collection<Message> getUncheckedMessages(UUID userId);
 }

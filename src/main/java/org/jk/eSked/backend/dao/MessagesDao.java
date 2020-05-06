@@ -33,6 +33,9 @@ public interface MessagesDao {
     @Insert("INSERT INTO Messages(userId, messageId, timestamp, text, checkedFlag) VALUES(#{userId}, #{messageId}, #{timestamp}, #{text}, #{checkedFlag})")
     void addMessageForUser(Message message);
 
+    @Delete("DELETE FROM Messages WHERE messageId = #{messageId}")
+    void deleteMessage(UUID messageId);
+
     @Update("UPDATE Messages SET checkedFlag = #{checkedFlag} WHERE messageId = #{messageId}")
     void setCheckedFlag(UUID messageId, boolean checkedFlag);
 

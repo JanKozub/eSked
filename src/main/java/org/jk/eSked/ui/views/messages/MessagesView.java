@@ -21,14 +21,19 @@ import java.util.List;
 public class MessagesView extends VerticalLayout {
 
     private final MessagesService messagesService;
+    private final Line line;
+    private Label title;
 
     public MessagesView(MessagesService messagesService) {
         this.messagesService = messagesService;
         SessionService.setAutoTheme();
 
-        Label title = new Label("Wiadomości");
-        Line line = new Line();
-        line.setWidth("50%");
+        title = new Label("Wiadomości");
+        line = new Line();
+        if (SessionService.isSessionMobile())
+            line.setWidth("90vw");
+        else
+            line.setWidth("60vw");
         add(title, line);
 
         renderMessages();
@@ -41,7 +46,14 @@ public class MessagesView extends VerticalLayout {
         List<Message> messages = new ArrayList<>(messagesService.getMessagesForUser(SessionService.getUserId()));
         messages.sort(Comparator.comparing(sortedMessage -> TimeService.InstantToLocalDate(sortedMessage.getTimestamp())));
         for (Message message : messages) {
-            add(new MessageBox(message));
+            add(new MessageBox(message) {
+                @Override
+                public void refresh() {
+                    MessagesView.this.removeAll();
+                    MessagesView.this.add(title, line);
+                    renderMessages();
+                }
+            });
         }
     }
 }

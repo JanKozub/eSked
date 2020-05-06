@@ -1,5 +1,4 @@
 ##IMPORTANT##
--messages layout for phone(adding css to code)
 -Skracaj dl tabeli jeżeli nie ma lekcji
 -optimalize settings hours like if last hour was after 7 set list from 7<X
 -fix login navigation LoginView:74
@@ -7,6 +6,7 @@
 
 ##TO_THINK_ABOUT##
 -dodaj enter do settings
--dodaj jakies miejsce na notatki
--importowanie z excela
--welcone guide
+-notes space
+-import plan from excel
+-welcome guide
+-optimize message deleting
