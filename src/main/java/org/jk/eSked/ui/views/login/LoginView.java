@@ -17,7 +17,6 @@ import org.jk.eSked.app.security.SecurityUtils;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
-import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.login.LoginExceptionDialog;
@@ -83,15 +82,15 @@ public class LoginView extends VerticalLayout {
     }
 
     private void afterAuth(User user) {
-        SessionService.setAutoTheme();
-
-        userService.setLastLogged(user.getId(), TimeService.now());
-
-        if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))
-            userService.setGroupCode(user.getId(), 0);
-
-        if (userService.getGroupCode(user.getId()) != 0)
-            groupService.synchronizeWGroup(user.getId(), user.getGroupCode());
+//        SessionService.setAutoTheme();
+//
+//        userService.setLastLogged(user.getId(), TimeService.now());
+//
+//        if (groupService.getGroupNames().stream().noneMatch(s -> s.equals(groupService.getGroupName(user.getGroupCode()))))
+//            userService.setGroupCode(user.getId(), 0);
+//
+//        if (userService.getGroupCode(user.getId()) != 0)
+//            groupService.synchronizeWGroup(user.getId(), user.getGroupCode());
 
         UI.getCurrent().navigate("schedule");
     }

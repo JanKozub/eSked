@@ -9,10 +9,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.service.SessionService;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
-@Route(value = "admin", layout = Menu.class)
+@Route(value = "admin", layout = MainLayout.class)
 @PageTitle("Panel Admininstratora")
 @Secured("ROLE_ADMIN")
 public class AdminView extends HorizontalLayout {

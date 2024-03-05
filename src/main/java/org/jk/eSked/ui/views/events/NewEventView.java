@@ -1,6 +1,5 @@
 package org.jk.eSked.ui.views.events;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -24,15 +23,16 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
+import com.vaadin.flow.component.button.Button;
 
 import javax.validation.ValidationException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
-@Route(value = "events/new", layout = Menu.class)
+@Route(value = "events/new", layout = MainLayout.class)
 @PageTitle("Nowe Wydarzenie")
 public class NewEventView extends HorizontalLayout {
 

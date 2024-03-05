@@ -10,7 +10,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.User;
-import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.TimeService;
@@ -69,9 +68,9 @@ class NewUserDialog extends Dialog {
                                 false,
                                 TimeService.now(),
                                 TimeService.now(),
-                                false);
+                                true);
 
-                        emailService.sendEmail(user, EmailType.NEWUSER);
+                        //emailService.sendEmail(user, EmailType.NEWUSER);
 
                         userService.addUser(user);
 

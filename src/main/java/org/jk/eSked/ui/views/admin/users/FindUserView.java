@@ -19,7 +19,7 @@ import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
@@ -36,7 +36,7 @@ import javax.validation.ValidationException;
 import java.util.UUID;
 
 
-@Route(value = "admin/user", layout = Menu.class)
+@Route(value = "admin/user", layout = MainLayout.class)
 @PageTitle("Sprawdź Użytkownika")
 @Secured("ROLE_ADMIN")
 class FindUserView extends VerticalLayout {
@@ -87,7 +87,7 @@ class FindUserView extends VerticalLayout {
 
         PasswordField password = new PasswordField("Haslo");
 
-        Button addUser = new Button("Dodaj", e -> {
+        Button addUser = new Button("Dodaj", e -> { //TODO rewrite
             boolean canBeCreated = true;
             if (userService.getUsernames().contains(username.getValue()))
                 canBeCreated = false;

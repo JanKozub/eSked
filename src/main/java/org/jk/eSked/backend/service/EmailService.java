@@ -48,9 +48,9 @@ public class EmailService implements EmailDB {
 
     @Override
     public void sendEmail(User user, EmailType emailType) throws Exception {
-        getMailSession = Session.getDefaultInstance(mailServerProperties, null);
-        transport = getMailSession.getTransport("smtp");
-        transport.connect(host, emailUser, password);
+        //getMailSession = Session.getDefaultInstance(mailServerProperties, null);
+        //transport = getMailSession.getTransport("smtp");
+        //transport.connect(host, emailUser, password);
 
         String subject = "";
         String emailBody = "";
@@ -63,6 +63,9 @@ public class EmailService implements EmailDB {
                 tokenValue.setValue("verify");
                 url = tokenService.encodeToken(tokenValue);
                 url = "http://" + serverAddress + "/verify/" + url;
+
+                log.warn(url);
+
                 emailBody = "Witamy w eSked! Aktywuj konto klikając \n<a href=" + url + ">tutaj</a>";
                 break;
             case NEWPASSOWRD:
@@ -94,9 +97,9 @@ public class EmailService implements EmailDB {
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić email kliknij \n<a href=" + url + ">tutaj</a>";
                 break;
         }
-        generateAndSendMessage(user.getEmail(), subject, emailBody);
+        //generateAndSendMessage(user.getEmail(), subject, emailBody);
 
-        transport.close();
+        //transport.close();
     }
 
     private void generateAndSendMessage(String email, String subject, String body) throws Exception {

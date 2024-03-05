@@ -18,7 +18,7 @@ public class User {
     private final long LastLoggedDate;
     private final boolean verified;
 
-    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean eventsSyn, boolean tableSyn, long createdDate, long lastLoggedDate, boolean genCode) {
+    public User(UUID id, String username, String password, boolean darkTheme, boolean scheduleHours, String email, int groupCode, boolean eventsSyn, boolean tableSyn, long createdDate, long lastLoggedDate, boolean verified) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -30,7 +30,7 @@ public class User {
         this.tableSyn = tableSyn;
         this.createdDate = createdDate;
         LastLoggedDate = lastLoggedDate;
-        this.verified = genCode;
+        this.verified = verified;
     }
 
     public static String encodePassword(String password) {

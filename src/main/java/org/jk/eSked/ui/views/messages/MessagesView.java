@@ -8,7 +8,7 @@ import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.MessagesService;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.MessageBox;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-@Route(value = "messages", layout = Menu.class)
+@Route(value = "messages", layout = MainLayout.class)
 @PageTitle("Wiadomości")
 public class MessagesView extends VerticalLayout {
 

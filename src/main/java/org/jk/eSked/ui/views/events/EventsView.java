@@ -8,10 +8,10 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.schedule.EventGrid;
 
-@Route(value = "events", layout = Menu.class)
+@Route(value = "events", layout = MainLayout.class)
 @PageTitle("Wydarzenia")
 public class EventsView extends VerticalLayout {
 

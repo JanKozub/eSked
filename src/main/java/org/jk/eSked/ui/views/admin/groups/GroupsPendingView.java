@@ -14,7 +14,7 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.menu.Menu;
+import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 import org.springframework.security.access.annotation.Secured;
@@ -22,7 +22,7 @@ import org.springframework.security.access.annotation.Secured;
 import java.time.Instant;
 import java.util.Collection;
 
-@Route(value = "admin/groups/pending", layout = Menu.class)
+@Route(value = "admin/groups/pending", layout = MainLayout.class)
 @PageTitle("Zatwierdzanie Grup")
 @Secured("ROLE_ADMIN")
 class GroupsPendingView extends VerticalLayout {
