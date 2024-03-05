@@ -1,7 +1,6 @@
 package org.jk.eSked.app.security;
 
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
