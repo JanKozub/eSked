@@ -39,7 +39,7 @@ public class MessagesService implements MessagesDB {
 
     @Override
     public boolean doesMessageIdExists(UUID newMessageId) {
-        return messagesDao.doesMessageIdExists(newMessageId).size() > 0;
+        return !messagesDao.doesMessageIdExists(newMessageId).isEmpty();
     }
 
     public UUID generateMessageId() {

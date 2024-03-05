@@ -46,16 +46,16 @@ public class ScheduleDialogs {
         Button addButton;
         addButton = new Button("Dodaj!", event -> {
             String name = "";
-            if (comboBox.getValue() != null && !comboBox.getValue().equals("")) {
+            if (comboBox.getValue() != null && !comboBox.getValue().isEmpty()) {
                 name = comboBox.getValue();
             }
 
-            if (!textField.getValue().equals("")) {
+            if (!textField.getValue().isEmpty()) {
                 name = textField.getValue();
             }
 
-            if (!name.equals("")) {
-                if (comboBox.getValue() == null || comboBox.getValue().equals("") || textField.getValue().equals("")) {
+            if (!name.isEmpty()) {
+                if (comboBox.getValue() == null || comboBox.getValue().isEmpty() || textField.getValue().isEmpty()) {
                     ScheduleEntry scheduleEntry = new ScheduleEntry(userId, hour, day, name, TimeService.now());
                     dialog.close();
                     if (replaceable) {
@@ -107,9 +107,7 @@ public class ScheduleDialogs {
 
         Button switchButton = new Button("Zamień", event -> {
             Dialog addDialog = addEntryDialog(entry.getDay(), entry.getHour(), true);
-            addDialog.addDetachListener(e -> {
-                dialog.close();
-            });
+            addDialog.addDetachListener(e -> dialog.close());
             addDialog.open();
         });
         switchButton.getStyle().set("color", "green");

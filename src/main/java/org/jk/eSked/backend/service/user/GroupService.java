@@ -86,7 +86,7 @@ public class GroupService implements GroupDB {
 
     @Override
     public boolean hasEntries(UUID userId) {
-        return scheduleService.getScheduleEntries(userId).size() > 0;
+        return !scheduleService.getScheduleEntries(userId).isEmpty();
     }
 
     @Override

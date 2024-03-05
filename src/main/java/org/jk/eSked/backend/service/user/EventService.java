@@ -46,7 +46,7 @@ public class EventService implements EventDB {
 
     @Override
     public boolean doesUUIDExists(UUID newUUID) {
-        return eventsDao.getUUIDs(newUUID).size() > 0;
+        return !eventsDao.getUUIDs(newUUID).isEmpty();
     }
 
     private long getStartOfWeekMillis(LocalDate startOfWeek) {

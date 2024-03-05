@@ -78,21 +78,14 @@ class FindUserView extends VerticalLayout {
         button.setWidth("50%");
 
         Line line = new Line();
-
         Text text = new Text("Nazwa");
-
         TextField username = new TextField("Username");
-
         TextField email = new TextField("email");
-
         PasswordField password = new PasswordField("Haslo");
 
-        Button addUser = new Button("Dodaj", e -> { //TODO rewrite
-            boolean canBeCreated = true;
-            if (userService.getUsernames().contains(username.getValue()))
-                canBeCreated = false;
-            if (userService.getEmails().contains(email.getValue()))
-                canBeCreated = false;
+        Button addUser = new Button("Dodaj", e -> {
+            boolean canBeCreated = !userService.getUsernames().contains(username.getValue()) && !userService.getEmails().contains(email.getValue());
+
             if (canBeCreated) {
                 userService.addUser(new User(UUID.randomUUID(),
                         username.getValue(),

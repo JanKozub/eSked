@@ -117,8 +117,7 @@ public class UserService implements UserDB {
 
     @Override
     public void setTheme(UUID userId, ThemeType themeType) {
-        if (themeType == ThemeType.DARK) usersDao.setDarkTheme(userId, true);
-        else usersDao.setDarkTheme(userId, false);
+        usersDao.setDarkTheme(userId, themeType == ThemeType.DARK);
     }
 
     //GROUPS

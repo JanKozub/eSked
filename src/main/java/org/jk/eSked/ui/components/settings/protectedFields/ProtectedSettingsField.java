@@ -19,9 +19,9 @@ abstract class ProtectedSettingsField extends VerticalLayout {
     private final String editName;
     TextField textField;
     private UserService userService;
-    private String value;
-    private TextField confirmTextField = new TextField();
-    private PasswordField confirmPasswordField = new PasswordField();
+    private final String value;
+    private final TextField confirmTextField = new TextField();
+    private final PasswordField confirmPasswordField = new PasswordField();
     private PasswordField passwordField;
     private Button button;
     private Registration registration;
@@ -55,7 +55,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
             registration = button.addClickListener(this::onCommit);
 
             HorizontalLayout layout = new HorizontalLayout();
-            if (value.equals("")) {
+            if (value.isEmpty()) {
                 confirmPasswordField.setWidth("60%");
                 confirmPasswordField.setPlaceholder(editName);
 
@@ -76,7 +76,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
     }
 
     private void onCommit(ClickEvent event) {
-        if (value.equals("")) {
+        if (value.isEmpty()) {
             try {
                 validateInput(confirmPasswordField.getValue());
                 confirmPasswordField.setInvalid(false);
