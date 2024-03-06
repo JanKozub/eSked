@@ -19,24 +19,25 @@ public class AdminView extends HorizontalLayout {
 
     public AdminView() {
         SessionService.setAutoTheme();
-        Icon iconUser = new Icon(VaadinIcon.USER);
-        Button user = new Button("Użytkownik", iconUser, buttonClickEvent -> UI.getCurrent().navigate("admin/user"));
-        user.setHeight("300%");
 
-        Icon iconUsers = new Icon(VaadinIcon.USERS);
-        Button users = new Button("Użytkownicy", iconUsers, buttonClickEvent -> UI.getCurrent().navigate("admin/users"));
-
-        Icon iconGroups = new Icon(VaadinIcon.FORM);
-        Button groups = new Button("Grupy", iconGroups, buttonClickEvent -> UI.getCurrent().navigate("admin/groups"));
-
-        Icon iconGroupsAcc = new Icon(VaadinIcon.LIST_SELECT);
-        Button groupsAcc = new Button("Zatwierdzanie Grup", iconGroupsAcc, buttonClickEvent -> UI.getCurrent().navigate("admin/groups/pending"));
+        Button user = createButton("Użytkownik", "admin/user", VaadinIcon.USER);
+        Button users = createButton("Użytkownicy", "admin/users", VaadinIcon.USERS);
+        Button groups = createButton("Grupy", "admin/groups", VaadinIcon.FORM);
+        Button groupsAcc = createButton("Zatwierdzanie Grup", "admin/groups/pending", VaadinIcon.LIST_SELECT);
 
         FormLayout formLayout = new FormLayout(user, users, groups, groupsAcc);
+        formLayout.getStyle().set("padding", "20px");
         formLayout.setSizeFull();
 
-        setSizeFull();
         setAlignItems(Alignment.CENTER);
         add(formLayout);
+    }
+
+    private Button createButton(String label, String navigationRoute, VaadinIcon icon) {
+        Icon iconUser = new Icon(icon);
+        Button button = new Button(label, iconUser, buttonClickEvent -> UI.getCurrent().navigate(navigationRoute));
+        button.getStyle().set("height", "100px");
+        button.getStyle().set("margin-top", "20px");
+        return button;
     }
 }
