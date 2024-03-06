@@ -8,7 +8,7 @@ import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.MessagesService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.MessageBox;
 
@@ -22,7 +22,7 @@ public class MessagesView extends VerticalLayout {
 
     private final MessagesService messagesService;
     private final Line line;
-    private Label title;
+    private final Label title;
 
     public MessagesView(MessagesService messagesService) {
         this.messagesService = messagesService;

@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.service.SessionService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "admin", layout = MainLayout.class)

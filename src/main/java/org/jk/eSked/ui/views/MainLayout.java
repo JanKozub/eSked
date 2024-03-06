@@ -1,7 +1,9 @@
-package org.jk.eSked.ui;
+package org.jk.eSked.ui.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.tabs.Tab;
@@ -28,31 +30,47 @@ public class MainLayout extends AppLayout implements RouterLayout {
     private static final Logger log = LoggerFactory.getLogger(MainLayout.class);
 
     public MainLayout() {
+        H1 title = new H1("eSked");
+        title.getStyle().set("font-size", "var(--lumo-font-size-xl)").set("margin", "0");
+        Image logo = new Image("icons/icon.png", "logo");
+        logo.setHeight("44px");
+        logo.getStyle().set("padding", "10px");
+
+        addToDrawer(getTabs());
+        addToNavbar(logo, title, createMenuBar());
+    }
+
+    private Tab[] getTabs() {
         Tab schedule = new Tab(VaadinIcon.CALENDAR_O.create(), new RouterLink("Plan", ScheduleView.class));
         Tab events = new Tab(VaadinIcon.CALENDAR_CLOCK.create(), new RouterLink("Wydarzenia", EventsView.class));
         Tab newEvent = new Tab(VaadinIcon.FOLDER_ADD.create(), new RouterLink("Dodaj Wydarzenie", NewEventView.class));
         Tab messages = new Tab(VaadinIcon.ENVELOPE_OPEN_O.create(), new RouterLink("Wiadomości", MessagesView.class));
 
-        addToDrawer(schedule, events, newEvent, messages);
+        return new Tab[]{schedule, events, newEvent, messages};
+    }
 
+    private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
-
+        menuBar.getStyle().set("margin-left", "auto").set("padding", "15px");
         menuBar.addItem(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
 
         Secured secured = AnnotationUtils.findAnnotation(AdminView.class, Secured.class);
-        if (secured != null) {
-            List<String> allowedRoles = Arrays.asList(secured.value());
-            Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-            if (userAuthentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .anyMatch(allowedRoles::contains)) {
-                menuBar.addItem(VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin"));
-            }
-        }
+        if (secured != null) addAdminTab(secured, menuBar);
         else log.error("@secured annotation is equal null");
+
         menuBar.addItem(VaadinIcon.POWER_OFF.create(), e -> logout());
 
-        addToNavbar(menuBar);
+        return menuBar;
+    }
+
+    private void addAdminTab(Secured secured, MenuBar menuBar) {
+        List<String> allowedRoles = Arrays.asList(secured.value());
+        Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if (userAuthentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(allowedRoles::contains)) {
+            menuBar.addItem(VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin"));
+        }
     }
 
     private void logout() {

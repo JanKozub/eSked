@@ -14,7 +14,7 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 import org.springframework.security.access.annotation.Secured;
@@ -29,7 +29,7 @@ class GroupsPendingView extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final GroupService groupsService;
     private final UserService userService;
-    private MessagesService messagesService;
+    private final MessagesService messagesService;
 
     public GroupsPendingView(ScheduleService scheduleService, GroupService groupsService, UserService userService, MessagesService messagesService) {
         this.scheduleService = scheduleService;
@@ -63,7 +63,7 @@ class GroupsPendingView extends VerticalLayout {
                 userService.setGroupCode(group.getLeaderId(), group.getGroupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
-                groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));
+                groupEntryGrid.setItems(new ListDataProvider<>(groups));
 
                 messagesService.addMessageForUser(new Message(
                         group.getLeaderId(),
@@ -82,7 +82,7 @@ class GroupsPendingView extends VerticalLayout {
                 groupsService.deleteGroup(e.getGroupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
-                groupEntryGrid.setDataProvider(new ListDataProvider<>(groups));
+                groupEntryGrid.setItems(new ListDataProvider<>(groups));
             });
             return button;
         })).setHeader("Odrzuć");

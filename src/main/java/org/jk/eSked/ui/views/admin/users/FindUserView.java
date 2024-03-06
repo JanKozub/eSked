@@ -19,7 +19,6 @@ import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
-import org.jk.eSked.ui.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
@@ -30,6 +29,7 @@ import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 import org.jk.eSked.ui.components.settings.fields.NameField;
 import org.jk.eSked.ui.components.settings.protectedFields.EmailField;
 import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
+import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
@@ -46,7 +46,7 @@ class FindUserView extends VerticalLayout {
     private final HoursService hoursService;
     private final ScheduleService scheduleService;
     private final EmailService emailService;
-    private GroupService groupService;
+    private final GroupService groupService;
 
     FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
         this.scheduleService = scheduleService;
@@ -61,22 +61,15 @@ class FindUserView extends VerticalLayout {
         textField.setWidth("50%");
         textField.focus();
 
-        Button button = new Button("Szukaj", event -> {
-            try {
-                User user = validateInput(textField.getValue());
-                textField.setInvalid(false);
-                removeAll();
-
-                add(userLayout(user));
-                setAlignItems(Alignment.CENTER);
-            } catch (ValidationException ex) {
-                textField.setErrorMessage(ex.getMessage());
-                textField.setInvalid(true);
-            }
-        });
+        Button button = new Button("Szukaj", event -> searchForUser(textField));
         button.addClickShortcut(Key.ENTER);
         button.setWidth("50%");
 
+        setAlignItems(Alignment.CENTER);
+        add(new AdminReturnButton(), textField, button, createAddUserLayout(userService));
+    }
+
+    private VerticalLayout createAddUserLayout(UserService userService) {
         Line line = new Line();
         Text text = new Text("Nazwa");
         TextField username = new TextField("Username");
@@ -86,34 +79,13 @@ class FindUserView extends VerticalLayout {
         Button addUser = new Button("Dodaj", e -> {
             boolean canBeCreated = !userService.getUsernames().contains(username.getValue()) && !userService.getEmails().contains(email.getValue());
 
-            if (canBeCreated) {
-                userService.addUser(new User(UUID.randomUUID(),
-                        username.getValue(),
-                        User.encodePassword(password.getValue()),
-                        false,
-                        false,
-                        email.getValue(),
-                        0,
-                        false,
-                        false,
-                        TimeService.now(),
-                        TimeService.now(),
-                        false));
-                SuccessNotification successNotification = new SuccessNotification("dodano", NotificationType.SHORT);
-                successNotification.open();
-            } else {
-                Notification notification = new Notification("nie dodano", NotificationType.SHORT.getDuration());
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setPosition(Notification.Position.TOP_END);
-                notification.open();
-            }
+            if (canBeCreated) createUser(username.getValue(), email.getValue(), password.getValue());
+            else denyUserCreation();
         });
 
         VerticalLayout addUserLayout = new VerticalLayout(line, text, username, email, password, addUser);
         addUserLayout.setAlignItems(Alignment.CENTER);
-
-        setAlignItems(Alignment.CENTER);
-        add(new AdminReturnButton(), textField, button, addUserLayout);
+        return addUserLayout;
     }
 
     private VerticalLayout userLayout(User user) {
@@ -147,6 +119,43 @@ class FindUserView extends VerticalLayout {
         return layout;
     }
 
+    private void createUser(String username, String email, String password) {
+        userService.addUser(new User(UUID.randomUUID(),
+                username,
+                User.encodePassword(password),
+                false,
+                false,
+                email,
+                0,
+                false,
+                false,
+                TimeService.now(),
+                TimeService.now(),
+                false));
+        SuccessNotification successNotification = new SuccessNotification("dodano", NotificationType.SHORT);
+        successNotification.open();
+    }
+
+    private void denyUserCreation() {
+        Notification notification = new Notification("nie dodano", NotificationType.SHORT.getDuration());
+        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        notification.setPosition(Notification.Position.TOP_END);
+        notification.open();
+    }
+
+    private void searchForUser(TextField textField) {
+        try {
+            User user = validateInput(textField.getValue());
+            textField.setInvalid(false);
+            removeAll();
+
+            add(userLayout(user));
+            setAlignItems(Alignment.CENTER);
+        } catch (ValidationException ex) {
+            textField.setErrorMessage(ex.getMessage());
+            textField.setInvalid(true);
+        }
+    }
 
     private User validateInput(String input) {
         if (input.isEmpty()) throw new ValidationException("Pole nie może być puste");

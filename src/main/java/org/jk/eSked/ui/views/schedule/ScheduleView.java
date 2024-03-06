@@ -9,7 +9,7 @@ import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 
 @Route(value = "schedule", layout = MainLayout.class)

@@ -23,7 +23,7 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import com.vaadin.flow.component.button.Button;
 
@@ -38,11 +38,11 @@ public class NewEventView extends HorizontalLayout {
 
     private final EventService eventService;
     private final Grid<Event> eventGrid;
-    private UUID userId;
-    private DatePicker datePicker;
-    private ComboBox<EventType> eventType;
-    private NumberField hourNum;
-    private TextField topicField;
+    private final UUID userId;
+    private final DatePicker datePicker;
+    private final ComboBox<EventType> eventType;
+    private final NumberField hourNum;
+    private final TextField topicField;
 
     public NewEventView(ScheduleService scheduleService, EventService eventService) {
         this.eventService = eventService;

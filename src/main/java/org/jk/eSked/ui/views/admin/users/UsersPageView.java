@@ -10,7 +10,7 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.MainLayout;
+import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.springframework.security.access.annotation.Secured;
 
