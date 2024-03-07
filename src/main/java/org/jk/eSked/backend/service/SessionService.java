@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Service
 public class SessionService {
-
     private static UserService userService;
 
     public SessionService(UserService userService) {

@@ -31,7 +31,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
     public MainLayout() {
         H1 title = new H1("eSked");
-        title.getStyle().set("font-size", "var(--lumo-font-size-xl)").set("margin", "0");
+        title.getStyle().set("font-size", "var(--lumo-font-size-xxl)").set("margin", "0");
         Image logo = new Image("icons/icon.png", "logo");
         logo.setHeight("44px");
         logo.getStyle().set("padding", "10px");
@@ -42,9 +42,13 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
     private Tab[] getTabs() {
         Tab schedule = new Tab(VaadinIcon.CALENDAR_O.create(), new RouterLink("Plan", ScheduleView.class));
+        schedule.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab events = new Tab(VaadinIcon.CALENDAR_CLOCK.create(), new RouterLink("Wydarzenia", EventsView.class));
+        events.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab newEvent = new Tab(VaadinIcon.FOLDER_ADD.create(), new RouterLink("Dodaj Wydarzenie", NewEventView.class));
+        newEvent.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab messages = new Tab(VaadinIcon.ENVELOPE_OPEN_O.create(), new RouterLink("Wiadomości", MessagesView.class));
+        messages.getStyle().set("font-size", "var(--lumo-font-size-l)");
 
         return new Tab[]{schedule, events, newEvent, messages};
     }

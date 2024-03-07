@@ -35,7 +35,6 @@ import java.util.*;
 @Route(value = "events/new", layout = MainLayout.class)
 @PageTitle("Nowe Wydarzenie")
 public class NewEventView extends HorizontalLayout {
-
     private final EventService eventService;
     private final Grid<Event> eventGrid;
     private final UUID userId;
@@ -57,7 +56,7 @@ public class NewEventView extends HorizontalLayout {
         formName.setSizeFull();
 
         datePicker = new DatePicker();
-        datePicker.setI18n(datePickerI18n());
+        datePicker.setI18n(polishI18nDatePicker());
         datePicker.setWidth("100%");
         datePicker.addValueChangeListener(e -> {
             try {
@@ -137,7 +136,7 @@ public class NewEventView extends HorizontalLayout {
         }
     }
 
-    private DatePicker.DatePickerI18n datePickerI18n() {
+    private DatePicker.DatePickerI18n polishI18nDatePicker() {
         return new DatePicker.DatePickerI18n()
                 .setWeek("tydzień")
                 .setCalendar("kalendarz")
@@ -145,9 +144,9 @@ public class NewEventView extends HorizontalLayout {
                 .setToday("dzisiaj")
                 .setCancel("zamknij")
                 .setFirstDayOfWeek(1)
-                .setMonthNames(Arrays.asList("styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"))
-                .setWeekdays(Arrays.asList("niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"))
-                .setWeekdaysShort(Arrays.asList("niedź", "pon", "wt", "śr", "czw", "pt", "sob"));
+                .setMonthNames(List.of("styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"))
+                .setWeekdays(List.of("niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"))
+                .setWeekdaysShort(List.of("niedź", "pon", "wt", "śr", "czw", "pt", "sob"));
     }
 
     private void validateDate(LocalDate date) throws ValidationException {

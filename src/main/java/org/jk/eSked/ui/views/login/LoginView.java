@@ -16,6 +16,7 @@ import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
+import org.jk.eSked.backend.service.TranslationProvider;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.login.LoginExceptionDialog;
@@ -96,7 +97,7 @@ public class LoginView extends VerticalLayout {
         final LoginI18n i18n = LoginI18n.createDefault();
 
         i18n.setHeader(new LoginI18n.Header());
-        i18n.getForm().setTitle("Zaloguj się");
+        i18n.getForm().setTitle(getTranslation("log_in", TranslationProvider.LOCALE_EN));
         i18n.getForm().setUsername("Nazwa użytkownika lub email");
         i18n.getForm().setPassword("Hasło");
         i18n.getForm().setSubmit("Zaloguj się");
