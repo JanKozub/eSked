@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.views.messages;
+package org.jk.eSked.ui.views;
 
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -8,7 +8,6 @@ import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.MessagesService;
-import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.MessageBox;
 

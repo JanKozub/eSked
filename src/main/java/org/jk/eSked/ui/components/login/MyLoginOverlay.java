@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.views.login;
+package org.jk.eSked.ui.components.login;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;

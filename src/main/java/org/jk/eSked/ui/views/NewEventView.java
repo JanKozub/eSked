@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.views.events;
+package org.jk.eSked.ui.views;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;

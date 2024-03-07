@@ -29,7 +29,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGrid extends VerticalLayout {
-
     private final ScheduleService scheduleService;
     private final EventService eventService;
     private final UserService userService;

@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.views.login;
+package org.jk.eSked.ui.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -8,6 +8,7 @@ import org.jk.eSked.app.security.SecurityUtils;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
+import org.jk.eSked.ui.components.login.MyLoginOverlay;
 import org.springframework.security.authentication.AuthenticationManager;
 
 @Route(value = "login")

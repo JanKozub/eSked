@@ -5,7 +5,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import org.jk.eSked.ui.views.login.LoginView;
+import org.jk.eSked.ui.views.LoginView;
 import org.springframework.stereotype.Component;
 
 @Component
