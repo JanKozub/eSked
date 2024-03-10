@@ -25,36 +25,33 @@ import java.util.UUID;
 
 class NewUserDialog extends Dialog {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
-    private final UserService userService;
 
     NewUserDialog(UserService userService, EmailService emailService) {
-        this.userService = userService;
-
         VerticalLayout layout = new VerticalLayout();
 
-        Label nameOfDialog = new Label("Nowy Użytkownik");
+        Label nameOfDialog = new Label(getTranslation(locale, "new_user_label"));
 
-        TextField usernameField = new TextField("Nazwa użtykownika");
+        TextField usernameField = new TextField(getTranslation(locale, "username"));
         usernameField.setWidth("100%");
 
         EmailField emailField = new EmailField("Email");
         emailField.setWidth("100%");
 
-        PasswordField passwordField = new PasswordField("Hasło");
+        PasswordField passwordField = new PasswordField(getTranslation(locale, "password"));
         passwordField.setWidth("100%");
 
-        PasswordField passwordFieldCheck = new PasswordField("Powtórz hasło");
+        PasswordField passwordFieldCheck = new PasswordField(getTranslation(locale, "new_user_repeat_password"));
         passwordFieldCheck.setWidth("100%");
 
-        Button addButton = new Button("Zarejstruj się!");
+        Button addButton = new Button(getTranslation(locale, "new_user_register"));
         addButton.addClickShortcut(Key.ENTER);
         addButton.setWidth("75%");
         addButton.addClickListener(e -> {
             try {
-                validateUsername(usernameField.getValue());
+                validateUsername(usernameField.getValue(), userService);
                 usernameField.setInvalid(false);
                 try {
-                    validateEmail(emailField.getValue());
+                    validateEmail(emailField.getValue(), userService);
                     emailField.setInvalid(false);
                     try {
                         validatePassword(passwordField.getValue(), passwordFieldCheck.getValue());
@@ -78,7 +75,7 @@ class NewUserDialog extends Dialog {
 
                         userService.addUser(user);
 
-                        new SuccessNotification("Link aktywacyjny został wysłany na podany email!", NotificationType.LONG).open();
+                        new SuccessNotification(getTranslation(locale, "notification_link_sent"), NotificationType.LONG).open();
 
                         close();
                     } catch (ValidationException ex) {
@@ -86,7 +83,7 @@ class NewUserDialog extends Dialog {
                         passwordField.setInvalid(true);
                         passwordFieldCheck.setInvalid(true);
                     } catch (Exception mex) {
-                        passwordFieldCheck.setErrorMessage("Email error contact admin " + mex.getMessage());
+                        passwordFieldCheck.setErrorMessage(getTranslation(locale, "exception_contact_admin") + " " + mex.getMessage());
                         passwordFieldCheck.setInvalid(true);
                     }
                 } catch (ValidationException ex) {
@@ -104,23 +101,24 @@ class NewUserDialog extends Dialog {
         add(layout);
     }
 
-    private void validateUsername(String username) {
+    private void validateUsername(String username, UserService userService) {
         if (username.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         Collection<String> usernames = userService.getUsernames();
-        if (usernames.contains(username)) throw new ValidationException("Użytkownik z taką nazwą już istnieje");
+        if (usernames.contains(username))
+            throw new ValidationException(getTranslation(locale, "exception_user_exists"));
     }
 
-    private void validateEmail(String email) {
+    private void validateEmail(String email, UserService userService) {
         if (email.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         Collection<String> emails = userService.getEmails();
-        if (emails.contains(email)) throw new ValidationException("Taki email jest już przypisany do innego konta");
+        if (emails.contains(email)) throw new ValidationException(getTranslation(locale, "exception_email_taken"));
     }
 
     private void validatePassword(String pass1, String pass2) {
-        if (pass1.isEmpty()) throw new ValidationException("Żadne z pól nie może być puste");
+        if (pass1.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_fields_cannot_be_empty"));
 
-        if (!pass1.equals(pass2)) throw new ValidationException("Hasła nie są identyczne");
+        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation(locale, "exception_pass_not_match"));
     }
 }

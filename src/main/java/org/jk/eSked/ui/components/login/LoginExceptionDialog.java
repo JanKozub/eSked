@@ -37,7 +37,7 @@ public class LoginExceptionDialog extends Dialog {
         passLabel.getStyle().set("font-weight", "bold");
 
         TextField usernameField = new TextField();
-        usernameField.setPlaceholder(getTranslation(locale,"login_exception_username"));
+        usernameField.setPlaceholder(getTranslation(locale,"username"));
         usernameField.setWidth("60%");
 
         Button confirmButton = new Button(getTranslation(locale,"login_exception_email"));
@@ -72,6 +72,6 @@ public class LoginExceptionDialog extends Dialog {
         if (input.isEmpty()) throw new ValidationException(getTranslation(locale,"exception_empty_field"));
 
         Collection<String> users = userService.getUsernames();
-        if (!users.contains(input)) throw new ValidationException(getTranslation(locale,"exception_user_exists"));
+        if (!users.contains(input)) throw new ValidationException(getTranslation(locale, "exception_user_not_exist"));
     }
 }

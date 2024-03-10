@@ -87,7 +87,7 @@ public class MyLoginOverlay extends LoginOverlay {
 
         form.setTitle(getTranslation(locale, "login_title"));
         form.setUsername(getTranslation(locale, "login_username"));
-        form.setPassword(getTranslation(locale, "login_password"));
+        form.setPassword(getTranslation(locale, "password"));
         form.setSubmit(getTranslation(locale, "login_submit"));
         form.setForgotPassword(getTranslation(locale, "login_forgot_password"));
         i18n.getErrorMessage().setTitle(getTranslation(locale, "login_error_title"));
