@@ -21,7 +21,7 @@ public class MyPasswordField extends ProtectedSettingsField {
     private final UserService userService;
     private final EmailService emailService;
     private final boolean needConfirm;
-    private MessagesService messagesService;
+    private final MessagesService messagesService;
 
     public MyPasswordField(UUID userId, UserService userService, EmailService emailService, boolean needConfirm) {
         super(userService, "Hasło", "", "Nowe Hasło");

@@ -14,7 +14,6 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.login.LoginExceptionDialog;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -86,14 +85,14 @@ public class MyLoginOverlay extends LoginOverlay {
         LoginI18n.Form form = i18n.getForm();
         Locale locale = VaadinSession.getCurrent().getLocale();
 
-        form.setTitle(getTranslation("login_title", locale));
-        form.setUsername(getTranslation("login_username", locale));
-        form.setPassword(getTranslation("login_password", locale));
-        form.setSubmit(getTranslation("login_submit", locale));
-        form.setForgotPassword(getTranslation("login_forgot_password", locale));
-        i18n.getErrorMessage().setTitle(getTranslation("login_error_title", locale));
-        i18n.getErrorMessage().setMessage(getTranslation("login_error_message", locale));
-        i18n.setAdditionalInformation(getTranslation("login_information", locale));
+        form.setTitle(getTranslation(locale, "login_title"));
+        form.setUsername(getTranslation(locale, "login_username"));
+        form.setPassword(getTranslation(locale, "login_password"));
+        form.setSubmit(getTranslation(locale, "login_submit"));
+        form.setForgotPassword(getTranslation(locale, "login_forgot_password"));
+        i18n.getErrorMessage().setTitle(getTranslation(locale, "login_error_title"));
+        i18n.getErrorMessage().setMessage(getTranslation(locale, "login_error_message"));
+        i18n.setAdditionalInformation(getTranslation(locale, "login_information"));
 
         return i18n;
     }

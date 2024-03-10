@@ -17,10 +17,10 @@ import java.util.UUID;
 public class GroupCodeField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
-    private GroupService groupService;
-    private Button button;
-    private GroupCreator groupCreator;
-    private MessagesService messagesService;
+    private final GroupService groupService;
+    private final Button button;
+    private final GroupCreator groupCreator;
+    private final MessagesService messagesService;
 
     public GroupCodeField(UUID userId, UserService userService, GroupService groupService, Button button, GroupCreator groupCreator) {
         super("Kod grupy", "Nowy kod");

@@ -20,9 +20,9 @@ import java.time.Instant;
 @Route(value = "email")
 public class NewEmailPath extends VerticalLayout implements HasUrlParameter<String> {
     private static final Logger log = LoggerFactory.getLogger(NewEmailPath.class);
-    private UserService userService;
-    private TokenService tokenService;
-    private MessagesService messagesService;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final MessagesService messagesService;
 
     public NewEmailPath(UserService userService, TokenService tokenService, MessagesService messagesService) {
         this.userService = userService;

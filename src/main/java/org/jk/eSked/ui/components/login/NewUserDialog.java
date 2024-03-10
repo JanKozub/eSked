@@ -9,7 +9,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.TimeService;
@@ -18,9 +20,11 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.UUID;
 
 class NewUserDialog extends Dialog {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
 
     NewUserDialog(UserService userService, EmailService emailService) {
@@ -70,7 +74,7 @@ class NewUserDialog extends Dialog {
                                 TimeService.now(),
                                 true);
 
-                        //emailService.sendEmail(user, EmailType.NEWUSER);
+                        emailService.sendEmail(user, EmailType.NEWUSER);
 
                         userService.addUser(user);
 
@@ -101,14 +105,14 @@ class NewUserDialog extends Dialog {
     }
 
     private void validateUsername(String username) {
-        if (username.isEmpty()) throw new ValidationException("Pole nie może być puste");
+        if (username.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         Collection<String> usernames = userService.getUsernames();
         if (usernames.contains(username)) throw new ValidationException("Użytkownik z taką nazwą już istnieje");
     }
 
     private void validateEmail(String email) {
-        if (email.isEmpty()) throw new ValidationException("Pole nie może być puste");
+        if (email.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         Collection<String> emails = userService.getEmails();
         if (emails.contains(email)) throw new ValidationException("Taki email jest już przypisany do innego konta");

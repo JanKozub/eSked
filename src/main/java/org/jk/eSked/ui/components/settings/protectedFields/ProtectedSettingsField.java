@@ -1,24 +1,26 @@
 package org.jk.eSked.ui.components.settings.protectedFields;
 
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.shared.Registration;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 
 import javax.validation.ValidationException;
+import java.util.Locale;
 
 abstract class ProtectedSettingsField extends VerticalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final String baseName;
     private final String editName;
     TextField textField;
-    private UserService userService;
+    private final UserService userService;
     private final String value;
     private final TextField confirmTextField = new TextField();
     private final PasswordField confirmPasswordField = new PasswordField();
@@ -35,24 +37,24 @@ abstract class ProtectedSettingsField extends VerticalLayout {
         setMainLayout(value);
     }
 
-    private void onStartEdit(ClickEvent event) {
+    private void onStartEdit() {
         button.setText("Potwierdź");
         button.setWidth("40%");
 
         remove(textField.getParent().orElse(null), button.getParent().orElse(null));
-        registration = button.addClickListener(this::onInput);
+        registration = button.addClickListener(b -> onInput());
         HorizontalLayout layout = new HorizontalLayout(passwordField, button);
         layout.setWidth("100%");
         add(layout);
     }
 
-    private void onInput(ClickEvent event) {
+    private void onInput() {
         try {
             validatePassword(passwordField.getValue());
 
             remove(passwordField.getParent().orElse(null), button.getParent().orElse(null));
             registration.remove();
-            registration = button.addClickListener(this::onCommit);
+            registration = button.addClickListener(b -> onCommit());
 
             HorizontalLayout layout = new HorizontalLayout();
             if (value.isEmpty()) {
@@ -75,7 +77,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
         }
     }
 
-    private void onCommit(ClickEvent event) {
+    private void onCommit() {
         if (value.isEmpty()) {
             try {
                 validateInput(confirmPasswordField.getValue());
@@ -117,7 +119,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
 
         button = new Button("Zmień");
         button.setWidth("30%");
-        button.addClickListener(this::onStartEdit);
+        button.addClickListener(b -> onStartEdit());
 
         HorizontalLayout buttons = new HorizontalLayout();
 
@@ -131,7 +133,7 @@ abstract class ProtectedSettingsField extends VerticalLayout {
     }
 
     private void validatePassword(String password) {
-        if (password.isEmpty()) throw new ValidationException("Pole nie może być puste");
+        if (password.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         if (!userService.getUser(SessionService.getUserId())
                 .getPassword().equals(User.encodePassword(password)))

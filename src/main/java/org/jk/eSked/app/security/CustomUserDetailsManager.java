@@ -20,7 +20,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsManager.class);
     private final Map<String, UserDetails> users = new HashMap<>();
 
-    private UserService userService;
+    private final UserService userService;
 
     CustomUserDetailsManager() {
         userService = ApplicationContextHolder.getContext().getBean(UserService.class);

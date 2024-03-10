@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
@@ -33,6 +34,7 @@ import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -40,7 +42,7 @@ import java.util.UUID;
 @PageTitle("Sprawdź Użytkownika")
 @Secured("ROLE_ADMIN")
 class FindUserView extends VerticalLayout {
-
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final EventService eventService;
     private final HoursService hoursService;
@@ -158,7 +160,7 @@ class FindUserView extends VerticalLayout {
     }
 
     private User validateInput(String input) {
-        if (input.isEmpty()) throw new ValidationException("Pole nie może być puste");
+        if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         User user = findUser(input);
         if (user == null) throw new ValidationException("Użytkownik nie istnieje");

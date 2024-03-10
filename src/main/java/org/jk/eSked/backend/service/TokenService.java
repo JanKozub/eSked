@@ -20,8 +20,8 @@ import java.util.Base64;
 public class TokenService {
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private Cipher cipher;
-    private SecretKeySpec key;
+    private final Cipher cipher;
+    private final SecretKeySpec key;
 
     public TokenService(@Value("${json.key}") String encodeKey) throws Exception {
         byte[] keyData = encodeKey.getBytes(StandardCharsets.US_ASCII);

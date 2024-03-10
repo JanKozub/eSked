@@ -1,6 +1,5 @@
 package org.jk.eSked.ui.components.settings.fields;
 
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,7 +20,7 @@ abstract class SettingsField extends VerticalLayout {
         setMainLayout(baseName);
     }
 
-    private void onStartEdit(ClickEvent event) {
+    private void onStartEdit() {
         HorizontalLayout parent = (HorizontalLayout) button.getParent().orElse(null);
         assert parent != null;
         parent.replace(button, commitButton);
@@ -31,7 +30,7 @@ abstract class SettingsField extends VerticalLayout {
         textField.setPlaceholder(editName);
     }
 
-    private void onCommit(ClickEvent event) {
+    private void onCommit() {
         try {
             validateInput(textField.getValue());
             textField.setInvalid(false);
@@ -62,11 +61,11 @@ abstract class SettingsField extends VerticalLayout {
 
         button = new Button("Zmień");
         button.setWidth("30%");
-        button.addClickListener(this::onStartEdit);
+        button.addClickListener(b -> onStartEdit());
 
         commitButton = new Button("Potwierdź");
         commitButton.setWidth("40%");
-        commitButton.addClickListener(this::onCommit);
+        commitButton.addClickListener(b -> onCommit());
 
         HorizontalLayout buttons = new HorizontalLayout();
 

@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.types.EventType;
@@ -24,12 +25,10 @@ import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class AddNewEventDialog extends Dialog {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final EventService eventService;
     private final LocalDate startOfWeek;
     private final UUID userId;
@@ -48,7 +47,7 @@ public class AddNewEventDialog extends Dialog {
         TextField topicField = new TextField();
         topicField.setPlaceholder("Temat");
         topicField.setWidth("100%");
-        topicField.setErrorMessage("Pole nie może być puste");
+        topicField.setErrorMessage(getTranslation(locale, "exception_empty_field"));
 
         ComboBox<EventType> eventType = new ComboBox<>();
         eventType.setPlaceholder("Rodzaj");
@@ -57,7 +56,7 @@ public class AddNewEventDialog extends Dialog {
         eventType.setRenderer(new TextRenderer<>(EventType::getDescription));
         eventType.setItemLabelGenerator(EventType::getDescription);
         eventType.setWidth("100%");
-        eventType.setErrorMessage("Pole nie może być puste");
+        eventType.setErrorMessage(getTranslation(locale, "exception_empty_field"));
 
         Button confirm = new Button("Dodaj", e -> {
             if (!topicField.isEmpty()) {

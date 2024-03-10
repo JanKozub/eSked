@@ -1,5 +1,6 @@
 package org.jk.eSked.ui.views;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -15,6 +16,7 @@ import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.types.EventType;
@@ -23,9 +25,7 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
-import com.vaadin.flow.component.button.Button;
 
 import javax.validation.ValidationException;
 import java.time.DayOfWeek;
@@ -35,6 +35,7 @@ import java.util.*;
 @Route(value = "events/new", layout = MainLayout.class)
 @PageTitle("Nowe Wydarzenie")
 public class NewEventView extends HorizontalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final EventService eventService;
     private final Grid<Event> eventGrid;
     private final UUID userId;
@@ -150,7 +151,7 @@ public class NewEventView extends HorizontalLayout {
     }
 
     private void validateDate(LocalDate date) throws ValidationException {
-        if (date == null) throw new ValidationException("Pole nie może być puste");
+        if (date == null) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
             throw new ValidationException("Sobota ani niedziela nie istnieją na planie");
