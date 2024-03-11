@@ -16,9 +16,6 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.scheduleDialogs.ScheduleDialogs;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,7 +25,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
     private final UUID userId;
-    private LocalDate startOfWeek;
     private Collection<ScheduleEntry> entries;
 
     public ScheduleGridNewEntries(ScheduleService scheduleService, UserService userService) {
@@ -38,8 +34,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         entries = scheduleService.getScheduleEntries(userId);
 
         ScheduleDialogs scheduleDialogs = new ScheduleDialogs(scheduleService, userId);
-
-        if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         scheduleGrid = new Schedule(userService, userId) {
             @Override

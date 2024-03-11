@@ -31,24 +31,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ScheduleGrid extends VerticalLayout {
     private final ScheduleService scheduleService;
     private final EventService eventService;
-    private final UserService userService;
     private final HoursService hoursService;
     private final UUID userId;
-
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
-    private LocalDate startOfWeek;
+    private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
     private Collection<ScheduleEntry> entries;
     private Collection<Event> events;
 
     public ScheduleGrid(ScheduleService scheduleService, EventService eventService, UserService userService, HoursService hoursService) {
         this.scheduleService = scheduleService;
         this.eventService = eventService;
-        this.userService = userService;
         this.hoursService = hoursService;
         this.userId = SessionService.getUserId();
-
-        if (startOfWeek == null) startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
         entries = scheduleService.getScheduleEntries(userId);
         events = eventService.getEventsForWeek(startOfWeek, userId);
@@ -56,7 +51,7 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
-                return ScheduleGrid.this.rowRenderer(e, day);
+                return ScheduleGrid.this.rowRenderer(userService, e, day);
             }
 
             @Override
@@ -139,7 +134,7 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid.setItems(dataProvider);
     }
 
-    private Component rowRenderer(Button e, int day) {
+    private Component rowRenderer(UserService userService, Button e, int day) {
         Button button = new Button("-");
         button.setSizeFull();
         for (ScheduleEntry entry : entries) {

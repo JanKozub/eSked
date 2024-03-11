@@ -44,7 +44,7 @@ public class AddNewEventDialog extends Dialog {
                     Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
                             topicField.getValue(), scheduleEntry.getHour(), true, time, TimeService.now());
                     eventService.addEvent(event);
-                    new SuccessNotification("Dodano wydarzenie!", NotificationType.SHORT).open();
+                    new SuccessNotification(getTranslation(locale, "new_event_added") +"!", NotificationType.SHORT).open();
                     topicField.clear();
                     close();
                 } else eventType.setInvalid(true);

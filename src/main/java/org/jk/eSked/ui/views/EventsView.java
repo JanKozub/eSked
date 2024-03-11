@@ -19,10 +19,9 @@ import java.time.temporal.TemporalAdjusters;
 @PageTitle("Wydarzenia")
 public class EventsView extends VerticalLayout {
     private final EventGrid eventGrid;
-    private LocalDate startOfWeek;
+    private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
     public EventsView(ScheduleService scheduleService, EventService eventService) {
-        startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
         eventGrid = new EventGrid(scheduleService, eventService, startOfWeek);
 
         HorizontalLayout datePanel = new DatePanel(startOfWeek) {

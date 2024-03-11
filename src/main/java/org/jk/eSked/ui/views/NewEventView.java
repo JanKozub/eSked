@@ -126,7 +126,7 @@ public class NewEventView extends HorizontalLayout {
             Event event = new Event(SessionService.getUserId(), eventService.createEventId(), eventType.getValue(), topicField.getValue(),
                     (int) Math.round(hourNum.getValue()), true, time, TimeService.now());
             eventService.addEvent(event);
-            new SuccessNotification(getTranslation(locale, "new_event_added") + " " + topicField.getValue(), NotificationType.SHORT).open();
+            new SuccessNotification(getTranslation(locale, "new_event_added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
 
             datePicker.clear();
             datePicker.setInvalid(false);
