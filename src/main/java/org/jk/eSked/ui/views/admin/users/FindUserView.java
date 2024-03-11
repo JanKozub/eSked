@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -20,10 +19,11 @@ import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
+import org.jk.eSked.ui.components.admin.InfoBox;
+import org.jk.eSked.ui.components.events.EventGrid;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
-import org.jk.eSked.ui.components.events.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
@@ -58,7 +58,6 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
         this.hoursService = hoursService;
         this.emailService = emailService;
         this.groupService = groupService;
-        SessionService.setAutoTheme();
 
         TextField textField = new TextField("Nazwa użytkownika");
         textField.setWidth("50%");
@@ -173,18 +172,5 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
             if (user.getUsername().equals(username)) return user;
         }
         return null;
-    }
-
-    private static class InfoBox extends HorizontalLayout {
-        private InfoBox(String name, String data) {
-            TextField textField = new TextField();
-            textField.setValue(name + data);
-            textField.setReadOnly(true);
-            textField.setWidth("100%");
-
-            add(textField);
-            setVerticalComponentAlignment(Alignment.CENTER, textField);
-            setWidth("100%");
-        }
     }
 }

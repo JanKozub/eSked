@@ -13,7 +13,7 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.groups.GroupsGrid;
+import org.jk.eSked.ui.components.admin.GroupsGrid;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;

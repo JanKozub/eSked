@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.groups;
+package org.jk.eSked.ui.components.admin;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
