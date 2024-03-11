@@ -15,8 +15,8 @@ import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.components.event.EventGrid;
-import org.jk.eSked.ui.components.event.EventTypeComboBox;
+import org.jk.eSked.ui.components.events.EventGrid;
+import org.jk.eSked.ui.components.events.EventTypeComboBox;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.myComponents.TopicField;
 

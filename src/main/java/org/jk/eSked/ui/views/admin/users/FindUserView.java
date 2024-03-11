@@ -23,7 +23,7 @@ import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
-import org.jk.eSked.ui.components.event.EventGrid;
+import org.jk.eSked.ui.components.events.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
@@ -135,12 +135,12 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
                 TimeService.now(),
                 TimeService.now(),
                 false));
-        SuccessNotification successNotification = new SuccessNotification("dodano", NotificationType.SHORT);
+        SuccessNotification successNotification = new SuccessNotification("Dodano", NotificationType.SHORT);
         successNotification.open();
     }
 
     private void denyUserCreation() {
-        Notification notification = new Notification("nie dodano", NotificationType.SHORT.getDuration());
+        Notification notification = new Notification("Nie Dodano", NotificationType.SHORT.getDuration());
         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         notification.setPosition(Notification.Position.TOP_END);
         notification.open();
@@ -170,9 +170,7 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
 
     private User findUser(String username) {
         for (User user : userService.getUsers()) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
+            if (user.getUsername().equals(username)) return user;
         }
         return null;
     }

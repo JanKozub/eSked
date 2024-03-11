@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.event;
+package org.jk.eSked.ui.components.events;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -34,24 +34,24 @@ public class EventGrid extends Grid<Event> {
         getColumns().forEach(column -> column.setAutoWidth(true));
         setAllRowsVisible(true);
 
-        addColumn(event -> event.getType().getDescription()).setHeader("Rodzaj");
+        addColumn(event -> event.getType().getDescription()).setHeader(getTranslation(locale, "type"));
         addColumn(new BasicRenderer<>(event -> {
-            if (entries == null) return "brak";
+            if (entries == null) return getTranslation(locale, "no_entries");
 
             for (ScheduleEntry entry : entries) {
                 if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                     return entry.getSubject() + "(" + entry.getHour() + ")";
             }
 
-            return "brak";
+            return getTranslation(locale, "no_entries");
         }) {
-        }).setHeader("Lekcja(Godz)");
+        }).setHeader(getTranslation(locale, "events_hour_header"));
 
         addColumn(new LocalDateTimeRenderer<>(event ->
                 TimeService.InstantToLocalDateTime(event.getTimestamp()),
-                () -> DateTimeFormatter.ofPattern("EEEE"))).setHeader("Dzień");
-        addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader("Data");
-        addColumn(Event::getTopic).setHeader("Temat");
+                () -> DateTimeFormatter.ofPattern("EEEE"))).setHeader(getTranslation(locale, "day"));
+        addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader(getTranslation(locale, "date"));
+        addColumn(Event::getTopic).setHeader(getTranslation(locale, "topic"));
         addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");

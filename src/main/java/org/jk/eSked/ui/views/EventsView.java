@@ -6,9 +6,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.service.user.EventService;
 import org.jk.eSked.backend.service.user.ScheduleService;
-import org.jk.eSked.ui.components.event.EventGrid;
+import org.jk.eSked.ui.components.events.EventGrid;
 import org.jk.eSked.ui.components.schedule.DatePanel;
 
 import java.time.DayOfWeek;
@@ -18,8 +19,8 @@ import java.time.temporal.TemporalAdjusters;
 @Route(value = "events", layout = MainLayout.class)
 @PageTitle("Wydarzenia")
 public class EventsView extends VerticalLayout {
-    private final EventGrid eventGrid;
     private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
+    private final EventGrid eventGrid;
 
     public EventsView(ScheduleService scheduleService, EventService eventService) {
         eventGrid = new EventGrid(scheduleService, eventService, startOfWeek);
@@ -31,7 +32,8 @@ public class EventsView extends VerticalLayout {
             }
         };
 
-        Button newEventButton = new Button("Dodaj nowe wydarzenie", e -> UI.getCurrent().navigate("events/new"));
+        Button newEventButton = new Button(getTranslation(VaadinSession.getCurrent()
+                .getLocale(), "events_add_new_event"), e -> UI.getCurrent().navigate("events/new"));
         newEventButton.setWidth("100%");
 
         add(datePanel, eventGrid, newEventButton);

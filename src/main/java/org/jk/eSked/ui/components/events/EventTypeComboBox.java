@@ -1,4 +1,4 @@
-package org.jk.eSked.ui.components.event;
+package org.jk.eSked.ui.components.events;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.renderer.TextRenderer;
