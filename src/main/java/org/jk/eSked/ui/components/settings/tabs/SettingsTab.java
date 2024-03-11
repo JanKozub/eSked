@@ -12,7 +12,7 @@ import org.jk.eSked.ui.components.myComponents.Line;
 
 import java.util.UUID;
 
-abstract class SettingsTab extends VerticalLayout {
+abstract class SettingsTab extends VerticalLayout { //TODO fix encapsulation
 
     UserService userService;
     EmailService emailService;

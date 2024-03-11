@@ -5,19 +5,25 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.service.user.UserService;
 
+import java.util.Locale;
 import java.util.UUID;
 
 abstract class Schedule extends Grid<Button> {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
+
     Schedule(UserService userService, UUID userId) {
         if (userService.getScheduleHours(userId))
-            addColumn(new ComponentRenderer<>(this::hourRenderer)).setHeader("Godz.").setAutoWidth(true).setFlexGrow(0);
-        addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
-        addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
-        addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");
-        addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 3))).setHeader("Czwartek").setKey("4");
-        addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 4))).setHeader("Piątek").setKey("5");
+            addColumn(new ComponentRenderer<>(this::hourRenderer))
+                    .setHeader(getTranslation(locale, "hour_s")).setAutoWidth(true).setFlexGrow(0);
+
+        for (int i = 0; i < 5; i++) {
+            int finalI = i;
+            addColumn(new ComponentRenderer<>(e -> rowRenderer(e, finalI))).setHeader(getTranslation(locale, "day_" + (i + 1))).setKey(String.valueOf(i + 1));
+        }
+
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
         setSelectionMode(Grid.SelectionMode.NONE);
         setVerticalScrollingEnabled(true);

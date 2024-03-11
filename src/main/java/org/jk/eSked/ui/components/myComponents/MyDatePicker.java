@@ -14,8 +14,6 @@ public class MyDatePicker extends DatePicker {
 
         setI18n(new DatePicker.DatePickerI18n()
                 .setWeek(getTranslation(locale, "calendar_week"))
-                .setCalendar(getTranslation(locale, "calendar_calendar"))
-                .setClear(getTranslation(locale, "calendar_clear"))
                 .setToday(getTranslation(locale, "calendar_today"))
                 .setCancel(getTranslation(locale, "calendar_cancel"))
                 .setFirstDayOfWeek(1)
@@ -34,7 +32,7 @@ public class MyDatePicker extends DatePicker {
 
     private List<String> getDaysNames() {
         ArrayList<String> list = new ArrayList<>();
-        for (int i = 1; i <= 7; i++) list.add(getTranslation(locale, "calendar_week_" + i));
+        for (int i = 1; i <= 7; i++) list.add(getTranslation(locale, "day_" + i));
 
         return list;
     }

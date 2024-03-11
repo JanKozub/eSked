@@ -32,9 +32,7 @@ public class AddNewEventDialog extends Dialog {
         LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
         Label title = new Label(getTranslation(locale, "new_event_title"));
-
         TopicField topicField = new TopicField();
-
         ComboBox<EventType> eventType = new EventTypeComboBox();
 
         Button confirm = new Button(getTranslation(locale, "add"), e -> {

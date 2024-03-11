@@ -20,9 +20,9 @@ import java.time.Instant;
 @Route(value = "verify")
 public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<String> {
     private static final Logger log = LoggerFactory.getLogger(VerifyUserPath.class);
-    private UserService userService;
-    private TokenService tokenService;
-    private MessagesService messagesService;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final MessagesService messagesService;
 
     public VerifyUserPath(UserService userService, TokenService tokenService, MessagesService messagesService) {
         this.userService = userService;

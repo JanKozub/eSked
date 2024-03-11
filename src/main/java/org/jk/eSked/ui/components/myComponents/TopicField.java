@@ -9,7 +9,7 @@ public class TopicField extends TextField {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public TopicField() {
-        setPlaceholder("Temat");
+        setPlaceholder(getTranslation(locale, "topic"));
         setWidth("100%");
         setErrorMessage(getTranslation(locale, "exception_empty_field"));
     }

@@ -8,6 +8,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
@@ -15,9 +16,10 @@ import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.MessagesService;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 public abstract class MessageBox extends Div {
-
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final MessagesService messagesService;
 
     public MessageBox(Message message) {
@@ -67,7 +69,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getMiddleLayout(Message message) {
-        Label textTitle = new Label("Wiadomość:");
+        Label textTitle = new Label(getTranslation(locale, "message_title"));
 
         Label text = new Label(message.getText());
         text.getStyle().set("margin-top", "0px");

@@ -7,6 +7,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.SessionService;
@@ -14,18 +15,20 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
+import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Locale;
 
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
 @PageTitle("Zatwierdzanie Grup")
 @Secured("ROLE_ADMIN")
 class GroupsPendingView extends VerticalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ScheduleService scheduleService;
     private final GroupService groupsService;
     private final UserService userService;
@@ -97,7 +100,7 @@ class GroupsPendingView extends VerticalLayout {
     }
 
     private VerticalLayout groupLayout() {
-        Button button = new Button("Powrót", event -> {
+        Button button = new Button(getTranslation(locale, "return"), event -> {
             removeAll();
             VerticalLayout layout = mainLayout();
             layout.setSizeFull();

@@ -54,7 +54,7 @@ class GroupsView extends VerticalLayout {
             Button button = new Button("Szczegóły/Edycja");
             button.addClickListener(event -> {
                 removeAll();
-                add(groupLayout(e.getGroupCode()));
+                add(groupLayout());
             });
             return button;
         })).setHeader("Szczegóły");
@@ -84,8 +84,8 @@ class GroupsView extends VerticalLayout {
         return new VerticalLayout(new AdminReturnButton(), groupEntryGrid);
     }
 
-    private VerticalLayout groupLayout(int groupCode) {
-        Button button = new Button("Powrót", event -> {
+    private VerticalLayout groupLayout() {
+        Button button = new Button(getTranslation(locale, "return"), event -> {
             removeAll();
             VerticalLayout layout = mainLayout();
             layout.setSizeFull();
