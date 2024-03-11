@@ -12,7 +12,7 @@ import java.util.UUID;
 abstract class Schedule extends Grid<Button> {
     Schedule(UserService userService, UUID userId) {
         if (userService.getScheduleHours(userId))
-            addColumn(new ComponentRenderer<>(this::hourRenderer)).setHeader("G|D").setAutoWidth(true).setFlexGrow(0);
+            addColumn(new ComponentRenderer<>(this::hourRenderer)).setHeader("Godz.").setAutoWidth(true).setFlexGrow(0);
         addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 0))).setHeader("Poniedziałek").setKey("1");
         addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 1))).setHeader("Wtorek").setKey("2");
         addColumn(new ComponentRenderer<>(e -> rowRenderer(e, 2))).setHeader("Środa").setKey("3");

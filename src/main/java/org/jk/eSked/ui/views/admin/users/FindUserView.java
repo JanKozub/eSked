@@ -23,7 +23,7 @@ import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
-import org.jk.eSked.ui.components.schedule.EventGrid;
+import org.jk.eSked.ui.components.event.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
@@ -34,6 +34,7 @@ import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ import java.util.UUID;
 @Route(value = "admin/user", layout = MainLayout.class)
 @PageTitle("Sprawdź Użytkownika")
 @Secured("ROLE_ADMIN")
-class FindUserView extends VerticalLayout {
+class FindUserView extends VerticalLayout { //TODO check for code repetition
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final EventService eventService;
@@ -78,7 +79,7 @@ class FindUserView extends VerticalLayout {
         TextField email = new TextField("email");
         PasswordField password = new PasswordField("Haslo");
 
-        Button addUser = new Button("Dodaj", e -> {
+        Button addUser = new Button(getTranslation(locale, "add"), e -> {
             boolean canBeCreated = !userService.getUsernames().contains(username.getValue()) && !userService.getEmails().contains(email.getValue());
 
             if (canBeCreated) createUser(username.getValue(), email.getValue(), password.getValue());
@@ -106,7 +107,7 @@ class FindUserView extends VerticalLayout {
         Label scheduleLabel = new Label("Plan");
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
         Label eventsLabel = new Label("Wydarzenia");
-        VerticalLayout eventGrid = new EventGrid(scheduleService, eventService, user.getId());
+        EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now()); //TODO check if is working
 
         Button deleteButton = new Button("Usuń Konto", e -> {
             userService.deleteUser(user.getId());

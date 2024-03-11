@@ -44,7 +44,7 @@ public class ScheduleDialogs {
         HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
 
         Button addButton;
-        addButton = new Button("Dodaj!", event -> {
+        addButton = new Button("Dodaj", event -> { //TODO translation
             String name = "";
             if (comboBox.getValue() != null && !comboBox.getValue().isEmpty()) {
                 name = comboBox.getValue();
@@ -98,7 +98,7 @@ public class ScheduleDialogs {
         Label label = new Label("Aktualny przedmiot:");
         Label name = new Label(entry.getSubject());
 
-        Button deleteButton = new Button("Usuń", event -> {
+        Button deleteButton = new Button("Usuń", event -> { //TODO translation
             scheduleService.deleteScheduleEntry(userId, entry.getHour(), entry.getDay());
             dialog.close();
         });

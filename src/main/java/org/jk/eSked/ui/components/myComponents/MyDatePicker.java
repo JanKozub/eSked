@@ -2,12 +2,11 @@ package org.jk.eSked.ui.components.myComponents;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.server.VaadinSession;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class MyDatePicker extends DatePicker {
+public class MyDatePicker extends DatePicker {
     private final Locale locale;
 
     public MyDatePicker() {
@@ -23,7 +22,6 @@ public abstract class MyDatePicker extends DatePicker {
                 .setMonthNames(getMonthsNames())
                 .setWeekdays(getDaysNames())
                 .setWeekdaysShort(getShortDaysNames()));
-        addValueChangeListener(event -> setWeekForDay(event.getValue()));
         setWidth("25%");
     }
 
@@ -47,6 +45,4 @@ public abstract class MyDatePicker extends DatePicker {
 
         return list;
     }
-
-    protected abstract void setWeekForDay(LocalDate day);
 }

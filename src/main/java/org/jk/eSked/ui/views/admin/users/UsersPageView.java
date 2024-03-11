@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -14,22 +15,25 @@ import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.springframework.security.access.annotation.Secured;
 
+import java.util.Locale;
+
 @Route(value = "admin/users", layout = MainLayout.class)
 @PageTitle("Użytkownicy")
 @Secured("ROLE_ADMIN")
 class UsersPageView extends VerticalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     UsersPageView(UserService userService) {
         SessionService.setAutoTheme();
 
         Grid<User> userGrid = new Grid<>();
-        userGrid.setHeightByRows(true);
+        userGrid.setAllRowsVisible(true);
         userGrid.setSelectionMode(Grid.SelectionMode.NONE);
         userGrid.addColumn(User::getUsername).setHeader("Nazwa użytkownika");
         userGrid.addColumn(User::getLastLoggedDate).setHeader("Ostatnio zalogowany");
         userGrid.addColumn(User::getId).setHeader("ID");
         userGrid.addColumn(new ComponentRenderer<>(user -> {
-            Button button = new Button("Usuń", event -> {
+            Button button = new Button(getTranslation(locale, "delete"), event -> {
                 userService.deleteUser(user.getId());
                 userGrid.setItems(userService.getUsers());
             });

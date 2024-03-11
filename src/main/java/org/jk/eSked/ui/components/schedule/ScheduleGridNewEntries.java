@@ -10,6 +10,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
@@ -18,14 +19,11 @@ import org.jk.eSked.ui.components.scheduleDialogs.ScheduleDialogs;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGridNewEntries extends VerticalLayout {
-
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ScheduleService scheduleService;
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
@@ -46,7 +44,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
-                Button button = new Button("Dodaj");
+                Button button = new Button(getTranslation(locale, "add"));
                 button.setSizeFull();
                 for (ScheduleEntry entry : entries) {
                     if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
@@ -74,7 +72,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                 return new Label(Integer.toString(Integer.parseInt(e.getText()) + 1));
             }
         };
-        scheduleGrid.setHeightByRows(true);
+        scheduleGrid.setAllRowsVisible(true);
 
         Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid));
         more.setWidth("100%");
@@ -118,6 +116,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     private void refresh() {
         entries = scheduleService.getScheduleEntries(userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
-        scheduleGrid.setDataProvider(dataProvider);
+        scheduleGrid.setItems(dataProvider);
     }
 }

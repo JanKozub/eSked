@@ -64,24 +64,16 @@ public class ScheduleGrid extends VerticalLayout {
                 return ScheduleGrid.this.hourRenderer(e);
             }
         };
-        scheduleGrid.setHeightByRows(true);
+        scheduleGrid.setAllRowsVisible(true);
 
         for (int i = 0; i < getMaxHour(); i++) addRow(buttons, scheduleGrid);
 
         HorizontalLayout datePanel = new DatePanel(startOfWeek) {
             @Override
-            void setWeekForDay(LocalDate day) {
+            public void setWeekForDay(LocalDate day) {
                 day = (LocalDate) TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY).adjustInto(day);
                 startOfWeek = day;
                 refresh();
-            }
-
-            @Override
-            LocalDate changeWeek(boolean weekType) {
-                int deltaDays = (weekType) ? -7 : 7;
-                startOfWeek = startOfWeek.plusDays(deltaDays).with(DayOfWeek.MONDAY);
-                refresh();
-                return startOfWeek;
             }
         };
         add(datePanel);
@@ -144,7 +136,7 @@ public class ScheduleGrid extends VerticalLayout {
         entries = scheduleService.getScheduleEntries(userId);
         events = eventService.getEventsForWeek(startOfWeek, userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
-        scheduleGrid.setDataProvider(dataProvider);
+        scheduleGrid.setItems(dataProvider);
     }
 
     private Component rowRenderer(Button e, int day) {

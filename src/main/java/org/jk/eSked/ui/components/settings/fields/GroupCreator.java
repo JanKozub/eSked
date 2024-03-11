@@ -45,7 +45,7 @@ public class GroupCreator extends VerticalLayout {
         TextField groupName = new TextField();
         groupName.setWidth("100%");
 
-        Button confirm = new Button("Dodaj");
+        Button confirm = new Button(getTranslation(locale, "add"));
         confirm.setWidth("100%");
         confirm.addClickListener(event -> {
             try {

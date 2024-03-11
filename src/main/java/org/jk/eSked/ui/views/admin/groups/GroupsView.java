@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
@@ -15,16 +16,19 @@ import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.views.MainLayout;
 import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
-import org.jk.eSked.ui.components.schedule.EventGrid;
+import org.jk.eSked.ui.components.event.EventGrid;
 import org.jk.eSked.ui.components.schedule.ScheduleGridNewEntries;
 import org.springframework.security.access.annotation.Secured;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Locale;
 
 @Route(value = "admin/groups", layout = MainLayout.class)
 @PageTitle("Zatwierdzanie Grup")
 @Secured("ROLE_ADMIN")
 class GroupsView extends VerticalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ScheduleService scheduleService;
     private final GroupService groupsService;
     private final EventService eventService;
@@ -40,7 +44,6 @@ class GroupsView extends VerticalLayout {
         VerticalLayout layout = mainLayout();
         layout.setSizeFull();
         add(layout);
-
     }
 
     private VerticalLayout mainLayout() {
@@ -56,7 +59,7 @@ class GroupsView extends VerticalLayout {
             return button;
         })).setHeader("Szczegóły");
         groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
-            Button button = new Button("Usuń");
+            Button button = new Button(getTranslation(locale, "delete"));
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
                 groupsService.deleteGroup(e.getGroupCode());
@@ -71,7 +74,7 @@ class GroupsView extends VerticalLayout {
                 groupEntryGrid.setItems(groups);
             });
             return button;
-        })).setHeader("Usuń");
+        })).setHeader(getTranslation(locale, "delete"));
         Collection<Group> groups = groupsService.getGroups();
         groups.removeIf(group -> !group.isAccepted());
         groupEntryGrid.setItems(groups);
@@ -90,7 +93,7 @@ class GroupsView extends VerticalLayout {
         });
         button.setWidth("100%");
         ScheduleGridNewEntries scheduleGridNewEntries = new ScheduleGridNewEntries(scheduleService, userService);
-        EventGrid eventGrid = new EventGrid(scheduleService, eventService, groupsService.getLeaderId(groupCode));
+        EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now()); //TODO check is is working
         return new VerticalLayout(button, scheduleGridNewEntries, eventGrid);
     }
 }
