@@ -50,20 +50,22 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
     private final ScheduleService scheduleService;
     private final EmailService emailService;
     private final GroupService groupService;
+    private final MessagesService messagesService;
 
-    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
+    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService, MessagesService messagesService) {
         this.scheduleService = scheduleService;
         this.userService = userService;
         this.eventService = eventService;
         this.hoursService = hoursService;
         this.emailService = emailService;
         this.groupService = groupService;
+        this.messagesService = messagesService;
 
-        TextField textField = new TextField("Nazwa użytkownika");
+        TextField textField = new TextField(getTranslation(locale, "username"));
         textField.setWidth("50%");
         textField.focus();
 
-        Button button = new Button("Szukaj", event -> searchForUser(textField));
+        Button button = new Button(getTranslation(locale,"search"), event -> searchForUser(textField));
         button.addClickShortcut(Key.ENTER);
         button.setWidth("50%");
 
@@ -73,10 +75,10 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
 
     private VerticalLayout createAddUserLayout(UserService userService) {
         Line line = new Line();
-        Text text = new Text("Nazwa");
-        TextField username = new TextField("Username");
+        Text text = new Text(getTranslation(locale, "title"));
+        TextField username = new TextField(getTranslation(locale, "username"));
         TextField email = new TextField("email");
-        PasswordField password = new PasswordField("Haslo");
+        PasswordField password = new PasswordField(getTranslation(locale, "password"));
 
         Button addUser = new Button(getTranslation(locale, "add"), e -> {
             boolean canBeCreated = !userService.getUsernames().contains(username.getValue()) && !userService.getEmails().contains(email.getValue());
@@ -92,11 +94,11 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
 
     private VerticalLayout userLayout(User user) {
         InfoBox id = new InfoBox("ID: ", user.getId().toString());
-        NameField username = new NameField(user.getId(), userService, emailService);
-        MyPasswordField password = new MyPasswordField(user.getId(), userService, emailService, false);
+        NameField username = new NameField(userService, emailService, messagesService);
+        MyPasswordField password = new MyPasswordField(userService, emailService, messagesService);
         InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
-        EmailField email = new EmailField(user.getId(), userService, emailService, false);
+        EmailField email = new EmailField(userService, emailService, messagesService);
         GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, new Button(),
                 new GroupCreator(SessionService.getUserId(), groupService, userService));
         InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
@@ -122,18 +124,9 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
     }
 
     private void createUser(String username, String email, String password) {
-        userService.addUser(new User(UUID.randomUUID(),
-                username,
-                User.encodePassword(password),
-                false,
-                false,
-                email,
-                0,
-                false,
-                false,
-                TimeService.now(),
-                TimeService.now(),
-                false));
+        userService.addUser(new User(UUID.randomUUID(), username, User.encodePassword(password),
+                false, false, email, 0, false,
+                false, TimeService.now(), TimeService.now(), false));
         SuccessNotification successNotification = new SuccessNotification("Dodano", NotificationType.SHORT);
         successNotification.open();
     }

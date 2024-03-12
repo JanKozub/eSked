@@ -7,14 +7,20 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.eSked.backend.model.types.NotificationType;
+import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.GroupService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 
+import java.util.UUID;
+
 public class GroupTab extends SettingsTab {
 
-    public GroupTab() {
+    public GroupTab(UserService userService, GroupService groupService) {
         super(new Label("Grupy"));
+        UUID userId = SessionService.getUserId();
 
         Button groupButton = new Button("Wyjdź z grupy");
         GroupCreator groupCreator = new GroupCreator(userId, groupService, userService);
@@ -62,7 +68,7 @@ public class GroupTab extends SettingsTab {
                     new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
                     userService.setGroupCode(userId, 0);
                     groupCreator.setMainLayout();
-                    groupCodeField.clear();
+                    groupCodeField.updateMainValue("");
                     groupButton.setVisible(false);
                 });
             } else {
@@ -71,7 +77,7 @@ public class GroupTab extends SettingsTab {
                     new SuccessNotification("Opuszczono grupę", NotificationType.SHORT).open();
                     userService.setGroupCode(userId, 0);
                     groupCreator.setMainLayout();
-                    groupCodeField.clear();
+                    groupCodeField.updateMainValue("");
                     groupButton.setVisible(false);
                 });
             }

@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.HoursService;
@@ -13,10 +14,12 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import javax.validation.ValidationException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleHoursSetter extends VerticalLayout {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ArrayList<ScheduleHour> scheduleHours = new ArrayList<>();
 
     public ScheduleHoursSetter(UUID userId, HoursService hoursService) {
@@ -55,7 +58,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
                 new SuccessNotification("Godziny zostały ustawione", NotificationType.SHORT).open();
             } else {
                 currentHour.set(currentHour.get() + 1);
-                if (currentHour.get() == maxHour) confirm.setText("Potwierdź");
+                if (currentHour.get() == maxHour) confirm.setText(getTranslation(locale, "confirm"));
             }
             to.clear();
             from.clear();

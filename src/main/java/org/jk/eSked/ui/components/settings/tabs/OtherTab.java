@@ -9,13 +9,18 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.model.types.ThemeType;
 import org.jk.eSked.backend.service.SessionService;
+import org.jk.eSked.backend.service.user.HoursService;
+import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.ScheduleHoursSetter;
 
+import java.util.UUID;
+
 public class OtherTab extends SettingsTab {
 
-    public OtherTab() {
+    public OtherTab(UserService userService, HoursService hoursService) {
         super(new Label("Inne"));
+        UUID userId = SessionService.getUserId();
 
         RadioButtonGroup<String> scheduleHours = new RadioButtonGroup<>();
         scheduleHours.setLabel("godziny w planie");
