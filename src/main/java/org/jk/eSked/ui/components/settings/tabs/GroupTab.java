@@ -14,12 +14,13 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class GroupTab extends SettingsTab {
 
-    public GroupTab(UserService userService, GroupService groupService) {
-        super(new Label("Grupy"));
+    public GroupTab(UserService userService, GroupService groupService, String title, Locale locale) {
+        super(new Label(title));
         UUID userId = SessionService.getUserId();
 
         Button groupButton = new Button("Wyjdź z grupy");

@@ -1,12 +1,11 @@
-##IMPORTANT##
--Skracaj dl tabeli jeżeli nie ma lekcji
--optimalize settings hours like if last hour was after 7 set list from 7<X
+Todo:
+-Shorten schedule height to amount of entries automatically
+-optimize setting hours(give choice of only valid time)
 -fix login navigation LoginView:74
--when is sunday or saturday set plan for next week
+-navigate to next week when day=saturday/sunday
 
-##TO_THINK_ABOUT##
--dodaj enter do settings
--notes space
--import plan from excel
--welcome guide
--optimize message deleting
+Ideas:
+-Notes
+-Import/export to excel
+-Welcome guide
+-message deletion optimization
