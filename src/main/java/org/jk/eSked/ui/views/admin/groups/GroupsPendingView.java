@@ -4,7 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
@@ -23,9 +23,8 @@ import java.util.Collection;
 import java.util.Locale;
 
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
-@PageTitle("Zatwierdzanie Grup")
 @Secured("ROLE_ADMIN")
-class GroupsPendingView extends VerticalLayout {
+class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public GroupsPendingView(ScheduleService scheduleService, GroupService groupsService, UserService userService, MessagesService messagesService) {
@@ -71,5 +70,10 @@ class GroupsPendingView extends VerticalLayout {
         setSizeFull();
 
         add(new AdminReturnButton(), groupEntryGrid);
+    }
+
+    @Override
+    public String getPageTitle() {
+        return getTranslation(locale, "page_confirm_groups");
     }
 }

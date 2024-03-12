@@ -3,7 +3,7 @@ package org.jk.eSked.ui.views.admin.groups;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
@@ -20,9 +20,8 @@ import java.util.Collection;
 import java.util.Locale;
 
 @Route(value = "admin/groups", layout = MainLayout.class)
-@PageTitle("Zatwierdzanie Grup")
 @Secured("ROLE_ADMIN")
-class GroupsView extends VerticalLayout {
+class GroupsView extends VerticalLayout implements HasDynamicTitle {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public GroupsView(ScheduleService scheduleService, GroupService groupsService, UserService userService) {
@@ -53,5 +52,10 @@ class GroupsView extends VerticalLayout {
 
         setSizeFull();
         add(new AdminReturnButton(), groupEntryGrid);
+    }
+
+    @Override
+    public String getPageTitle() {
+        return  getTranslation(locale, "page_groups");
     }
 }

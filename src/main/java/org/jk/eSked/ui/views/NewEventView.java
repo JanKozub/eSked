@@ -9,7 +9,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 @Route(value = "events/new", layout = MainLayout.class)
-@PageTitle("Nowe Wydarzenie")
-public class NewEventView extends HorizontalLayout {
+public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final EventService eventService;
     private final EventGrid eventGrid;
@@ -150,5 +149,10 @@ public class NewEventView extends HorizontalLayout {
         if (hourNum.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_hour_field_empty"));
 
         if (topicField.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_topic_field_empty"));
+    }
+
+    @Override
+    public String getPageTitle() {
+        return getTranslation(locale, "page_events_new");
     }
 }

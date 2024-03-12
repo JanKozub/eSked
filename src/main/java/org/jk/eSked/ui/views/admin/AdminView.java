@@ -6,16 +6,19 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
+import java.util.Locale;
+
 @Route(value = "admin", layout = MainLayout.class)
-@PageTitle("Panel Admininstratora")
 @Secured("ROLE_ADMIN")
-public class AdminView extends HorizontalLayout {
+public class AdminView extends HorizontalLayout implements HasDynamicTitle {
+    private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public AdminView() {
         SessionService.setAutoTheme();
@@ -38,5 +41,10 @@ public class AdminView extends HorizontalLayout {
         Button button = new Button(label, iconUser, buttonClickEvent -> UI.getCurrent().navigate(navigationRoute));
         button.getStyle().set("height", "100px").set("margin-top", "15px");
         return button;
+    }
+
+    @Override
+    public String getPageTitle() {
+        return getTranslation(locale, "page_administrator_panel");
     }
 }

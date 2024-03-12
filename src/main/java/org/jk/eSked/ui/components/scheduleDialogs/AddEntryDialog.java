@@ -30,7 +30,7 @@ public class AddEntryDialog extends Dialog {
         Label label = new Label(getTranslation(locale, "schedule_dialog_new_title"));
 
         ArrayList<String> lessons = new ArrayList<>();
-        for (int i = 1; i <= 16; i++) lessons.add(getTranslation(locale, "lesson_" + i));
+        for (int i = 1; i <= 15; i++) lessons.add(getTranslation(locale, "lesson_" + i));
 
         comboBox.setItems(lessons);
         comboBox.setPlaceholder(getTranslation(locale, "schedule_dialog_new_pick_lesson"));

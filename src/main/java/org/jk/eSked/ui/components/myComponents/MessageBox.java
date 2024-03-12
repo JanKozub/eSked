@@ -89,7 +89,7 @@ public abstract class MessageBox extends Div {
         deleteButton.setHeight("30px");
         deleteButton.getStyle().set("color", "red");
 
-        Label checkBoxLabel = new Label("Nowa!");
+        Label checkBoxLabel = new Label(getTranslation(locale, "new") + "!");
         checkBoxLabel.getStyle().set("color", "green");
         Checkbox checkbox = new Checkbox();
 

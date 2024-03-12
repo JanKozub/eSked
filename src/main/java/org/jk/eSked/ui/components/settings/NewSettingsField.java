@@ -27,7 +27,7 @@ public abstract class NewSettingsField extends VerticalLayout {
         textField.setWidth("70%");
         textField.setPlaceholder(onEditPlaceholder);
 
-        normalButton.setText("Zmień");
+        normalButton.setText(getTranslation(locale, "change"));
         normalButton.setWidth("30%");
         normalButton.addClickListener(b -> onStartEdit());
 

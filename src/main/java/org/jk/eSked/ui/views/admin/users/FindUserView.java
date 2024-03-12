@@ -10,7 +10,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
@@ -40,9 +40,8 @@ import java.util.UUID;
 
 
 @Route(value = "admin/user", layout = MainLayout.class)
-@PageTitle("Sprawdź Użytkownika")
 @Secured("ROLE_ADMIN")
-class FindUserView extends VerticalLayout { //TODO check for code repetition
+class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO check for code repetition
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final EventService eventService;
@@ -156,7 +155,7 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
         if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
 
         User user = findUser(input);
-        if (user == null) throw new ValidationException("Użytkownik nie istnieje");
+        if (user == null) throw new ValidationException(getTranslation(locale, "exception_user_not_exists"));
         else return user;
     }
 
@@ -165,5 +164,10 @@ class FindUserView extends VerticalLayout { //TODO check for code repetition
             if (user.getUsername().equals(username)) return user;
         }
         return null;
+    }
+
+    @Override
+    public String getPageTitle() {
+        return getTranslation(locale, "page_check_user");
     }
 }
