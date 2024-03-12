@@ -2,7 +2,6 @@ package org.jk.eSked.ui.components.schedule;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -15,7 +14,9 @@ import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.scheduleDialogs.ScheduleDialogs;
+import org.jk.eSked.ui.components.scheduleDialogs.AddEntryDialog;
+import org.jk.eSked.ui.components.scheduleDialogs.DeleteEntryDialog;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,8 +34,6 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
         entries = scheduleService.getScheduleEntries(userId);
 
-        ScheduleDialogs scheduleDialogs = new ScheduleDialogs(scheduleService, userId);
-
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
@@ -44,7 +43,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                     if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
                         button.setText(entry.getSubject());
                         button.addClickListener(clickEvent -> {
-                            Dialog dialog = scheduleDialogs.deleteEntryDialog(entry);
+                            DeleteEntryDialog dialog = new DeleteEntryDialog(scheduleService, entry);
                             dialog.addDetachListener(action -> refresh());
                             dialog.open();
                         });
@@ -53,7 +52,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
                     }
                 }
                 button.addClickListener(clickEvent -> {
-                    Dialog dialog = scheduleDialogs.addEntryDialog(day, Integer.parseInt(e.getText()), false);
+                    AddEntryDialog dialog = new AddEntryDialog(scheduleService, Integer.parseInt(e.getText()), day, false);
                     dialog.addDetachListener(action -> refresh());
                     dialog.open();
                 });
@@ -94,16 +93,14 @@ public class ScheduleGridNewEntries extends VerticalLayout {
     }
 
     private void setMobileColumns(int pos) {
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 6; i++)
             scheduleGrid.getColumnByKey(Integer.toString(i)).setVisible(i == pos);
-        }
     }
 
     private int getMaxHour() {
         int maxHour = 0;
-        for (ScheduleEntry entry : entries) {
-            if (entry.getHour() > maxHour) maxHour = entry.getHour();
-        }
+        for (ScheduleEntry entry : entries) maxHour = Math.max(maxHour, entry.getHour());
+
         return maxHour + 1;
     }
 
