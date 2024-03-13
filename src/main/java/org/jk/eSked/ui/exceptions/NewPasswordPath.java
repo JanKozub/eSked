@@ -24,7 +24,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Route(value = "password")
-public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> { //TODO check code
+public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> {
     private static final Logger log = LoggerFactory.getLogger(NewPasswordPath.class);
     private final UserService userService;
     private final TokenService tokenService;
@@ -39,56 +39,54 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     @Override
     public void setParameter(BeforeEvent event, String url) {
         UUID userId = checkUrl(url);
-        if (userId != null) {
-            PasswordField newPassword = new PasswordField(getTranslation("field.password.placeholder"));
-            PasswordField confirmPassword = new PasswordField(getTranslation("field.password.confirm"));
+        if (userId == null) {
+            UI.getCurrent().navigate("login");
+            return;
+        }
 
-            Button changeButton = new Button(getTranslation("field.password.change") + "!", clickEvent -> {
-                try {
-                    validateFields(newPassword.getValue(), confirmPassword.getValue());
-                    confirmPassword.setInvalid(false);
+        PasswordField newPassword = new PasswordField(getTranslation("field.password.placeholder"));
+        PasswordField confirmPassword = new PasswordField(getTranslation("field.password.confirm"));
 
-                    userService.changePassword(userId, User.encodePassword(confirmPassword.getValue()));
+        Button changeButton = new Button(getTranslation("field.password.change") + "!", clickEvent -> {
+            try {
+                validateFields(newPassword.getValue(), confirmPassword.getValue());
+                confirmPassword.setInvalid(false);
 
-                    new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
+                userService.changePassword(userId, User.encodePassword(confirmPassword.getValue()));
 
-                    messagesService.addMessageForUser(new Message(
-                            userId,
-                            messagesService.generateMessageId(),
-                            Instant.now().toEpochMilli(),
-                            getTranslation("notification.password.changed"),
-                            false
-                    ));
+                new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
+                messagesService.addMessageForUser(new Message(
+                        userId,
+                        messagesService.generateMessageId(),
+                        Instant.now().toEpochMilli(),
+                        getTranslation("notification.password.changed"),
+                        false
+                ));
 
-                    UI.getCurrent().navigate("login");
-                } catch (ValidationException ex) {
-                    confirmPassword.setErrorMessage(ex.getMessage());
-                    confirmPassword.setInvalid(true);
-                }
-            });
-            changeButton.addClickShortcut(Key.ENTER);
+                UI.getCurrent().navigate("login");
+            } catch (ValidationException ex) {
+                confirmPassword.setErrorMessage(ex.getMessage());
+                confirmPassword.setInvalid(true);
+            }
+        });
+        changeButton.addClickShortcut(Key.ENTER);
 
-            setAlignItems(Alignment.CENTER);
-            add(newPassword, confirmPassword, changeButton);
-        } else UI.getCurrent().navigate("login");
-
+        setAlignItems(Alignment.CENTER);
+        add(newPassword, confirmPassword, changeButton);
     }
 
     private UUID checkUrl(String url) {
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
-            if (tokenValue.getUserId() != null) {
-                if (tokenValue.getValue().equals("forgot")) return tokenValue.getUserId();
-                else {
-                    userService.changePassword(tokenValue.getUserId(), tokenValue.getValue());
-                    new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
-                    return null;
-                }
-            } else return null;
+            if (tokenValue.getUserId() == null) return null;
+            if (tokenValue.getValue().equals("forgot")) return tokenValue.getUserId();
+
+            userService.changePassword(tokenValue.getUserId(), tokenValue.getValue());
+            new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());
-            return null;
         }
+        return null;
     }
 
     private void validateFields(String input1, String input2) {
