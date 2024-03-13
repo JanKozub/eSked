@@ -22,13 +22,13 @@ public class GroupTab extends SettingsTab { //TODO translate
         super(new Label(title));
         UUID userId = SessionService.getUserId();
 
-        Button groupButton = new Button("Wyjdź z grupy");
+        Button groupButton = new Button(getTranslation("group.leave"));
         GroupCreator groupCreator = new GroupCreator(userId, groupService, userService);
 
         FormLayout groupsForm = new FormLayout();
         GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupService, groupButton, groupCreator);
         groupsForm.add(groupCodeField);
-        Button groupSyn = new Button("Synchronizuj z grupą");
+        Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent -> {
             if (userService.getGroupCode(userId) != 0) {
                 groupService.synchronizeWGroup(userId, userService.getGroupCode(userId));
@@ -38,22 +38,22 @@ public class GroupTab extends SettingsTab { //TODO translate
         groupsForm.add(groupSyn);
 
         RadioButtonGroup<String> eventSync = new RadioButtonGroup<>();
-        eventSync.setLabel("Synchronizacja z Wydarzeniami");
-        eventSync.setItems("Włącz", "Wyłącz");
-        if (userService.isEventsSyn(userId)) eventSync.setValue("Włącz");
-        else eventSync.setValue("Wyłącz");
-        eventSync.addValueChangeListener(valueChange -> userService.setEventsSyn(userId, valueChange.getValue().equals("Włącz")));
+        eventSync.setLabel(getTranslation("group.sync.events"));
+        eventSync.setItems(getTranslation("enable"), getTranslation("disable"));
+        if (userService.isEventsSyn(userId)) eventSync.setValue(getTranslation("enable"));
+        else eventSync.setValue(getTranslation("disable"));
+        eventSync.addValueChangeListener(valueChange -> userService.setEventsSyn(userId, valueChange.getValue().equals(getTranslation("enable"))));
         groupsForm.add(eventSync);
 
         RadioButtonGroup<String> tableSync = new RadioButtonGroup<>();
-        tableSync.setLabel("Synchronizacja z Tabelą");
-        tableSync.setItems("Włącz", "Wyłącz");
-        if (userService.isTableSyn(userId)) tableSync.setValue("Włącz");
-        else tableSync.setValue("Wyłącz");
-        tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals("Włącz")));
+        tableSync.setLabel(getTranslation("group.sync.schedule"));
+        tableSync.setItems(getTranslation("enable"), getTranslation("disable"));
+        if (userService.isTableSyn(userId)) tableSync.setValue(getTranslation("enable"));
+        else tableSync.setValue(getTranslation("disable"));
+        tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals(getTranslation("enable"))));
         groupsForm.add(tableSync);
 
-        Details newGroup = new Details("Nowa Grupa", groupCreator);
+        Details newGroup = new Details(getTranslation("group.new"), groupCreator);
         newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
 
         groupsForm.add(newGroup);
@@ -62,19 +62,19 @@ public class GroupTab extends SettingsTab { //TODO translate
         groupButton.setVisible(false);
         if (userService.getGroupCode(userId) != 0) {
             if (groupService.getLeaderId(userService.getGroupCode(userId)).compareTo(userId) == 0) {
-                groupButton.setText("Usuń grupę");
+                groupButton.setText(getTranslation("group.delete"));
                 groupButton.addClickListener(click -> {
                     groupService.deleteGroup(userService.getGroupCode(userId));
-                    new SuccessNotification("Usunięto grupę", NotificationType.SHORT).open();
+                    new SuccessNotification(getTranslation("group.deleted"), NotificationType.SHORT).open();
                     userService.setGroupCode(userId, 0);
                     groupCreator.setMainLayout();
                     groupCodeField.updateMainValue("");
                     groupButton.setVisible(false);
                 });
             } else {
-                groupButton.setText("Wyjdź z grupy");
+                groupButton.setText(getTranslation("group.leave"));
                 groupButton.addClickListener(click -> {
-                    new SuccessNotification("Opuszczono grupę", NotificationType.SHORT).open();
+                    new SuccessNotification(getTranslation("group.left"), NotificationType.SHORT).open();
                     userService.setGroupCode(userId, 0);
                     groupCreator.setMainLayout();
                     groupCodeField.updateMainValue("");
