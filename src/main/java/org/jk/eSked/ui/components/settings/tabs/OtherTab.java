@@ -16,37 +16,39 @@ import org.jk.eSked.ui.components.settings.fields.ScheduleHoursSetter;
 
 import java.util.UUID;
 
-public class OtherTab extends SettingsTab { //TODO translations
+public class OtherTab extends SettingsTab {
     public OtherTab(UserService userService, HoursService hoursService, String title) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();
 
         RadioButtonGroup<String> scheduleHours = new RadioButtonGroup<>();
-        scheduleHours.setLabel("godziny w planie");
-        scheduleHours.setItems("Tak", "Nie");
-        if (userService.getScheduleHours(userId)) scheduleHours.setValue("Tak");
-        else scheduleHours.setValue("Nie");
-        scheduleHours.addValueChangeListener(valueChange -> userService.setScheduleHours(userId, valueChange.getValue().equals("Tak")));
+        scheduleHours.setLabel(getTranslation("schedule.hours"));
+        scheduleHours.setItems(getTranslation("yes"), getTranslation("no"));
+        if (userService.getScheduleHours(userId)) scheduleHours.setValue(getTranslation("yes"));
+        else scheduleHours.setValue(getTranslation("no"));
+        scheduleHours.addValueChangeListener(valueChange -> userService.setScheduleHours(userId, valueChange.getValue().equals(getTranslation("yes"))));
 
-        Details setHours = new Details("Ustaw godziny", new ScheduleHoursSetter(userId, hoursService));
+        Details setHours = new Details(getTranslation("schedule.set.hours"), new ScheduleHoursSetter(userId, hoursService));
         setHours.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
         if (hoursService.getScheduleMaxHour(userId) == 0) setHours.setEnabled(false);
 
         RadioButtonGroup<String> theme = new RadioButtonGroup<>();
-        theme.setLabel("Styl strony");
-        theme.setItems("Jasny", "Ciemny");
-        if (userService.getTheme(userId) == ThemeType.DARK) theme.setValue("Ciemny");
-        else theme.setValue("Jasny");
+        theme.setLabel(getTranslation("schedule.theme"));
+        theme.setItems(getTranslation("schedule.theme.light"), getTranslation("schedule.theme.dark"));
+        if (userService.getTheme(userId) == ThemeType.DARK) theme.setValue(getTranslation("schedule.theme.dark"));
+        else theme.setValue(getTranslation("schedule.theme.light"));
         theme.addValueChangeListener(valueChange -> {
-            boolean mode = valueChange.getValue().equals("Ciemny");
-            if (mode) userService.setTheme(userId, ThemeType.DARK);
-            else userService.setTheme(userId, ThemeType.WHITE);
+            if (valueChange.getValue().equals(getTranslation("schedule.theme.dark")))
+                userService.setTheme(userId, ThemeType.DARK);
+            else
+                userService.setTheme(userId, ThemeType.WHITE);
+
             SessionService.setAutoTheme();
         });
 
-        Button button = new Button("Usuń aktualne godziny", click -> {
+        Button button = new Button(getTranslation("schedule.delete.hours"), click -> {
             hoursService.deleteScheduleHours(userId);
-            new SuccessNotification("Usunięto aktualne godziny", NotificationType.SHORT);
+            new SuccessNotification(getTranslation("notification.hours.deleted"), NotificationType.SHORT);
         });
 
         FormLayout otherForm = new FormLayout(scheduleHours, setHours, theme, button);
