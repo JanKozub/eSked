@@ -85,21 +85,21 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         InfoBox id = new InfoBox("ID: ", user.getId().toString());
         NameField username = new NameField(userService, emailService);
         MyPasswordField password = new MyPasswordField(userService, emailService);
-        InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
-        InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
+        InfoBox darkTheme = new InfoBox(getTranslation("schedule.theme.dark") + ": ", Boolean.toString(user.isDarkTheme()));
+        InfoBox scheduleHours = new InfoBox(getTranslation("schedule.hours") + ": ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(userService, emailService);
         GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, new Button(),
                 new GroupCreator(SessionService.getUserId(), groupService, userService));
-        InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
-        InfoBox createdDate = new InfoBox("Data stworzenia konta: ", TimeService.InstantToLocalDateTime(user.getCreatedDate()).toString());
-        InfoBox lastLoggedDate = new InfoBox("Data ostatniego zalogowania: ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());
+        InfoBox synWGroup = new InfoBox(getTranslation("user.sync.group") + ": ", Boolean.toString(user.isEventsSyn()));
+        InfoBox createdDate = new InfoBox(getTranslation("user.created.date") + ": ", TimeService.InstantToLocalDateTime(user.getCreatedDate()).toString());
+        InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());
 
-        Label scheduleLabel = new Label("Plan");
+        Label scheduleLabel = new Label(getTranslation("page.schedule"));
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
-        Label eventsLabel = new Label("Wydarzenia");
+        Label eventsLabel = new Label(getTranslation("page.events"));
         EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
 
-        Button deleteButton = new Button("Usuń Konto", e -> {
+        Button deleteButton = new Button(getTranslation("settings.tab.delete.acc"), e -> {
             userService.deleteUser(user.getId());
             UI.getCurrent().navigate("admin");
         });
@@ -116,12 +116,12 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         userService.addUser(new User(UUID.randomUUID(), username, User.encodePassword(password),
                 false, false, email, 0, false,
                 false, TimeService.now(), TimeService.now(), false));
-        SuccessNotification successNotification = new SuccessNotification("Dodano", NotificationType.SHORT);
+        SuccessNotification successNotification = new SuccessNotification(getTranslation("added"), NotificationType.SHORT);
         successNotification.open();
     }
 
     private void denyUserCreation() {
-        Notification notification = new Notification("Nie Dodano", NotificationType.SHORT.getDuration());
+        Notification notification = new Notification(getTranslation("added.not"), NotificationType.SHORT.getDuration());
         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         notification.setPosition(Notification.Position.TOP_END);
         notification.open();
