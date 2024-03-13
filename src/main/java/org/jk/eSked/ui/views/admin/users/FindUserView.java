@@ -25,11 +25,7 @@ import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
-import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
-import org.jk.eSked.ui.components.settings.fields.GroupCreator;
-import org.jk.eSked.ui.components.settings.fields.NameField;
-import org.jk.eSked.ui.components.settings.protectedFields.EmailField;
-import org.jk.eSked.ui.components.settings.protectedFields.MyPasswordField;
+import org.jk.eSked.ui.components.settings.fields.*;
 import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
@@ -37,7 +33,6 @@ import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.UUID;
-
 
 @Route(value = "admin/user", layout = MainLayout.class)
 @Secured("ROLE_ADMIN")
@@ -49,16 +44,14 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
     private final ScheduleService scheduleService;
     private final EmailService emailService;
     private final GroupService groupService;
-    private final MessagesService messagesService;
 
-    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService, MessagesService messagesService) {
+    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HoursService hoursService, EmailService emailService, GroupService groupService) {
         this.scheduleService = scheduleService;
         this.userService = userService;
         this.eventService = eventService;
         this.hoursService = hoursService;
         this.emailService = emailService;
         this.groupService = groupService;
-        this.messagesService = messagesService;
 
         TextField textField = new TextField(getTranslation(locale, "username"));
         textField.setWidth("50%");
@@ -93,8 +86,8 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
 
     private VerticalLayout userLayout(User user) {
         InfoBox id = new InfoBox("ID: ", user.getId().toString());
-        NameField username = new NameField(userService, emailService, messagesService);
-        MyPasswordField password = new MyPasswordField(userService, emailService, messagesService);
+        NameField username = new NameField(userService, emailService);
+        MyPasswordField password = new MyPasswordField(userService, emailService);
         InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(userService, emailService);

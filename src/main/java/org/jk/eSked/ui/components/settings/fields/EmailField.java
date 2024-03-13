@@ -1,8 +1,10 @@
-package org.jk.eSked.ui.components.settings.protectedFields;
+package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
@@ -22,7 +24,7 @@ public class EmailField extends NewSettingsField {
     private final EmailService emailService;
 
     public EmailField(UserService userService, EmailService emailService) {
-        super("Email", "Nowy Email");
+        super(FieldType.EMAIL);
         this.userId = SessionService.getUserId();
         this.userService = userService;
         this.emailService = emailService;
@@ -46,15 +48,10 @@ public class EmailField extends NewSettingsField {
 
     @Override
     protected void commitInput(String input) throws Exception {
-        new SuccessNotification("Link do zmiany email został wysłany na nowy email", NotificationType.SHORT).open();
-        emailService.sendEmail(userService.getUser(userId), EmailType.NEWEMAIL);
-
-//        messagesService.addMessageForUser(new Message(
-//                userId,
-//                messagesService.generateMessageId(),
-//                Instant.now().toEpochMilli(),
-//                getTranslation(locale, "message_email_changed") + " " + "\"" + input + "\"",
-//                false
-//        ));
+        User user = userService.getUser(userId);
+        user.setEmail(input);
+        new SuccessNotification(getTranslation(locale, "notification_email_link_sent"), NotificationType.SHORT).open();
+        emailService.sendEmail(user, EmailType.NEWEMAIL);
+        updateMainValue(input);
     }
 }

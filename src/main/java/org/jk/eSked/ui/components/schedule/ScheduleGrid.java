@@ -152,20 +152,12 @@ public class ScheduleGrid extends VerticalLayout {
                 for (Event event : events) {
                     if (event.getHour() == hour && TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
                         entryEvents.add(event);
-                        switch (event.getType()) {
-                            case TEST:
-                                color = "#c43737";
-                                break;
-                            case QUIZ:
-                                color = "#e88133";
-                                break;
-                            case QUESTIONS:
-                                color = "#ebbf23";
-                                break;
-                            case HOMEWORK:
-                                color = "#46c768";
-                                break;
-                        }
+                        color = switch (event.getType()) {
+                            case TEST -> "#c43737";
+                            case QUIZ -> "#e88133";
+                            case QUESTIONS -> "#ebbf23";
+                            case HOMEWORK -> "#46c768";
+                        };
                     }
                 }
                 String subject = entry.getSubject();

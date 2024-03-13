@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
+import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
@@ -24,7 +25,7 @@ public class GroupCodeField extends NewSettingsField {
     private final MessagesService messagesService;
 
     public GroupCodeField(UUID userId, UserService userService, GroupService groupService, Button button, GroupCreator groupCreator) {
-        super("Kod grupy", "Nowy kod");
+        super(FieldType.GROUP);
         this.userId = userId;
         this.userService = userService;
         this.groupService = groupService;

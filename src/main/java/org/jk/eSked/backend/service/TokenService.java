@@ -31,7 +31,7 @@ public class TokenService {
         log.info("Key for TokenService equals: {}", encodeKey);
     }
 
-    String encodeToken(TokenValue tokenValue) throws Exception {
+    public String encodeToken(TokenValue tokenValue) throws Exception {
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
         String json = objectMapper.writeValueAsString(tokenValue);

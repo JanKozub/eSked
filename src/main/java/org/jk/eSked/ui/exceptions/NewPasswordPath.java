@@ -41,7 +41,6 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
         UUID userId = checkUrl(url);
         if (userId != null) {
             PasswordField newPassword = new PasswordField("Nowe Hasło");
-
             PasswordField confirmPassword = new PasswordField("Potwierdź hasło");
 
             Button changeButton = new Button("Zmień hasło!", clickEvent -> {
