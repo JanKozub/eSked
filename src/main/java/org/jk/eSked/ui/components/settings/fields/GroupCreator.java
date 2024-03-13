@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
-public class GroupCreator extends VerticalLayout {
+public class GroupCreator extends VerticalLayout { //TODO translate
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UUID userId;
     private final GroupService groupsService;

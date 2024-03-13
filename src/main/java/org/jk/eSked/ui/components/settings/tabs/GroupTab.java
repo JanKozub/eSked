@@ -17,7 +17,7 @@ import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 import java.util.Locale;
 import java.util.UUID;
 
-public class GroupTab extends SettingsTab {
+public class GroupTab extends SettingsTab { //TODO translate
 
     public GroupTab(UserService userService, GroupService groupService, String title, Locale locale) {
         super(new Label(title));

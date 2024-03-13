@@ -10,13 +10,12 @@ import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
-import org.jk.eSked.ui.components.settings.NewSettingsField;
 
 import javax.validation.ValidationException;
 import java.time.Instant;
 import java.util.UUID;
 
-public class GroupCodeField extends NewSettingsField {
+public class GroupCodeField extends SettingsField { //TODO translate
     private final UUID userId;
     private final UserService userService;
     private final GroupService groupService;

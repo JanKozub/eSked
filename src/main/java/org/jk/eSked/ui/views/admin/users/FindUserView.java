@@ -145,10 +145,10 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
     }
 
     private User validateInput(String input) {
-        if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
+        if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
 
         User user = findUser(input);
-        if (user == null) throw new ValidationException(getTranslation(locale, "exception_user_not_exists"));
+        if (user == null) throw new ValidationException(getTranslation(locale, "exception.user.not.exists"));
         else return user;
     }
 
@@ -161,6 +161,6 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_check_user");
+        return getTranslation(locale, "page.check.user");
     }
 }

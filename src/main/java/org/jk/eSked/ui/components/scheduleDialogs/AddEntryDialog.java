@@ -27,16 +27,16 @@ public class AddEntryDialog extends Dialog {
     public AddEntryDialog(ScheduleService scheduleService, int hour, int day, boolean replaceable) {
         UUID userId = SessionService.getUserId();
 
-        Label label = new Label(getTranslation(locale, "schedule_dialog_new_title"));
+        Label label = new Label(getTranslation(locale, "schedule.dialog.new.title"));
 
         ArrayList<String> lessons = new ArrayList<>();
-        for (int i = 1; i <= 15; i++) lessons.add(getTranslation(locale, "lesson_" + i));
+        for (int i = 1; i <= 15; i++) lessons.add(getTranslation(locale, "lesson." + i));
 
         comboBox.setItems(lessons);
-        comboBox.setPlaceholder(getTranslation(locale, "schedule_dialog_new_pick_lesson"));
+        comboBox.setPlaceholder(getTranslation(locale, "schedule.dialog.new.pick.lesson"));
         comboBox.setWidth("100%");
 
-        textField.setPlaceholder(getTranslation(locale, "schedule_dialog_new_own_lesson"));
+        textField.setPlaceholder(getTranslation(locale, "schedule.dialog.new.own.lesson"));
 
         HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
 
@@ -46,14 +46,14 @@ public class AddEntryDialog extends Dialog {
 
             if (isNonEmpty(textField.getValue())) {
                 if (!name.isEmpty()) {
-                    setError(getTranslation(locale, "schedule_dialog_new_error_1"));
+                    setError(getTranslation(locale, "schedule.dialog.new.error.1"));
                     return;
                 }
                 name = textField.getValue();
             }
 
             if (name.isEmpty()) {
-                setError(getTranslation(locale, "schedule_dialog_new_error_2"));
+                setError(getTranslation(locale, "schedule.dialog.new.error.2"));
                 return;
             }
 

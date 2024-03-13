@@ -13,9 +13,9 @@ public class EventTypeComboBox extends ComboBox<EventType> {
     public EventTypeComboBox() {
         setItems(EventType.values());
         setAllowCustomValue(false);
-        setRenderer(new TextRenderer<>(EventType::getDescription));
+        setRenderer(new TextRenderer<>(eventType -> getTranslation(locale, eventType.getDescription())));
         setPlaceholder(getTranslation(locale, "type"));
-        setItemLabelGenerator(EventType::getDescription);
+        setItemLabelGenerator(eventType -> getTranslation(locale, eventType.getDescription()));
         setWidth("100%");
         setErrorMessage(getTranslation(locale, "exception_empty_field"));
     }

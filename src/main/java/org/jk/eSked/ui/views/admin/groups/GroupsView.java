@@ -56,6 +56,6 @@ class GroupsView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return  getTranslation(locale, "page_groups");
+        return  getTranslation(locale, "page.groups");
     }
 }

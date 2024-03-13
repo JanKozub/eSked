@@ -34,7 +34,7 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
         };
 
         Button newEventButton = new Button(getTranslation(VaadinSession.getCurrent()
-                .getLocale(), "events_add_new_event"), e -> UI.getCurrent().navigate("events/new"));
+                .getLocale(), "events.add.new.event"), e -> UI.getCurrent().navigate("events/new"));
         newEventButton.setWidth("100%");
 
         add(datePanel, eventGrid, newEventButton);
@@ -48,6 +48,6 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_events");
+        return getTranslation(locale, "page.events");
     }
 }

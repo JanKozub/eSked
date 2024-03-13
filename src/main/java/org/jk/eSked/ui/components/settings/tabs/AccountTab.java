@@ -21,7 +21,7 @@ public class AccountTab extends SettingsTab {
         accountForm.add(new MyPasswordField(userService, emailService));
         accountForm.add(new EmailField(userService, emailService));
 
-        Button newEntries = new Button(getTranslation(locale, "settings_tab_add_entry"),
+        Button newEntries = new Button(getTranslation(locale, "settings.tab.add.entry"),
                 buttonClickEvent -> UI.getCurrent().navigate("schedule/new"));
         newEntries.getStyle().set("margin-top", "auto");
         accountForm.add(newEntries);

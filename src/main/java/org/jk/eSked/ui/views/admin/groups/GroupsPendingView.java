@@ -31,7 +31,7 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
         GroupsGrid groupEntryGrid = new GroupsGrid(scheduleService, userService);
 
         groupEntryGrid.addColumn(new ComponentRenderer<>(group -> {
-            Button button = new Button(getTranslation(locale, "groups_accept"));
+            Button button = new Button(getTranslation(locale, "groups.accept"));
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
                 groupsService.setGroupAccepted(group.getGroupCode());
@@ -44,14 +44,14 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
                         group.getLeaderId(),
                         messagesService.generateMessageId(),
                         Instant.now().toEpochMilli(),
-                        getTranslation(locale, "groups_accept_info"),
+                        getTranslation(locale, "groups.accept.info"),
                         false
                 ));
             });
             return button;
-        })).setHeader(getTranslation(locale, "groups_accept"));
+        })).setHeader(getTranslation(locale, "groups.accept"));
         groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
-            Button button = new Button(getTranslation(locale, "groups_deny"));
+            Button button = new Button(getTranslation(locale, "groups.deny"));
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
                 groupsService.deleteGroup(e.getGroupCode());
@@ -60,7 +60,7 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
                 groupEntryGrid.setItems(new ListDataProvider<>(groups));
             });
             return button;
-        })).setHeader(getTranslation(locale, "groups_deny"));
+        })).setHeader(getTranslation(locale, "groups.deny"));
 
         Collection<Group> groups = groupsService.getGroups();
         groups.removeIf(Group::isAccepted);
@@ -74,6 +74,6 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_confirm_groups");
+        return getTranslation(locale, "page.confirm.groups");
     }
 }

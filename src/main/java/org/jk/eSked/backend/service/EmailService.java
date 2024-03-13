@@ -19,7 +19,7 @@ import java.util.Properties;
 @Service
 @PropertySource("email.properties")
 @PropertySource("passwords.properties")
-public class EmailService implements EmailDB {
+public class EmailService implements EmailDB { //TODO translate
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
     private final String username;
     private final String password;

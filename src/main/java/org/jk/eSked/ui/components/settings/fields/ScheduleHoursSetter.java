@@ -26,14 +26,14 @@ public class ScheduleHoursSetter extends VerticalLayout {
         AtomicInteger currentHour = new AtomicInteger(1);
         int maxHour = hoursService.getScheduleMaxHour(userId);
 
-        Label name = new Label("Ustaw godziny(" + currentHour.get() + "z" + maxHour + ")");
+        Label name = new Label(getTranslation(locale, "schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
 
         TimeField from = new TimeField("Od");
         TimeField to = new TimeField("Do");
 
-        Button confirm = new Button("Następny", b ->
+        Button confirm = new Button(getTranslation(locale, "next"), b ->
                 checkValue(from, to, name, b.getSource(), userId, hoursService, currentHour, maxHour));
         confirm.setWidth("100%");
         confirm.addClickShortcut(Key.ENTER);
@@ -55,14 +55,14 @@ public class ScheduleHoursSetter extends VerticalLayout {
             if (currentHour.get() == maxHour) {
                 hoursService.setScheduleHours(scheduleHours);
                 currentHour.set(1);
-                new SuccessNotification("Godziny zostały ustawione", NotificationType.SHORT).open();
+                new SuccessNotification("notification.hours.set", NotificationType.SHORT).open();
             } else {
                 currentHour.set(currentHour.get() + 1);
                 if (currentHour.get() == maxHour) confirm.setText(getTranslation(locale, "confirm"));
             }
             to.clear();
             from.clear();
-            name.setText("Ustaw godziny(" + currentHour.get() + "z" + maxHour + ")");
+            name.setText(getTranslation(locale, "schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
         } catch (ValidationException ex) {
             to.setErrorMessage(ex.getMessage());
             from.setInvalid(true);
@@ -71,7 +71,8 @@ public class ScheduleHoursSetter extends VerticalLayout {
     }
 
     private void validateFields(TimeField from, TimeField to) {
-        if (from.isEmpty() || to.isEmpty()) throw new ValidationException("Oba pola muszą być wypełnione");
+        if (from.isEmpty() || to.isEmpty())
+            throw new ValidationException(getTranslation(locale, "exception.fields.cannot.be.empty"));
     }
 
     private static class TimeField extends TimePicker {

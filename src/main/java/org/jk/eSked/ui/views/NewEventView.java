@@ -45,7 +45,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         this.eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
         SessionService.setAutoTheme();
 
-        Label formLabel = new Label(getTranslation(locale, "new_event_title"));
+        Label formLabel = new Label(getTranslation(locale, "new.event.title"));
         formLabel.getStyle().set("margin-left", "auto");
         formLabel.getStyle().set("margin-right", "auto");
         HorizontalLayout formName = new HorizontalLayout(formLabel);
@@ -90,7 +90,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
         VerticalLayout newEventLayout = new VerticalLayout(eventForm);
 
-        Label gridLabel = new Label(getTranslation(locale, "new_event_event_list_label"));
+        Label gridLabel = new Label(getTranslation(locale, "new.event.event.list.label"));
         gridLabel.getStyle().set("margin-left", "auto");
         gridLabel.getStyle().set("margin-right", "auto");
 
@@ -106,13 +106,13 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     }
 
     private void validateDate(LocalDate date) throws ValidationException {
-        if (date == null) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
+        if (date == null) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
 
         if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
-            throw new ValidationException(getTranslation(locale, "exception_sat_sun_not_exist"));
+            throw new ValidationException(getTranslation(locale, "exception.sat.sun.not.exist"));
 
         if (date.isBefore(LocalDate.now()))
-            throw new ValidationException(getTranslation(locale, "exception_event_in_past"));
+            throw new ValidationException(getTranslation(locale, "exception.event.in.past"));
 
         eventGrid.reloadForDay(date);
     }
@@ -125,7 +125,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
             Event event = new Event(SessionService.getUserId(), eventService.createEventId(), eventType.getValue(), topicField.getValue(),
                     (int) Math.round(hourNum.getValue()), true, time, TimeService.now());
             eventService.addEvent(event);
-            new SuccessNotification(getTranslation(locale, "new_event_added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
+            new SuccessNotification(getTranslation(locale, "new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
 
             datePicker.clear();
             datePicker.setInvalid(false);
@@ -142,17 +142,17 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     }
 
     private void validateEvent() throws ValidationException {
-        if (datePicker.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_date_field_empty"));
+        if (datePicker.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.date.field.empty"));
 
-        if (eventType.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_type_field_empty"));
+        if (eventType.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.type.field.empty"));
 
-        if (hourNum.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_hour_field_empty"));
+        if (hourNum.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.hour.field.empty"));
 
-        if (topicField.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_topic_field_empty"));
+        if (topicField.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.topic.field.empty"));
     }
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_events_new");
+        return getTranslation(locale, "page.events.new");
     }
 }

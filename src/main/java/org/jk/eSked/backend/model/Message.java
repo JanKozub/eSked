@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Message {
     private UUID userId;
-    private UUID messageId;
+    private final UUID messageId;
     private long timestamp;
     private String text;
     private boolean checkedFlag;
@@ -27,10 +27,6 @@ public class Message {
 
     public UUID getMessageId() {
         return messageId;
-    }
-
-    public void setMessageId(UUID messageId) {
-        this.messageId = messageId;
     }
 
     public long getTimestamp() {

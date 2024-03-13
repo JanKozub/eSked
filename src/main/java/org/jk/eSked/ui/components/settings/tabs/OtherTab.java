@@ -17,8 +17,7 @@ import org.jk.eSked.ui.components.settings.fields.ScheduleHoursSetter;
 import java.util.Locale;
 import java.util.UUID;
 
-public class OtherTab extends SettingsTab {
-
+public class OtherTab extends SettingsTab { //TODO translations
     public OtherTab(UserService userService, HoursService hoursService, String title, Locale locale) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();

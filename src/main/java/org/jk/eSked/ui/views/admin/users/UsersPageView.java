@@ -29,7 +29,7 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
         userGrid.setAllRowsVisible(true);
         userGrid.setSelectionMode(Grid.SelectionMode.NONE);
         userGrid.addColumn(User::getUsername).setHeader(getTranslation("username"));
-        userGrid.addColumn(User::getLastLoggedDate).setHeader(getTranslation(locale, "users_last_logged"));
+        userGrid.addColumn(User::getLastLoggedDate).setHeader(getTranslation(locale, "users.last.logged"));
         userGrid.addColumn(User::getId).setHeader("ID");
         userGrid.addColumn(new ComponentRenderer<>(user -> {
             Button button = new Button(getTranslation(locale, "delete"), event -> {
@@ -47,6 +47,6 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_users");
+        return getTranslation(locale, "page.users");
     }
 }

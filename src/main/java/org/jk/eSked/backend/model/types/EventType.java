@@ -1,10 +1,10 @@
 package org.jk.eSked.backend.model.types;
 
 public enum EventType {
-    HOMEWORK("Zadanie"),
-    QUESTIONS("Pytanie"),
-    QUIZ("Kartkówka"),
-    TEST("Sprawdzian");
+    HOMEWORK("homework"),
+    QUESTIONS("questions"),
+    QUIZ("quiz"),
+    TEST("test");
 
     private final String description;
 

@@ -17,11 +17,11 @@ abstract class Schedule extends Grid<Button> {
     Schedule(UserService userService, UUID userId) {
         if (userService.getScheduleHours(userId))
             addColumn(new ComponentRenderer<>(this::hourRenderer))
-                    .setHeader(getTranslation(locale, "hour_s")).setAutoWidth(true).setFlexGrow(0);
+                    .setHeader(getTranslation(locale, "hour.s")).setAutoWidth(true).setFlexGrow(0);
 
         for (int i = 0; i < 5; i++) {
             int finalI = i;
-            addColumn(new ComponentRenderer<>(e -> rowRenderer(e, finalI))).setHeader(getTranslation(locale, "day_" + (i + 1))).setKey(String.valueOf(i + 1));
+            addColumn(new ComponentRenderer<>(e -> rowRenderer(e, finalI))).setHeader(getTranslation(locale, "day." + (i + 1))).setKey(String.valueOf(i + 1));
         }
 
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));

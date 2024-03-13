@@ -28,6 +28,6 @@ public class ScheduleView extends AppLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_schedule");
+        return getTranslation(locale, "page.schedule");
     }
 }

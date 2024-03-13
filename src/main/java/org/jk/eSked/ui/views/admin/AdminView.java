@@ -24,9 +24,9 @@ public class AdminView extends HorizontalLayout implements HasDynamicTitle {
         SessionService.setAutoTheme();
 
         Button user = createButton(getTranslation(locale, "user"), "admin/user", VaadinIcon.USER);
-        Button users = createButton(getTranslation(locale, "page_users"), "admin/users", VaadinIcon.USERS);
-        Button groups = createButton(getTranslation(locale, "page_groups"), "admin/groups", VaadinIcon.FORM);
-        Button groupsAcc = createButton(getTranslation(locale, "page_confirm_groups"), "admin/groups/pending", VaadinIcon.LIST_SELECT);
+        Button users = createButton(getTranslation(locale, "page.users"), "admin/users", VaadinIcon.USERS);
+        Button groups = createButton(getTranslation(locale, "page.groups"), "admin/groups", VaadinIcon.FORM);
+        Button groupsAcc = createButton(getTranslation(locale, "page.confirm.groups"), "admin/groups/pending", VaadinIcon.LIST_SELECT);
 
         FormLayout formLayout = new FormLayout(user, users, groups, groupsAcc);
         formLayout.getStyle().set("padding-top", "5px").set("padding-left", "20px").set("padding-right", "20px");
@@ -45,6 +45,6 @@ public class AdminView extends HorizontalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_administrator_panel");
+        return getTranslation(locale, "page.administrator.panel");
     }
 }

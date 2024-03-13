@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public class Event {
     private UUID userId;
-    private UUID eventId;
+    private final UUID eventId;
     private EventType type;
     private String topic;
     private int hour;
     private boolean checkedFlag;
     private long timestamp;
-    private long createdTimestamp;
+    private final long createdTimestamp;
 
     public Event(UUID userId, UUID eventId, EventType type, String topic, int hour, boolean checkedFlag, long timestamp, long createdTimestamp) {
         this.userId = userId;
@@ -36,10 +36,6 @@ public class Event {
 
     public UUID getEventId() {
         return eventId;
-    }
-
-    public void setEventId(UUID eventId) {
-        this.eventId = eventId;
     }
 
     public EventType getType() {
@@ -80,14 +76,6 @@ public class Event {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public long getCreatedTimestamp() {
-        return createdTimestamp;
-    }
-
-    public void setCreatedTimestamp(long createdTimestamp) {
-        this.createdTimestamp = createdTimestamp;
     }
 
     @Override

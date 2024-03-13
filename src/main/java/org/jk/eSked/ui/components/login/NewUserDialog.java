@@ -29,7 +29,7 @@ class NewUserDialog extends Dialog {
     NewUserDialog(UserService userService, EmailService emailService) {
         VerticalLayout layout = new VerticalLayout();
 
-        Label nameOfDialog = new Label(getTranslation(locale, "new_user_label"));
+        Label nameOfDialog = new Label(getTranslation(locale, "new.user.label"));
 
         TextField usernameField = new TextField(getTranslation(locale, "username"));
         usernameField.setWidth("100%");
@@ -40,13 +40,13 @@ class NewUserDialog extends Dialog {
         PasswordField passwordField = new PasswordField(getTranslation(locale, "password"));
         passwordField.setWidth("100%");
 
-        PasswordField passwordFieldCheck = new PasswordField(getTranslation(locale, "new_user_repeat_password"));
+        PasswordField passwordFieldCheck = new PasswordField(getTranslation(locale, "new.user.repeat.password"));
         passwordFieldCheck.setWidth("100%");
 
-        Button addButton = new Button(getTranslation(locale, "new_user_register"));
+        Button addButton = new Button(getTranslation(locale, "new.user.register"));
         addButton.addClickShortcut(Key.ENTER);
         addButton.setWidth("75%");
-        addButton.addClickListener(e -> {
+        addButton.addClickListener(e -> {//TODO simplify try catch
             try {
                 validateUsername(usernameField.getValue(), userService);
                 usernameField.setInvalid(false);
@@ -74,14 +74,14 @@ class NewUserDialog extends Dialog {
                         emailService.sendEmail(user, EmailType.NEWUSER);
                         userService.addUser(user);
 
-                        new SuccessNotification(getTranslation(locale, "notification_link_sent"), NotificationType.LONG).open();
+                        new SuccessNotification(getTranslation(locale, "notification.link.sent"), NotificationType.LONG).open();
                         close();
                     } catch (ValidationException ex) {
                         passwordFieldCheck.setErrorMessage(ex.getMessage());
                         passwordField.setInvalid(true);
                         passwordFieldCheck.setInvalid(true);
                     } catch (Exception mex) {
-                        passwordFieldCheck.setErrorMessage(getTranslation(locale, "exception_contact_admin") + " " + mex.getMessage());
+                        passwordFieldCheck.setErrorMessage(getTranslation(locale, "exception.contact.admin") + " " + mex.getMessage());
                         passwordFieldCheck.setInvalid(true);
                     }
                 } catch (ValidationException ex) {
@@ -100,23 +100,23 @@ class NewUserDialog extends Dialog {
     }
 
     private void validateUsername(String username, UserService userService) {
-        if (username.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
+        if (username.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
 
         Collection<String> usernames = userService.getUsernames();
         if (usernames.contains(username))
-            throw new ValidationException(getTranslation(locale, "exception_user_exists"));
+            throw new ValidationException(getTranslation(locale, "exception.user.exists"));
     }
 
     private void validateEmail(String email, UserService userService) {
-        if (email.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
+        if (email.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
 
         Collection<String> emails = userService.getEmails();
-        if (emails.contains(email)) throw new ValidationException(getTranslation(locale, "exception_email_taken"));
+        if (emails.contains(email)) throw new ValidationException(getTranslation(locale, "exception.email.taken"));
     }
 
     private void validatePassword(String pass1, String pass2) {
-        if (pass1.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_fields_cannot_be_empty"));
+        if (pass1.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.fields.cannot.be.empty"));
 
-        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation(locale, "exception_pass_not_match"));
+        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation(locale, "exception.pass.not.match"));
     }
 }

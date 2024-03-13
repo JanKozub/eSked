@@ -85,14 +85,14 @@ public class MyLoginOverlay extends LoginOverlay {
         LoginI18n.Form form = i18n.getForm();
         Locale locale = VaadinSession.getCurrent().getLocale();
 
-        form.setTitle(getTranslation(locale, "login_title"));
-        form.setUsername(getTranslation(locale, "login_username"));
+        form.setTitle(getTranslation(locale, "login.title"));
+        form.setUsername(getTranslation(locale, "login.username"));
         form.setPassword(getTranslation(locale, "password"));
-        form.setSubmit(getTranslation(locale, "login_submit"));
-        form.setForgotPassword(getTranslation(locale, "login_forgot_password"));
-        i18n.getErrorMessage().setTitle(getTranslation(locale, "login_error_title"));
-        i18n.getErrorMessage().setMessage(getTranslation(locale, "login_error_message"));
-        i18n.setAdditionalInformation(getTranslation(locale, "login_information"));
+        form.setSubmit(getTranslation(locale, "login.submit"));
+        form.setForgotPassword(getTranslation(locale, "login.forgot.password"));
+        i18n.getErrorMessage().setTitle(getTranslation(locale, "login.error.title"));
+        i18n.getErrorMessage().setMessage(getTranslation(locale, "login.error.message"));
+        i18n.setAdditionalInformation(getTranslation(locale, "login.information"));
 
         return i18n;
     }

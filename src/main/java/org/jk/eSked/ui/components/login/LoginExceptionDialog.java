@@ -24,23 +24,23 @@ public class LoginExceptionDialog extends Dialog {
 
     public LoginExceptionDialog(UserService userService, EmailService emailService) {
 
-        Label newUserLabel = new Label(getTranslation(locale,"login_exception_label"));
+        Label newUserLabel = new Label(getTranslation(locale,"login.exception.label"));
         newUserLabel.getStyle().set("font-weight", "bold");
 
-        Button newUser = new Button(getTranslation(locale,"login_exception_button"), click -> {
+        Button newUser = new Button(getTranslation(locale,"login.exception.button"), click -> {
             close();
             new NewUserDialog(userService, emailService).open();
         });
         newUser.setWidth("100%");
 
-        Label passLabel = new Label(getTranslation(locale,"login_exception_password"));
+        Label passLabel = new Label(getTranslation(locale,"login.exception.password"));
         passLabel.getStyle().set("font-weight", "bold");
 
         TextField usernameField = new TextField();
         usernameField.setPlaceholder(getTranslation(locale,"username"));
         usernameField.setWidth("60%");
 
-        Button confirmButton = new Button(getTranslation(locale,"login_exception_email"));
+        Button confirmButton = new Button(getTranslation(locale,"login.exception.email"));
         confirmButton.addClickShortcut(Key.ENTER);
         confirmButton.setWidth("40%");
         confirmButton.addClickListener(event -> onConfirm(userService, emailService, usernameField));
@@ -59,7 +59,7 @@ public class LoginExceptionDialog extends Dialog {
             validateUsernameInput(userService, usernameField.getValue());
             usernameField.setInvalid(false);
 
-            new SuccessNotification(getTranslation(locale,"login_exception_success"), NotificationType.LONG).open();
+            new SuccessNotification(getTranslation(locale,"login.exception.success"), NotificationType.LONG).open();
             emailService.sendEmail(userService.getUser(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
         } catch (Exception ex) {
             usernameField.setErrorMessage(ex.getMessage());
@@ -68,9 +68,9 @@ public class LoginExceptionDialog extends Dialog {
     }
 
     private void validateUsernameInput(UserService userService, String input) {
-        if (input.isEmpty()) throw new ValidationException(getTranslation(locale,"exception_empty_field"));
+        if (input.isEmpty()) throw new ValidationException(getTranslation(locale,"exception.empty.field"));
 
         Collection<String> users = userService.getUsernames();
-        if (!users.contains(input)) throw new ValidationException(getTranslation(locale, "exception_user_not_exist"));
+        if (!users.contains(input)) throw new ValidationException(getTranslation(locale, "exception.user.not.exist"));
     }
 }

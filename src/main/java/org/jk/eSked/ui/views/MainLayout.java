@@ -41,16 +41,16 @@ public class MainLayout extends AppLayout implements RouterLayout {
     private Tab[] getTabs() {
         Locale locale = VaadinSession.getCurrent().getLocale();
         Tab schedule = new Tab(VaadinIcon.CALENDAR_O.create(),
-                new RouterLink(getTranslation(locale, "tab_schedule"), ScheduleView.class));
+                new RouterLink(getTranslation(locale, "tab.schedule"), ScheduleView.class));
         schedule.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab events = new Tab(VaadinIcon.CALENDAR_CLOCK.create(),
-                new RouterLink(getTranslation(locale, "tab_events"), EventsView.class));
+                new RouterLink(getTranslation(locale, "tab.events"), EventsView.class));
         events.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab newEvent = new Tab(VaadinIcon.FOLDER_ADD.create(),
-                new RouterLink(getTranslation(locale, "tab_add_event"), NewEventView.class));
+                new RouterLink(getTranslation(locale, "tab.add.event"), NewEventView.class));
         newEvent.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab messages = new Tab(VaadinIcon.ENVELOPE_OPEN_O.create(),
-                new RouterLink(getTranslation(locale, "tab_messages"), MessagesView.class));
+                new RouterLink(getTranslation(locale, "tab.messages"), MessagesView.class));
         messages.getStyle().set("font-size", "var(--lumo-font-size-l)");
 
         return new Tab[]{schedule, events, newEvent, messages};

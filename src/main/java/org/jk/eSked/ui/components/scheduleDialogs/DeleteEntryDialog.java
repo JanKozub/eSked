@@ -16,9 +16,9 @@ public class DeleteEntryDialog extends Dialog {
     private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public DeleteEntryDialog(ScheduleService scheduleService, ScheduleEntry entry) {
-        Label label = new Label(getTranslation(locale, "schedule_dialog_confirmation"));
+        Label label = new Label(getTranslation(locale, "schedule.dialog.confirmation"));
 
-        Button deleteButton = new Button(getTranslation(locale, "delete"), event -> { //TODO translation
+        Button deleteButton = new Button(getTranslation(locale, "delete"), event -> {
             scheduleService.deleteScheduleEntry(SessionService.getUserId(), entry.getHour(), entry.getDay());
             close();
         });

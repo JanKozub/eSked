@@ -31,7 +31,7 @@ public class AddNewEventDialog extends Dialog {
     AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
-        Label title = new Label(getTranslation(locale, "new_event_title"));
+        Label title = new Label(getTranslation(locale, "new.event.title"));
         TopicField topicField = new TopicField();
         ComboBox<EventType> eventType = new EventTypeComboBox();
 
@@ -44,7 +44,7 @@ public class AddNewEventDialog extends Dialog {
                     Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
                             topicField.getValue(), scheduleEntry.getHour(), true, time, TimeService.now());
                     eventService.addEvent(event);
-                    new SuccessNotification(getTranslation(locale, "new_event_added") +"!", NotificationType.SHORT).open();
+                    new SuccessNotification(getTranslation(locale, "new.event.added") +"!", NotificationType.SHORT).open();
                     topicField.clear();
                     close();
                 } else eventType.setInvalid(true);

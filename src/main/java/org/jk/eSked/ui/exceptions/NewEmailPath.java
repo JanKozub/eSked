@@ -39,14 +39,14 @@ public class NewEmailPath extends VerticalLayout implements HasUrlParameter<Stri
         if (tokenValue != null) {
             userService.setEmail(tokenValue.getUserId(), tokenValue.getValue());
 
-            new SuccessNotification(getTranslation(locale, "notification_email_successful_change"), NotificationType.LONG).open();
+            new SuccessNotification(getTranslation(locale, "notification.email.successful.change"), NotificationType.LONG).open();
             UI.getCurrent().navigate("/schedule");
 
             messagesService.addMessageForUser(new Message(
                     tokenValue.getUserId(),
                     messagesService.generateMessageId(),
                     Instant.now().toEpochMilli(),
-                    getTranslation(locale, "notification_email_changed_to") + " \"" + tokenValue.getValue() + "\"",
+                    getTranslation(locale, "notification.email.changed.to") + " \"" + tokenValue.getValue() + "\"",
                     false
             ));
 

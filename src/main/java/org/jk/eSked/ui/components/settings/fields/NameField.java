@@ -8,12 +8,12 @@ import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
-import org.jk.eSked.ui.components.settings.NewSettingsField;
+
 import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.UUID;
 
-public class NameField extends NewSettingsField {
+public class NameField extends SettingsField { //TODO translate
     private final UUID userId;
     private final UserService userService;
     private final EmailService emailService;

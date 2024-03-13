@@ -24,6 +24,6 @@ public class NewEntryView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_schedule_new");
+        return getTranslation(locale, "page.schedule.new");
     }
 }

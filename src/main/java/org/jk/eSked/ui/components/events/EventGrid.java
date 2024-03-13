@@ -34,18 +34,18 @@ public class EventGrid extends Grid<Event> {
         getColumns().forEach(column -> column.setAutoWidth(true));
         setAllRowsVisible(true);
 
-        addColumn(event -> event.getType().getDescription()).setHeader(getTranslation(locale, "type"));
+        addColumn(event -> getTranslation(locale, event.getType().getDescription())).setHeader(getTranslation(locale, "type"));
         addColumn(new BasicRenderer<>(event -> {
-            if (entries == null) return getTranslation(locale, "no_entries");
+            if (entries == null) return getTranslation(locale, "no.entries");
 
             for (ScheduleEntry entry : entries) {
                 if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                     return entry.getSubject() + "(" + entry.getHour() + ")";
             }
 
-            return getTranslation(locale, "no_entries");
+            return getTranslation(locale, "no.entries");
         }) {
-        }).setHeader(getTranslation(locale, "events_hour_header"));
+        }).setHeader(getTranslation(locale, "events.hour.header"));
 
         addColumn(new LocalDateTimeRenderer<>(event ->
                 TimeService.InstantToLocalDateTime(event.getTimestamp()),

@@ -26,13 +26,13 @@ public class SettingsView extends VerticalLayout implements HasDynamicTitle {
                 new AccountTab(userService, emailService, getTranslation(locale, "user"), locale),
                 new GroupTab(userService, groupService, getTranslation(locale, "group"), locale),
                 new OtherTab(userService, hoursService, getTranslation(locale, "other"), locale),
-                new DeleteTab(userService, getTranslation(locale, "settings_tab_delete_acc"), locale)
+                new DeleteTab(userService, getTranslation(locale, "settings.tab.delete.acc"), locale)
         );
         setSizeFull();
     }
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page_settings");
+        return getTranslation(locale, "page.settings");
     }
 }

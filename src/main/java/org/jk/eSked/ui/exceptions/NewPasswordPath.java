@@ -24,7 +24,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Route(value = "password")
-public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> {
+public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> { //TODO translations
     private static final Logger log = LoggerFactory.getLogger(NewPasswordPath.class);
     private final UserService userService;
     private final TokenService tokenService;

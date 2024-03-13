@@ -11,6 +11,6 @@ public class TopicField extends TextField {
     public TopicField() {
         setPlaceholder(getTranslation(locale, "topic"));
         setWidth("100%");
-        setErrorMessage(getTranslation(locale, "exception_empty_field"));
+        setErrorMessage(getTranslation(locale, "exception.empty.field"));
     }
 }

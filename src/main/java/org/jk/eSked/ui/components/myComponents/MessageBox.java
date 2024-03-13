@@ -69,7 +69,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getMiddleLayout(Message message) {
-        Label textTitle = new Label(getTranslation(locale, "message_title"));
+        Label textTitle = new Label(getTranslation(locale, "message.title"));
 
         Label text = new Label(message.getText());
         text.getStyle().set("margin-top", "0px");

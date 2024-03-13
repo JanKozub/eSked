@@ -24,12 +24,12 @@ public class GroupsGrid extends Grid<Group> {
         Dialog dialog = groupLayout();
 
         addColumn(Group::getName).setHeader(getTranslation(locale, "title"));
-        addColumn(Group::getGroupCode).setHeader(getTranslation(locale, "groups_code"));
+        addColumn(Group::getGroupCode).setHeader(getTranslation(locale, "groups.code"));
         addColumn(new ComponentRenderer<>(e -> {
-            Button button = new Button(getTranslation(locale, "groups_details"));
+            Button button = new Button(getTranslation(locale, "groups.details"));
             button.addClickListener(event -> dialog.open());
             return button;
-        })).setHeader(getTranslation(locale, "groups_details"));
+        })).setHeader(getTranslation(locale, "groups.details"));
     }
 
     private Dialog groupLayout() {
