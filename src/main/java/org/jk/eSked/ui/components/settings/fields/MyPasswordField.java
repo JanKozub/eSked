@@ -12,7 +12,7 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import javax.validation.ValidationException;
 import java.util.UUID;
 
-public class MyPasswordField extends SettingsField { //TODO translate
+public class MyPasswordField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
     private final EmailService emailService;
@@ -27,12 +27,12 @@ public class MyPasswordField extends SettingsField { //TODO translate
     @Override
     protected void validateInput(String input) {
         if (StringUtils.isBlank(input))
-            throw new ValidationException("Pole z hasłem nie może być puste");
+            throw new ValidationException(getTranslation("exception.empty.field"));
     }
 
     @Override
     protected void commitInput(String input) throws Exception{
-        new SuccessNotification("Link do zmiany hasła został wysłany na e-mail", NotificationType.SHORT).open();
+        new SuccessNotification(getTranslation("notification.reset.link.sent"), NotificationType.SHORT).open();
         emailService.sendEmail(userService.getUser(userId), EmailType.NEWPASSOWRD);
     }
 }
