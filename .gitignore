@@ -1,4 +1,4 @@
-src/main/resources/email.properties
+src/main/resources/passwords.properties
 build-tools/node/
 build-tools/node_modules/.bin/
 build-tools/node_modules/.yarn-integrity

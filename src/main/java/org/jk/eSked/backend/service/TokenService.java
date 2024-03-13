@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Service
-@PropertySource("email.properties")
+@PropertySource("passwords.properties")
 public class TokenService {
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
     private final ObjectMapper objectMapper = new ObjectMapper();

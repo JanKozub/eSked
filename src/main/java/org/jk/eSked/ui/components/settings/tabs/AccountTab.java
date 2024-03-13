@@ -20,7 +20,7 @@ public class AccountTab extends SettingsTab {
         FormLayout accountForm = new FormLayout();
         accountForm.add(new NameField(userService, emailService, messagesService));
         accountForm.add(new MyPasswordField(userService, emailService, messagesService));
-        accountForm.add(new EmailField(userService, emailService, messagesService));
+        accountForm.add(new EmailField(userService, emailService));
         Button newEntries = new Button(getTranslation(locale, "settings_tab_add_entry"),
                 buttonClickEvent -> UI.getCurrent().navigate("schedule/new"));
         newEntries.getStyle().set("margin-top", "auto");

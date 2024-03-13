@@ -97,7 +97,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         MyPasswordField password = new MyPasswordField(userService, emailService, messagesService);
         InfoBox darkTheme = new InfoBox("Dark Theme: ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox("Schedule hours: ", Boolean.toString(user.isScheduleHours()));
-        EmailField email = new EmailField(userService, emailService, messagesService);
+        EmailField email = new EmailField(userService, emailService);
         GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, new Button(),
                 new GroupCreator(SessionService.getUserId(), groupService, userService));
         InfoBox synWGroup = new InfoBox("Synchronizacja z grupą: ", Boolean.toString(user.isEventsSyn()));
@@ -107,7 +107,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         Label scheduleLabel = new Label("Plan");
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
         Label eventsLabel = new Label("Wydarzenia");
-        EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now()); //TODO check if is working
+        EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
 
         Button deleteButton = new Button("Usuń Konto", e -> {
             userService.deleteUser(user.getId());

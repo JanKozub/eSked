@@ -1,7 +1,6 @@
 package org.jk.eSked.ui.components.settings.protectedFields;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
@@ -12,7 +11,6 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.NewSettingsField;
 
 import javax.validation.ValidationException;
-import java.time.Instant;
 import java.util.UUID;
 
 public class MyPasswordField extends NewSettingsField {
@@ -36,23 +34,15 @@ public class MyPasswordField extends NewSettingsField {
     }
 
     @Override
-    protected void commitInput(String input) throws Exception {
-        User user = userService.getUser(userId);
-        user.setPassword(User.encodePassword(input));
-//        if (needConfirm) { //TODO FIX?
-//            emailService.sendEmail(user, EmailType.NEWPASSOWRD);
-//            new SuccessNotification("Link do zmiany hasła został wysłany na email", NotificationType.SHORT).open();
-//        }
-
+    protected void commitInput(String input) { //TODO do email confirm
         userService.changePassword(userId, User.encodePassword(input));
         new SuccessNotification("Hasło zostało zmienione", NotificationType.SHORT).open();
-
-        messagesService.addMessageForUser(new Message(
-                userId,
-                messagesService.generateMessageId(),
-                Instant.now().toEpochMilli(),
-                "Twoje hasło zostało zmienione",
-                false
-        ));
+//        messagesService.addMessageForUser(new Message(
+//                userId,
+//                messagesService.generateMessageId(),
+//                Instant.now().toEpochMilli(),
+//                "Twoje hasło zostało zmienione",
+//                false
+//        ));
     }
 }

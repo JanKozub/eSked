@@ -72,11 +72,9 @@ class NewUserDialog extends Dialog {
                                 true);
 
                         emailService.sendEmail(user, EmailType.NEWUSER);
-
                         userService.addUser(user);
 
                         new SuccessNotification(getTranslation(locale, "notification_link_sent"), NotificationType.LONG).open();
-
                         close();
                     } catch (ValidationException ex) {
                         passwordFieldCheck.setErrorMessage(ex.getMessage());

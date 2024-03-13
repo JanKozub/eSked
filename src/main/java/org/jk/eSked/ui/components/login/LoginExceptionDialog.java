@@ -59,9 +59,8 @@ public class LoginExceptionDialog extends Dialog {
             validateUsernameInput(userService, usernameField.getValue());
             usernameField.setInvalid(false);
 
-            emailService.sendEmail(userService.getUser(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
-
             new SuccessNotification(getTranslation(locale,"login_exception_success"), NotificationType.LONG).open();
+            emailService.sendEmail(userService.getUser(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
         } catch (Exception ex) {
             usernameField.setErrorMessage(ex.getMessage());
             usernameField.setInvalid(true);

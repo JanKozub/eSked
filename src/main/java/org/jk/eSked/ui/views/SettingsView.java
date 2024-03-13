@@ -25,7 +25,7 @@ public class SettingsView extends VerticalLayout implements HasDynamicTitle {
 
         add(
                 new AccountTab(userService, emailService, messagesService, getTranslation(locale, "user"), locale),
-                new GroupTab(userService, groupService, getTranslation(locale, "groups"), locale),
+                new GroupTab(userService, groupService, getTranslation(locale, "group"), locale),
                 new OtherTab(userService, hoursService, getTranslation(locale, "other"), locale),
                 new DeleteTab(userService, getTranslation(locale, "settings_tab_delete_acc"), locale)
         );

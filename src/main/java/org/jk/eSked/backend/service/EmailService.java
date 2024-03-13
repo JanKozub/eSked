@@ -1,5 +1,8 @@
 package org.jk.eSked.backend.service;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
@@ -10,103 +13,110 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Properties;
 
 @Service
 @PropertySource("email.properties")
+@PropertySource("passwords.properties")
 public class EmailService implements EmailDB {
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
-
-    private static Session getMailSession;
-    private static Transport transport;
-    private static Properties mailServerProperties;
-    private final String host;
-    private final String emailUser;
+    private final String username;
     private final String password;
-    private final String serverAddress;
+    private final String hostAddress;
     private final TokenService tokenService;
 
-    public EmailService(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.user}") String emailUser,
-                        @Value("${smtp.password}") String password, @Value("${host.address}") String serverAddress, TokenService tokenService) {
-        this.host = host;
-        this.emailUser = emailUser;
+    private static final Properties PROPERTIES = new Properties();
+
+    static {
+        PROPERTIES.put("mail.smtp.auth", "true");
+        PROPERTIES.put("mail.smtp.starttls.enable", "true");
+    }
+
+    public EmailService(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.username}") String username,
+                        @Value("${smtp.password}") String password, @Value("${host.address}") String hostAddress, TokenService tokenService) {
+        PROPERTIES.put("mail.smtp.host", host);
+        PROPERTIES.put("mail.smtp.port", port);
+        this.username = username;
         this.password = password;
-        this.serverAddress = serverAddress;
+        this.hostAddress = hostAddress;
         this.tokenService = tokenService;
 
-        log.info("Starting email service using {}@{}:{}", emailUser, host, port);
-        mailServerProperties = System.getProperties();
-        mailServerProperties.put("mail.smtp.port", port);
-        mailServerProperties.put("mail.smtp.auth", "true");
-        mailServerProperties.put("mail.smtp.starttls.enable", "true");
+        log.info("Starting email service using user={}, host={}, port={}", username, host, port);
     }
 
     @Override
     public void sendEmail(User user, EmailType emailType) throws Exception {
-        getMailSession = Session.getDefaultInstance(mailServerProperties, null);
-        transport = getMailSession.getTransport("smtp");
-        transport.connect(host, emailUser, password);
-
         String subject = "";
         String emailBody = "";
         String url;
         TokenValue tokenValue = new TokenValue();
         switch (emailType) {
-            case NEWUSER:
+            case NEWUSER -> {
                 subject = "Potwierdzenie rejstracji w eSked";
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue("verify");
                 url = tokenService.encodeToken(tokenValue);
-                url = "http://" + serverAddress + "/verify/" + url;
+                url = "http://" + hostAddress + "/verify/" + url;
 
                 log.warn(url);
 
                 emailBody = "Witamy w eSked! Aktywuj konto klikając \n<a href=" + url + ">tutaj</a>";
-                break;
-            case NEWPASSOWRD:
+            }
+            case NEWPASSOWRD -> {
                 subject = "Potwierdzenie zmiany hasła w eSked";
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue(user.getPassword());
                 url = tokenService.encodeToken(tokenValue);
-                url = "http://" + serverAddress + "/password/" + url;
+                url = "http://" + hostAddress + "/password/" + url;
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
-                break;
-            case FORGOTPASS:
+            }
+            case FORGOTPASS -> {
                 subject = "Potwierdzenie zmiany hasła w eSked";
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue("forgot");
                 url = tokenService.encodeToken(tokenValue);
-                url = "http://" + serverAddress + "/password/" + url;
+                url = "http://" + hostAddress + "/password/" + url;
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
-                break;
-            case NEWUSERNAME:
+            }
+            case NEWUSERNAME -> {
                 subject = "Twoja nazwa użytkownika została zmieniona";
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Twoja nowa nazwa użytkownika to \"" + user.getUsername() + "\".";
-                break;
-            case NEWEMAIL:
+            }
+            case NEWEMAIL -> {
                 subject = "Potwierdzenie zmiany email w eSked";
                 tokenValue.setUserId(user.getId());
                 tokenValue.setValue(user.getEmail());
                 url = tokenService.encodeToken(tokenValue);
-                url = "http://" + serverAddress + "/email/" + url;
+                url = "http://" + hostAddress + "/email/" + url;
                 emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić email kliknij \n<a href=" + url + ">tutaj</a>";
-                break;
+            }
         }
-        generateAndSendMessage(user.getEmail(), subject, emailBody);
 
-        transport.close();
+        sendEmailWithHTML(user.getEmail(), subject, emailBody);
     }
 
-    private void generateAndSendMessage(String email, String subject, String body) throws Exception {
-        MimeMessage generateMailMessage = new MimeMessage(getMailSession);
-        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        generateMailMessage.setSubject(subject);
-        generateMailMessage.setContent(body, "text/html; charset=ISO-8859-2");
-        transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
+    public void sendEmailWithHTML(String to, String subject, String message) {
+        Authenticator authenticator = new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        };
+
+        Session session = Session.getInstance(PROPERTIES, authenticator);
+        try {
+            MimeMessage msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(username));
+            InternetAddress[] address = {new InternetAddress(to)};
+            msg.setRecipients(Message.RecipientType.TO, address);
+            msg.setSubject(subject);
+            msg.setSentDate(new Date());
+
+            msg.setContent(message, "text/html");
+
+            Transport.send(msg);
+        } catch (MessagingException mex) {
+            log.error("email service error: " + mex.getMessage());
+        }
     }
 }
