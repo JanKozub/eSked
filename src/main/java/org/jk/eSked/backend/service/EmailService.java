@@ -1,5 +1,8 @@
 package org.jk.eSked.backend.service;
 
+import com.vaadin.flow.i18n.I18NProvider;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinSession;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -14,11 +17,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.UUID;
 
 @Service
-@PropertySource("email.properties")
-@PropertySource("passwords.properties")
+@PropertySource("/email.properties")
+@PropertySource("/passwords.properties")
 public class EmailService implements EmailDB { //TODO translate
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
     private final String username;
@@ -47,53 +52,43 @@ public class EmailService implements EmailDB { //TODO translate
 
     @Override
     public void sendEmail(User user, EmailType emailType) throws Exception {
-        String subject = "";
-        String emailBody = "";
-        String url;
-        TokenValue tokenValue = new TokenValue();
+        String subject = "", emailBody = "";
+        UUID userId = user.getId();
+        I18NProvider i18NProvider = VaadinService.getCurrent().getInstantiator().getI18NProvider();
+        Locale locale = VaadinSession.getCurrent().getLocale();
+
         switch (emailType) {
             case NEWUSER -> {
-                subject = "Potwierdzenie rejstracji w eSked";
-                tokenValue.setUserId(user.getId());
-                tokenValue.setValue("verify");
-                url = tokenService.encodeToken(tokenValue);
-                url = "http://" + hostAddress + "/verify/" + url;
-
-                log.warn(url);
-
-                emailBody = "Witamy w eSked! Aktywuj konto klikając \n<a href=" + url + ">tutaj</a>";
+                subject = i18NProvider.getTranslation("email.new.user.subject", locale);
+                emailBody = i18NProvider.getTranslation("email.new.user.body", locale) + getUrl(userId, "verify", "verify");
             }
             case NEWPASSOWRD -> {
-                subject = "Potwierdzenie zmiany hasła w eSked";
-                tokenValue.setUserId(user.getId());
-                tokenValue.setValue(user.getPassword());
-                url = tokenService.encodeToken(tokenValue);
-                url = "http://" + hostAddress + "/password/" + url;
-                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
+                subject = i18NProvider.getTranslation("email.new.password.subject", locale);
+                emailBody = i18NProvider.getTranslation("email.new.password.body", locale) + getUrl(userId, user.getPassword(), "password");
             }
             case FORGOTPASS -> {
-                subject = "Potwierdzenie zmiany hasła w eSked";
-                tokenValue.setUserId(user.getId());
-                tokenValue.setValue("forgot");
-                url = tokenService.encodeToken(tokenValue);
-                url = "http://" + hostAddress + "/password/" + url;
-                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić hasło kliknij \n<a href=" + url + ">tutaj</a>";
+                subject = i18NProvider.getTranslation("email.forgot.password.subject", locale);
+                emailBody = i18NProvider.getTranslation("email.forgot.password.body", locale) + getUrl(userId, "forgot", "password");
             }
             case NEWUSERNAME -> {
-                subject = "Twoja nazwa użytkownika została zmieniona";
-                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Twoja nowa nazwa użytkownika to \"" + user.getUsername() + "\".";
+                subject = i18NProvider.getTranslation("email.new.username.subject", locale);
+                emailBody = i18NProvider.getTranslation("email.new.username.body", locale) + " \"" + user.getUsername() + "\".";
             }
             case NEWEMAIL -> {
-                subject = "Potwierdzenie zmiany email w eSked";
-                tokenValue.setUserId(user.getId());
-                tokenValue.setValue(user.getEmail());
-                url = tokenService.encodeToken(tokenValue);
-                url = "http://" + hostAddress + "/email/" + url;
-                emailBody = "Dziękujemy za korzystanie z serwisu eSked. Aby zmienić email kliknij \n<a href=" + url + ">tutaj</a>";
+                subject = i18NProvider.getTranslation("email.new.email.subject", locale);
+                emailBody = i18NProvider.getTranslation("email.new.email.body", locale) + getUrl(userId, user.getEmail(), "email");
             }
         }
 
         sendEmailWithHTML(user.getEmail(), subject, emailBody);
+    }
+
+    private String getUrl(UUID userId, String value, String path) throws Exception {
+        TokenValue tokenValue = new TokenValue();
+        tokenValue.setUserId(userId);
+        tokenValue.setValue(value);
+
+        return " \n<a href=http://" + hostAddress + "/" + path + "/" + tokenService.encodeToken(tokenValue) + ">click</a>";
     }
 
     public void sendEmailWithHTML(String to, String subject, String message) {

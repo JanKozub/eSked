@@ -9,7 +9,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -20,30 +19,28 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.UUID;
 
 class NewUserDialog extends Dialog {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     NewUserDialog(UserService userService, EmailService emailService) {
         VerticalLayout layout = new VerticalLayout();
 
-        Label nameOfDialog = new Label(getTranslation(locale, "new.user.label"));
+        Label nameOfDialog = new Label(getTranslation("new.user.label"));
 
-        TextField usernameField = new TextField(getTranslation(locale, "username"));
+        TextField usernameField = new TextField(getTranslation("username"));
         usernameField.setWidth("100%");
 
         EmailField emailField = new EmailField("Email");
         emailField.setWidth("100%");
 
-        PasswordField passwordField = new PasswordField(getTranslation(locale, "password"));
+        PasswordField passwordField = new PasswordField(getTranslation("password"));
         passwordField.setWidth("100%");
 
-        PasswordField passwordFieldCheck = new PasswordField(getTranslation(locale, "new.user.repeat.password"));
+        PasswordField passwordFieldCheck = new PasswordField(getTranslation("new.user.repeat.password"));
         passwordFieldCheck.setWidth("100%");
 
-        Button addButton = new Button(getTranslation(locale, "new.user.register"));
+        Button addButton = new Button(getTranslation("new.user.register"));
         addButton.addClickShortcut(Key.ENTER);
         addButton.setWidth("75%");
         addButton.addClickListener(e -> {//TODO simplify try catch
@@ -74,14 +71,14 @@ class NewUserDialog extends Dialog {
                         emailService.sendEmail(user, EmailType.NEWUSER);
                         userService.addUser(user);
 
-                        new SuccessNotification(getTranslation(locale, "notification.link.sent"), NotificationType.LONG).open();
+                        new SuccessNotification(getTranslation("notification.link.sent"), NotificationType.LONG).open();
                         close();
                     } catch (ValidationException ex) {
                         passwordFieldCheck.setErrorMessage(ex.getMessage());
                         passwordField.setInvalid(true);
                         passwordFieldCheck.setInvalid(true);
                     } catch (Exception mex) {
-                        passwordFieldCheck.setErrorMessage(getTranslation(locale, "exception.contact.admin") + " " + mex.getMessage());
+                        passwordFieldCheck.setErrorMessage(getTranslation("exception.contact.admin") + " " + mex.getMessage());
                         passwordFieldCheck.setInvalid(true);
                     }
                 } catch (ValidationException ex) {
@@ -100,23 +97,23 @@ class NewUserDialog extends Dialog {
     }
 
     private void validateUsername(String username, UserService userService) {
-        if (username.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
+        if (username.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> usernames = userService.getUsernames();
         if (usernames.contains(username))
-            throw new ValidationException(getTranslation(locale, "exception.user.exists"));
+            throw new ValidationException(getTranslation("exception.user.exists"));
     }
 
     private void validateEmail(String email, UserService userService) {
-        if (email.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
+        if (email.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> emails = userService.getEmails();
-        if (emails.contains(email)) throw new ValidationException(getTranslation(locale, "exception.email.taken"));
+        if (emails.contains(email)) throw new ValidationException(getTranslation("exception.email.taken"));
     }
 
     private void validatePassword(String pass1, String pass2) {
-        if (pass1.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.fields.cannot.be.empty"));
+        if (pass1.isEmpty()) throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
 
-        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation(locale, "exception.pass.not.match"));
+        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation("exception.pass.not.match"));
     }
 }

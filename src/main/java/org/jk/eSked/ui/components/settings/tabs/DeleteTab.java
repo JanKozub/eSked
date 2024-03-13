@@ -8,17 +8,15 @@ import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 
-import java.util.Locale;
-
 public class DeleteTab extends SettingsTab {
-    public DeleteTab(UserService userService, String title, Locale locale) {
+    public DeleteTab(UserService userService, String title) {
         super(new Label(title));
 
         Button deleteButton = new Button(title);
         deleteButton.getStyle().set("color", "red");
         deleteButton.addClickListener(buttonClickEvent -> {
             Dialog dialog = new Dialog();
-            Button button = new Button(getTranslation(locale, "confirm"));
+            Button button = new Button(getTranslation("confirm"));
             button.getStyle().set("color", "red");
             button.setWidth("100%");
             button.addClickListener(buttonClickEvent1 -> {

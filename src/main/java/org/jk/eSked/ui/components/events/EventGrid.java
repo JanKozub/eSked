@@ -6,7 +6,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
@@ -16,10 +15,12 @@ import org.jk.eSked.backend.service.user.ScheduleService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public class EventGrid extends Grid<Event> {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final EventService eventService;
     private final UUID userId;
 
@@ -34,24 +35,24 @@ public class EventGrid extends Grid<Event> {
         getColumns().forEach(column -> column.setAutoWidth(true));
         setAllRowsVisible(true);
 
-        addColumn(event -> getTranslation(locale, event.getType().getDescription())).setHeader(getTranslation(locale, "type"));
+        addColumn(event -> getTranslation(event.getType().getDescription())).setHeader(getTranslation("type"));
         addColumn(new BasicRenderer<>(event -> {
-            if (entries == null) return getTranslation(locale, "no.entries");
+            if (entries == null) return getTranslation("no.entries");
 
             for (ScheduleEntry entry : entries) {
                 if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.InstantToLocalDate(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                     return entry.getSubject() + "(" + entry.getHour() + ")";
             }
 
-            return getTranslation(locale, "no.entries");
+            return getTranslation("no.entries");
         }) {
-        }).setHeader(getTranslation(locale, "events.hour.header"));
+        }).setHeader(getTranslation("events.hour.header"));
 
         addColumn(new LocalDateTimeRenderer<>(event ->
                 TimeService.InstantToLocalDateTime(event.getTimestamp()),
-                () -> DateTimeFormatter.ofPattern("EEEE"))).setHeader(getTranslation(locale, "day"));
-        addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader(getTranslation(locale, "date"));
-        addColumn(Event::getTopic).setHeader(getTranslation(locale, "topic"));
+                () -> DateTimeFormatter.ofPattern("EEEE"))).setHeader(getTranslation("day"));
+        addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader(getTranslation("date"));
+        addColumn(Event::getTopic).setHeader(getTranslation("topic"));
         addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);
             icon.getStyle().set("cursor", "pointer");
@@ -60,7 +61,7 @@ public class EventGrid extends Grid<Event> {
                 reloadForWeek(startOfWeek);
             });
             return icon;
-        })).setHeader(getTranslation(locale, "delete"));
+        })).setHeader(getTranslation("delete"));
     }
 
     public void reloadForWeek(LocalDate startOfWeek) {

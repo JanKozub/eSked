@@ -10,10 +10,8 @@ import org.jk.eSked.ui.components.settings.fields.EmailField;
 import org.jk.eSked.ui.components.settings.fields.MyPasswordField;
 import org.jk.eSked.ui.components.settings.fields.NameField;
 
-import java.util.Locale;
-
 public class AccountTab extends SettingsTab {
-    public AccountTab(UserService userService, EmailService emailService, String title, Locale locale) {
+    public AccountTab(UserService userService, EmailService emailService, String title) {
         super(new Label(title));
 
         FormLayout accountForm = new FormLayout();
@@ -21,7 +19,7 @@ public class AccountTab extends SettingsTab {
         accountForm.add(new MyPasswordField(userService, emailService));
         accountForm.add(new EmailField(userService, emailService));
 
-        Button newEntries = new Button(getTranslation(locale, "settings.tab.add.entry"),
+        Button newEntries = new Button(getTranslation("settings.tab.add.entry"),
                 buttonClickEvent -> UI.getCurrent().navigate("schedule/new"));
         newEntries.getStyle().set("margin-top", "auto");
         accountForm.add(newEntries);

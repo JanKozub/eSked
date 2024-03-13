@@ -6,7 +6,6 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.service.user.GroupService;
@@ -20,18 +19,14 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Locale;
-
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
 @Secured("ROLE_ADMIN")
 class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
-
     public GroupsPendingView(ScheduleService scheduleService, GroupService groupsService, UserService userService, MessagesService messagesService) {
         GroupsGrid groupEntryGrid = new GroupsGrid(scheduleService, userService);
 
         groupEntryGrid.addColumn(new ComponentRenderer<>(group -> {
-            Button button = new Button(getTranslation(locale, "groups.accept"));
+            Button button = new Button(getTranslation("groups.accept"));
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
                 groupsService.setGroupAccepted(group.getGroupCode());
@@ -44,14 +39,14 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
                         group.getLeaderId(),
                         messagesService.generateMessageId(),
                         Instant.now().toEpochMilli(),
-                        getTranslation(locale, "groups.accept.info"),
+                        getTranslation("groups.accept.info"),
                         false
                 ));
             });
             return button;
-        })).setHeader(getTranslation(locale, "groups.accept"));
+        })).setHeader(getTranslation("groups.accept"));
         groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
-            Button button = new Button(getTranslation(locale, "groups.deny"));
+            Button button = new Button(getTranslation("groups.deny"));
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
                 groupsService.deleteGroup(e.getGroupCode());
@@ -60,7 +55,7 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
                 groupEntryGrid.setItems(new ListDataProvider<>(groups));
             });
             return button;
-        })).setHeader(getTranslation(locale, "groups.deny"));
+        })).setHeader(getTranslation("groups.deny"));
 
         Collection<Group> groups = groupsService.getGroups();
         groups.removeIf(Group::isAccepted);
@@ -74,6 +69,6 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page.confirm.groups");
+        return getTranslation("page.confirm.groups");
     }
 }

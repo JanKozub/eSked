@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomUserDetailsManager implements UserDetailsManager { //TODO translate
+public class CustomUserDetailsManager implements UserDetailsManager {
     private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsManager.class);
     private final Map<String, UserDetails> users = new HashMap<>();
 

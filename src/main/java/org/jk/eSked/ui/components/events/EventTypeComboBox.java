@@ -2,21 +2,17 @@ package org.jk.eSked.ui.components.events;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.renderer.TextRenderer;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.types.EventType;
 
-import java.util.Locale;
-
 public class EventTypeComboBox extends ComboBox<EventType> {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
 
     public EventTypeComboBox() {
         setItems(EventType.values());
         setAllowCustomValue(false);
-        setRenderer(new TextRenderer<>(eventType -> getTranslation(locale, eventType.getDescription())));
-        setPlaceholder(getTranslation(locale, "type"));
-        setItemLabelGenerator(eventType -> getTranslation(locale, eventType.getDescription()));
+        setRenderer(new TextRenderer<>(eventType -> getTranslation(eventType.getDescription())));
+        setPlaceholder(getTranslation("type"));
+        setItemLabelGenerator(eventType -> getTranslation(eventType.getDescription()));
         setWidth("100%");
-        setErrorMessage(getTranslation(locale, "exception_empty_field"));
+        setErrorMessage(getTranslation("exception.empty.field"));
     }
 }

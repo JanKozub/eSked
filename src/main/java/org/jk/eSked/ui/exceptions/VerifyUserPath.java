@@ -5,7 +5,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -17,12 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.util.Locale;
 
 @Route(value = "verify")
 public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<String> {
     private static final Logger log = LoggerFactory.getLogger(VerifyUserPath.class);
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final TokenService tokenService;
     private final MessagesService messagesService;
@@ -46,7 +43,7 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
                         tokenValue.getUserId(),
                         messagesService.generateMessageId(),
                         Instant.now().toEpochMilli(),
-                        getTranslation(locale, "notification.account.activated"),
+                        getTranslation("notification.account.activated"),
                         false
                 ));
             }
@@ -54,6 +51,6 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
             log.error("token decoding exception = {}", ex.getMessage());
         }
         UI.getCurrent().navigate("login");
-        if (confirmed) new SuccessNotification(getTranslation(locale, "notification.account.activated"), NotificationType.LONG).open();
+        if (confirmed) new SuccessNotification(getTranslation("notification.account.activated"), NotificationType.LONG).open();
     }
 }

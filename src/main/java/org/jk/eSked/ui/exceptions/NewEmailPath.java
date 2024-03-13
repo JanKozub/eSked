@@ -5,7 +5,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -17,12 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.util.Locale;
 
 @Route(value = "email")
 public class NewEmailPath extends VerticalLayout implements HasUrlParameter<String> {
     private static final Logger log = LoggerFactory.getLogger(NewEmailPath.class);
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final TokenService tokenService;
     private final MessagesService messagesService;
@@ -39,14 +36,14 @@ public class NewEmailPath extends VerticalLayout implements HasUrlParameter<Stri
         if (tokenValue != null) {
             userService.setEmail(tokenValue.getUserId(), tokenValue.getValue());
 
-            new SuccessNotification(getTranslation(locale, "notification.email.successful.change"), NotificationType.LONG).open();
+            new SuccessNotification(getTranslation("notification.email.successful.change"), NotificationType.LONG).open();
             UI.getCurrent().navigate("/schedule");
 
             messagesService.addMessageForUser(new Message(
                     tokenValue.getUserId(),
                     messagesService.generateMessageId(),
                     Instant.now().toEpochMilli(),
-                    getTranslation(locale, "notification.email.changed.to") + " \"" + tokenValue.getValue() + "\"",
+                    getTranslation("notification.email.changed.to") + " \"" + tokenValue.getValue() + "\"",
                     false
             ));
 

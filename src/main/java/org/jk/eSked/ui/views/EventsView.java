@@ -15,11 +15,9 @@ import org.jk.eSked.ui.components.schedule.DatePanel;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Locale;
 
 @Route(value = "events", layout = MainLayout.class)
 public class EventsView extends VerticalLayout implements HasDynamicTitle {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
     private final EventGrid eventGrid;
 
@@ -48,6 +46,6 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page.events");
+        return getTranslation("page.events");
     }
 }

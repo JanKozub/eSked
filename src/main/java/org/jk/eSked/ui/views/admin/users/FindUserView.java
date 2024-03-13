@@ -12,7 +12,6 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
@@ -31,13 +30,11 @@ import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.ValidationException;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.UUID;
 
 @Route(value = "admin/user", layout = MainLayout.class)
 @Secured("ROLE_ADMIN")
 class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO check for code repetition
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UserService userService;
     private final EventService eventService;
     private final HoursService hoursService;
@@ -53,11 +50,11 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         this.emailService = emailService;
         this.groupService = groupService;
 
-        TextField textField = new TextField(getTranslation(locale, "username"));
+        TextField textField = new TextField(getTranslation("username"));
         textField.setWidth("50%");
         textField.focus();
 
-        Button button = new Button(getTranslation(locale,"search"), event -> searchForUser(textField));
+        Button button = new Button(getTranslation("search"), event -> searchForUser(textField));
         button.addClickShortcut(Key.ENTER);
         button.setWidth("50%");
 
@@ -67,12 +64,12 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
 
     private VerticalLayout createAddUserLayout(UserService userService) {
         Line line = new Line();
-        Text text = new Text(getTranslation(locale, "title"));
-        TextField username = new TextField(getTranslation(locale, "username"));
+        Text text = new Text(getTranslation("title"));
+        TextField username = new TextField(getTranslation("username"));
         TextField email = new TextField("email");
-        PasswordField password = new PasswordField(getTranslation(locale, "password"));
+        PasswordField password = new PasswordField(getTranslation("password"));
 
-        Button addUser = new Button(getTranslation(locale, "add"), e -> {
+        Button addUser = new Button(getTranslation("add"), e -> {
             boolean canBeCreated = !userService.getUsernames().contains(username.getValue()) && !userService.getEmails().contains(email.getValue());
 
             if (canBeCreated) createUser(username.getValue(), email.getValue(), password.getValue());
@@ -145,10 +142,10 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
     }
 
     private User validateInput(String input) {
-        if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
+        if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         User user = findUser(input);
-        if (user == null) throw new ValidationException(getTranslation(locale, "exception.user.not.exists"));
+        if (user == null) throw new ValidationException(getTranslation("exception.user.not.exists"));
         else return user;
     }
 
@@ -161,6 +158,6 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page.check.user");
+        return getTranslation("page.check.user");
     }
 }

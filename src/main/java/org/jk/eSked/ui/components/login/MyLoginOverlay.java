@@ -20,8 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Locale;
-
 public class MyLoginOverlay extends LoginOverlay {
     public MyLoginOverlay(AuthenticationManager authenticationManager, UserService userService, GroupService groupService, EmailService emailService) {
         setTitle(createTitle());
@@ -83,16 +81,15 @@ public class MyLoginOverlay extends LoginOverlay {
     private LoginI18n createI18n() {
         final LoginI18n i18n = LoginI18n.createDefault();
         LoginI18n.Form form = i18n.getForm();
-        Locale locale = VaadinSession.getCurrent().getLocale();
 
-        form.setTitle(getTranslation(locale, "login.title"));
-        form.setUsername(getTranslation(locale, "login.username"));
-        form.setPassword(getTranslation(locale, "password"));
-        form.setSubmit(getTranslation(locale, "login.submit"));
-        form.setForgotPassword(getTranslation(locale, "login.forgot.password"));
-        i18n.getErrorMessage().setTitle(getTranslation(locale, "login.error.title"));
-        i18n.getErrorMessage().setMessage(getTranslation(locale, "login.error.message"));
-        i18n.setAdditionalInformation(getTranslation(locale, "login.information"));
+        form.setTitle(getTranslation("login.title"));
+        form.setUsername(getTranslation("login.username"));
+        form.setPassword(getTranslation("password"));
+        form.setSubmit(getTranslation("login.submit"));
+        form.setForgotPassword(getTranslation("login.forgot.password"));
+        i18n.getErrorMessage().setTitle(getTranslation("login.error.title"));
+        i18n.getErrorMessage().setMessage(getTranslation("login.error.message"));
+        i18n.setAdditionalInformation(getTranslation("login.information"));
 
         return i18n;
     }

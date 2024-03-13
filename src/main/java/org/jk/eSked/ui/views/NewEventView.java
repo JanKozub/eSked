@@ -11,7 +11,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
@@ -28,11 +27,9 @@ import javax.validation.ValidationException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Locale;
 
 @Route(value = "events/new", layout = MainLayout.class)
 public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final EventService eventService;
     private final EventGrid eventGrid;
     private final DatePicker datePicker;
@@ -45,7 +42,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         this.eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
         SessionService.setAutoTheme();
 
-        Label formLabel = new Label(getTranslation(locale, "new.event.title"));
+        Label formLabel = new Label(getTranslation("new.event.title"));
         formLabel.getStyle().set("margin-left", "auto");
         formLabel.getStyle().set("margin-right", "auto");
         HorizontalLayout formName = new HorizontalLayout(formLabel);
@@ -68,10 +65,10 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         hourNum = new NumberField();
         hourNum.setHasControls(true);
         hourNum.setMin(1);
-        hourNum.setPlaceholder(getTranslation(locale, "hour"));
+        hourNum.setPlaceholder(getTranslation("hour"));
         hourNum.setWidth("100%");
 
-        Button addButton = new Button(getTranslation(locale, "add"), onClick -> addEvent());
+        Button addButton = new Button(getTranslation("add"), onClick -> addEvent());
         addButton.setWidth("100%");
 
         FormLayout eventForm = new FormLayout();
@@ -90,7 +87,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
         VerticalLayout newEventLayout = new VerticalLayout(eventForm);
 
-        Label gridLabel = new Label(getTranslation(locale, "new.event.event.list.label"));
+        Label gridLabel = new Label(getTranslation("new.event.event.list.label"));
         gridLabel.getStyle().set("margin-left", "auto");
         gridLabel.getStyle().set("margin-right", "auto");
 
@@ -106,13 +103,13 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     }
 
     private void validateDate(LocalDate date) throws ValidationException {
-        if (date == null) throw new ValidationException(getTranslation(locale, "exception.empty.field"));
+        if (date == null) throw new ValidationException(getTranslation("exception.empty.field"));
 
         if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
-            throw new ValidationException(getTranslation(locale, "exception.sat.sun.not.exist"));
+            throw new ValidationException(getTranslation("exception.sat.sun.not.exist"));
 
         if (date.isBefore(LocalDate.now()))
-            throw new ValidationException(getTranslation(locale, "exception.event.in.past"));
+            throw new ValidationException(getTranslation("exception.event.in.past"));
 
         eventGrid.reloadForDay(date);
     }
@@ -125,7 +122,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
             Event event = new Event(SessionService.getUserId(), eventService.createEventId(), eventType.getValue(), topicField.getValue(),
                     (int) Math.round(hourNum.getValue()), true, time, TimeService.now());
             eventService.addEvent(event);
-            new SuccessNotification(getTranslation(locale, "new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
+            new SuccessNotification(getTranslation("new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
 
             datePicker.clear();
             datePicker.setInvalid(false);
@@ -142,17 +139,17 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     }
 
     private void validateEvent() throws ValidationException {
-        if (datePicker.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.date.field.empty"));
+        if (datePicker.isEmpty()) throw new ValidationException(getTranslation( "exception.date.field.empty"));
 
-        if (eventType.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.type.field.empty"));
+        if (eventType.isEmpty()) throw new ValidationException(getTranslation("exception.type.field.empty"));
 
-        if (hourNum.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.hour.field.empty"));
+        if (hourNum.isEmpty()) throw new ValidationException(getTranslation("exception.hour.field.empty"));
 
-        if (topicField.isEmpty()) throw new ValidationException(getTranslation(locale, "exception.topic.field.empty"));
+        if (topicField.isEmpty()) throw new ValidationException(getTranslation("exception.topic.field.empty"));
     }
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page.events.new");
+        return getTranslation("page.events.new");
     }
 }

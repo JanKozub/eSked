@@ -8,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
@@ -17,30 +16,27 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
-import java.util.Locale;
 
 public class LoginExceptionDialog extends Dialog {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
-
     public LoginExceptionDialog(UserService userService, EmailService emailService) {
 
-        Label newUserLabel = new Label(getTranslation(locale,"login.exception.label"));
+        Label newUserLabel = new Label(getTranslation("login.exception.label"));
         newUserLabel.getStyle().set("font-weight", "bold");
 
-        Button newUser = new Button(getTranslation(locale,"login.exception.button"), click -> {
+        Button newUser = new Button(getTranslation("login.exception.button"), click -> {
             close();
             new NewUserDialog(userService, emailService).open();
         });
         newUser.setWidth("100%");
 
-        Label passLabel = new Label(getTranslation(locale,"login.exception.password"));
+        Label passLabel = new Label(getTranslation("login.exception.password"));
         passLabel.getStyle().set("font-weight", "bold");
 
         TextField usernameField = new TextField();
-        usernameField.setPlaceholder(getTranslation(locale,"username"));
+        usernameField.setPlaceholder(getTranslation("username"));
         usernameField.setWidth("60%");
 
-        Button confirmButton = new Button(getTranslation(locale,"login.exception.email"));
+        Button confirmButton = new Button(getTranslation("login.exception.email"));
         confirmButton.addClickShortcut(Key.ENTER);
         confirmButton.setWidth("40%");
         confirmButton.addClickListener(event -> onConfirm(userService, emailService, usernameField));
@@ -59,7 +55,7 @@ public class LoginExceptionDialog extends Dialog {
             validateUsernameInput(userService, usernameField.getValue());
             usernameField.setInvalid(false);
 
-            new SuccessNotification(getTranslation(locale,"login.exception.success"), NotificationType.LONG).open();
+            new SuccessNotification(getTranslation("login.exception.success"), NotificationType.LONG).open();
             emailService.sendEmail(userService.getUser(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
         } catch (Exception ex) {
             usernameField.setErrorMessage(ex.getMessage());
@@ -68,9 +64,9 @@ public class LoginExceptionDialog extends Dialog {
     }
 
     private void validateUsernameInput(UserService userService, String input) {
-        if (input.isEmpty()) throw new ValidationException(getTranslation(locale,"exception.empty.field"));
+        if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> users = userService.getUsernames();
-        if (!users.contains(input)) throw new ValidationException(getTranslation(locale, "exception.user.not.exist"));
+        if (!users.contains(input)) throw new ValidationException(getTranslation( "exception.user.not.exist"));
     }
 }

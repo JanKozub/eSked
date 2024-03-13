@@ -5,20 +5,16 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.types.FieldType;
 
-import java.util.Locale;
-
 public abstract class SettingsField extends VerticalLayout {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final TextField textField = new TextField();
     private final Button normalButton = new Button();
     private final Button commitButton = new Button();
     private final HorizontalLayout buttons = new HorizontalLayout();
 
     public SettingsField(FieldType fieldType) {
-        Label label = new Label(getTranslation(locale, "field.title." + fieldType.getDescription()));
+        Label label = new Label(getTranslation("field.title." + fieldType.getDescription()));
         label.getStyle().set("font-size", "var(--lumo-font-size-s)");
         label.getStyle().set("font-weight", "500");
         label.getStyle().set("color", "var(--lumo-secondary-text-color)");
@@ -26,13 +22,13 @@ public abstract class SettingsField extends VerticalLayout {
 
         textField.setReadOnly(true);
         textField.setWidth("70%");
-        textField.setPlaceholder(getTranslation(locale, "field.placeholder." + fieldType.getDescription()));
+        textField.setPlaceholder(getTranslation("field.placeholder." + fieldType.getDescription()));
 
-        normalButton.setText(getTranslation(locale, "change"));
+        normalButton.setText(getTranslation("change"));
         normalButton.setWidth("30%");
         normalButton.addClickListener(b -> onStartEdit());
 
-        commitButton.setText(getTranslation(locale, "confirm"));
+        commitButton.setText(getTranslation("confirm"));
         commitButton.setWidth("40%");
         commitButton.addClickListener(b -> onConfirm());
 

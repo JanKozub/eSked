@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomUserDetailsManager();
     }
 
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(

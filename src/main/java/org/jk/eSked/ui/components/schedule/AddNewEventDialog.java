@@ -6,7 +6,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.model.types.EventType;
@@ -21,21 +20,19 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.myComponents.TopicField;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.UUID;
 
 public class AddNewEventDialog extends Dialog {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private Runnable action;
 
     AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
-        Label title = new Label(getTranslation(locale, "new.event.title"));
+        Label title = new Label(getTranslation("new.event.title"));
         TopicField topicField = new TopicField();
         ComboBox<EventType> eventType = new EventTypeComboBox();
 
-        Button confirm = new Button(getTranslation(locale, "add"), e -> {
+        Button confirm = new Button(getTranslation("add"), e -> {
             if (!topicField.isEmpty()) {
                 topicField.setInvalid(false);
                 if (eventType.getValue() != null) {
@@ -44,7 +41,7 @@ public class AddNewEventDialog extends Dialog {
                     Event event = new Event(userId, eventService.createEventId(), eventType.getValue(),
                             topicField.getValue(), scheduleEntry.getHour(), true, time, TimeService.now());
                     eventService.addEvent(event);
-                    new SuccessNotification(getTranslation(locale, "new.event.added") +"!", NotificationType.SHORT).open();
+                    new SuccessNotification(getTranslation("new.event.added") +"!", NotificationType.SHORT).open();
                     topicField.clear();
                     close();
                 } else eventType.setInvalid(true);

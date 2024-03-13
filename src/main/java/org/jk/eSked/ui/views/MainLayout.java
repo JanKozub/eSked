@@ -22,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class MainLayout extends AppLayout implements RouterLayout {
     private static final Logger log = LoggerFactory.getLogger(MainLayout.class);
@@ -39,18 +38,17 @@ public class MainLayout extends AppLayout implements RouterLayout {
     }
 
     private Tab[] getTabs() {
-        Locale locale = VaadinSession.getCurrent().getLocale();
         Tab schedule = new Tab(VaadinIcon.CALENDAR_O.create(),
-                new RouterLink(getTranslation(locale, "tab.schedule"), ScheduleView.class));
+                new RouterLink(getTranslation( "tab.schedule"), ScheduleView.class));
         schedule.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab events = new Tab(VaadinIcon.CALENDAR_CLOCK.create(),
-                new RouterLink(getTranslation(locale, "tab.events"), EventsView.class));
+                new RouterLink(getTranslation("tab.events"), EventsView.class));
         events.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab newEvent = new Tab(VaadinIcon.FOLDER_ADD.create(),
-                new RouterLink(getTranslation(locale, "tab.add.event"), NewEventView.class));
+                new RouterLink(getTranslation("tab.add.event"), NewEventView.class));
         newEvent.getStyle().set("font-size", "var(--lumo-font-size-l)");
         Tab messages = new Tab(VaadinIcon.ENVELOPE_OPEN_O.create(),
-                new RouterLink(getTranslation(locale, "tab.messages"), MessagesView.class));
+                new RouterLink(getTranslation("tab.messages"), MessagesView.class));
         messages.getStyle().set("font-size", "var(--lumo-font-size-l)");
 
         return new Tab[]{schedule, events, newEvent, messages};

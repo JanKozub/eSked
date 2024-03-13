@@ -14,11 +14,10 @@ import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.ScheduleHoursSetter;
 
-import java.util.Locale;
 import java.util.UUID;
 
 public class OtherTab extends SettingsTab { //TODO translations
-    public OtherTab(UserService userService, HoursService hoursService, String title, Locale locale) {
+    public OtherTab(UserService userService, HoursService hoursService, String title) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();
 

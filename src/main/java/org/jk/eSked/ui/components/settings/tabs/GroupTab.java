@@ -14,12 +14,11 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
 import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 
-import java.util.Locale;
 import java.util.UUID;
 
 public class GroupTab extends SettingsTab { //TODO translate
 
-    public GroupTab(UserService userService, GroupService groupService, String title, Locale locale) {
+    public GroupTab(UserService userService, GroupService groupService, String title) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();
 

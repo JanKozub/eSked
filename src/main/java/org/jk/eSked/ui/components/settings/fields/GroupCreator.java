@@ -5,7 +5,6 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TimeService;
@@ -15,12 +14,10 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
 public class GroupCreator extends VerticalLayout { //TODO translate
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final UUID userId;
     private final GroupService groupsService;
     private final UserService userService;
@@ -45,7 +42,7 @@ public class GroupCreator extends VerticalLayout { //TODO translate
         TextField groupName = new TextField();
         groupName.setWidth("100%");
 
-        Button confirm = new Button(getTranslation(locale, "add"));
+        Button confirm = new Button(getTranslation("add"));
         confirm.setWidth("100%");
         confirm.addClickListener(event -> {
             try {
@@ -67,7 +64,7 @@ public class GroupCreator extends VerticalLayout { //TODO translate
     }
 
     private void validateInput(String input, UUID userId, GroupService groupsService) {
-        if (input.isEmpty()) throw new ValidationException(getTranslation(locale, "exception_empty_field"));
+        if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> groups = groupsService.getGroupNames();
         if (groups.contains(input)) throw new ValidationException("Grupa z taką nazwą już istnieje");

@@ -9,7 +9,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.ScheduleService;
@@ -17,11 +16,13 @@ import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.scheduleDialogs.AddEntryDialog;
 import org.jk.eSked.ui.components.scheduleDialogs.DeleteEntryDialog;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleGridNewEntries extends VerticalLayout {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ScheduleService scheduleService;
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
@@ -37,7 +38,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
-                Button button = new Button(getTranslation(locale, "add"));
+                Button button = new Button(getTranslation("add"));
                 button.setSizeFull();
                 for (ScheduleEntry entry : entries) {
                     if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {

@@ -7,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -15,13 +14,9 @@ import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
-import java.util.Locale;
-
 @Route(value = "admin/users", layout = MainLayout.class)
 @Secured("ROLE_ADMIN")
 class UsersPageView extends VerticalLayout implements HasDynamicTitle {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
-
     public UsersPageView(UserService userService) {
         SessionService.setAutoTheme();
 
@@ -29,10 +24,10 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
         userGrid.setAllRowsVisible(true);
         userGrid.setSelectionMode(Grid.SelectionMode.NONE);
         userGrid.addColumn(User::getUsername).setHeader(getTranslation("username"));
-        userGrid.addColumn(User::getLastLoggedDate).setHeader(getTranslation(locale, "users.last.logged"));
+        userGrid.addColumn(User::getLastLoggedDate).setHeader(getTranslation("users.last.logged"));
         userGrid.addColumn(User::getId).setHeader("ID");
         userGrid.addColumn(new ComponentRenderer<>(user -> {
-            Button button = new Button(getTranslation(locale, "delete"), event -> {
+            Button button = new Button(getTranslation("delete"), event -> {
                 userService.deleteUser(user.getId());
                 userGrid.setItems(userService.getUsers());
             });
@@ -47,6 +42,6 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
 
     @Override
     public String getPageTitle() {
-        return getTranslation(locale, "page.users");
+        return getTranslation("page.users");
     }
 }

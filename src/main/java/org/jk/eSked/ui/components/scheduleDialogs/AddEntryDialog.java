@@ -9,51 +9,48 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.model.schedule.ScheduleEntry;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.ScheduleService;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
 public class AddEntryDialog extends Dialog {
-    private final static Locale locale = VaadinSession.getCurrent().getLocale();
     private final ComboBox<String> comboBox = new ComboBox<>();
     private final TextField textField = new TextField();
 
     public AddEntryDialog(ScheduleService scheduleService, int hour, int day, boolean replaceable) {
         UUID userId = SessionService.getUserId();
 
-        Label label = new Label(getTranslation(locale, "schedule.dialog.new.title"));
+        Label label = new Label(getTranslation("schedule.dialog.new.title"));
 
         ArrayList<String> lessons = new ArrayList<>();
-        for (int i = 1; i <= 15; i++) lessons.add(getTranslation(locale, "lesson." + i));
+        for (int i = 1; i <= 15; i++) lessons.add(getTranslation("lesson." + i));
 
         comboBox.setItems(lessons);
-        comboBox.setPlaceholder(getTranslation(locale, "schedule.dialog.new.pick.lesson"));
+        comboBox.setPlaceholder(getTranslation("schedule.dialog.new.pick.lesson"));
         comboBox.setWidth("100%");
 
-        textField.setPlaceholder(getTranslation(locale, "schedule.dialog.new.own.lesson"));
+        textField.setPlaceholder(getTranslation("schedule.dialog.new.own.lesson"));
 
         HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
 
-        Button addButton = new Button(getTranslation(locale, "add"), event -> { //TODO translation
+        Button addButton = new Button(getTranslation("add"), event -> {
             String name = "";
             if (isNonEmpty(comboBox.getValue())) name = comboBox.getValue();
 
             if (isNonEmpty(textField.getValue())) {
                 if (!name.isEmpty()) {
-                    setError(getTranslation(locale, "schedule.dialog.new.error.1"));
+                    setError(getTranslation("schedule.dialog.new.error.1"));
                     return;
                 }
                 name = textField.getValue();
             }
 
             if (name.isEmpty()) {
-                setError(getTranslation(locale, "schedule.dialog.new.error.2"));
+                setError(getTranslation("schedule.dialog.new.error.2"));
                 return;
             }
 
