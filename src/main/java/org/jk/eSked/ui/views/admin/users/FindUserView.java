@@ -15,7 +15,6 @@ import com.vaadin.flow.router.Route;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.*;
 import org.jk.eSked.ui.components.admin.InfoBox;
@@ -24,7 +23,10 @@ import org.jk.eSked.ui.components.myComponents.AdminReturnButton;
 import org.jk.eSked.ui.components.myComponents.Line;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.schedule.ScheduleGrid;
-import org.jk.eSked.ui.components.settings.fields.*;
+import org.jk.eSked.ui.components.settings.fields.EmailField;
+import org.jk.eSked.ui.components.settings.fields.GroupCodeField;
+import org.jk.eSked.ui.components.settings.fields.MyPasswordField;
+import org.jk.eSked.ui.components.settings.fields.NameField;
 import org.jk.eSked.ui.views.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
@@ -88,8 +90,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle { //TODO ch
         InfoBox darkTheme = new InfoBox(getTranslation("schedule.theme.dark") + ": ", Boolean.toString(user.isDarkTheme()));
         InfoBox scheduleHours = new InfoBox(getTranslation("schedule.hours") + ": ", Boolean.toString(user.isScheduleHours()));
         EmailField email = new EmailField(userService, emailService);
-        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, new Button(),
-                new GroupCreator(SessionService.getUserId(), groupService, userService));
+        GroupCodeField groupCode = new GroupCodeField(userService, groupService);
         InfoBox synWGroup = new InfoBox(getTranslation("user.sync.group") + ": ", Boolean.toString(user.isEventsSyn()));
         InfoBox createdDate = new InfoBox(getTranslation("user.created.date") + ": ", TimeService.InstantToLocalDateTime(user.getCreatedDate()).toString());
         InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": ", TimeService.InstantToLocalDateTime(user.getLastLoggedDate()).toString());

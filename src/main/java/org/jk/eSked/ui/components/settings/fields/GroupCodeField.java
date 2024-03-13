@@ -1,11 +1,11 @@
 package org.jk.eSked.ui.components.settings.fields;
 
-import com.vaadin.flow.component.button.Button;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -15,25 +15,21 @@ import javax.validation.ValidationException;
 import java.time.Instant;
 import java.util.UUID;
 
-public class GroupCodeField extends SettingsField { //TODO check code
+public class GroupCodeField extends SettingsField {
     private final UUID userId;
     private final UserService userService;
     private final GroupService groupService;
-    private final Button button;
-    private final GroupCreator groupCreator;
     private final MessagesService messagesService;
 
-    public GroupCodeField(UUID userId, UserService userService, GroupService groupService, Button button, GroupCreator groupCreator) {
+    public GroupCodeField(UserService userService, GroupService groupService) {
         super(FieldType.GROUP);
-        this.userId = userId;
+        this.userId = SessionService.getUserId();
         this.userService = userService;
         this.groupService = groupService;
-        this.button = button;
-        this.groupCreator = groupCreator;
         this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
 
         int code = userService.getGroupCode(userId);
-        if (code == 0) updateMainValue(getTranslation("no.entries"));
+        if (code == 0) updateMainValue(getTranslation("group.code.empty"));
         else updateMainValue(Integer.toString(code));
     }
 
@@ -58,8 +54,6 @@ public class GroupCodeField extends SettingsField { //TODO check code
         userService.setGroupCode(userId, Integer.parseInt(input));
         new SuccessNotification(getTranslation("notification.code.changed") + " \"" + input + "\"", NotificationType.SHORT).open();
         updateMainValue(Integer.toString(userService.getGroupCode(userId)));
-        button.setVisible(true);
-        groupCreator.checkUserStatus();
 
         messagesService.addMessageForUser(new Message(
                 userId,

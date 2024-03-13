@@ -14,7 +14,7 @@ public abstract class SettingsField extends VerticalLayout {
     private final HorizontalLayout buttons = new HorizontalLayout();
 
     public SettingsField(FieldType fieldType) {
-        Label label = new Label(getTranslation("field.title." + fieldType.getDescription()));
+        Label label = new Label(getTranslation("field." + fieldType.getDescription() + ".title"));
         label.getStyle().set("font-size", "var(--lumo-font-size-s)");
         label.getStyle().set("font-weight", "500");
         label.getStyle().set("color", "var(--lumo-secondary-text-color)");
@@ -22,7 +22,7 @@ public abstract class SettingsField extends VerticalLayout {
 
         textField.setReadOnly(true);
         textField.setWidth("70%");
-        textField.setPlaceholder(getTranslation("field.placeholder." + fieldType.getDescription()));
+        textField.setPlaceholder(getTranslation("field." + fieldType.getDescription() + ".placeholder"));
 
         normalButton.setText(getTranslation("change"));
         normalButton.setWidth("30%");
@@ -41,7 +41,7 @@ public abstract class SettingsField extends VerticalLayout {
         add(buttons);
     }
 
-    public void updateMainValue(String value)  {
+    public void updateMainValue(String value) {
         textField.setValue(value);
     }
 

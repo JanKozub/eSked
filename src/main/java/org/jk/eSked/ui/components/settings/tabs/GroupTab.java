@@ -22,16 +22,15 @@ public class GroupTab extends SettingsTab {
         UUID userId = SessionService.getUserId();
 
         Button groupButton = new Button(getTranslation("group.leave"));
-        GroupCreator groupCreator = new GroupCreator(userId, groupService, userService);
+        GroupCreator groupCreator = new GroupCreator(groupService, userService);
 
         FormLayout groupsForm = new FormLayout();
-        GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupService, groupButton, groupCreator);
+        GroupCodeField groupCodeField = new GroupCodeField(userService, groupService);
         groupsForm.add(groupCodeField);
         Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent -> {
-            if (userService.getGroupCode(userId) != 0) {
+            if (userService.getGroupCode(userId) != 0)
                 groupService.synchronizeWGroup(userId, userService.getGroupCode(userId));
-            }
         });
         groupSyn.getStyle().set("margin-top", "auto");
         groupsForm.add(groupSyn);

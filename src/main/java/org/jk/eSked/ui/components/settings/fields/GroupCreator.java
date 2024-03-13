@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.Group;
 import org.jk.eSked.backend.model.types.NotificationType;
+import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -22,8 +23,8 @@ public class GroupCreator extends VerticalLayout {
     private final GroupService groupsService;
     private final UserService userService;
 
-    public GroupCreator(UUID userId, GroupService groupsService, UserService userService) {
-        this.userId = userId;
+    public GroupCreator(GroupService groupsService, UserService userService) {
+        this.userId = SessionService.getUserId();
         this.groupsService = groupsService;
         this.userService = userService;
 
@@ -54,7 +55,6 @@ public class GroupCreator extends VerticalLayout {
                 new SuccessNotification(getTranslation("notification.group.sent"), NotificationType.SHORT).open();
 
                 add(new Label(getTranslation("group.pending")));
-
             } catch (ValidationException ex) {
                 groupName.setErrorMessage(ex.getMessage());
                 groupName.setInvalid(true);
@@ -75,11 +75,16 @@ public class GroupCreator extends VerticalLayout {
 
     void checkUserStatus() {
         removeAll();
-        if (userService.getGroupCode(userId) != 0) add(new Label(getTranslation("group.member")));
-        else if (groupsService.doesCreatedGroup(userId)) {
-            add(new Label(getTranslation("group.pending")));
-        } else {
-            setMainLayout();
+        if (userService.getGroupCode(userId) != 0) {
+            add(new Label(getTranslation("group.member")));
+            return;
         }
+
+        if (groupsService.doesCreatedGroup(userId)) {
+            add(new Label(getTranslation("group.pending")));
+            return;
+        }
+
+        setMainLayout();
     }
 }
