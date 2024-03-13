@@ -48,7 +48,7 @@ public class EventGrid extends Grid<Event> {
         }) {
         }).setHeader(getTranslation("events.hour.header"));
 
-        addColumn(new LocalDateTimeRenderer<>(event ->
+        addColumn(new LocalDateTimeRenderer<>(event ->//TODO translation of day of week
                 TimeService.InstantToLocalDateTime(event.getTimestamp()),
                 () -> DateTimeFormatter.ofPattern("EEEE"))).setHeader(getTranslation("day"));
         addColumn(event -> TimeService.InstantToLocalDate(event.getTimestamp())).setHeader(getTranslation("date"));

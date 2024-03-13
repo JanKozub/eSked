@@ -10,14 +10,15 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.exceptions.FieldValidationException;
 import org.jk.eSked.backend.model.types.EmailType;
+import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.TimeService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
-import javax.validation.ValidationException;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -43,51 +44,55 @@ class NewUserDialog extends Dialog {
         Button addButton = new Button(getTranslation("new.user.register"));
         addButton.addClickShortcut(Key.ENTER);
         addButton.setWidth("75%");
-        addButton.addClickListener(e -> {//TODO simplify try catch
+        addButton.addClickListener(e -> {
             try {
                 validateUsername(usernameField.getValue(), userService);
                 usernameField.setInvalid(false);
-                try {
-                    validateEmail(emailField.getValue(), userService);
-                    emailField.setInvalid(false);
-                    try {
-                        validatePassword(passwordField.getValue(), passwordFieldCheck.getValue());
-                        passwordField.setInvalid(false);
-                        passwordFieldCheck.setInvalid(false);
 
-                        User user = new User(UUID.randomUUID(),
-                                usernameField.getValue(),
-                                User.encodePassword(passwordField.getValue()),
-                                false,
-                                true,
-                                emailField.getValue(),
-                                0,
-                                false,
-                                false,
-                                TimeService.now(),
-                                TimeService.now(),
-                                true);
+                validateEmail(emailField.getValue(), userService);
+                emailField.setInvalid(false);
 
-                        emailService.sendEmail(user, EmailType.NEWUSER);
-                        userService.addUser(user);
+                validatePassword(passwordField.getValue(), passwordFieldCheck.getValue());
+                passwordField.setInvalid(false);
+                passwordFieldCheck.setInvalid(false);
 
-                        new SuccessNotification(getTranslation("notification.link.sent"), NotificationType.LONG).open();
-                        close();
-                    } catch (ValidationException ex) {
+                User user = new User(UUID.randomUUID(),
+                        usernameField.getValue(),
+                        User.encodePassword(passwordField.getValue()),
+                        false,
+                        true,
+                        emailField.getValue(),
+                        0,
+                        false,
+                        false,
+                        TimeService.now(),
+                        TimeService.now(),
+                        true);
+
+                emailService.sendEmail(user, EmailType.NEWUSER);
+                userService.addUser(user);
+
+                new SuccessNotification(getTranslation("notification.link.sent"), NotificationType.LONG).open();
+                close();
+            } catch (FieldValidationException ex) {
+                switch (ex.getFieldType()) {
+                    case USERNAME -> {
+                        usernameField.setErrorMessage(ex.getMessage());
+                        usernameField.setInvalid(true);
+                    }
+                    case EMAIL -> {
+                        emailField.setErrorMessage(ex.getMessage());
+                        emailField.setInvalid(true);
+                    }
+                    case PASSWORD -> {
                         passwordFieldCheck.setErrorMessage(ex.getMessage());
                         passwordField.setInvalid(true);
                         passwordFieldCheck.setInvalid(true);
-                    } catch (Exception mex) {
-                        passwordFieldCheck.setErrorMessage(getTranslation("exception.contact.admin") + " " + mex.getMessage());
-                        passwordFieldCheck.setInvalid(true);
                     }
-                } catch (ValidationException ex) {
-                    emailField.setErrorMessage(ex.getMessage());
-                    emailField.setInvalid(true);
                 }
-            } catch (ValidationException ex) {
-                usernameField.setErrorMessage(ex.getMessage());
-                usernameField.setInvalid(true);
+            } catch (Exception mex) {
+                passwordFieldCheck.setErrorMessage(getTranslation("exception.contact.admin") + " " + mex.getMessage());
+                passwordFieldCheck.setInvalid(true);
             }
         });
         layout.add(nameOfDialog, usernameField, emailField, passwordField, passwordFieldCheck, addButton);
@@ -96,24 +101,29 @@ class NewUserDialog extends Dialog {
         add(layout);
     }
 
-    private void validateUsername(String username, UserService userService) {
-        if (username.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
+    private void validateUsername(String username, UserService userService) throws FieldValidationException {
+        if (username.isEmpty())
+            throw new FieldValidationException(getTranslation("exception.empty.field"), FieldType.USERNAME);
 
         Collection<String> usernames = userService.getUsernames();
         if (usernames.contains(username))
-            throw new ValidationException(getTranslation("exception.user.exists"));
+            throw new FieldValidationException(getTranslation("exception.user.exists"), FieldType.USERNAME);
     }
 
-    private void validateEmail(String email, UserService userService) {
-        if (email.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
+    private void validateEmail(String email, UserService userService) throws FieldValidationException {
+        if (email.isEmpty())
+            throw new FieldValidationException(getTranslation("exception.empty.field"), FieldType.EMAIL);
 
         Collection<String> emails = userService.getEmails();
-        if (emails.contains(email)) throw new ValidationException(getTranslation("exception.email.taken"));
+        if (emails.contains(email))
+            throw new FieldValidationException(getTranslation("exception.email.taken"), FieldType.EMAIL);
     }
 
-    private void validatePassword(String pass1, String pass2) {
-        if (pass1.isEmpty()) throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
+    private void validatePassword(String pass1, String pass2) throws FieldValidationException {
+        if (pass1.isEmpty())
+            throw new FieldValidationException(getTranslation("exception.fields.cannot.be.empty"), FieldType.PASSWORD);
 
-        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation("exception.password.not.match"));
+        if (!pass1.equals(pass2))
+            throw new FieldValidationException(getTranslation("exception.password.not.match"), FieldType.PASSWORD);
     }
 }
