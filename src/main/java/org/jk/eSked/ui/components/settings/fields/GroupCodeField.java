@@ -15,7 +15,7 @@ import javax.validation.ValidationException;
 import java.time.Instant;
 import java.util.UUID;
 
-public class GroupCodeField extends SettingsField { //TODO translate
+public class GroupCodeField extends SettingsField { //TODO check code
     private final UUID userId;
     private final UserService userService;
     private final GroupService groupService;
@@ -33,30 +33,30 @@ public class GroupCodeField extends SettingsField { //TODO translate
         this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
 
         int code = userService.getGroupCode(userId);
-        if (code == 0) updateMainValue("Brak");
+        if (code == 0) updateMainValue(getTranslation("no.entries"));
         else updateMainValue(Integer.toString(code));
     }
 
     @Override
     protected void validateInput(String input) {
         if (StringUtils.isBlank(input))
-            throw new ValidationException("Pole z Kodem nie może być puste");
+            throw new ValidationException(getTranslation("exception.empty.field"));
 
         if (!input.matches("[0-9]+"))
-            throw new ValidationException("Kod nie może zawierać spacji oraz liter");
+            throw new ValidationException(getTranslation("exception.code.syntax"));
 
         if (input.length() != 4)
-            throw new ValidationException("Kod musi zawierać 4 cyfry");
+            throw new ValidationException(getTranslation("exception.code.length"));
 
         int value = Integer.parseInt(input);
         if (groupService.getGroupCodes().stream().noneMatch(integer -> integer == value))
-            throw new ValidationException("Grupa z takim kodem nie istnieje");
+            throw new ValidationException(getTranslation("exception.group.not.exist"));
     }
 
     @Override
     protected void commitInput(String input) {
         userService.setGroupCode(userId, Integer.parseInt(input));
-        new SuccessNotification("Kod został zmieniony na \"" + input + "\"", NotificationType.SHORT).open();
+        new SuccessNotification(getTranslation("notification.code.changed") + " \"" + input + "\"", NotificationType.SHORT).open();
         updateMainValue(Integer.toString(userService.getGroupCode(userId)));
         button.setVisible(true);
         groupCreator.checkUserStatus();
@@ -65,7 +65,7 @@ public class GroupCodeField extends SettingsField { //TODO translate
                 userId,
                 messagesService.generateMessageId(),
                 Instant.now().toEpochMilli(),
-                "Twój kod grupy został zmieniony na " + input,
+                getTranslation("notification.code.changed") + " " + input,
                 false
         ));
     }

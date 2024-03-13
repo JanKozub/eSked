@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
 
-public class GroupCreator extends VerticalLayout { //TODO translate
+public class GroupCreator extends VerticalLayout {
     private final UUID userId;
     private final GroupService groupsService;
     private final UserService userService;
@@ -33,7 +33,7 @@ public class GroupCreator extends VerticalLayout { //TODO translate
     public void setMainLayout() {
         removeAll();
 
-        Label name = new Label("Nowa Grupa");
+        Label name = new Label(getTranslation("group.new"));
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
         HorizontalLayout nameLabel = new HorizontalLayout(name);
@@ -51,9 +51,9 @@ public class GroupCreator extends VerticalLayout { //TODO translate
                 groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, TimeService.now()));
                 removeAll();
 
-                new SuccessNotification("Prośba o stworzenie grupy została wysłana!", NotificationType.SHORT).open();
+                new SuccessNotification(getTranslation("notification.group.sent"), NotificationType.SHORT).open();
 
-                add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
+                add(new Label(getTranslation("group.pending")));
 
             } catch (ValidationException ex) {
                 groupName.setErrorMessage(ex.getMessage());
@@ -67,17 +67,17 @@ public class GroupCreator extends VerticalLayout { //TODO translate
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> groups = groupsService.getGroupNames();
-        if (groups.contains(input)) throw new ValidationException("Grupa z taką nazwą już istnieje");
+        if (groups.contains(input)) throw new ValidationException(getTranslation("exception.group.exist"));
 
         if (!groupsService.hasEntries(userId))
-            throw new ValidationException("Musisz mieć wpisy w tabeli aby stworzyć grupę");
+            throw new ValidationException(getTranslation("exception.group.cannot.create"));
     }
 
     void checkUserStatus() {
         removeAll();
-        if (userService.getGroupCode(userId) != 0) add(new Label("Jesteś już w grupie."));
+        if (userService.getGroupCode(userId) != 0) add(new Label(getTranslation("group.member")));
         else if (groupsService.doesCreatedGroup(userId)) {
-            add(new Label("Aktualnie czekasz na akceptacje grupy, gdy admininstrator ją potwierdzi, zostaniesz powiadomiony."));
+            add(new Label(getTranslation("group.pending")));
         } else {
             setMainLayout();
         }
