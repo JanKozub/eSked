@@ -114,6 +114,6 @@ class NewUserDialog extends Dialog {
     private void validatePassword(String pass1, String pass2) {
         if (pass1.isEmpty()) throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
 
-        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation("exception.pass.not.match"));
+        if (!pass1.equals(pass2)) throw new ValidationException(getTranslation("exception.password.not.match"));
     }
 }

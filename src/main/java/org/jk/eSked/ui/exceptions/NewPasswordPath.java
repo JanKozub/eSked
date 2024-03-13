@@ -24,7 +24,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Route(value = "password")
-public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> { //TODO translations
+public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<String> { //TODO check code
     private static final Logger log = LoggerFactory.getLogger(NewPasswordPath.class);
     private final UserService userService;
     private final TokenService tokenService;
@@ -40,23 +40,23 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     public void setParameter(BeforeEvent event, String url) {
         UUID userId = checkUrl(url);
         if (userId != null) {
-            PasswordField newPassword = new PasswordField("Nowe Hasło");
-            PasswordField confirmPassword = new PasswordField("Potwierdź hasło");
+            PasswordField newPassword = new PasswordField(getTranslation("field.password.placeholder"));
+            PasswordField confirmPassword = new PasswordField(getTranslation("field.password.confirm"));
 
-            Button changeButton = new Button("Zmień hasło!", clickEvent -> {
+            Button changeButton = new Button(getTranslation("field.password.change") + "!", clickEvent -> {
                 try {
                     validateFields(newPassword.getValue(), confirmPassword.getValue());
                     confirmPassword.setInvalid(false);
 
                     userService.changePassword(userId, User.encodePassword(confirmPassword.getValue()));
 
-                    new SuccessNotification("Twoje hasło zostało pomyślnie zmienione", NotificationType.LONG).open();
+                    new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
 
                     messagesService.addMessageForUser(new Message(
                             userId,
                             messagesService.generateMessageId(),
                             Instant.now().toEpochMilli(),
-                            "Twoje hasło zostało zmienione",
+                            getTranslation("notification.password.changed"),
                             false
                     ));
 
@@ -81,7 +81,7 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
                 if (tokenValue.getValue().equals("forgot")) return tokenValue.getUserId();
                 else {
                     userService.changePassword(tokenValue.getUserId(), tokenValue.getValue());
-                    new SuccessNotification("Twoje hasło zostało pomyślnie zmienione", NotificationType.LONG).open();
+                    new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
                     return null;
                 }
             } else return null;
@@ -92,8 +92,9 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     }
 
     private void validateFields(String input1, String input2) {
-        if (input1.isEmpty() || input2.isEmpty()) throw new ValidationException("Oba pola muszą być wypełnione");
+        if (input1.isEmpty() || input2.isEmpty())
+            throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
 
-        if (!input1.equals(input2)) throw new ValidationException("Wpisane hasła nie są identyczne");
+        if (!input1.equals(input2)) throw new ValidationException(getTranslation("exception.password.not.match"));
     }
 }
