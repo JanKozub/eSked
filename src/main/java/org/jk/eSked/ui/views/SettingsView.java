@@ -15,7 +15,6 @@ import org.jk.eSked.ui.components.settings.tabs.OtherTab;
 
 @Route(value = "settings", layout = MainLayout.class)
 public class SettingsView extends VerticalLayout implements HasDynamicTitle {
-
     public SettingsView(UserService userService, GroupService groupService, EmailService emailService, HoursService hoursService) {
         SessionService.setAutoTheme();
 

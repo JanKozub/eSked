@@ -6,7 +6,6 @@ import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
@@ -19,9 +18,9 @@ public class EmailField extends SettingsField {
     private final UserService userService;
     private final EmailService emailService;
 
-    public EmailField(UserService userService, EmailService emailService) {
+    public EmailField(UUID userId, UserService userService, EmailService emailService) {
         super(FieldType.EMAIL);
-        this.userId = SessionService.getUserId();
+        this.userId = userId;
         this.userService = userService;
         this.emailService = emailService;
 

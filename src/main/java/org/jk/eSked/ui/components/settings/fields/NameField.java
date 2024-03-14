@@ -7,7 +7,6 @@ import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
-import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 
 import javax.validation.ValidationException;
@@ -19,9 +18,9 @@ public class NameField extends SettingsField {
     private final UserService userService;
     private final EmailService emailService;
 
-    public NameField(UserService userService, EmailService emailService) {
+    public NameField(UUID userId, UserService userService, EmailService emailService) {
         super(FieldType.USERNAME);
-        this.userId = SessionService.getUserId();
+        this.userId = userId;
         this.userService = userService;
         this.emailService = emailService;
 

@@ -4,9 +4,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class InfoBox extends HorizontalLayout {
-    public InfoBox(String name, String data) {
+    public InfoBox(String value) {
         TextField textField = new TextField();
-        textField.setValue(name + data);
+        textField.setValue(value);
         textField.setReadOnly(true);
         textField.setWidth("100%");
 

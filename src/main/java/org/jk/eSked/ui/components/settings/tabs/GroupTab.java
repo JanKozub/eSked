@@ -16,7 +16,7 @@ import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 
 import java.util.UUID;
 
-public class GroupTab extends SettingsTab {
+public class GroupTab extends SettingsTab { //TODO check code
     public GroupTab(UserService userService, GroupService groupService, String title) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();
@@ -25,7 +25,7 @@ public class GroupTab extends SettingsTab {
         GroupCreator groupCreator = new GroupCreator(groupService, userService);
 
         FormLayout groupsForm = new FormLayout();
-        GroupCodeField groupCodeField = new GroupCodeField(userService, groupService);
+        GroupCodeField groupCodeField = new GroupCodeField(SessionService.getUserId(), userService, groupService);
         groupsForm.add(groupCodeField);
         Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent -> {

@@ -5,7 +5,6 @@ import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
-import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.GroupService;
 import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -21,9 +20,9 @@ public class GroupCodeField extends SettingsField {
     private final GroupService groupService;
     private final MessagesService messagesService;
 
-    public GroupCodeField(UserService userService, GroupService groupService) {
+    public GroupCodeField(UUID userId, UserService userService, GroupService groupService) {
         super(FieldType.GROUP);
-        this.userId = SessionService.getUserId();
+        this.userId = userId;
         this.userService = userService;
         this.groupService = groupService;
         this.messagesService = ApplicationContextHolder.getContext().getBean(MessagesService.class);
