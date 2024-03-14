@@ -28,7 +28,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-@Route(value = "events/new", layout = MainLayout.class)
+@Route(value = "events/new", layout = MainLayout.class) //todo check code
 public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     private final EventService eventService;
     private final EventGrid eventGrid;

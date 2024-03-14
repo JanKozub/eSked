@@ -48,7 +48,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getLeftLayout(Message message) {
-        LocalDate messageDate = TimeService.InstantToLocalDate(message.getTimestamp());
+        LocalDate messageDate = TimeService.instantToLocalDate(message.getTimestamp());
 
         String date = messageDate.getDayOfMonth() + ".";
         if (messageDate.getMonthValue() < 10)

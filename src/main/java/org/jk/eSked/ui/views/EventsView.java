@@ -41,7 +41,8 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
     private void setWeekForDay(LocalDate day) {
         day = (LocalDate) TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY).adjustInto(day);
         startOfWeek = day;
-        eventGrid.reloadForWeek(startOfWeek);
+        eventGrid.setStartOfWeek(day);
+        eventGrid.reloadForWeek();
     }
 
     @Override

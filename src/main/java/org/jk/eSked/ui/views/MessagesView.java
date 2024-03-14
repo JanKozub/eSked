@@ -41,7 +41,7 @@ public class MessagesView extends VerticalLayout implements HasDynamicTitle {
 
     private void renderMessages() {
         List<Message> messages = new ArrayList<>(messagesService.getMessagesForUser(SessionService.getUserId()));
-        messages.sort(Comparator.comparing(sortedMessage -> TimeService.InstantToLocalDate(sortedMessage.getTimestamp())));
+        messages.sort(Comparator.comparing(sortedMessage -> TimeService.instantToLocalDate(sortedMessage.getTimestamp())));
         for (Message message : messages) {
             add(new MessageBox(message) {
                 @Override

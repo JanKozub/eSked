@@ -5,7 +5,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyDatePicker extends DatePicker {//TODO use getProperties instead of for loops
+public class MyDatePicker extends DatePicker {
     public MyDatePicker() {
         setI18n(new DatePicker.DatePickerI18n()
                 .setWeek(getTranslation("calendar.week"))

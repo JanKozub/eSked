@@ -29,8 +29,8 @@ public class UserLayout extends VerticalLayout {
         InfoBox darkTheme = new InfoBox(getTranslation("schedule.theme.dark") + ": " + user.isDarkTheme());
         InfoBox scheduleHours = new InfoBox(getTranslation("schedule.hours") + ": " + user.isScheduleHours());
         InfoBox synWGroup = new InfoBox(getTranslation("user.sync.group") + ": " + user.isEventsSyn());
-        InfoBox createdDate = new InfoBox(getTranslation("user.created.date") + ": " + TimeService.InstantToLocalDateTime(user.getCreatedDate()));
-        InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": " + TimeService.InstantToLocalDateTime(user.getLastLoggedDate()));
+        InfoBox createdDate = new InfoBox(getTranslation("user.created.date") + ": " + TimeService.instantToFormattedDate(user.getCreatedDate()));
+        InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": " + TimeService.instantToFormattedDate(user.getLastLoggedDate()));
 
         Label scheduleLabel = new Label(getTranslation("page.schedule"));
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
