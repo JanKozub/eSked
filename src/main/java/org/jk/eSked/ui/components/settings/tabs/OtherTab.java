@@ -1,10 +1,10 @@
 package org.jk.eSked.ui.components.settings.tabs;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.model.types.ThemeType;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class OtherTab extends SettingsTab {
     public OtherTab(UserService userService, HoursService hoursService, String title) {
-        super(new Label(title));
+        super(new Text(title));
         UUID userId = SessionService.getUserId();
 
         RadioButtonGroup<String> scheduleHours = new RadioButtonGroup<>();

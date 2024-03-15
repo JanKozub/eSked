@@ -1,16 +1,16 @@
 package org.jk.eSked.ui.components.settings.tabs;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
 
 public class DeleteTab extends SettingsTab {
     public DeleteTab(UserService userService, String title) {
-        super(new Label(title));
+        super(new Text(title));
 
         Button deleteButton = new Button(title);
         deleteButton.getStyle().set("color", "red");

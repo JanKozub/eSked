@@ -1,7 +1,7 @@
 package org.jk.eSked.ui.components.settings.fields;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -34,7 +34,7 @@ public class GroupCreator extends VerticalLayout {
     public void setMainLayout() {
         removeAll();
 
-        Label name = new Label(getTranslation("group.new"));
+        Text name = new Text(getTranslation("group.new"));
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
         HorizontalLayout nameLabel = new HorizontalLayout(name);
@@ -54,7 +54,7 @@ public class GroupCreator extends VerticalLayout {
 
                 new SuccessNotification(getTranslation("notification.group.sent"), NotificationType.SHORT).open();
 
-                add(new Label(getTranslation("group.pending")));
+                add(new Text(getTranslation("group.pending")));
             } catch (ValidationException ex) {
                 groupName.setErrorMessage(ex.getMessage());
                 groupName.setInvalid(true);
@@ -76,12 +76,12 @@ public class GroupCreator extends VerticalLayout {
     void checkUserStatus() {
         removeAll();
         if (userService.getGroupCode(userId) != 0) {
-            add(new Label(getTranslation("group.member")));
+            add(new Text(getTranslation("group.member")));
             return;
         }
 
         if (groupsService.doesCreatedGroup(userId)) {
-            add(new Label(getTranslation("group.pending")));
+            add(new Text(getTranslation("group.pending")));
             return;
         }
 

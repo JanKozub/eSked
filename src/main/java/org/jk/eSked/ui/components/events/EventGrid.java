@@ -1,7 +1,7 @@
 package org.jk.eSked.ui.components.events;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.data.renderer.BasicRenderer;
@@ -44,7 +44,7 @@ public class EventGrid extends Grid<Event> {
         addColumn(new ComponentRenderer<>(event -> {
             Calendar calendar = Calendar.getInstance(new Locale("en", "UK"));
             calendar.setTimeInMillis(event.getTimestamp());
-            return new Label(getTranslation("day." + (calendar.get(Calendar.DAY_OF_WEEK) - 1)));
+            return new Text(getTranslation("day." + (calendar.get(Calendar.DAY_OF_WEEK) - 1)));
         }));
         addColumn(event -> TimeService.instantToFormattedDate(event.getTimestamp())).setHeader(getTranslation("date"));
         addColumn(Event::getTopic).setHeader(getTranslation("topic"));

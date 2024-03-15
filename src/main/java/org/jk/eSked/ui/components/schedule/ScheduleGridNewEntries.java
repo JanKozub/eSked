@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.schedule;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -63,7 +63,7 @@ public class ScheduleGridNewEntries extends VerticalLayout {
 
             @Override
             Component hourRenderer(Button e) {
-                return new Label(Integer.toString(Integer.parseInt(e.getText()) + 1));
+                return new Text(Integer.toString(Integer.parseInt(e.getText()) + 1));
             }
         };
         scheduleGrid.setAllRowsVisible(true);

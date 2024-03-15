@@ -1,10 +1,10 @@
 package org.jk.eSked.ui.components.scheduleDialogs;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,7 +24,7 @@ public class AddEntryDialog extends Dialog {
     public AddEntryDialog(ScheduleService scheduleService, int hour, int day, boolean replaceable) {
         UUID userId = SessionService.getUserId();
 
-        Label label = new Label(getTranslation("schedule.dialog.new.title"));
+        Text label = new Text(getTranslation("schedule.dialog.new.title"));
 
         ArrayList<String> lessons = new ArrayList<>();
         for (int i = 1; i <= 15; i++) lessons.add(getTranslation("lesson." + i));

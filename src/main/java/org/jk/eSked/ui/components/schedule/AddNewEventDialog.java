@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.schedule;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.jk.eSked.backend.model.Event;
@@ -28,7 +28,7 @@ public class AddNewEventDialog extends Dialog {
     AddNewEventDialog(ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry, UUID userId) {
         LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
-        Label title = new Label(getTranslation("new.event.title"));
+        Text title = new Text(getTranslation("new.event.title"));
         TopicField topicField = new TopicField();
         ComboBox<EventType> eventType = new EventTypeComboBox();
 

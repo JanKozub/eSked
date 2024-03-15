@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.login;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,7 +20,7 @@ import java.util.Collection;
 public class LoginExceptionDialog extends Dialog {
     public LoginExceptionDialog(UserService userService, EmailService emailService) {
 
-        Label newUserLabel = new Label(getTranslation("login.exception.label"));
+        Text newUserLabel = new Text(getTranslation("login.exception.label"));
         newUserLabel.getStyle().set("font-weight", "bold");
 
         Button newUser = new Button(getTranslation("login.exception.button"), click -> {
@@ -29,7 +29,7 @@ public class LoginExceptionDialog extends Dialog {
         });
         newUser.setWidth("100%");
 
-        Label passLabel = new Label(getTranslation("login.exception.password"));
+        Text passLabel = new Text(getTranslation("login.exception.password"));
         passLabel.getStyle().set("font-weight", "bold");
 
         TextField usernameField = new TextField();

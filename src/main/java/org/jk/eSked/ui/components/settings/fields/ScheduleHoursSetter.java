@@ -1,8 +1,8 @@
 package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import org.jk.eSked.backend.model.exceptions.ValidationException;
@@ -24,7 +24,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         AtomicInteger currentHour = new AtomicInteger(1);
         int maxHour = hoursService.getScheduleMaxHour(userId);
 
-        Label name = new Label(getTranslation("schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
+        Text name = new Text(getTranslation("schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
         name.getStyle().set("margin-left", "auto");
         name.getStyle().set("margin-right", "auto");
 
@@ -39,7 +39,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         add(name, from, to, confirm);
     }
 
-    private void checkValue(TimeField from, TimeField to, Label name, Button confirm, UUID userId,
+    private void checkValue(TimeField from, TimeField to, Text name, Button confirm, UUID userId,
                             HoursService hoursService, AtomicInteger currentHour, int maxHour) {
         if (currentHour.get() == 1)
             hoursService.deleteScheduleHours(userId);

@@ -1,6 +1,6 @@
 package org.jk.eSked.ui.views;
 
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
@@ -19,13 +19,13 @@ import java.util.List;
 public class MessagesView extends VerticalLayout implements HasDynamicTitle {
     private final MessagesService messagesService;
     private final Line line;
-    private final Label title;
+    private final Text title;
 
     public MessagesView(MessagesService messagesService) {
         this.messagesService = messagesService;
         SessionService.setAutoTheme();
 
-        title = new Label(getTranslation("messages"));
+        title = new Text(getTranslation("messages"));
         line = new Line();
         if (SessionService.isSessionMobile())
             line.setWidth("90vw");

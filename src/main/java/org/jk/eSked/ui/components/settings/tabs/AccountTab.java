@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.settings.tabs;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.UserService;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class AccountTab extends SettingsTab {
     public AccountTab(UserService userService, EmailService emailService, String title) {
-        super(new Label(title));
+        super(new Text(title));
 
         UUID userId = SessionService.getUserId();
         FormLayout accountForm = new FormLayout();

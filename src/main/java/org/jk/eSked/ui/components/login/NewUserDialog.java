@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.login;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -27,7 +27,7 @@ class NewUserDialog extends Dialog {
     NewUserDialog(UserService userService, EmailService emailService) {
         VerticalLayout layout = new VerticalLayout();
 
-        Label nameOfDialog = new Label(getTranslation("new.user.label"));
+        Text nameOfDialog = new Text(getTranslation("new.user.label"));
 
         TextField usernameField = new TextField(getTranslation("username"));
         usernameField.setWidth("100%");

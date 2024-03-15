@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.myComponents;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -55,7 +55,7 @@ public abstract class MessageBox extends Div {
             date = date + "0";
         date = date + messageDate.getMonthValue() + "." + messageDate.getYear();
 
-        Label dateText = new Label(date);
+        Text dateText = new Text(date);
         dateText.getStyle().set("margin-top", "auto");
         dateText.getStyle().set("margin-bottom", "auto");
 
@@ -66,9 +66,9 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getMiddleLayout(Message message) {
-        Label textTitle = new Label(getTranslation("message.title"));
+        Text textTitle = new Text(getTranslation("message.title"));
 
-        Label text = new Label(message.getText());
+        Text text = new Text(message.getText());
         text.getStyle().set("margin-top", "0px");
 
         VerticalLayout middle = new VerticalLayout(textTitle, text);
@@ -86,7 +86,7 @@ public abstract class MessageBox extends Div {
         deleteButton.setHeight("30px");
         deleteButton.getStyle().set("color", "red");
 
-        Label checkBoxLabel = new Label(getTranslation("new") + "!");
+        Text checkBoxLabel = new Text(getTranslation("new") + "!");
         checkBoxLabel.getStyle().set("color", "green");
         Checkbox checkbox = new Checkbox();
 
@@ -108,7 +108,7 @@ public abstract class MessageBox extends Div {
         return right;
     }
 
-    private void setCheckBox(Label checkBoxLabel, Checkbox checkbox) {
+    private void setCheckBox(Text checkBoxLabel, Checkbox checkbox) {
         checkBoxLabel.setVisible(false);
         checkbox.setValue(true);
         checkbox.setEnabled(false);

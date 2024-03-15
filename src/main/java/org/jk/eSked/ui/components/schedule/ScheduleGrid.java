@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.schedule;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -175,6 +175,6 @@ public class ScheduleGrid extends VerticalLayout {
         ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
         if (scheduleHour != null)
             text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
-        return new Label(text);
+        return new Text(text);
     }
 }

@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.views;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -42,7 +42,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         this.eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
         SessionService.setAutoTheme();
 
-        Label formLabel = new Label(getTranslation("new.event.title"));
+        Text formLabel = new Text(getTranslation("new.event.title"));
         formLabel.getStyle().set("margin-left", "auto");
         formLabel.getStyle().set("margin-right", "auto");
         HorizontalLayout formName = new HorizontalLayout(formLabel);
@@ -87,7 +87,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
         VerticalLayout newEventLayout = new VerticalLayout(eventForm);
 
-        Label gridLabel = new Label(getTranslation("new.event.event.list.label"));
+        Text gridLabel = new Text(getTranslation("new.event.event.list.label"));
         gridLabel.getStyle().set("margin-left", "auto");
         gridLabel.getStyle().set("margin-right", "auto");
 

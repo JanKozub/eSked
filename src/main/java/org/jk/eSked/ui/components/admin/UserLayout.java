@@ -1,8 +1,8 @@
 package org.jk.eSked.ui.components.admin;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.jk.eSked.backend.model.User;
 import org.jk.eSked.backend.service.EmailService;
@@ -32,9 +32,9 @@ public class UserLayout extends VerticalLayout {
         InfoBox createdDate = new InfoBox(getTranslation("user.created.date") + ": " + TimeService.instantToFormattedDate(user.getCreatedDate()));
         InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": " + TimeService.instantToFormattedDate(user.getLastLoggedDate()));
 
-        Label scheduleLabel = new Label(getTranslation("page.schedule"));
+        Text scheduleLabel = new Text(getTranslation("page.schedule"));
         VerticalLayout scheduleGrid = new ScheduleGrid(scheduleService, eventService, userService, hoursService);
-        Label eventsLabel = new Label(getTranslation("page.events"));
+        Text eventsLabel = new Text(getTranslation("page.events"));
         EventGrid eventGrid = new EventGrid(scheduleService, eventService, LocalDate.now());
 
         Button deleteButton = new Button(getTranslation("settings.tab.delete.acc"), e -> {
