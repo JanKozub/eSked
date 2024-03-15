@@ -174,7 +174,7 @@ public class ScheduleGrid extends VerticalLayout {
         String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
         ScheduleHour scheduleHour = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1);
         if (scheduleHour != null)
-            text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).getData();
+            text = hoursService.getScheduleHour(userId, Integer.parseInt(e.getText()) + 1).data();
         return new Text(text);
     }
 }

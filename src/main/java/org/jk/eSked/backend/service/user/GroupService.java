@@ -78,7 +78,7 @@ public class GroupService implements GroupDB {
         Collection<Group> groups = getGroups();
 
         for (Group group : groups) {
-            if (group.getLeaderId().compareTo(userId) == 0) return true;
+            if (group.leaderId().compareTo(userId) == 0) return true;
         }
 
         return false;
@@ -120,7 +120,7 @@ public class GroupService implements GroupDB {
         Collection<ScheduleHour> hours = hoursService.getHours(getLeaderId(groupCode));
         List<ScheduleHour> newHours = new ArrayList<>();
         for (ScheduleHour hour : hours) {
-            newHours.add(new ScheduleHour(userId, hour.getHour(), hour.getData()));
+            newHours.add(new ScheduleHour(userId, hour.hour(), hour.data()));
         }
         hoursService.deleteScheduleHours(userId);
         hoursService.setScheduleHours(newHours);

@@ -29,14 +29,14 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
             Button button = new Button(getTranslation("groups.accept"));
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
-                groupsService.setGroupAccepted(group.getGroupCode());
-                userService.setGroupCode(group.getLeaderId(), group.getGroupCode());
+                groupsService.setGroupAccepted(group.groupCode());
+                userService.setGroupCode(group.leaderId(), group.groupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setItems(new ListDataProvider<>(groups));
 
                 messagesService.addMessageForUser(new Message(
-                        group.getLeaderId(),
+                        group.leaderId(),
                         messagesService.generateMessageId(),
                         Instant.now().toEpochMilli(),
                         getTranslation("groups.accept.info"),
@@ -49,7 +49,7 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
             Button button = new Button(getTranslation("groups.deny"));
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
-                groupsService.deleteGroup(e.getGroupCode());
+                groupsService.deleteGroup(e.groupCode());
                 Collection<Group> groups = groupsService.getGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setItems(new ListDataProvider<>(groups));
