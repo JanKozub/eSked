@@ -1,5 +1,6 @@
 package org.jk.eSked.ui.components.settings.fields;
 
+import jakarta.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.FieldType;
@@ -8,7 +9,6 @@ import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
-import javax.validation.ValidationException;
 import java.util.UUID;
 
 public class MyPasswordField extends SettingsField {

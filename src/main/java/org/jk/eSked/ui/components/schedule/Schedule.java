@@ -22,7 +22,6 @@ abstract class Schedule extends Grid<Button> {
 
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
         setSelectionMode(Grid.SelectionMode.NONE);
-        setVerticalScrollingEnabled(true);
         recalculateColumnWidths();
         setHeight("60%");
     }

@@ -1,5 +1,6 @@
 package org.jk.eSked.ui.components.settings.fields;
 
+import jakarta.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
@@ -10,7 +11,6 @@ import org.jk.eSked.backend.service.user.MessagesService;
 import org.jk.eSked.backend.service.user.UserService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
-import javax.validation.ValidationException;
 import java.time.Instant;
 import java.util.UUID;
 

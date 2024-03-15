@@ -8,6 +8,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
+import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
@@ -19,7 +20,6 @@ import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.ValidationException;
 import java.time.Instant;
 import java.util.UUID;
 

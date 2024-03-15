@@ -11,6 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.Event;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
@@ -23,7 +24,6 @@ import org.jk.eSked.ui.components.myComponents.MyDatePicker;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 import org.jk.eSked.ui.components.myComponents.TopicField;
 
-import javax.validation.ValidationException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         topicField = new TopicField();
 
         hourNum = new NumberField();
-        hourNum.setHasControls(true);
+        hourNum.setStepButtonsVisible(true);
         hourNum.setMin(1);
         hourNum.setPlaceholder(getTranslation("hour"));
         hourNum.setWidth("100%");

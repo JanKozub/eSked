@@ -8,7 +8,6 @@ import java.util.List;
 public class MyDatePicker extends DatePicker {
     public MyDatePicker() {
         setI18n(new DatePicker.DatePickerI18n()
-                .setWeek(getTranslation("calendar.week"))
                 .setToday(getTranslation("calendar.today"))
                 .setCancel(getTranslation("calendar.cancel"))
                 .setFirstDayOfWeek(1)

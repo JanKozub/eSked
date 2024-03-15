@@ -5,13 +5,14 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
+import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.HoursService;
 import org.jk.eSked.ui.components.myComponents.SuccessNotification;
 
-import javax.validation.ValidationException;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,9 +76,9 @@ public class ScheduleHoursSetter extends VerticalLayout {
     private static class TimeField extends TimePicker {
         private TimeField(String label) {
             super(label);
-            setClearButtonVisible(true);
-            setMin("07:00");
-            setMax("20:00");
+            setClearButtonVisible(true);//TODO change time format
+            setMin(LocalTime.of(7,0,0,0));
+            setMax(LocalTime.of(20,0,0,0));
             setStep(Duration.ofMinutes(15));
             setWidth("100%");
         }
