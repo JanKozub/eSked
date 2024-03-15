@@ -16,7 +16,7 @@ import org.jk.eSked.ui.components.settings.fields.GroupCreator;
 
 import java.util.UUID;
 
-public class GroupTab extends SettingsTab { //TODO check code
+public class GroupTab extends SettingsTab {
     public GroupTab(UserService userService, GroupService groupService, String title) {
         super(new Label(title));
         UUID userId = SessionService.getUserId();
@@ -24,16 +24,13 @@ public class GroupTab extends SettingsTab { //TODO check code
         Button groupButton = new Button(getTranslation("group.leave"));
         GroupCreator groupCreator = new GroupCreator(groupService, userService);
 
-        FormLayout groupsForm = new FormLayout();
         GroupCodeField groupCodeField = new GroupCodeField(SessionService.getUserId(), userService, groupService);
-        groupsForm.add(groupCodeField);
         Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent -> {
             if (userService.getGroupCode(userId) != 0)
                 groupService.synchronizeWGroup(userId, userService.getGroupCode(userId));
         });
         groupSyn.getStyle().set("margin-top", "auto");
-        groupsForm.add(groupSyn);
 
         RadioButtonGroup<String> eventSync = new RadioButtonGroup<>();
         eventSync.setLabel(getTranslation("group.sync.events"));
@@ -41,7 +38,6 @@ public class GroupTab extends SettingsTab { //TODO check code
         if (userService.isEventsSyn(userId)) eventSync.setValue(getTranslation("enable"));
         else eventSync.setValue(getTranslation("disable"));
         eventSync.addValueChangeListener(valueChange -> userService.setEventsSyn(userId, valueChange.getValue().equals(getTranslation("enable"))));
-        groupsForm.add(eventSync);
 
         RadioButtonGroup<String> tableSync = new RadioButtonGroup<>();
         tableSync.setLabel(getTranslation("group.sync.schedule"));
@@ -49,12 +45,9 @@ public class GroupTab extends SettingsTab { //TODO check code
         if (userService.isTableSyn(userId)) tableSync.setValue(getTranslation("enable"));
         else tableSync.setValue(getTranslation("disable"));
         tableSync.addValueChangeListener(valueChange -> userService.setTableSyn(userId, valueChange.getValue().equals(getTranslation("enable"))));
-        groupsForm.add(tableSync);
 
         Details newGroup = new Details(getTranslation("group.new"), groupCreator);
         newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
-
-        groupsForm.add(newGroup);
 
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
@@ -63,26 +56,23 @@ public class GroupTab extends SettingsTab { //TODO check code
                 groupButton.setText(getTranslation("group.delete"));
                 groupButton.addClickListener(click -> {
                     groupService.deleteGroup(userService.getGroupCode(userId));
-                    new SuccessNotification(getTranslation("group.deleted"), NotificationType.SHORT).open();
-                    userService.setGroupCode(userId, 0);
-                    groupCreator.setMainLayout();
-                    groupCodeField.updateMainValue("");
-                    groupButton.setVisible(false);
+                    resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.deleted"));
                 });
             } else {
                 groupButton.setText(getTranslation("group.leave"));
-                groupButton.addClickListener(click -> {
-                    new SuccessNotification(getTranslation("group.left"), NotificationType.SHORT).open();
-                    userService.setGroupCode(userId, 0);
-                    groupCreator.setMainLayout();
-                    groupCodeField.updateMainValue("");
-                    groupButton.setVisible(false);
-                });
+                groupButton.addClickListener(click -> resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.left")));
             }
             groupButton.setVisible(true);
         }
 
-        groupsForm.add(groupButton);
-        add(groupsForm);
+        add(new FormLayout(groupCodeField, groupSyn, eventSync, tableSync, newGroup, groupButton));
+    }
+
+    private void resetLayout(GroupCodeField groupCodeField, Button groupButton, UserService userService, GroupCreator groupCreator, String notification) {
+        new SuccessNotification(notification, NotificationType.SHORT).open();
+        userService.setGroupCode(SessionService.getUserId(), 0);
+        groupCreator.setMainLayout();
+        groupCodeField.updateMainValue("");
+        groupButton.setVisible(false);
     }
 }
