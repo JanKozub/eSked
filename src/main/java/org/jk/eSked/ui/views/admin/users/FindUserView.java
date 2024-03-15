@@ -6,8 +6,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.service.EmailService;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.user.*;
@@ -47,7 +47,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
         add(new AdminReturnButton(), textField, searchForUserButton, new UserCreator(userService));
     }
 
-    private User validateInput(UserService userService, String input) {
+    private User validateInput(UserService userService, String input) throws ValidationException{
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         User user = userService.getUserByUsername(input);

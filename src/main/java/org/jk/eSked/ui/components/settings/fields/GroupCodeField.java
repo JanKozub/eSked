@@ -1,9 +1,9 @@
 package org.jk.eSked.ui.components.settings.fields;
 
-import jakarta.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.eSked.backend.ApplicationContextHolder;
 import org.jk.eSked.backend.model.Message;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.GroupService;
@@ -33,7 +33,7 @@ public class GroupCodeField extends SettingsField {
     }
 
     @Override
-    protected void validateInput(String input) {
+    protected void validateInput(String input) throws ValidationException{
         if (StringUtils.isBlank(input))
             throw new ValidationException(getTranslation("exception.empty.field"));
 

@@ -1,6 +1,5 @@
 package org.jk.eSked.backend.model.exceptions;
 
-import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.types.FieldType;
 
 public class FieldValidationException extends ValidationException {

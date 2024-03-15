@@ -5,7 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
-import jakarta.validation.ValidationException;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.schedule.ScheduleHour;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.user.HoursService;
@@ -68,7 +68,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         }
     }
 
-    private void validateFields(TimeField from, TimeField to) {
+    private void validateFields(TimeField from, TimeField to) throws ValidationException{
         if (from.isEmpty() || to.isEmpty())
             throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
     }

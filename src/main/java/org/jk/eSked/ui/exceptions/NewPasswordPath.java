@@ -8,10 +8,10 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.Message;
 import org.jk.eSked.backend.model.TokenValue;
 import org.jk.eSked.backend.model.User;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.TokenService;
 import org.jk.eSked.backend.service.user.MessagesService;
@@ -89,7 +89,7 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
         return null;
     }
 
-    private void validateFields(String input1, String input2) {
+    private void validateFields(String input1, String input2) throws ValidationException {
         if (input1.isEmpty() || input2.isEmpty())
             throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
 

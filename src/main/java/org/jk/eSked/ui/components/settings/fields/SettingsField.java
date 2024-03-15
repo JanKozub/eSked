@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.FieldType;
 
 public abstract class SettingsField extends VerticalLayout {
@@ -68,7 +69,7 @@ public abstract class SettingsField extends VerticalLayout {
         }
     }
 
-    protected abstract void validateInput(String input);
+    protected abstract void validateInput(String input) throws ValidationException;
 
     protected abstract void commitInput(String input) throws Exception;
 }

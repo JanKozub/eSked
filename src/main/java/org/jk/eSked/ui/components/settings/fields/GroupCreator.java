@@ -5,8 +5,8 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import jakarta.validation.ValidationException;
 import org.jk.eSked.backend.model.Group;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.SessionService;
 import org.jk.eSked.backend.service.TimeService;
@@ -63,7 +63,7 @@ public class GroupCreator extends VerticalLayout {
         add(nameLabel, groupName, confirm);
     }
 
-    private void validateInput(String input, UUID userId, GroupService groupsService) {
+    private void validateInput(String input, UUID userId, GroupService groupsService) throws ValidationException{
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> groups = groupsService.getGroupNames();

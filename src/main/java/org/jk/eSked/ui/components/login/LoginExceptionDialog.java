@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import jakarta.validation.ValidationException;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.NotificationType;
 import org.jk.eSked.backend.service.EmailService;
@@ -63,10 +63,10 @@ public class LoginExceptionDialog extends Dialog {
         }
     }
 
-    private void validateUsernameInput(UserService userService, String input) {
+    private void validateUsernameInput(UserService userService, String input) throws ValidationException {
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> users = userService.getUsernames();
-        if (!users.contains(input)) throw new ValidationException(getTranslation( "exception.user.not.exist"));
+        if (!users.contains(input)) throw new ValidationException(getTranslation("exception.user.not.exist"));
     }
 }

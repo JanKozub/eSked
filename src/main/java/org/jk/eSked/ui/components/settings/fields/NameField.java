@@ -2,8 +2,8 @@ package org.jk.eSked.ui.components.settings.fields;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import jakarta.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
+import org.jk.eSked.backend.model.exceptions.ValidationException;
 import org.jk.eSked.backend.model.types.EmailType;
 import org.jk.eSked.backend.model.types.FieldType;
 import org.jk.eSked.backend.model.types.NotificationType;
@@ -28,7 +28,7 @@ public class NameField extends SettingsField {
     }
 
     @Override
-    protected void validateInput(String input) {
+    protected void validateInput(String input) throws ValidationException {
         if (StringUtils.isBlank(input))
             throw new ValidationException(getTranslation("exception.empty.field"));
 
