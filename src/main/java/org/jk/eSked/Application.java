@@ -11,7 +11,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @WebServlet(urlPatterns = "/*", name = "slot", asyncSupported = true, loadOnStartup = 1,
         initParams = { @WebInitParam(name = InitParameters.I18N_PROVIDER, value = "com.vaadin.example.ui.TranslationProvider") })
-
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
