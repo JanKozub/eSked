@@ -62,11 +62,6 @@ public class User extends AbstractEntity {
         return id;
     }
 
-    @Override
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }

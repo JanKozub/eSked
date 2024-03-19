@@ -40,7 +40,7 @@ public class NameField extends SettingsField {
 
     @Override
     protected void commitInput(String input) throws Exception {
-        userService.changePasswordByUserId(userId, input);
+        userService.changeUsernameByUserId(userId, input);
 
         Notification notification = new Notification(getTranslation("notification.username.changed") + " \"" + input + "\"",
                 NotificationType.SHORT.getDuration(), Notification.Position.TOP_END);

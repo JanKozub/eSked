@@ -19,10 +19,6 @@ public class SecurityService {
         this.userService = userService;
     }
 
-    public boolean isUserAuthenticated() {
-        return authenticationContext.isAuthenticated();
-    }
-
     public UserDetails getAuthenticatedUser() {
         return authenticationContext.getAuthenticatedUser(UserDetails.class).orElse(null);
     }

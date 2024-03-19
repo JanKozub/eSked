@@ -1163,7 +1163,5 @@ node_modules/y18n/
 node_modules/yallist/
 node_modules/yargs-parser/
 node_modules/yargs/
-frontend/generated
-src/main/java/org/jk/eSked/ui/utils/
 webpack.config.js
 webpack.generated.js

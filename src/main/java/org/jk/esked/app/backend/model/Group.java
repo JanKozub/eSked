@@ -34,11 +34,6 @@ public class Group extends AbstractEntity {
         return id;
     }
 
-    @Override
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public User getLeader() {
         return leader;
     }

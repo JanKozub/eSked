@@ -34,11 +34,6 @@ public class ScheduleEntry extends AbstractEntity {
         return id;
     }
 
-    @Override
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public User getUser() {
         return user;
     }

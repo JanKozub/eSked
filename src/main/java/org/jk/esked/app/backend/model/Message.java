@@ -33,11 +33,6 @@ public class Message extends AbstractEntity {
         return id;
     }
 
-    @Override
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public User getUser() {
         return user;
     }

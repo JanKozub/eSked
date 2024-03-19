@@ -40,6 +40,10 @@ public class UserService {
         return userRepository.getUserUsernameById(id);
     }
 
+    public void changeUsernameByUserId(UUID id, String username) {
+        userRepository.changeUserUsernameById(id, username);
+    }
+
     public void changePasswordByUserId(UUID userId, String newPassword) {
         userRepository.changeUserPasswordById(userId, newPassword);
     }
