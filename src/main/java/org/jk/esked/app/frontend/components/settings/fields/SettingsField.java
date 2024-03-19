@@ -1,7 +1,7 @@
 package org.jk.esked.app.frontend.components.settings.fields;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -15,10 +15,10 @@ public abstract class SettingsField extends VerticalLayout {
     private final HorizontalLayout buttons = new HorizontalLayout();
 
     public SettingsField(FieldType fieldType) {
-        Text label = new Text(getTranslation("field." + fieldType.getDescription() + ".title"));
-//        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
-//        label.getStyle().set("font-weight", "500");
-//        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
+        Span label = new Span(getTranslation("field." + fieldType.getDescription() + ".title"));
+        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        label.getStyle().set("font-weight", "500");
+        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
         add(label);
 
         textField.setReadOnly(true);

@@ -32,8 +32,6 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-//    //USERNAME
-
     public List<String> getAllUserUsernames() {
         return userRepository.getAllUsersUsernames();
     }
@@ -42,22 +40,14 @@ public class UserService {
         return userRepository.getUserUsernameById(id);
     }
 
-    public void changeUsernameByUserId(UUID id, String newUsername) {
-        userRepository.changeUserUsernameById(id, newUsername);
-    }
-
-//    //PASSWORD
-
     public void changePasswordByUserId(UUID userId, String newPassword) {
         userRepository.changeUserPasswordById(userId, newPassword);
     }
 
-//    //EMAIL
-
     public List<String> getAllUserEmails() {
         return userRepository.getAllUsersEmails();
     }
-//
+
     public String getEmailByUserId(UUID userId) {
         return userRepository.getUserEmailById(userId);
     }
@@ -65,8 +55,6 @@ public class UserService {
     public void changeEmailByUserId(UUID userId, String newEmail) {
         userRepository.changeUserEmailById(userId, newEmail);
     }
-
-    //THEME
 
     public ThemeType getThemeByUserId(UUID userId) {
         return (userRepository.getUserDarkThemeById(userId)) ? ThemeType.DARK : ThemeType.WHITE;
@@ -76,8 +64,6 @@ public class UserService {
         userRepository.changeThemeByUserId(userId, themeType == ThemeType.DARK);
     }
 
-    //GROUPS
-
     public int getGroupCodeByUserId(UUID userId) {
         return userRepository.getGroupCodeByUserId(userId);
     }
@@ -86,9 +72,6 @@ public class UserService {
         userRepository.changeGroupCodeByUserId(userId, groupCode);
     }
 
-
-//    //SCHEDULE HOURS
-
     public boolean isHourEnabled(UUID userId) {
         return userRepository.isScheduleHourEnabledById(userId);
     }
@@ -96,8 +79,6 @@ public class UserService {
     public void changeHourByUserId(UUID userId, boolean state) {
         userRepository.changeHoursByUserId(userId, state);
     }
-
-    //SYNCHRONIZATION
 
     public boolean isEventsSynByUserId(UUID userId) {
         return userRepository.isEventSynByUserId(userId);
@@ -118,12 +99,6 @@ public class UserService {
     public void changeVerifiedByUserId(UUID userId, boolean newState) {
         userRepository.changeUserVerifiedById(userId, newState);
     }
-//
-//    public void setLastLogged(UUID userId, long time) {
-//        usersDao.setLastLogged(userId, time);
-//    }
-
-    //OTHER GETTERS
 
     public UUID getIdByUsername(String username) {
         return userRepository.getUserIdByUsername(username);
@@ -132,32 +107,4 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
-//
-//    public String getUsernameByEmail(String email) {
-//        return usersDao.getUsernameByEmail(email);
-//    }
-
-
-//    public Collection<UserDetails> getUserDetails() {
-//        Collection<User> users = getAllUsers();
-//        List<UserDetails> userDetails = new ArrayList<>();
-//
-//        users.forEach(user -> {
-//            UserDetails newUser;
-//            if (user.getUsername().equals("admin")) {
-//                newUser = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
-//                        .password("{noop}" + user.getPassword())
-//                        .roles("USER", "ADMIN")
-//                        .build();
-//            } else {
-//                newUser = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
-//                        .password("{noop}" + user.getPassword())
-//                        .roles("USER")
-//                        .build();
-//            }
-//            userDetails.add(newUser);
-//        });
-//        return userDetails;
-//    }
-
 }

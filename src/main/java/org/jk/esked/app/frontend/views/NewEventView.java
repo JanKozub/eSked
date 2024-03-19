@@ -1,9 +1,9 @@
 package org.jk.esked.app.frontend.views;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,11 +12,6 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.frontend.components.MyDatePicker;
-import org.jk.esked.app.frontend.components.SuccessNotification;
-import org.jk.esked.app.frontend.components.TopicField;
-import org.jk.esked.app.frontend.components.events.EventGrid;
-import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
 import org.jk.esked.app.backend.model.Event;
 import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
@@ -25,6 +20,11 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.TimeService;
+import org.jk.esked.app.frontend.components.MyDatePicker;
+import org.jk.esked.app.frontend.components.SuccessNotification;
+import org.jk.esked.app.frontend.components.TopicField;
+import org.jk.esked.app.frontend.components.events.EventGrid;
+import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -46,9 +46,9 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         this.user = securityService.getUser();
         this.eventGrid = new EventGrid(user.getId(), scheduleService, eventService, LocalDate.now());
 
-        Text formLabel = new Text(getTranslation("new.event.title"));
-//        formLabel.getStyle().set("margin-left", "auto");
-//        formLabel.getStyle().set("margin-right", "auto");
+        Span formLabel = new Span(getTranslation("new.event.title"));
+        formLabel.addClassName("centered-title");
+
         HorizontalLayout formName = new HorizontalLayout(formLabel);
         formName.setSizeFull();
 
@@ -91,9 +91,8 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
         VerticalLayout newEventLayout = new VerticalLayout(eventForm);
 
-        Text gridLabel = new Text(getTranslation("new.event.event.list.label"));
-//        gridLabel.getStyle().set("margin-left", "auto");
-//        gridLabel.getStyle().set("margin-right", "auto");
+        Span gridLabel = new Span(getTranslation("new.event.event.list.label"));
+        gridLabel.addClassName("centered-title");
 
         VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
 

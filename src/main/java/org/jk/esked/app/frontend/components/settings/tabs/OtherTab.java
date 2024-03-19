@@ -1,12 +1,12 @@
 package org.jk.esked.app.frontend.components.settings.tabs;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.esked.app.backend.model.types.NotificationType;
+import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.model.types.ThemeType;
 import org.jk.esked.app.backend.services.HourService;
 import org.jk.esked.app.backend.services.UserService;
@@ -16,8 +16,8 @@ import org.jk.esked.app.frontend.components.settings.fields.ScheduleHoursSetter;
 import java.util.UUID;
 
 public class OtherTab extends SettingsTab {
-    public OtherTab(UUID userId, UserService userService, HourService hourService, String title) {
-        super(new Text(title));
+    public OtherTab(UUID userId, UserService userService, HourService hourService) {
+        super(SettingsTabType.OTHER);
 
         RadioButtonGroup<String> scheduleHours = new RadioButtonGroup<>();
         scheduleHours.setLabel(getTranslation("schedule.hours"));
@@ -33,7 +33,8 @@ public class OtherTab extends SettingsTab {
         RadioButtonGroup<String> theme = new RadioButtonGroup<>();
         theme.setLabel(getTranslation("schedule.theme"));
         theme.setItems(getTranslation("schedule.theme.light"), getTranslation("schedule.theme.dark"));
-        if (userService.getThemeByUserId(userId) == ThemeType.DARK) theme.setValue(getTranslation("schedule.theme.dark"));
+        if (userService.getThemeByUserId(userId) == ThemeType.DARK)
+            theme.setValue(getTranslation("schedule.theme.dark"));
         else theme.setValue(getTranslation("schedule.theme.light"));
         theme.addValueChangeListener(valueChange -> {
             if (valueChange.getValue().equals(getTranslation("schedule.theme.dark")))

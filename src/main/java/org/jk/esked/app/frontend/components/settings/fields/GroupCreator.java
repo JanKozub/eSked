@@ -2,27 +2,33 @@ package org.jk.esked.app.frontend.components.settings.fields;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import org.jk.esked.app.backend.model.Group;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.GroupService;
+import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.SuccessNotification;
 
 import java.util.Collection;
+import java.util.Random;
 import java.util.UUID;
 
 public class GroupCreator extends VerticalLayout {
     private final UUID userId;
     private final GroupService groupsService;
     private final UserService userService;
+    private final ScheduleService scheduleService;
 
-    public GroupCreator(UUID userId, GroupService groupsService, UserService userService) {
+    public GroupCreator(UUID userId, UserService userService, GroupService groupsService, ScheduleService scheduleService) {
         this.userId = userId;
         this.groupsService = groupsService;
         this.userService = userService;
+        this.scheduleService = scheduleService;
 
         checkUserStatus();
     }
@@ -30,9 +36,9 @@ public class GroupCreator extends VerticalLayout {
     public void setMainLayout() {
         removeAll();
 
-        Text name = new Text(getTranslation("group.new"));
-        name.getStyle().set("margin-left", "auto");
-        name.getStyle().set("margin-right", "auto");
+        Span name = new Span(getTranslation("group.new"));
+        name.addClassName("centered-text");
+
         HorizontalLayout nameLabel = new HorizontalLayout(name);
         nameLabel.setWidth("100%");
 
@@ -43,9 +49,15 @@ public class GroupCreator extends VerticalLayout {
         confirm.setWidth("100%");
         confirm.addClickListener(event -> {
             try {
-                validateInput(groupName.getValue(), userId, groupsService);
+                validateInput(groupName.getValue());
                 groupName.setInvalid(false);
-//                groupsService.addGroup(new Group(groupName.getValue(), new Random().nextInt(8999) + 1000, userId, false, TimeService.now()));
+
+                Group group = new Group();
+                group.setLeader(userService.getUserById(userId));
+                group.setName(groupName.getValue());
+                group.setGroupCode(new Random().nextInt(8999) + 1000);
+                groupsService.saveGroup(group);
+
                 removeAll();
 
                 new SuccessNotification(getTranslation("notification.group.sent"), NotificationType.SHORT).open();
@@ -59,14 +71,14 @@ public class GroupCreator extends VerticalLayout {
         add(nameLabel, groupName, confirm);
     }
 
-    private void validateInput(String input, UUID userId, GroupService groupsService) throws ValidationException{
+    private void validateInput(String input) throws ValidationException {
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
         Collection<String> groups = groupsService.getAllGroupNames();
         if (groups.contains(input)) throw new ValidationException(getTranslation("exception.group.exist"));
 
-//        if (!groupsService.hasEntries(userId))
-//            throw new ValidationException(getTranslation("exception.group.cannot.create"));
+        if (!scheduleService.doesUserHasEntries(userId))
+            throw new ValidationException(getTranslation("exception.group.cannot.create"));
     }
 
     void checkUserStatus() {

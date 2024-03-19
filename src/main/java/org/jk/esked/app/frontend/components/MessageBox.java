@@ -28,19 +28,11 @@ public abstract class MessageBox extends Div {
         getStyle().set("background", "#304663");
         getStyle().set("border-radius", "5px");
 
-//        if (SessionService.isSessionMobile()) {
-//            MainLayout.setHeight("100px");
-//            leftLayout.setWidth("100px");
-//            middleLayout.setWidth("calc(100% - 170px)");
-//            rightLayout.setWidth("70px");
-//            setWidth("90vw");
-//        } else {
-            MainLayout.setHeight("100px");
-            leftLayout.setWidth("90px");
-            middleLayout.setWidth("calc(100% - 150px)");
-            rightLayout.setWidth("60px");
-            setWidth("60vw");
-//        }
+        MainLayout.setHeight("100px");
+        leftLayout.setWidth("90px");
+        middleLayout.setWidth("calc(100% - 150px)");
+        rightLayout.setWidth("60px");
+        setWidth("60vw");
 
         add(MainLayout);
     }
@@ -94,7 +86,7 @@ public abstract class MessageBox extends Div {
         right.getStyle().set("margin-left", "0px");
 
         checkbox.addClickListener(click -> {
-//            messagesService.setCheckedFlag(message.getMessageId());
+            messagesService.changeCheckedFlagByMessageId(message.getId(), true);
             setCheckBox(checkBoxLabel, checkbox);
             right.add(deleteButton);
         });

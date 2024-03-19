@@ -42,8 +42,8 @@ public class SecurityConfig extends VaadinWebSecurity {
         InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
         users.forEach(u -> {
             String[] roles = {"USER"};
-            System.out.println(u.getUserType());//TODO set admin in settings
-            if (u.getUsername().equals("admin") || u.getUserType() == UserType.ADMIN) roles = new String[]{"USER", "ADMIN"};
+            if (u.getUsername().equals("admin") || u.getUserType() == UserType.ADMIN)
+                roles = new String[]{"USER", "ADMIN"};
 
             UserDetails user = User.builder() //TODO provide bcrypt key?
                     .username(u.getUsername())

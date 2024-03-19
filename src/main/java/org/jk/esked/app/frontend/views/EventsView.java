@@ -9,11 +9,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.frontend.components.events.EventGrid;
-import org.jk.esked.app.frontend.components.schedule.DatePanel;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.frontend.components.events.EventGrid;
+import org.jk.esked.app.frontend.components.schedule.DatePanel;
 import org.springframework.context.annotation.Scope;
 
 import java.time.DayOfWeek;
@@ -25,8 +25,8 @@ import java.time.temporal.TemporalAdjusters;
 @Scope("prototype")
 @Route(value = "events", layout = MainLayout.class)
 public class EventsView extends VerticalLayout implements HasDynamicTitle {
-    private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
     private final EventGrid eventGrid;
+    private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
     public EventsView(ScheduleService scheduleService, EventService eventService, SecurityService securityService) {
         eventGrid = new EventGrid(securityService.getUserId(), scheduleService, eventService, startOfWeek);

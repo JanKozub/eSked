@@ -1,17 +1,30 @@
 package org.jk.esked.app.backend.services;
+
+import org.jk.esked.app.backend.model.Event;
 import org.jk.esked.app.backend.model.Group;
+import org.jk.esked.app.backend.model.Hour;
+import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.repositories.GroupRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class GroupService {
     private final GroupRepository groupRepository;
+    private final UserService userService;
+    private final EventService eventService;
+    private final ScheduleService scheduleService;
+    private final HourService hourService;
 
-    public GroupService(GroupRepository groupRepository) {
+    public GroupService(GroupRepository groupRepository, UserService userService, EventService eventService, ScheduleService scheduleService, HourService hourService) {
         this.groupRepository = groupRepository;
+        this.userService = userService;
+        this.eventService = eventService;
+        this.scheduleService = scheduleService;
+        this.hourService = hourService;
     }
 
     public void saveGroup(Group group) {
@@ -54,44 +67,49 @@ public class GroupService {
         return !groupRepository.getGroupsCreatedByUser(userId).isEmpty();
     }
 
-//    public void synchronizeWGroup(UUID userId, int groupCode) {
-//        if (userId.compareTo(getLeaderIdByName(groupCode)) != 0) {
-//            if (userService.isEventsSynByUserId(userId))
-//                synchronizeEvents(userId);
-//
-//            if (userService.isTableSyn(userId))
-//                synchronizeTable(userId, groupCode);
-//        }
-//    }
-//
-//    private void synchronizeEvents(UUID userId) {
-//        Collection<Event> groupEvents = eventService.getEvents(getLeaderIdByName(
-//                getGroupNameByGroupCode(userService.getGroupCode(userId))));
-//        Collection<Event> events = eventService.getEvents(userId);
-//        for (Event parseEvent : groupEvents) {
-//            if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {
-//                User user = new User();
-//                user.setId(userId);
-//                parseEvent.setUser(user);
-//                parseEvent.setCheckedFlag(false);
-//                eventService.saveEvent(parseEvent);
-//            }
-//        }
-//    }
-//
-//    private void synchronizeTable(UUID userId, int groupCode) {
-//        scheduleService.deleteAllScheduleEntriesForId(userId);
-//        scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntriesByUserId(getLeaderIdByName(groupCode)));
-//
-//        Collection<Hour> hours = hourService.getHours(getLeaderIdByName(groupCode));
-//        List<Hour> newHours = new ArrayList<>();
-//        for (Hour hour : hours) {
-//            Hour newHour = new Hour();
-//            newHour.setHour(hour.getHour());
-//            newHour.setData(hour.getData());
-//            newHours.add(new ScheduleHour(userId, hour.hour(), hour.data()));
-//        }
-//        hourService.deleteAllHourByUserId(userId);
-//        hourService.setScheduleHours(newHours);
-//    }
+    public void synchronizeWGroup(UUID userId, int groupCode) {
+        if (userId.compareTo(getLeaderIdByGroupCode(groupCode)) != 0) {
+            if (userService.isEventsSynByUserId(userId))
+                synchronizeEvents(userId);
+
+            if (userService.isTableSyn(userId))
+                synchronizeTable(userId, groupCode);
+        }
+    }
+
+    private void synchronizeEvents(UUID userId) {
+        List<Event> groupEvents = eventService.getEvents(getLeaderIdByName(
+                getGroupNameByGroupCode(userService.getGroupCodeByUserId(userId))));
+        List<Event> events = eventService.getEvents(userId);
+        for (Event parseEvent : groupEvents) {
+            if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {
+                User user = new User();
+                user.setId(userId);
+                parseEvent.setUser(user);
+                parseEvent.setCheckedFlag(false);
+                eventService.saveEvent(parseEvent);
+            }
+        }
+    }
+
+    private void synchronizeTable(UUID userId, int groupCode) {
+        scheduleService.deleteAllScheduleEntriesForId(userId);
+        scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntriesByUserId(getLeaderIdByGroupCode(groupCode)));
+
+        List<Hour> hours = hourService.getHourByUserId(getLeaderIdByGroupCode(groupCode));
+        List<Hour> newHours = new ArrayList<>();
+        for (Hour hour : hours) {
+            Hour newHour = new Hour();
+            User user = new User();
+            user.setId(userId);
+
+            newHour.setUser(user);
+            newHour.setHour(hour.getHour());
+            newHour.setData(hour.getData());
+
+            newHours.add(newHour);
+        }
+        hourService.deleteAllHourByUserId(userId);
+        hourService.setScheduleHours(newHours);
+    }
 }

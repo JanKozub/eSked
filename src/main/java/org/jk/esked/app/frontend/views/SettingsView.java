@@ -9,6 +9,8 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.frontend.components.settings.tabs.AccountTab;
 import org.jk.esked.app.frontend.components.settings.tabs.DeleteTab;
+import org.jk.esked.app.frontend.components.settings.tabs.GroupTab;
+import org.jk.esked.app.frontend.components.settings.tabs.OtherTab;
 import org.springframework.context.annotation.Scope;
 
 import java.util.UUID;
@@ -18,13 +20,13 @@ import java.util.UUID;
 @Scope("prototype")
 @Route(value = "settings", layout = MainLayout.class)
 public class SettingsView extends VerticalLayout implements HasDynamicTitle {
-    public SettingsView(SecurityService securityService, UserService userService, GroupService groupService, EmailService emailService, HourService hoursService, MessageService messageService) {
+    public SettingsView(SecurityService securityService, UserService userService, GroupService groupService, EmailService emailService, HourService hoursService, MessageService messageService, ScheduleService scheduleService) {
         UUID userId = securityService.getUserId();
         add(
-                new AccountTab(userId, userService, emailService, getTranslation("user")),
-//                new GroupTab(userId, userService, groupService, messageService, getTranslation("group")),
-//                new OtherTab(userId, userService, hoursService, getTranslation("other")),
-                new DeleteTab(userId, userService, getTranslation("settings.tab.delete.acc"))
+                new AccountTab(userId, userService, emailService),
+                new GroupTab(userId, userService, groupService, scheduleService, messageService),
+                new OtherTab(userId, userService, hoursService),
+                new DeleteTab(userId, userService)
         );
         setSizeFull();
     }

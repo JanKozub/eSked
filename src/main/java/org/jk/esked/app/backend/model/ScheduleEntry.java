@@ -1,6 +1,7 @@
 package org.jk.esked.app.backend.model;
 
 import jakarta.persistence.*;
+import org.jk.esked.app.backend.services.TimeService;
 
 import java.util.UUID;
 
@@ -17,16 +18,16 @@ public class ScheduleEntry extends AbstractEntity {
     private User user;
 
     @Column(name = "\"hour\"", nullable = false)
-    private int hour;
+    private int hour = 0;
 
     @Column(name = "\"day\"", nullable = false)
-    private int day;
+    private int day = 0;
 
     @Column(name = "subject", nullable = false)
-    private String subject;
+    private String subject = "";
 
     @Column(name = "created_timestamp", nullable = false)
-    private long created_timestamp = 0;
+    private long created_timestamp = TimeService.now();
 
     @Override
     public UUID getId() {
@@ -72,9 +73,5 @@ public class ScheduleEntry extends AbstractEntity {
 
     public long getCreatedTimestamp() {
         return created_timestamp;
-    }
-
-    public void setCreatedTimestamp(long created_timestamp) {
-        this.created_timestamp = created_timestamp;
     }
 }

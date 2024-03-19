@@ -5,12 +5,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.frontend.components.Line;
-import org.jk.esked.app.frontend.components.MessageBox;
 import org.jk.esked.app.backend.model.Message;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.TimeService;
+import org.jk.esked.app.frontend.components.Line;
+import org.jk.esked.app.frontend.components.MessageBox;
 
 import java.util.ArrayList;
 import java.util.Comparator;

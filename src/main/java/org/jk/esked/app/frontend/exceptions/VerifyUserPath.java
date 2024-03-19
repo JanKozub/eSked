@@ -46,7 +46,7 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
                 messagesService.saveMessage(message);
             } else
                 log.error("Token not found(null)");
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());
         }
 

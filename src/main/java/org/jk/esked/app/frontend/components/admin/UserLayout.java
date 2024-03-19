@@ -35,7 +35,7 @@ public class UserLayout extends VerticalLayout {
         Text eventsLabel = new Text(getTranslation("page.events"));
         EventGrid eventGrid = new EventGrid(user.getId(), scheduleService, eventService, LocalDate.now());
 
-        Button deleteButton = new Button(getTranslation("settings.tab.delete.acc"), e -> {
+        Button deleteButton = new Button(getTranslation("settings.tab.delete"), e -> {
             userService.deleteUser(user.getId());
             UI.getCurrent().navigate("admin");
         });

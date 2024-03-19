@@ -67,14 +67,6 @@ public class ScheduleGrid extends VerticalLayout {
         add(datePanel, scheduleGrid);
     }
 
-    private int getMaxHour() {
-        int maxHour = 0;
-        for (ScheduleEntry entry : entries) {
-            if (entry.getHour() > maxHour) maxHour = entry.getHour();
-        }
-        return maxHour + 1;
-    }
-
     public static void addRow(List<Button> buttons, Grid<Button> scheduleGrid) {
         int size = buttons.size();
         if (size > 0) {
@@ -82,6 +74,14 @@ public class ScheduleGrid extends VerticalLayout {
             buttons.add(new Button(Integer.toString(maxNum)));
         } else buttons.add(new Button("0"));
         scheduleGrid.setItems(buttons);
+    }
+
+    private int getMaxHour() {
+        int maxHour = 0;
+        for (ScheduleEntry entry : entries) {
+            if (entry.getHour() > maxHour) maxHour = entry.getHour();
+        }
+        return maxHour + 1;
     }
 
     private void refresh() {
@@ -118,7 +118,14 @@ public class ScheduleGrid extends VerticalLayout {
                     }
                 }
                 String subject = entry.getSubject();
-//                button.addClickListener(event -> addNewEvent(new ScheduleEntry(ScheduleGrid.this.userId, hour, day, subject, TimeService.now())));
+                button.addClickListener(event -> {
+                    ScheduleEntry scheduleEntry = new ScheduleEntry();
+                    scheduleEntry.setUser(user);
+                    scheduleEntry.setHour(hour);
+                    scheduleEntry.setDay(day);
+                    scheduleEntry.setSubject(subject);
+                    addNewEvent(scheduleEntry);
+                });
                 button.setText(subject + "(" + entryEvents.size() + ")");
                 button.getStyle().set("background-color", color);
                 return button;

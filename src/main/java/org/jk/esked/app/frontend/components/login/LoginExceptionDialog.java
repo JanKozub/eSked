@@ -1,9 +1,9 @@
 package org.jk.esked.app.frontend.components.login;
 
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,8 +24,8 @@ public class LoginExceptionDialog extends Dialog {
     public LoginExceptionDialog(UserService userService, EmailService emailService, EncryptionService encryptionService) {
         this.emailService = emailService;
 
-        Text newUserLabel = new Text(getTranslation("login.exception.label"));
-//        newUserLabel.getStyle().set("font-weight", "bold");
+        Span newUserLabel = new Span(getTranslation("login.exception.label"));
+        newUserLabel.getStyle().set("font-weight", "bold");
 
         Button newUser = new Button(getTranslation("login.exception.button"), click -> {
             Dialog dialog = new NewUserDialog(userService, emailService, encryptionService);
@@ -33,8 +33,8 @@ public class LoginExceptionDialog extends Dialog {
         });
         newUser.setWidth("100%");
 
-        Text passLabel = new Text(getTranslation("login.exception.password"));
-//        passLabel.getStyle().set("font-weight", "bold");
+        Span passLabel = new Span(getTranslation("login.exception.password"));
+        passLabel.getStyle().set("font-weight", "bold");
 
         TextField usernameField = new TextField();
         usernameField.setPlaceholder(getTranslation("username"));

@@ -30,7 +30,7 @@ public class MyPasswordField extends SettingsField {
     }
 
     @Override
-    protected void commitInput(String input) throws Exception{
+    protected void commitInput(String input) throws Exception {
         new SuccessNotification(getTranslation("notification.reset.link.sent"), NotificationType.SHORT).open();
         emailService.sendEmail(userService.getUserById(userId), EmailType.NEWPASSOWRD);
     }

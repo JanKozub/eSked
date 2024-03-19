@@ -1,11 +1,12 @@
 package org.jk.esked.app.frontend.components.settings.fields;
 
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import org.jk.esked.app.backend.model.Hour;
+import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.HourService;
@@ -24,9 +25,8 @@ public class ScheduleHoursSetter extends VerticalLayout {
         AtomicInteger currentHour = new AtomicInteger(1);
         int maxHour = hoursService.getScheduleMaxHour(userId);
 
-        Text name = new Text(getTranslation("schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
-        name.getStyle().set("margin-left", "auto");
-        name.getStyle().set("margin-right", "auto");
+        Span name = new Span(getTranslation("schedule.set.hours") + "(" + currentHour.get() + "z" + maxHour + ")");
+        name.addClassName("centered-text");
 
         TimeField from = new TimeField("Od");
         TimeField to = new TimeField("Do");
@@ -39,7 +39,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         add(name, from, to, confirm);
     }
 
-    private void checkValue(TimeField from, TimeField to, Text name, Button confirm, UUID userId,
+    private void checkValue(TimeField from, TimeField to, Span name, Button confirm, UUID userId,
                             HourService hourService, AtomicInteger currentHour, int maxHour) {
         if (currentHour.get() == 1)
             hourService.deleteAllHourByUserId(userId);
@@ -48,7 +48,13 @@ public class ScheduleHoursSetter extends VerticalLayout {
             from.setInvalid(false);
             to.setInvalid(false);
 
-//            hours.add(new ScheduleHour(userId, currentHour.get(), from.getValue() + "-" + to.getValue()));
+            Hour hour = new Hour(); //TODO fix stuff like this
+            User user = new User();
+            user.setId(userId);
+            hour.setUser(user);
+            hour.setHour(currentHour.get());
+            hour.setData(from.getValue() + "-" + to.getValue());
+            hours.add(hour);
 
             if (currentHour.get() == maxHour) {
                 hourService.setScheduleHours(hours);
@@ -68,7 +74,7 @@ public class ScheduleHoursSetter extends VerticalLayout {
         }
     }
 
-    private void validateFields(TimeField from, TimeField to) throws ValidationException{
+    private void validateFields(TimeField from, TimeField to) throws ValidationException {
         if (from.isEmpty() || to.isEmpty())
             throw new ValidationException(getTranslation("exception.fields.cannot.be.empty"));
     }
@@ -77,8 +83,8 @@ public class ScheduleHoursSetter extends VerticalLayout {
         private TimeField(String label) {
             super(label);
             setClearButtonVisible(true);//TODO change time format
-            setMin(LocalTime.of(7,0,0,0));
-            setMax(LocalTime.of(20,0,0,0));
+            setMin(LocalTime.of(7, 0, 0, 0));
+            setMax(LocalTime.of(20, 0, 0, 0));
             setStep(Duration.ofMinutes(15));
             setWidth("100%");
         }

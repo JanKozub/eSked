@@ -9,16 +9,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import org.jk.esked.app.backend.model.types.EmailType;
-import org.jk.esked.app.backend.services.EmailService;
-import org.jk.esked.app.frontend.components.SuccessNotification;
 import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.model.exceptions.FieldValidationException;
+import org.jk.esked.app.backend.model.types.EmailType;
 import org.jk.esked.app.backend.model.types.FieldType;
 import org.jk.esked.app.backend.model.types.NotificationType;
+import org.jk.esked.app.backend.services.EmailService;
 import org.jk.esked.app.backend.services.EncryptionService;
 import org.jk.esked.app.backend.services.TimeService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.SuccessNotification;
 
 import java.util.List;
 

@@ -20,19 +20,15 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public void deleteMessageById(UUID id) {
-        messageRepository.deleteById(id);
-    }
-
     public List<Message> getMessagesForUser(UUID userId) {
         return messageRepository.getMessagesForUser(userId);
     }
 
-//    public void setCheckedFlag(UUID messageId) {
-//        messageRepository.setCheckedFlag(messageId, true);
-//    }
+    public void deleteMessageById(UUID id) {
+        messageRepository.deleteById(id);
+    }
 
-//    public boolean doesMessageIdExists(UUID newMessageId) {
-//        return !messageRepository.doesMessageIdExists(newMessageId).isEmpty();
-//    }
+    public void changeCheckedFlagByMessageId(UUID id, boolean state) {
+        messageRepository.setCheckedFlagByMessageId(id, state);
+    }
 }

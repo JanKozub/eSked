@@ -7,6 +7,7 @@ import org.jk.esked.app.backend.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,7 +24,7 @@ public class HourService {
         hourRepository.saveAll(hours);
     }
 
-    public Collection<Hour> getHoursForUser(UUID userId) {
+    public List<Hour> getHourByUserId(UUID userId) {
         return hourRepository.findHoursByUserId(userId);
     }
 

@@ -5,12 +5,12 @@ import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.HourService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
 import org.springframework.context.annotation.Scope;
 
 @SpringComponent

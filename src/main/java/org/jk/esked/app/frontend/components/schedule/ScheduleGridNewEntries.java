@@ -8,12 +8,12 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import org.jk.esked.app.frontend.components.scheduleDialogs.AddEntryDialog;
-import org.jk.esked.app.frontend.components.scheduleDialogs.DeleteEntryDialog;
 import org.jk.esked.app.backend.model.ScheduleEntry;
 import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.scheduleDialogs.AddEntryDialog;
+import org.jk.esked.app.frontend.components.scheduleDialogs.DeleteEntryDialog;
 
 import java.util.ArrayList;
 import java.util.Collection;

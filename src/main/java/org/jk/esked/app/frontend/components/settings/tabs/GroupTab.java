@@ -1,14 +1,15 @@
 package org.jk.esked.app.frontend.components.settings.tabs;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.esked.app.backend.model.types.NotificationType;
+import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.GroupService;
 import org.jk.esked.app.backend.services.MessageService;
+import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.SuccessNotification;
 import org.jk.esked.app.frontend.components.settings.fields.GroupCodeField;
@@ -19,20 +20,20 @@ import java.util.UUID;
 public class GroupTab extends SettingsTab {
     private final UUID userId;
 
-    public GroupTab(UUID userId, UserService userService, GroupService groupService, MessageService messageService, String title) { //TODO add enum group type
-        super(new Text(title));
+    public GroupTab(UUID userId, UserService userService, GroupService groupService, ScheduleService scheduleService, MessageService messageService) {
+        super(SettingsTabType.GROUP);
         this.userId = userId;
 
         Button groupButton = new Button(getTranslation("group.leave"));
-        GroupCreator groupCreator = new GroupCreator(userId, groupService, userService);
+        GroupCreator groupCreator = new GroupCreator(userId, userService, groupService, scheduleService);
 
         GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupService, messageService);
         Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent -> {
-//            if (userService.getGroupCodeByUserId(userId) != 0)
-//                groupService.synchronizeWGroup(userId, userService.getGroupCodeByUserId(userId));
+            if (userService.getGroupCodeByUserId(userId) != 0)
+                groupService.synchronizeWGroup(userId, userService.getGroupCodeByUserId(userId));
         });
-//        groupSyn.getStyle().set("margin-top", "auto");
+        groupSyn.getStyle().set("margin-top", "auto");
 
         RadioButtonGroup<String> eventSync = new RadioButtonGroup<>();
         eventSync.setLabel(getTranslation("group.sync.events"));
@@ -54,16 +55,16 @@ public class GroupTab extends SettingsTab {
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
         if (userService.getGroupCodeByUserId(userId) != 0) {
-//            if (groupService.getLeaderIdByName(userService.getGroupCodeByUserId(userId)).compareTo(userId) == 0) {
-//                groupButton.setText(getTranslation("group.delete"));
-//                groupButton.addClickListener(click -> {
-//                    groupService.deleteGroupByGroupCode(userService.getGroupCodeByUserId(userId));
-//                    resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.deleted"));
-//                });
-//            } else {
-//                groupButton.setText(getTranslation("group.leave"));
-//                groupButton.addClickListener(click -> resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.left")));
-//            }
+            if (groupService.getLeaderIdByGroupCode(userService.getGroupCodeByUserId(userId)).compareTo(userId) == 0) {
+                groupButton.setText(getTranslation("group.delete"));
+                groupButton.addClickListener(click -> {
+                    groupService.deleteGroupByGroupCode(userService.getGroupCodeByUserId(userId));
+                    resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.deleted"));
+                });
+            } else {
+                groupButton.setText(getTranslation("group.leave"));
+                groupButton.addClickListener(click -> resetLayout(groupCodeField, groupButton, userService, groupCreator, getTranslation("group.left")));
+            }
             groupButton.setVisible(true);
         }
 

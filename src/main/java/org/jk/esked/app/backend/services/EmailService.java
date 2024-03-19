@@ -25,17 +25,17 @@ import java.util.UUID;
 @PropertySource("/passwords.properties")
 public class EmailService {
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
-    private final String username;
-    private final String password;
-    private final String hostAddress;
-    private final TokenService tokenService;
-
     private static final Properties PROPERTIES = new Properties();
 
     static {
         PROPERTIES.put("mail.smtp.auth", "true");
         PROPERTIES.put("mail.smtp.starttls.enable", "true");
     }
+
+    private final String username;
+    private final String password;
+    private final String hostAddress;
+    private final TokenService tokenService;
 
     public EmailService(@Value("${smtp.host}") String host, @Value("${smtp.port}") String port, @Value("${smtp.username}") String username,
                         @Value("${smtp.password}") String password, @Value("${host.address}") String hostAddress, TokenService tokenService) {

@@ -12,7 +12,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import org.jk.esked.app.backend.model.ScheduleEntry;
 import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.services.ScheduleService;
-import org.jk.esked.app.backend.services.TimeService;
 
 import java.util.ArrayList;
 
@@ -58,7 +57,6 @@ public class AddEntryDialog extends Dialog {
             scheduleEntry.setHour(hour);
             scheduleEntry.setDay(day);
             scheduleEntry.setSubject(name);
-            scheduleEntry.setCreatedTimestamp(TimeService.now());
 
             scheduleService.saveScheduleEntry(scheduleEntry); //TODO update if needed
 
