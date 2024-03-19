@@ -27,7 +27,7 @@ public class ScheduleEntry extends AbstractEntity {
     private String subject = "";
 
     @Column(name = "created_timestamp", nullable = false)
-    private long created_timestamp = TimeService.now();
+    private final long created_timestamp = TimeService.now();
 
     @Override
     public UUID getId() {
