@@ -2,10 +2,10 @@ package org.jk.esked.app.frontend.components;
 
 import com.vaadin.flow.component.html.Div;
 
-public class Line extends Div {
-    public Line() {
+public class VerticalLine extends Div {
+    public VerticalLine() {
         getStyle().set("background-color", "#d8e1ed");
-        setWidth("100%");
-        setHeight("3px");
+        setWidth("3px");
+        setHeight("415px"); //TODO relative
     }
 }

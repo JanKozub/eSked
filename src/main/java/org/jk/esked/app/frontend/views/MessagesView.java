@@ -9,7 +9,7 @@ import org.jk.esked.app.backend.model.Message;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.TimeService;
-import org.jk.esked.app.frontend.components.Line;
+import org.jk.esked.app.frontend.components.HorizontalLine;
 import org.jk.esked.app.frontend.components.MessageBox;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class MessagesView extends VerticalLayout implements HasDynamicTitle {
     private final MessageService messagesService;
     private final SecurityService securityService;
-    private final Line line;
+    private final HorizontalLine horizontalLine;
     private final Text title;
 
     public MessagesView(MessageService messagesService, SecurityService securityService) {
@@ -29,9 +29,9 @@ public class MessagesView extends VerticalLayout implements HasDynamicTitle {
         this.securityService = securityService;
 
         title = new Text(getTranslation("messages"));
-        line = new Line();
-        line.setWidth("60vw");
-        add(title, line);
+        horizontalLine = new HorizontalLine();
+        horizontalLine.setWidth("60vw");
+        add(title, horizontalLine);
 
         renderMessages();
 
@@ -47,7 +47,7 @@ public class MessagesView extends VerticalLayout implements HasDynamicTitle {
                 @Override
                 public void refresh() {
                     MessagesView.this.removeAll();
-                    MessagesView.this.add(title, line);
+                    MessagesView.this.add(title, horizontalLine);
                     renderMessages();
                 }
             });

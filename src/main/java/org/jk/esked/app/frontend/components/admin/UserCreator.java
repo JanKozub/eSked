@@ -11,7 +11,7 @@ import org.jk.esked.app.backend.model.User;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.EncryptionService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.Line;
+import org.jk.esked.app.frontend.components.HorizontalLine;
 import org.jk.esked.app.frontend.components.SuccessNotification;
 
 public class UserCreator extends VerticalLayout {
@@ -20,7 +20,7 @@ public class UserCreator extends VerticalLayout {
     public UserCreator(UserService userService, EncryptionService encryptionService) {
         this.encryptionService = encryptionService;
 
-        Line line = new Line();
+        HorizontalLine horizontalLine = new HorizontalLine();
         Text text = new Text(getTranslation("title"));
         TextField username = new TextField(getTranslation("username"));
         TextField email = new TextField("email");
@@ -33,7 +33,7 @@ public class UserCreator extends VerticalLayout {
             else denyUserCreation();
         });
 
-        add(line, text, username, email, password, addUser);
+        add(horizontalLine, text, username, email, password, addUser);
         setAlignItems(Alignment.CENTER);
     }
 
