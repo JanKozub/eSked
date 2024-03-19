@@ -1,8 +1,9 @@
 package org.jk.esked.app.backend.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.ui.views.LoginView;
+import org.jk.esked.app.frontend.views.LoginView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,8 +42,8 @@ public class SecurityConfig extends VaadinWebSecurity {
         InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
         users.forEach(u -> {
             String[] roles = {"USER"};
-//            if (u.getUserType() == UserType.ADMIN) roles = new String[]{"USER", "ADMIN"};
-            if (u.getUsername().equals("admin")) roles = new String[]{"USER", "ADMIN"};
+            System.out.println(u.getUserType());//TODO set admin in settings
+            if (u.getUsername().equals("admin") || u.getUserType() == UserType.ADMIN) roles = new String[]{"USER", "ADMIN"};
 
             UserDetails user = User.builder() //TODO provide bcrypt key?
                     .username(u.getUsername())
