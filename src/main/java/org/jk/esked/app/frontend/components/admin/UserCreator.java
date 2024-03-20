@@ -9,16 +9,16 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.NotificationType;
-import org.jk.esked.app.backend.services.utilities.EncryptionService;
+import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.other.HorizontalLine;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 
 public class UserCreator extends VerticalLayout {
-    private final EncryptionService encryptionService;
+    private final SecurityService securityService;
 
-    public UserCreator(UserService userService, EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
+    public UserCreator(UserService userService, SecurityService securityService) {
+        this.securityService = securityService;
 
         HorizontalLine horizontalLine = new HorizontalLine();
         Text text = new Text(getTranslation("title"));
@@ -40,7 +40,7 @@ public class UserCreator extends VerticalLayout {
     private void createUser(UserService userService, String username, String email, String password) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(encryptionService.encodePassword(password));
+        user.setPassword(securityService.encodePassword(password));
         user.setEmail(email);
         userService.saveUser(user);
 

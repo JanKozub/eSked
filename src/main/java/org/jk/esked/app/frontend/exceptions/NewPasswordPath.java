@@ -9,14 +9,14 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.TokenValue;
+import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
-import org.jk.esked.app.backend.services.utilities.EncryptionService;
+import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +30,13 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
     private final UserService userService;
     private final TokenService tokenService;
     private final MessageService messageService;
-    private final EncryptionService encryptionService; //TODO merge encryption service with security
+    private final SecurityService securityService;
 
-    public NewPasswordPath(UserService userService, EncryptionService encryptionService, TokenService tokenService, MessageService messageService) {
+    public NewPasswordPath(UserService userService, SecurityService securityService, TokenService tokenService, MessageService messageService) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.messageService = messageService;
-        this.encryptionService = encryptionService;
+        this.securityService = securityService;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
                 validateFields(newPassword.getValue(), confirmPassword.getValue());
                 confirmPassword.setInvalid(false);
 
-                userService.changePasswordByUserId(userId, encryptionService.encodePassword(confirmPassword.getValue()));
+                userService.changePasswordByUserId(userId, securityService.encodePassword(confirmPassword.getValue()));
 
                 new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
 

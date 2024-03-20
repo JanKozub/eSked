@@ -18,21 +18,21 @@ import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.EmailType;
 import org.jk.esked.app.backend.model.types.FieldType;
 import org.jk.esked.app.backend.model.types.NotificationType;
+import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
-import org.jk.esked.app.backend.services.utilities.EncryptionService;
 
 import java.util.List;
 
 public class LoginExceptionDialog extends Dialog {
     private final UserService userService;
     private final EmailService emailService;
-    private final EncryptionService encryptionService;
+    private final SecurityService securityService;
 
-    public LoginExceptionDialog(UserService userService, EmailService emailService, EncryptionService encryptionService) {
+    public LoginExceptionDialog(UserService userService, EmailService emailService, SecurityService securityService) {
         this.userService = userService;
         this.emailService = emailService;
-        this.encryptionService = encryptionService;
+        this.securityService = securityService;
 
         Button closeButton = new Button(new Icon("lumo", "cross"), e -> close());
         closeButton.addClassName("close-button");
@@ -60,7 +60,7 @@ public class LoginExceptionDialog extends Dialog {
         return layout;
     }
 
-    private VerticalLayout  layoutRight() {
+    private VerticalLayout layoutRight() {
         Span passLabel = new Span(getTranslation("login.exception.password"));
         TextField usernameField = new TextField(getTranslation("username"));
         Span orLabel = new Span(getTranslation("or"));
@@ -75,7 +75,7 @@ public class LoginExceptionDialog extends Dialog {
         return layoutRight;
     }
 
-    private void addUser(TextField usernameField, EmailField emailField, PasswordField passwordField, PasswordField passwordFieldCheck){
+    private void addUser(TextField usernameField, EmailField emailField, PasswordField passwordField, PasswordField passwordFieldCheck) {
         try {
             validateUsername(usernameField.getValue());
             usernameField.setInvalid(false);
@@ -89,7 +89,7 @@ public class LoginExceptionDialog extends Dialog {
 
             User user = new User();
             user.setUsername(usernameField.getValue());
-            user.setPassword(encryptionService.encodePassword(passwordField.getValue()));
+            user.setPassword(securityService.encodePassword(passwordField.getValue()));
             user.setEmail(emailField.getValue());
             user.setVerified(true);
 

@@ -9,9 +9,9 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
+import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.backend.services.utilities.EmailService;
-import org.jk.esked.app.backend.services.utilities.EncryptionService;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
 import org.jk.esked.app.frontend.components.admin.UserCreator;
 import org.jk.esked.app.frontend.components.admin.UserLayout;
@@ -20,7 +20,7 @@ import org.jk.esked.app.frontend.views.MainLayout;
 @Route(value = "admin/user", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 class FindUserView extends VerticalLayout implements HasDynamicTitle {
-    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, MessageService messageService, EncryptionService encryptionService) {
+    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, SecurityService securityService, MessageService messageService) {
         TextField textField = new TextField(getTranslation("username"));
         textField.setWidth("50%");
         textField.focus();
@@ -42,7 +42,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
         searchForUserButton.setWidth("50%");
 
         setAlignItems(Alignment.CENTER);
-        add(new AdminReturnButton(), textField, searchForUserButton, new UserCreator(userService, encryptionService));
+        add(new AdminReturnButton(), textField, searchForUserButton, new UserCreator(userService, securityService));
     }
 
     private User validateInput(UserService userService, String input) throws ValidationException {

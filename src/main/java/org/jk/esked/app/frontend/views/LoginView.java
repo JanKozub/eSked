@@ -12,8 +12,8 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
-import org.jk.esked.app.backend.services.utilities.EncryptionService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.other.LoginExceptionDialog;
 
@@ -24,12 +24,12 @@ import org.jk.esked.app.frontend.components.other.LoginExceptionDialog;
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginOverlay login = new LoginOverlay(createI18n());
 
-    public LoginView(UserService userService, EmailService emailService, EncryptionService encryptionService) {
+    public LoginView(UserService userService, EmailService emailService, SecurityService securityService) {
         login.setTitle(new H1(VaadinIcon.CALENDAR.create(), new Span(" eSked")));
         login.setDescription("");
         login.setAction("login");
         login.setOpened(true);
-        login.addForgotPasswordListener(f -> new LoginExceptionDialog(userService, emailService, encryptionService).open());
+        login.addForgotPasswordListener(f -> new LoginExceptionDialog(userService, emailService, securityService).open());
 
         add(login);
     }
