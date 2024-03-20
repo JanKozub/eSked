@@ -37,7 +37,7 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     @Bean
     public UserDetailsService users(UserService userService) {
-        List<org.jk.esked.app.backend.model.User> users = userService.getAllUsers();
+        List<org.jk.esked.app.backend.model.entities.User> users = userService.getAllUsers();
 
         InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
         users.forEach(u -> {

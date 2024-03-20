@@ -1,6 +1,6 @@
 package org.jk.esked.app.backend.services;
 
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.ThemeType;
 import org.jk.esked.app.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;

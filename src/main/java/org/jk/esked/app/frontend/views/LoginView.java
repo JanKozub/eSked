@@ -12,10 +12,10 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.jk.esked.app.backend.services.EmailService;
-import org.jk.esked.app.backend.services.EncryptionService;
+import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.backend.services.utilities.EncryptionService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.LoginExceptionDialog;
+import org.jk.esked.app.frontend.components.other.LoginExceptionDialog;
 
 @Route("login")
 @PageTitle("Login | eSked")

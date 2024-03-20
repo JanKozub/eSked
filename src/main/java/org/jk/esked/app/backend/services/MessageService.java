@@ -1,6 +1,6 @@
 package org.jk.esked.app.backend.services;
 
-import org.jk.esked.app.backend.model.Message;
+import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.repositories.MessageRepository;
 import org.springframework.stereotype.Service;
 

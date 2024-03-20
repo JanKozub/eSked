@@ -1,9 +1,9 @@
 package org.jk.esked.app.backend.services;
 
-import org.jk.esked.app.backend.model.Event;
-import org.jk.esked.app.backend.model.Group;
-import org.jk.esked.app.backend.model.Hour;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.Event;
+import org.jk.esked.app.backend.model.entities.Group;
+import org.jk.esked.app.backend.model.entities.Hour;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.repositories.GroupRepository;
 import org.springframework.stereotype.Service;
 

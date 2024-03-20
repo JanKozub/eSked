@@ -8,9 +8,9 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.AdminReturnButton;
+import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 @Route(value = "admin/users", layout = MainLayout.class)

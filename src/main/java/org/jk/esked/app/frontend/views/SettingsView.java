@@ -7,10 +7,11 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.*;
-import org.jk.esked.app.frontend.components.settings.tabs.AccountTab;
-import org.jk.esked.app.frontend.components.settings.tabs.DeleteTab;
-import org.jk.esked.app.frontend.components.settings.tabs.GroupTab;
-import org.jk.esked.app.frontend.components.settings.tabs.OtherTab;
+import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.frontend.components.settings.AccountTab;
+import org.jk.esked.app.frontend.components.settings.DeleteTab;
+import org.jk.esked.app.frontend.components.settings.GroupTab;
+import org.jk.esked.app.frontend.components.settings.OtherTab;
 import org.springframework.context.annotation.Scope;
 
 import java.util.UUID;

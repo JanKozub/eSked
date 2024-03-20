@@ -9,7 +9,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.jk.esked.app.backend.security.SecurityService;
-import org.jk.esked.app.frontend.components.DrawerTab;
+import org.jk.esked.app.frontend.components.other.DrawerTab;
 
 @CssImport("./styles/styles.css")
 public class MainLayout extends AppLayout {

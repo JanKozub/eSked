@@ -1,7 +1,7 @@
 package org.jk.esked.app.backend.services;
 
-import org.jk.esked.app.backend.model.Hour;
-import org.jk.esked.app.backend.model.ScheduleEntry;
+import org.jk.esked.app.backend.model.entities.Hour;
+import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.repositories.HourRepository;
 import org.jk.esked.app.backend.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;

@@ -7,12 +7,12 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.NotificationType;
-import org.jk.esked.app.backend.services.EncryptionService;
+import org.jk.esked.app.backend.services.utilities.EncryptionService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.HorizontalLine;
-import org.jk.esked.app.frontend.components.SuccessNotification;
+import org.jk.esked.app.frontend.components.other.HorizontalLine;
+import org.jk.esked.app.frontend.components.other.SuccessNotification;
 
 public class UserCreator extends VerticalLayout {
     private final EncryptionService encryptionService;

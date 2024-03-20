@@ -4,14 +4,16 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.*;
+import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
-import org.jk.esked.app.frontend.components.settings.fields.EmailField;
-import org.jk.esked.app.frontend.components.settings.fields.GroupCodeField;
-import org.jk.esked.app.frontend.components.settings.fields.MyPasswordField;
-import org.jk.esked.app.frontend.components.settings.fields.NameField;
+import org.jk.esked.app.frontend.components.fields.EmailField;
+import org.jk.esked.app.frontend.components.fields.GroupCodeField;
+import org.jk.esked.app.frontend.components.fields.MyPasswordField;
+import org.jk.esked.app.frontend.components.fields.NameField;
 
 import java.time.LocalDate;
 

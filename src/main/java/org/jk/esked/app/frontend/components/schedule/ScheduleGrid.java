@@ -7,12 +7,13 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import org.jk.esked.app.backend.model.Event;
-import org.jk.esked.app.backend.model.Hour;
-import org.jk.esked.app.backend.model.ScheduleEntry;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.Event;
+import org.jk.esked.app.backend.model.entities.Hour;
+import org.jk.esked.app.backend.model.entities.ScheduleEntry;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.ThemeType;
 import org.jk.esked.app.backend.services.*;
+import org.jk.esked.app.backend.services.utilities.TimeService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package org.jk.esked.app.backend.services;
 
-import org.jk.esked.app.backend.model.Event;
+import org.jk.esked.app.backend.model.entities.Event;
 import org.jk.esked.app.backend.repositories.EventRepository;
 import org.springframework.stereotype.Service;
 

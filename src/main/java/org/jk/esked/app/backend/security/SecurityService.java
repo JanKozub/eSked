@@ -1,7 +1,7 @@
 package org.jk.esked.app.backend.security;
 
 import com.vaadin.flow.spring.security.AuthenticationContext;
-import org.jk.esked.app.backend.model.User;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;

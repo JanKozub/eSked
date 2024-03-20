@@ -6,14 +6,14 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.jk.esked.app.backend.model.Message;
+import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.TokenValue;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.TokenService;
+import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.SuccessNotification;
+import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

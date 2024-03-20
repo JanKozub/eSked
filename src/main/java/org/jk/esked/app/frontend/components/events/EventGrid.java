@@ -6,11 +6,11 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.data.renderer.BasicRenderer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import org.jk.esked.app.backend.model.Event;
-import org.jk.esked.app.backend.model.ScheduleEntry;
+import org.jk.esked.app.backend.model.entities.Event;
+import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleService;
-import org.jk.esked.app.backend.services.TimeService;
+import org.jk.esked.app.backend.services.utilities.TimeService;
 
 import java.time.LocalDate;
 import java.util.*;
