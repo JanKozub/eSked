@@ -5,13 +5,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.services.utilities.TimeService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "`USER`")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -64,6 +65,37 @@ public class User extends AbstractEntity {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return verified;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return verified;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return verified;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return verified;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add((GrantedAuthority) () -> "ROLE_USER");
+
+        if (getUserType() == UserType.ADMIN || getUsername().equals("admin"))  //TODO TEMP
+            roles.add((GrantedAuthority) () -> "ROLE_ADMIN");
+
+        return roles;
     }
 
     public void setUsername(String username) {

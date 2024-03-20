@@ -18,11 +18,9 @@ import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.EmailType;
 import org.jk.esked.app.backend.model.types.FieldType;
 import org.jk.esked.app.backend.model.types.NotificationType;
+import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.backend.services.utilities.EncryptionService;
-import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
-import org.jk.esked.app.frontend.components.other.VerticalLine;
 
 import java.util.List;
 
@@ -99,6 +97,7 @@ public class LoginExceptionDialog extends Dialog {
             userService.saveUser(user);
 
             new SuccessNotification(getTranslation("notification.link.sent"), NotificationType.LONG).open();
+            close();
         } catch (FieldValidationException ex) {
             switch (ex.getFieldType()) {
                 case USERNAME -> {

@@ -24,7 +24,7 @@ public class Group extends AbstractEntity {
     private boolean is_accepted = false;
 
     @Column(name = "created_date", nullable = false)
-    private long created_date = TimeService.now();
+    private final long created_date = TimeService.now();
 
     @Override
     public UUID getId() {
