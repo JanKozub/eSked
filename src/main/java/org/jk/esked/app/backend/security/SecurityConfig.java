@@ -20,16 +20,19 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends VaadinWebSecurity {
+    private static final String[] allowedGETUrlList = {
+            "/favicon.ico",
+            "/manifest.webmanifest",
+            "/icons/**",
+            "/icons/**",
+            "/images/**"
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> { //TODO as list
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/VAADIN/**")).permitAll();
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/favicon.ico")).permitAll();
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/manifest.webmanifest")).permitAll();
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/sw.js")).permitAll();
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/icons/**")).permitAll();
-            auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/images/**")).permitAll();
+        http.authorizeHttpRequests(auth -> {
+            for (String s : allowedGETUrlList)
+                auth.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, s)).permitAll();
         });
         super.configure(http);
         setLoginView(http, LoginView.class);
