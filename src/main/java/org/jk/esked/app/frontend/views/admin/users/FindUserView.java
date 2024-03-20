@@ -21,7 +21,6 @@ import org.jk.esked.app.frontend.views.MainLayout;
 @RolesAllowed("ADMIN")
 class FindUserView extends VerticalLayout implements HasDynamicTitle {
     FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, MessageService messageService, EncryptionService encryptionService) {
-
         TextField textField = new TextField(getTranslation("username"));
         textField.setWidth("50%");
         textField.focus();

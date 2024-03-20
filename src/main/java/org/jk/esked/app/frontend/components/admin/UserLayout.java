@@ -24,7 +24,7 @@ public class UserLayout extends VerticalLayout {
         NameField username = new NameField(user.getId(), userService, emailService);
         MyPasswordField password = new MyPasswordField(user.getId(), userService, emailService);
         EmailField email = new EmailField(user.getId(), userService, emailService);
-        GroupCodeField groupCode = new GroupCodeField(user.getId(), userService, groupService, messageService);
+        GroupCodeField groupCode = new GroupCodeField(user, userService, groupService, messageService);
 
         InfoBox darkTheme = new InfoBox(getTranslation("schedule.theme.dark") + ": " + user.isDarkTheme());
         InfoBox scheduleHours = new InfoBox(getTranslation("schedule.hours") + ": " + user.isScheduleHours());

@@ -8,6 +8,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.frontend.components.other.DrawerTab;
 import org.jk.esked.app.frontend.views.events.EventsView;
@@ -34,7 +35,7 @@ public class MainLayout extends AppLayout {
         HorizontalLayout buttons = new HorizontalLayout(settings);
         buttons.addClassName("header-buttons");
 
-        if (securityService.getAuthenticatedUser().getUsername().equals("admin")) //TODO implement roles
+        if (securityService.getUser().getUserType() == UserType.ADMIN)
             buttons.add(new Button(VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin")));
 
         buttons.add(new Button(VaadinIcon.POWER_OFF.create(), e -> securityService.logout()));

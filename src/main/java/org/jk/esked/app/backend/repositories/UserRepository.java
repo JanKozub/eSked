@@ -2,6 +2,7 @@ package org.jk.esked.app.backend.repositories;
 
 import jakarta.transaction.Transactional;
 import org.jk.esked.app.backend.model.entities.User;
+import org.jk.esked.app.backend.model.types.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -43,6 +44,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u.table_sync FROM User u WHERE u.id = :id")
     boolean isTableSynByUserId(UUID id);
+
+    @Query("SELECT u.user_type FROM User u WHERE u.id = :id")
+    UserType getUserTypeByUserId(UUID id);
 
     @Transactional
     @Modifying
@@ -88,4 +92,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Modifying
     @Query("UPDATE User u SET u.table_sync = :state WHERE u.id = :id")
     void changeTableSynByUserId(UUID id, boolean state);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.user_type = :userType WHERE u.id = :id")
+    void changeUserTypeById(UUID id, UserType userType);
+
+
 }

@@ -92,7 +92,7 @@ public class User extends AbstractEntity implements UserDetails {
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add((GrantedAuthority) () -> "ROLE_USER");
 
-        if (getUserType() == UserType.ADMIN || getUsername().equals("admin"))  //TODO TEMP
+        if (getUserType() == UserType.ADMIN)
             roles.add((GrantedAuthority) () -> "ROLE_ADMIN");
 
         return roles;
@@ -130,16 +130,8 @@ public class User extends AbstractEntity implements UserDetails {
         return dark_theme;
     }
 
-    public void setDarkTheme(boolean dark_theme) {
-        this.dark_theme = dark_theme;
-    }
-
     public boolean isScheduleHours() {
         return schedule_hours;
-    }
-
-    public void setScheduleHours(boolean schedule_hours) {
-        this.schedule_hours = schedule_hours;
     }
 
     public int getGroupCode() {
@@ -154,31 +146,19 @@ public class User extends AbstractEntity implements UserDetails {
         return events_sync;
     }
 
-    public void setEventsSync(boolean events_sync) {
-        this.events_sync = events_sync;
-    }
-
     public boolean isTableSync() {
         return table_sync;
-    }
-
-    public void setTableSync(boolean table_sync) {
-        this.table_sync = table_sync;
     }
 
     public long getCreatedTimestamp() {
         return created_timestamp;
     }
 
-    public void setCreatedTimestamp(long created_timestamp) {
-        this.created_timestamp = created_timestamp;
-    }
-
     public long getLastLoggedTimestamp() {
         return last_logged_timestamp;
     }
 
-    public void setLastLoggedTimestamp(long last_logged_timestamp) {
+    public void setLastLoggedTimestamp(long last_logged_timestamp) { //TODO implement last time logged in
         this.last_logged_timestamp = last_logged_timestamp;
     }
 

@@ -2,6 +2,7 @@ package org.jk.esked.app.backend.services;
 
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.ThemeType;
+import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -110,5 +111,13 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
+    }
+
+    public UserType getUserTypeByUserId(UUID id) {
+        return userRepository.getUserTypeByUserId(id);
+    }
+
+    public void changeUserTypeById(UUID id, UserType userType) {
+        userRepository.changeUserTypeById(id, userType);
     }
 }

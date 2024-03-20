@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import org.jk.esked.app.backend.model.entities.Group;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.GroupService;
@@ -18,43 +19,41 @@ import java.util.UUID;
 
 @CssImport("./styles/group-tab.css")
 public class GroupTab extends SettingsTab {
-    private final UUID userId;
-    private int userGroupCode;
     private final UserService userService;
     private final GroupService groupService;
     private final Button leaveButton = new Button(getTranslation("group.leave"));
     private final Button newGroup = new Button(getTranslation("group.new"));
+    private final User user;
 
     public GroupTab(UUID userId, UserService userService, GroupService groupService, MessageService messageService) {
         super(SettingsTabType.GROUP);
-        this.userId = userId;
-        userGroupCode = userService.getGroupCodeByUserId(userId);
+        this.user = userService.getUserById(userId);
         this.userService = userService;
         this.groupService = groupService;
         leaveButton.addClassName("leave-button");
         leaveButton.setVisible(false);
 
-        GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupService, messageService);
+        GroupCodeField groupCodeField = new GroupCodeField(user, userService, groupService, messageService);
         Button groupSyn = new Button(getTranslation("group.sync"));
         groupSyn.addClickListener(buttonClickEvent ->
-                groupService.synchronizeWGroup(userId, userService.getGroupCodeByUserId(userId)));
+                groupService.synchronizeWGroup(userId, user.getGroupCode()));
 
         SettingsRadioGroup eventSync = new SettingsRadioGroup("group.sync.events",
-                "enable", "disable", userService.isEventsSynByUserId(userId));
+                "enable", "disable", user.isEventSync());
         eventSync.addValueChangeListener(valueChange ->
                 userService.changeEventsSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
         SettingsRadioGroup tableSync = new SettingsRadioGroup("group.sync.schedule",
-                "enable", "disable", userService.isTableSyn(userId));
+                "enable", "disable", user.isTableSync());
         tableSync.addValueChangeListener(valueChange ->
                 userService.changeTableSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
         newGroup.addClickListener(e -> createNewGroup(groupCodeField));
 
-        if (userGroupCode != 0) {
+        if (user.getGroupCode() != 0) {
             newGroup.setEnabled(false);
 
-            if (groupService.getGroupByGroupCode(userGroupCode).isAccepted()) {
+            if (groupService.getGroupByGroupCode(user.getGroupCode()).isAccepted()) {
                 showLeaveButton(groupCodeField);
             } else {
                 leaveButton.setText(getTranslation("group.pending"));
@@ -67,14 +66,14 @@ public class GroupTab extends SettingsTab {
     }
 
     private void createNewGroup(GroupCodeField groupCodeField) {
-        if (userGroupCode != 0) return;
+        if (user.getGroupCode() != 0) return;
 
         Group group = new Group();
-        group.setLeader(userService.getUserById(userId));
+        group.setLeader(user);
         group.setGroupCode(getUniqueGroupCode());
         groupService.saveGroup(group);
 
-        userService.changeGroupCodeByUserId(userId, group.getGroupCode());
+        userService.changeGroupCodeByUserId(user.getId(), group.getGroupCode());
         groupCodeField.updateMainValue(String.valueOf(group.getGroupCode()));
         newGroup.setEnabled(false);
         leaveButton.setText(getTranslation("group.pending"));
@@ -92,11 +91,11 @@ public class GroupTab extends SettingsTab {
     }
 
     private void showLeaveButton(GroupCodeField groupCodeField) {
-        UUID leaderId = groupService.getLeaderIdByGroupCode(userGroupCode);
-        if (leaderId.compareTo(userId) == 0) {
+        UUID leaderId = groupService.getLeaderIdByGroupCode(user.getGroupCode());
+        if (leaderId.compareTo(user.getId()) == 0) {
             leaveButton.setText(getTranslation("group.delete"));
             leaveButton.addClickListener(click -> {
-                groupService.deleteGroupByGroupCode(userService.getGroupCodeByUserId(userId));
+                groupService.deleteGroupByGroupCode(user.getGroupCode());
                 resetLayout(groupCodeField, leaveButton, getTranslation("group.deleted"));
             });
         } else {
@@ -109,10 +108,10 @@ public class GroupTab extends SettingsTab {
 
     private void resetLayout(GroupCodeField groupCodeField, Button groupButton, String notification) {
         new SuccessNotification(notification, NotificationType.SHORT).open();
-        userService.changeGroupCodeByUserId(userId, 0);
+        userService.changeGroupCodeByUserId(user.getId(), 0);
         groupCodeField.updateMainValue("");
         groupButton.setVisible(false);
         newGroup.setEnabled(true);
-        userGroupCode = 0;
+        user.setGroupCode(0);
     }
 }
