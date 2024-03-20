@@ -6,7 +6,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
@@ -38,8 +37,8 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
             }
         };
 
-        Button newEventButton = new Button(getTranslation(VaadinSession.getCurrent()
-                .getLocale(), "events.add.new.event"), e -> UI.getCurrent().navigate("events/new"));
+        Button newEventButton = new Button(getTranslation("events.add.new.event"),
+                e -> UI.getCurrent().navigate("events/new"));
         newEventButton.setWidth("100%");
 
         add(datePanel, eventGrid, newEventButton);

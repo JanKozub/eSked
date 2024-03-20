@@ -8,47 +8,30 @@ import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.model.Message;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.TimeService;
 import org.jk.esked.app.frontend.components.HorizontalLine;
 import org.jk.esked.app.frontend.components.MessageBox;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @PermitAll
 @Route(value = "messages", layout = MainLayout.class)
 public class MessagesView extends VerticalLayout implements HasDynamicTitle {
-    private final MessageService messagesService;
-    private final SecurityService securityService;
-    private final HorizontalLine horizontalLine;
-    private final Text title;
+    private final HorizontalLine horizontalLine = new HorizontalLine();
+    private final Text title = new Text(getTranslation("messages"));
 
     public MessagesView(MessageService messagesService, SecurityService securityService) {
-        this.messagesService = messagesService;
-        this.securityService = securityService;
-
-        title = new Text(getTranslation("messages"));
-        horizontalLine = new HorizontalLine();
-        horizontalLine.setWidth("60vw");
         add(title, horizontalLine);
 
-        renderMessages();
-
-        setAlignItems(Alignment.CENTER);
-        setSizeFull();
+        renderMessages(messagesService, securityService);
+        addClassName("messages-view");
     }
 
-    private void renderMessages() {
-        List<Message> messages = new ArrayList<>(messagesService.getMessagesForUser(securityService.getUserId()));
-        messages.sort(Comparator.comparing(sortedMessage -> TimeService.instantToLocalDate(sortedMessage.getTimestamp())));
-        for (Message message : messages) {
+    private void renderMessages(MessageService messagesService, SecurityService securityService) {
+        for (Message message : messagesService.getAllMessagesForUserSortedByDate(securityService.getUserId())) {
             add(new MessageBox(messagesService, message) {
                 @Override
                 public void refresh() {
                     MessagesView.this.removeAll();
                     MessagesView.this.add(title, horizontalLine);
-                    renderMessages();
+                    renderMessages(messagesService, securityService);
                 }
             });
         }

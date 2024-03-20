@@ -19,10 +19,10 @@ public class EventService {
     }
 
     public List<Event> getEventsForWeek(UUID userId, LocalDate startOfWeek) {
-        return eventRepository.findEventByUserIdAndWeek(userId, getStartOfWeekMillis(startOfWeek));
+        return eventRepository.findEventByUserIdAndWeek(userId, getStartOfWeekInEpochSeconds(startOfWeek));
     }
 
-    public List<Event> getEvents(UUID userId) {
+    public List<Event> getEventsByUserId(UUID userId) {
         return eventRepository.findEventByUserId(userId);
     }
 
@@ -38,10 +38,10 @@ public class EventService {
         eventRepository.updateEventSetCheckedFlagForEvent(eventId, newState);
     }
 
-    private long getStartOfWeekMillis(LocalDate startOfWeek) {
+    private long getStartOfWeekInEpochSeconds(LocalDate startOfWeek) {
         return startOfWeek.atTime(0, 0)
                 .atZone(ZoneId.systemDefault())
                 .toInstant()
-                .toEpochMilli();
+                .getEpochSecond();
     }
 }

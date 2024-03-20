@@ -125,7 +125,6 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
             event.setHour((int) Math.round(hourNum.getValue()));
             event.setCheckedFlag(true);
             event.setTimestamp(time);
-            event.setCreatedTimestamp(TimeService.now());
 
             eventService.saveEvent(event);
             new SuccessNotification(getTranslation("new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();

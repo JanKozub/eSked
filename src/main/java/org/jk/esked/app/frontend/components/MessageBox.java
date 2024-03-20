@@ -12,7 +12,7 @@ import org.jk.esked.app.backend.model.Message;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.TimeService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public abstract class MessageBox extends Div {
     private final MessageService messagesService;
@@ -25,8 +25,8 @@ public abstract class MessageBox extends Div {
         VerticalLayout rightLayout = getRightLayout(message);
 
         HorizontalLayout MainLayout = new HorizontalLayout(leftLayout, middleLayout, rightLayout);
-        getStyle().set("background", "#304663");
-        getStyle().set("border-radius", "5px");
+//        getStyle().set("background", "#304663");
+//        getStyle().set("border-radius", "5px");
 
         MainLayout.setHeight("100px");
         leftLayout.setWidth("90px");
@@ -38,7 +38,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getLeftLayout(Message message) {
-        LocalDate messageDate = TimeService.instantToLocalDate(message.getTimestamp());
+        LocalDateTime messageDate = TimeService.instantToLocalDateTime(message.getTimestamp());
 
         String date = messageDate.getDayOfMonth() + ".";
         if (messageDate.getMonthValue() < 10)
@@ -46,8 +46,8 @@ public abstract class MessageBox extends Div {
         date = date + messageDate.getMonthValue() + "." + messageDate.getYear();
 
         Text dateText = new Text(date);
-        dateText.getStyle().set("margin-top", "auto");
-        dateText.getStyle().set("margin-bottom", "auto");
+//        dateText.getStyle().set("margin-top", "auto");
+//        dateText.getStyle().set("margin-bottom", "auto");
 
         VerticalLayout left = new VerticalLayout(dateText);
         left.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -59,7 +59,7 @@ public abstract class MessageBox extends Div {
         Text textTitle = new Text(getTranslation("message.title"));
 
         Text text = new Text(message.getText());
-        text.getStyle().set("margin-top", "0px");
+//        text.getStyle().set("margin-top", "0px");
 
         VerticalLayout middle = new VerticalLayout(textTitle, text);
         middle.getStyle().set("margin-left", "0px");
@@ -77,7 +77,7 @@ public abstract class MessageBox extends Div {
         deleteButton.getStyle().set("color", "red");
 
         Text checkBoxLabel = new Text(getTranslation("new") + "!");
-        checkBoxLabel.getStyle().set("color", "green");
+//        checkBoxLabel.getStyle().set("color", "green");
         Checkbox checkbox = new Checkbox();
 
         VerticalLayout right = new VerticalLayout(checkBoxLabel, checkbox);

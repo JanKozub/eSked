@@ -28,3 +28,25 @@ vaadin-tab {
     margin-left: auto;
     padding-right: 20px;
 }
+
+.horizontal-line {
+    background-color: #d8e1ed;
+    width: 100%;
+    height: 3px;
+}
+
+.vertical-line {
+    background-color: #d8e1ed;
+    width: 3px;
+    height: 415px; /*TODO relative*/
+}
+
+.messages-view {
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.messages-view .horizontal-line {
+    width: 60vw;
+}

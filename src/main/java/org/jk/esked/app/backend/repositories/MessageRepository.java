@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public interface MessageRepository extends JpaRepository<Message, UUID> {
 
-    @Query("select m from Message m where m.user.id = :id")
-    List<Message> getMessagesForUser(UUID id);
+    @Query("select m from Message m where m.user.id = :id order by m.timestamp")
+    List<Message> getAllMessagesForUserSortedByDate(UUID id);
 
     @Transactional
     @Modifying
     @Query("update Message m set m.checked_flag = :state where m.id = :id")
-    void setCheckedFlagByMessageId(UUID id, boolean state);
+    void ChangeCheckedFlagByMessageId(UUID id, boolean state);
 }
