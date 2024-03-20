@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.schedule;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
@@ -8,6 +8,7 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGridNewEntries;
+import org.jk.esked.app.frontend.views.MainLayout;
 
 @PermitAll
 @Route(value = "schedule/new", layout = MainLayout.class)

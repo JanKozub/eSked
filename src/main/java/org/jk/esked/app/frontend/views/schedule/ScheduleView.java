@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.schedule;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
@@ -11,6 +11,7 @@ import org.jk.esked.app.backend.services.HourService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
+import org.jk.esked.app.frontend.views.MainLayout;
 import org.springframework.context.annotation.Scope;
 
 @SpringComponent

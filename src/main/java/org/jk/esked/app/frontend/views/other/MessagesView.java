@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.other;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -10,6 +10,7 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.frontend.components.other.HorizontalLine;
 import org.jk.esked.app.frontend.components.other.MessageBox;
+import org.jk.esked.app.frontend.views.MainLayout;
 
 @PermitAll
 @Route(value = "messages", layout = MainLayout.class)

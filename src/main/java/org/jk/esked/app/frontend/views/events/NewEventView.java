@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.events;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -25,6 +25,7 @@ import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.jk.esked.app.frontend.components.fields.TopicField;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
+import org.jk.esked.app.frontend.views.MainLayout;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.events;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -13,6 +13,7 @@ import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.schedule.DatePanel;
+import org.jk.esked.app.frontend.views.MainLayout;
 import org.springframework.context.annotation.Scope;
 
 import java.time.DayOfWeek;

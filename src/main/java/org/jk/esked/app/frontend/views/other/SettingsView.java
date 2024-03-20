@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.views;
+package org.jk.esked.app.frontend.views.other;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
@@ -12,6 +12,7 @@ import org.jk.esked.app.frontend.components.settings.AccountTab;
 import org.jk.esked.app.frontend.components.settings.DeleteTab;
 import org.jk.esked.app.frontend.components.settings.GroupTab;
 import org.jk.esked.app.frontend.components.settings.OtherTab;
+import org.jk.esked.app.frontend.views.MainLayout;
 import org.springframework.context.annotation.Scope;
 
 import java.util.UUID;

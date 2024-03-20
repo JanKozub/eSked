@@ -10,6 +10,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.frontend.components.other.DrawerTab;
+import org.jk.esked.app.frontend.views.events.EventsView;
+import org.jk.esked.app.frontend.views.events.NewEventView;
+import org.jk.esked.app.frontend.views.other.MessagesView;
+import org.jk.esked.app.frontend.views.schedule.NewScheduleEntryView;
+import org.jk.esked.app.frontend.views.schedule.ScheduleView;
 
 @CssImport("./styles/styles.css")
 public class MainLayout extends AppLayout {
