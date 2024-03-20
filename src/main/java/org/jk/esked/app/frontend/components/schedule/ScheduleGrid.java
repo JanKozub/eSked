@@ -108,7 +108,7 @@ public class ScheduleGrid extends VerticalLayout {
                     color = "#f3f5f7";
                 }
                 for (Event event : events) {
-                    if (event.getHour() == hour && TimeService.instantToLocalDateTime(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
+                    if (event.getHour() == hour && TimeService.timestampToLocalDateTime(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
                         entryEvents.add(event);
                         color = switch (event.getEventType()) {
                             case TEST -> "#c43737";

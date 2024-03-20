@@ -8,6 +8,7 @@ import org.jk.esked.app.backend.model.entities.Group;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGridNewEntries;
 
 public class GroupsGrid extends Grid<Group> {
@@ -22,8 +23,8 @@ public class GroupsGrid extends Grid<Group> {
 
         Dialog dialog = groupLayout();
 
-        addColumn(Group::getName).setHeader(getTranslation("title"));
         addColumn(Group::getGroupCode).setHeader(getTranslation("groups.code"));
+        addColumn(group -> TimeService.timestampToFormatedString(group.getCreatedDate())).setHeader(getTranslation("date.created"));
         addColumn(new ComponentRenderer<>(e -> {
             Button button = new Button(getTranslation("groups.details"));
             button.addClickListener(event -> dialog.open());

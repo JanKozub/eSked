@@ -1,3 +1,7 @@
 vaadin-button {
     margin-top: auto;
 }
+
+.leave-button {
+    color: red;
+}

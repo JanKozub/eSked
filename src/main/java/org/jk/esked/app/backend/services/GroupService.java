@@ -31,12 +31,8 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    public String getGroupNameByGroupCode(int groupCode) {
-        return groupRepository.getGroupNameByGroupCode(groupCode);
-    }
-
-    public List<String> getAllGroupNames() {
-        return groupRepository.getAllGroupNames();
+    public Group getGroupByGroupCode(int groupCode) {
+        return groupRepository.getGroupByGroupCode(groupCode);
     }
 
     public List<Integer> getAllGroupCodes() {
@@ -51,20 +47,12 @@ public class GroupService {
         groupRepository.deleteGroupByGroupCode(groupCode);
     }
 
-    public UUID getLeaderIdByName(String name) {
-        return groupRepository.getLeaderIdByGroupName(name);
-    }
-
     public UUID getLeaderIdByGroupCode(int groupCode) {
         return groupRepository.getLeaderIdByGroupCode(groupCode);
     }
 
     public void changeGroupAcceptedByGroupCode(int groupCode, boolean state) {
         groupRepository.changeGroupAcceptedByGroupCode(groupCode, state);
-    }
-
-    public boolean isGroupCreatedByUser(UUID userId) {
-        return !groupRepository.getGroupsCreatedByUser(userId).isEmpty();
     }
 
     public void synchronizeWGroup(UUID userId, int groupCode) {
@@ -80,8 +68,7 @@ public class GroupService {
     }
 
     private void synchronizeEvents(UUID userId) {
-        List<Event> groupEvents = eventService.getEventsByUserId(getLeaderIdByName(
-                getGroupNameByGroupCode(userService.getGroupCodeByUserId(userId))));
+        List<Event> groupEvents = eventService.getEventsByUserId(getLeaderIdByGroupCode(userService.getGroupCodeByUserId(userId)));
         List<Event> events = eventService.getEventsByUserId(userId);
         for (Event parseEvent : groupEvents) {
             if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {

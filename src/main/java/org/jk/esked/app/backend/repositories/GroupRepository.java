@@ -10,24 +10,14 @@ import java.util.List;
 import java.util.UUID;
 
 public interface GroupRepository extends JpaRepository<Group, UUID> {
-
-    @Query("select g.name from Group g where g.group_code = :groupCode")
-    String getGroupNameByGroupCode(int groupCode);
-
-    @Query("select g.name from Group g")
-    List<String> getAllGroupNames();
-
     @Query("select g.group_code from Group g")
     List<Integer> getAllGroupCodes();
-
-    @Query("select g.leader.id from Group g where g.name = :name")
-    UUID getLeaderIdByGroupName(String name);
 
     @Query("select g.leader.id from Group g where g.group_code = :groupCode")
     UUID getLeaderIdByGroupCode(int groupCode);
 
-    @Query("select g.group_code from Group g")
-    List<String> getGroupsCreatedByUser(UUID userId);
+    @Query("select g from Group g where g.group_code = :groupCode")
+    Group getGroupByGroupCode(int groupCode);
 
     @Transactional
     @Modifying

@@ -32,7 +32,7 @@ public class MainLayout extends AppLayout {
 
         Button settings = new Button(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
         HorizontalLayout buttons = new HorizontalLayout(settings);
-        buttons.addClassName("buttons");
+        buttons.addClassName("header-buttons");
 
         if (securityService.getAuthenticatedUser().getUsername().equals("admin")) //TODO implement roles
             buttons.add(new Button(VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin")));

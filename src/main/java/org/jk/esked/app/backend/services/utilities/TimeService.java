@@ -5,15 +5,15 @@ import java.time.format.DateTimeFormatter;
 
 public class TimeService {
 
-    public static long localDateToInstant(LocalDate localDate) {
+    public static long localDateToTimestamp(LocalDate localDate) {
         return localDate.atStartOfDay().toInstant(ZoneOffset.UTC).getEpochSecond();
     }
 
-    public static LocalDateTime instantToLocalDateTime(long timestamp) {
+    public static LocalDateTime timestampToLocalDateTime(long timestamp) {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
-    public static String instantToFormattedDate(long timestamp) {
+    public static String timestampToFormatedString(long timestamp) {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return LocalDate.ofInstant(Instant.ofEpochSecond(timestamp), ZoneOffset.UTC).format(pattern);
     }

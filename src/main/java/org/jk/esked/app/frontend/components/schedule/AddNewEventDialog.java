@@ -36,7 +36,7 @@ public class AddNewEventDialog extends Dialog {
                 topicField.setInvalid(false);
                 if (eventType.getValue() != null) {
                     eventType.setInvalid(false);
-                    long time = TimeService.localDateToInstant(eventDate);
+                    long time = TimeService.localDateToTimestamp(eventDate);
                     Event event = new Event();
                     event.setUser(user);
                     event.setEventType(eventType.getValue());

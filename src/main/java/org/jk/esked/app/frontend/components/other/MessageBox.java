@@ -32,7 +32,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getLeftLayout(Message message) {
-        String date = TimeService.instantToFormattedDate(message.getTimestamp());
+        String date = TimeService.timestampToFormatedString(message.getTimestamp());
         return new VerticalLayout(new Span(date));
     }
 

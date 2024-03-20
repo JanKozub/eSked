@@ -35,7 +35,7 @@ public class EventGrid extends Grid<Event> {
         addColumn(event -> getTranslation(event.getEventType().getDescription())).setHeader(getTranslation("type"));
         addColumn(new BasicRenderer<>(event -> {
             for (ScheduleEntry entry : entries) {
-                if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.instantToLocalDateTime(event.getTimestamp()).getDayOfWeek().getValue() - 1)
+                if (entry.getHour() == event.getHour() && entry.getDay() == TimeService.timestampToLocalDateTime(event.getTimestamp()).getDayOfWeek().getValue() - 1)
                     return entry.getSubject() + "(" + entry.getHour() + ")";
             }
             return getTranslation("no.entry");
@@ -45,7 +45,7 @@ public class EventGrid extends Grid<Event> {
             calendar.setTimeInMillis(event.getTimestamp());
             return new Text(getTranslation("day." + (calendar.get(Calendar.DAY_OF_WEEK) - 1)));
         }));
-        addColumn(event -> TimeService.instantToFormattedDate(event.getTimestamp())).setHeader(getTranslation("date"));
+        addColumn(event -> TimeService.timestampToFormatedString(event.getTimestamp())).setHeader(getTranslation("date"));
         addColumn(Event::getTopic).setHeader(getTranslation("topic"));
         addColumn(new ComponentRenderer<>(e -> {
             Icon icon = new Icon(VaadinIcon.TRASH);
@@ -72,7 +72,7 @@ public class EventGrid extends Grid<Event> {
     public void reloadForDay(LocalDate date) {
         List<Event> eventsOnDay = new ArrayList<>();
         for (Event event : eventService.getEventsForWeek(userId, date)) {
-            if (TimeService.instantToLocalDateTime(event.getTimestamp()).toLocalDate().equals(date))
+            if (TimeService.timestampToLocalDateTime(event.getTimestamp()).toLocalDate().equals(date))
                 eventsOnDay.add(event);
         }
         setItems(eventsOnDay);

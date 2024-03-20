@@ -38,7 +38,7 @@ public class GroupCodeField extends SettingsField {
         if (!input.matches("[0-9]+"))
             throw new ValidationException(getTranslation("exception.code.syntax"));
 
-        if (input.length() != 4)
+        if (input.length() != 6)
             throw new ValidationException(getTranslation("exception.code.length"));
 
         int value = Integer.parseInt(input);
