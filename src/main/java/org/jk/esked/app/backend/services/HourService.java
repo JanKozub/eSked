@@ -20,6 +20,10 @@ public class HourService {
         this.scheduleRepository = scheduleRepository;
     }
 
+    public void saveHour(Hour hour) {
+        hourRepository.save(hour);
+    }
+
     public void setScheduleHours(Collection<Hour> hours) {
         hourRepository.saveAll(hours);
     }
@@ -28,8 +32,12 @@ public class HourService {
         return hourRepository.findHoursByUserId(userId);
     }
 
-    public Hour getHourByHour(UUID userId, int hour) {
+    public Hour getHourValueByHour(UUID userId, int hour) {
         return hourRepository.getHoursByUserIdAndHour(userId, hour);
+    }
+
+    public void deleteHourByUserIdAndHour(UUID userId, int hour) {
+        hourRepository.deleteHourByUserIdAndHour(userId, hour);
     }
 
     public void deleteAllHourByUserId(UUID userId) {

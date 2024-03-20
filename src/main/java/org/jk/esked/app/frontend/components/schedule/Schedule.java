@@ -17,7 +17,8 @@ abstract class Schedule extends Grid<Button> {
 
         for (int i = 0; i < 5; i++) {
             int finalI = i;
-            addColumn(new ComponentRenderer<>(e -> rowRenderer(e, finalI))).setHeader(getTranslation("day." + (i + 1))).setKey(String.valueOf(i + 1));
+            addColumn(new ComponentRenderer<>(e ->
+                    rowRenderer(e, finalI))).setHeader(getTranslation("day." + (i + 1))).setKey(String.valueOf(i + 1));
         }
 
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));

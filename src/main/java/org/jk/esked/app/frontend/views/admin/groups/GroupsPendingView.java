@@ -10,10 +10,7 @@ import jakarta.annotation.security.RolesAllowed;
 import org.jk.esked.app.backend.model.entities.Group;
 import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.security.SecurityService;
-import org.jk.esked.app.backend.services.GroupService;
-import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.ScheduleService;
-import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
 import org.jk.esked.app.frontend.components.admin.GroupsGrid;
 import org.jk.esked.app.frontend.views.MainLayout;
@@ -23,8 +20,8 @@ import java.util.List;
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
-    public GroupsPendingView(SecurityService securityService, ScheduleService scheduleService, GroupService groupsService, UserService userService, MessageService messageService) {
-        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleService, userService);
+    public GroupsPendingView(SecurityService securityService, ScheduleService scheduleService, GroupService groupsService, UserService userService, MessageService messageService, HourService hourService) {
+        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleService, userService, hourService);
 
         groupEntryGrid.addColumn(new ComponentRenderer<>(group -> {
             Button button = new Button(getTranslation("groups.accept"));

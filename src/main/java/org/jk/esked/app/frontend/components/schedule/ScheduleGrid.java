@@ -147,9 +147,9 @@ public class ScheduleGrid extends VerticalLayout {
 
     private Component hourRenderer(Button e) {
         String text = Integer.toString(Integer.parseInt(e.getText()) + 1);
-        Hour hour = hourService.getHourByHour(user.getId(), Integer.parseInt(e.getText()) + 1);
+        Hour hour = hourService.getHourValueByHour(user.getId(), Integer.parseInt(e.getText()) + 1);
         if (hour != null)
-            text = hourService.getHourByHour(user.getId(), Integer.parseInt(e.getText()) + 1).getData();
+            text = hourService.getHourValueByHour(user.getId(), Integer.parseInt(e.getText()) + 1).getData();
         return new Text(text);
     }
 }

@@ -10,6 +10,7 @@ import org.jk.esked.app.backend.model.entities.Group;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.GroupService;
+import org.jk.esked.app.backend.services.HourService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
@@ -22,8 +23,8 @@ import java.util.Collection;
 @RolesAllowed("ADMIN")
 class GroupsView extends VerticalLayout implements HasDynamicTitle {
 
-    public GroupsView(ScheduleService scheduleService, GroupService groupsService, UserService userService, SecurityService securityService) {
-        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleService, userService);
+    public GroupsView(ScheduleService scheduleService, GroupService groupsService, UserService userService, SecurityService securityService, HourService hourService) {
+        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleService, userService, hourService);
 
         groupEntryGrid.addColumn(new ComponentRenderer<>(e -> {
             Button button = new Button(getTranslation("delete"));
