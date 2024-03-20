@@ -6,7 +6,10 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
-import org.jk.esked.app.backend.services.*;
+import org.jk.esked.app.backend.services.GroupService;
+import org.jk.esked.app.backend.services.HourService;
+import org.jk.esked.app.backend.services.MessageService;
+import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.frontend.components.settings.AccountTab;
 import org.jk.esked.app.frontend.components.settings.DeleteTab;
@@ -22,11 +25,11 @@ import java.util.UUID;
 @Scope("prototype")
 @Route(value = "settings", layout = MainLayout.class)
 public class SettingsView extends VerticalLayout implements HasDynamicTitle {
-    public SettingsView(SecurityService securityService, UserService userService, GroupService groupService, EmailService emailService, HourService hoursService, MessageService messageService, ScheduleService scheduleService) {
+    public SettingsView(SecurityService securityService, UserService userService, GroupService groupService, EmailService emailService, HourService hoursService, MessageService messageService) {
         UUID userId = securityService.getUserId();
         add(
                 new AccountTab(userId, userService, emailService),
-                new GroupTab(userId, userService, groupService, scheduleService, messageService),
+                new GroupTab(userId, userService, groupService, messageService),
                 new OtherTab(userId, userService, hoursService),
                 new DeleteTab(userId, userService)
         );

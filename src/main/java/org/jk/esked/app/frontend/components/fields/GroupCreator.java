@@ -10,7 +10,6 @@ import org.jk.esked.app.backend.model.entities.Group;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.GroupService;
-import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 
@@ -22,13 +21,11 @@ public class GroupCreator extends VerticalLayout {
     private final UUID userId;
     private final GroupService groupsService;
     private final UserService userService;
-    private final ScheduleService scheduleService;
 
-    public GroupCreator(UUID userId, UserService userService, GroupService groupsService, ScheduleService scheduleService) {
+    public GroupCreator(UUID userId, UserService userService, GroupService groupsService) {
         this.userId = userId;
         this.groupsService = groupsService;
         this.userService = userService;
-        this.scheduleService = scheduleService;
 
         checkUserStatus();
     }
@@ -76,9 +73,6 @@ public class GroupCreator extends VerticalLayout {
 
         Collection<String> groups = groupsService.getAllGroupNames();
         if (groups.contains(input)) throw new ValidationException(getTranslation("exception.group.exist"));
-
-        if (!scheduleService.doesUserHasEntries(userId))
-            throw new ValidationException(getTranslation("exception.group.cannot.create"));
     }
 
     void checkUserStatus() {

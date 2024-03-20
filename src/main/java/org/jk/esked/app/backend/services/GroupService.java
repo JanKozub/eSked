@@ -68,6 +68,8 @@ public class GroupService {
     }
 
     public void synchronizeWGroup(UUID userId, int groupCode) {
+        if (userService.getUserById(userId).getGroupCode() == 0) return;
+
         if (userId.compareTo(getLeaderIdByGroupCode(groupCode)) != 0) {
             if (userService.isEventsSynByUserId(userId))
                 synchronizeEvents(userId);

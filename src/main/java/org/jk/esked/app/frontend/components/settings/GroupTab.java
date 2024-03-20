@@ -1,57 +1,50 @@
 package org.jk.esked.app.frontend.components.settings;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.GroupService;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.jk.esked.app.frontend.components.fields.GroupCodeField;
 import org.jk.esked.app.frontend.components.fields.GroupCreator;
+import org.jk.esked.app.frontend.components.other.SuccessNotification;
 
 import java.util.UUID;
 
+@CssImport("./styles/group-tab.css")
 public class GroupTab extends SettingsTab {
     private final UUID userId;
 
-    public GroupTab(UUID userId, UserService userService, GroupService groupService, ScheduleService scheduleService, MessageService messageService) {
+    public GroupTab(UUID userId, UserService userService, GroupService groupService, MessageService messageService) {
         super(SettingsTabType.GROUP);
         this.userId = userId;
 
-        Button groupButton = new Button(getTranslation("group.leave"));
-        GroupCreator groupCreator = new GroupCreator(userId, userService, groupService, scheduleService);
+        GroupCreator groupCreator = new GroupCreator(userId, userService, groupService);
 
         GroupCodeField groupCodeField = new GroupCodeField(userId, userService, groupService, messageService);
         Button groupSyn = new Button(getTranslation("group.sync"));
-        groupSyn.addClickListener(buttonClickEvent -> {
-            if (userService.getGroupCodeByUserId(userId) != 0)
-                groupService.synchronizeWGroup(userId, userService.getGroupCodeByUserId(userId));
-        });
-        groupSyn.getStyle().set("margin-top", "auto");
+        groupSyn.addClickListener(buttonClickEvent ->
+                groupService.synchronizeWGroup(userId, userService.getGroupCodeByUserId(userId)));
 
-        RadioButtonGroup<String> eventSync = new RadioButtonGroup<>();
-        eventSync.setLabel(getTranslation("group.sync.events"));
-        eventSync.setItems(getTranslation("enable"), getTranslation("disable"));
-        if (userService.isEventsSynByUserId(userId)) eventSync.setValue(getTranslation("enable"));
-        else eventSync.setValue(getTranslation("disable"));
-        eventSync.addValueChangeListener(valueChange -> userService.changeEventsSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
+        SettingsRadioGroup eventSync = new SettingsRadioGroup("group.sync.events",
+                "enable", "disable", userService.isEventsSynByUserId(userId));
+        eventSync.addValueChangeListener(valueChange ->
+                userService.changeEventsSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
-        RadioButtonGroup<String> tableSync = new RadioButtonGroup<>();
-        tableSync.setLabel(getTranslation("group.sync.schedule"));
-        tableSync.setItems(getTranslation("enable"), getTranslation("disable"));
-        if (userService.isTableSyn(userId)) tableSync.setValue(getTranslation("enable"));
-        else tableSync.setValue(getTranslation("disable"));
-        tableSync.addValueChangeListener(valueChange -> userService.changeTableSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
+        SettingsRadioGroup tableSync = new SettingsRadioGroup("group.sync.schedule",
+                "enable", "disable", userService.isTableSyn(userId));
+        tableSync.addValueChangeListener(valueChange ->
+                userService.changeTableSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
         Details newGroup = new Details(getTranslation("group.new"), groupCreator);
         newGroup.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
 
+        Button groupButton = new Button(getTranslation("group.leave"));
         groupButton.getStyle().set("color", "red");
         groupButton.setVisible(false);
         if (userService.getGroupCodeByUserId(userId) != 0) {

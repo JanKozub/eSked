@@ -2,6 +2,7 @@ package org.jk.esked.app.frontend.views.events;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
@@ -20,11 +21,11 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
-import org.jk.esked.app.frontend.components.other.MyDatePicker;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
-import org.jk.esked.app.frontend.components.fields.TopicField;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
+import org.jk.esked.app.frontend.components.fields.TopicField;
+import org.jk.esked.app.frontend.components.other.MyDatePicker;
+import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 import java.time.DayOfWeek;
@@ -32,28 +33,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 @PermitAll
-@Route(value = "events/new", layout = MainLayout.class) //todo check code
+@CssImport("./styles/new-event.css")
+@Route(value = "events/new", layout = MainLayout.class)
 public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     private final EventService eventService;
     private final EventGrid eventGrid;
-    private final DatePicker datePicker;
-    private final EventTypeComboBox eventType;
-    private final NumberField hourNum;
-    private final TopicField topicField;
-    private final User user;
+    private final DatePicker datePicker = new MyDatePicker();
+    private final EventTypeComboBox eventType = new EventTypeComboBox();
+    private final NumberField hourNum = new NumberField();
+    private final TopicField topicField = new TopicField();
 
     public NewEventView(ScheduleService scheduleService, EventService eventService, SecurityService securityService) {
+        User user = securityService.getUser();
         this.eventService = eventService;
-        this.user = securityService.getUser();
         this.eventGrid = new EventGrid(user.getId(), scheduleService, eventService, LocalDate.now());
 
         Span formLabel = new Span(getTranslation("new.event.title"));
-        formLabel.addClassName("centered-title");
 
-        HorizontalLayout formName = new HorizontalLayout(formLabel);
-        formName.setSizeFull();
-
-        datePicker = new MyDatePicker();
         datePicker.addValueChangeListener(e -> {
             try {
                 validateDate(datePicker.getValue());
@@ -64,42 +60,27 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
             }
         });
 
-        eventType = new EventTypeComboBox();
-        topicField = new TopicField();
-
-        hourNum = new NumberField();
         hourNum.setStepButtonsVisible(true);
         hourNum.setMin(1);
         hourNum.setPlaceholder(getTranslation("hour"));
-        hourNum.setWidth("100%");
 
-        Button addButton = new Button(getTranslation("add"), onClick -> addEvent());
-        addButton.setWidth("100%");
+        Button addButton = new Button(getTranslation("add"), onClick -> addEvent(user));
 
         FormLayout eventForm = new FormLayout();
-
         eventForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("15em", 1),
                 new FormLayout.ResponsiveStep("15em", 2));
-        eventForm.add(formName, datePicker, eventType, hourNum, topicField, addButton);
-        eventForm.setColspan(formName, 2);
+        eventForm.add(formLabel, datePicker, eventType, hourNum, topicField, addButton);
+        eventForm.setColspan(formLabel, 2);
         eventForm.setColspan(datePicker, 2);
         eventForm.setColspan(eventType, 1);
         eventForm.setColspan(hourNum, 1);
         eventForm.setColspan(topicField, 2);
         eventForm.setColspan(addButton, 2);
-        eventForm.setSizeFull();
-
-        VerticalLayout newEventLayout = new VerticalLayout(eventForm);
 
         Span gridLabel = new Span(getTranslation("new.event.event.list.label"));
-        gridLabel.addClassName("centered-title");
 
-        VerticalLayout gridLayout = new VerticalLayout(gridLabel, eventGrid);
-
-        newEventLayout.setWidth("50%");
-        gridLayout.setWidth("50%");
-        add(newEventLayout, gridLayout);
+        add(new VerticalLayout(eventForm), new VerticalLayout(gridLabel, eventGrid));
     }
 
     private void validateDate(LocalDate date) throws ValidationException {
@@ -114,18 +95,17 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         eventGrid.reloadForDay(date);
     }
 
-    private void addEvent() {
+    private void addEvent(User user) {
         try {
             validateEvent();
 
-            long time = TimeService.localDateToInstant(datePicker.getValue());
             Event event = new Event();
             event.setUser(user);
             event.setEventType(eventType.getValue());
             event.setTopic(topicField.getValue());
             event.setHour((int) Math.round(hourNum.getValue()));
             event.setCheckedFlag(true);
-            event.setTimestamp(time);
+            event.setTimestamp(TimeService.localDateToInstant(datePicker.getValue()));
 
             eventService.saveEvent(event);
             new SuccessNotification(getTranslation("new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
