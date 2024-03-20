@@ -64,7 +64,6 @@ public class EventGrid extends Grid<Event> {
 
     public void reloadForWeek() {
         Collection<Event> events = eventService.getEventsForWeek(userId, startOfWeek);
-        System.out.println(events);
         events.stream().filter(event -> !event.isCheckedFlag())
                 .forEach(event -> eventService.setCheckedFlag(event.getId(), true));
         setItems(events);

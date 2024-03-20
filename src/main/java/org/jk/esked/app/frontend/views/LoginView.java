@@ -20,7 +20,7 @@ import org.jk.esked.app.frontend.components.LoginExceptionDialog;
 @Route("login")
 @PageTitle("Login | eSked")
 @AnonymousAllowed
-@CssImport("styles/login.css")
+@CssImport("./styles/login.css")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginOverlay login = new LoginOverlay(createI18n());
 

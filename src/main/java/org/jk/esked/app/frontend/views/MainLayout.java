@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.frontend.components.DrawerTab;
 
-@CssImport("styles/styles.css")
+@CssImport("./styles/styles.css")
 public class MainLayout extends AppLayout {
     private final SecurityService securityService;
 
