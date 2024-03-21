@@ -4,8 +4,8 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -15,6 +15,7 @@ import org.jk.esked.app.backend.services.ScheduleService;
 
 import java.util.ArrayList;
 
+@CssImport("./styles/add-entry-dialog.css")
 public class AddEntryDialog extends Dialog {
     private final ComboBox<String> comboBox = new ComboBox<>();
     private final TextField textField = new TextField();
@@ -29,8 +30,6 @@ public class AddEntryDialog extends Dialog {
 
         comboBox.setItems(lessons);
         comboBox.setPlaceholder(getTranslation("schedule.dialog.new.pick.lesson"));
-        comboBox.setWidth("100%");
-
         textField.setPlaceholder(getTranslation("schedule.dialog.new.own.lesson"));
 
         HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
@@ -52,23 +51,13 @@ public class AddEntryDialog extends Dialog {
                 return;
             }
 
-            ScheduleEntry scheduleEntry = new ScheduleEntry();
-            scheduleEntry.setUser(user);
-            scheduleEntry.setHour(hour);
-            scheduleEntry.setDay(day);
-            scheduleEntry.setSubject(name);
-
-            scheduleService.saveScheduleEntry(scheduleEntry); //TODO update if needed
+            scheduleService.saveScheduleEntry(new ScheduleEntry(user, hour, day, name));
 
             close();
         });
-        addButton.setWidth("100%");
         addButton.addClickShortcut(Key.ENTER);
 
-        VerticalLayout verticalLayout = new VerticalLayout(label, layout, addButton);
-        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        add(verticalLayout);
+        add(new VerticalLayout(label, layout, addButton));
     }
 
     private void setError(String msg) {

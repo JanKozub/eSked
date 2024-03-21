@@ -1,0 +1,11 @@
+vaadin-combo-box {
+    width: 100%;
+}
+
+vaadin-button {
+    width: 100%;
+}
+
+vaadin-vertical-layout {
+    align-items: center;
+}
