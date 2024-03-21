@@ -100,7 +100,7 @@ public class ScheduleGrid extends VerticalLayout {
             if (entry.getHour() == hour && entry.getDay() == day) {
                 List<Event> entryEvents = new ArrayList<>();
                 String color;
-                if (userService.getThemeByUserId(ScheduleGrid.this.user.getId()) == ThemeType.DARK) {
+                if (userService.findThemeById(ScheduleGrid.this.user.getId()) == ThemeType.DARK) {
                     button.getStyle().set("color", "white");
                     color = "#2c3d52";
                 } else {

@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.esked.app.backend.model.entities.User;
+import org.jk.esked.app.backend.model.exceptions.EmailValidationException;
 import org.jk.esked.app.backend.model.exceptions.FieldValidationException;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.EmailType;
@@ -68,10 +69,10 @@ public class LoginExceptionDialog extends Dialog {
         TextField usernameField = new TextField(getTranslation("username"));
         Span orLabel = new Span(getTranslation("or"));
         orLabel.addClassName("or-label");
-        EmailField emailField = new EmailField("Email"); //TODO implement change pass by email
+        EmailField emailField = new EmailField("Email");
 
         Button confirmButton = new Button(getTranslation("login.exception.email"));
-        confirmButton.addClickListener(event -> onConfirm(usernameField));
+        confirmButton.addClickListener(event -> onConfirm(usernameField, emailField));
 
         VerticalLayout layoutRight = new VerticalLayout(passLabel, usernameField, orLabel, emailField, confirmButton);
         layoutRight.addClassName("login-layout");
@@ -90,10 +91,9 @@ public class LoginExceptionDialog extends Dialog {
             passwordField.setInvalid(false);
             passwordFieldCheck.setInvalid(false);
 
-            User user = new User();
-            user.setUsername(usernameField.getValue());
-            user.setPassword(securityService.encodePassword(passwordField.getValue()));
-            user.setEmail(emailField.getValue());
+            User user = new User(usernameField.getValue(),
+                    securityService.encodePassword(passwordField.getValue()),
+                    emailField.getValue());
             user.setVerified(true);
 
             emailService.sendEmail(user, EmailType.NEWUSER);
@@ -127,7 +127,7 @@ public class LoginExceptionDialog extends Dialog {
         if (username.isEmpty())
             throw new FieldValidationException(getTranslation("exception.empty.field"), FieldType.USERNAME);
 
-        List<String> usernames = userService.getAllUserUsernames();
+        List<String> usernames = userService.findAllUsernames();
         if (usernames.contains(username))
             throw new FieldValidationException(getTranslation("exception.user.exists"), FieldType.USERNAME);
     }
@@ -136,7 +136,7 @@ public class LoginExceptionDialog extends Dialog {
         if (email.isEmpty())
             throw new FieldValidationException(getTranslation("exception.empty.field"), FieldType.EMAIL);
 
-        List<String> emails = userService.getAllUserEmails();
+        List<String> emails = userService.findAllRegisteredEmails();
         if (emails.contains(email))
             throw new FieldValidationException(getTranslation("exception.email.taken"), FieldType.EMAIL);
     }
@@ -149,23 +149,40 @@ public class LoginExceptionDialog extends Dialog {
             throw new FieldValidationException(getTranslation("exception.password.not.match"), FieldType.PASSWORD);
     }
 
-    private void onConfirm(TextField usernameField) {
+    private void onConfirm(TextField usernameField, EmailField emailField) {
         try {
-            validateUsernameInput(usernameField.getValue());
-            usernameField.setInvalid(false);
+            User user;
+            if (usernameField.isEmpty()) {
+                validateEmailInput(emailField.getValue());
+                emailField.setInvalid(false);
+                user = userService.findUserByEmail(emailField.getValue());
+            } else {
+                validateUsernameInput(usernameField.getValue(), emailField.getValue());
+                usernameField.setInvalid(false);
+                user = userService.findUserByUsername(usernameField.getValue());
+            }
 
             new SuccessNotification(getTranslation("notification.reset.link.sent"), NotificationType.LONG).open();
-            emailService.sendEmail(userService.getUserById(userService.getIdByUsername(usernameField.getValue())), EmailType.NEWPASSOWRD);
+            emailService.sendEmail(user, EmailType.NEWPASSOWRD);
+        } catch (EmailValidationException ex) {
+            emailField.setErrorMessage(ex.getMessage());
+            emailField.setInvalid(true);
         } catch (Exception ex) {
             usernameField.setErrorMessage(ex.getMessage());
             usernameField.setInvalid(true);
         }
     }
 
-    private void validateUsernameInput(String input) throws ValidationException {
+    private void validateUsernameInput(String input, String input2) throws ValidationException {
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
-        List<String> users = userService.getAllUserUsernames();
+        if (!input2.isEmpty()) throw new ValidationException(getTranslation("exception.fields.filled"));
+
+        List<String> users = userService.findAllUsernames();
         if (!users.contains(input)) throw new ValidationException(getTranslation("exception.user.not.exist"));
+    }
+
+    private void validateEmailInput(String value) throws ValidationException {
+        if (value.isEmpty()) throw new EmailValidationException(getTranslation("exception.empty.field"));
     }
 }

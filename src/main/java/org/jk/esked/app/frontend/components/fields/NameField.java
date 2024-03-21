@@ -24,7 +24,7 @@ public class NameField extends SettingsField {
         this.userService = userService;
         this.emailService = emailService;
 
-        updateMainValue(userService.getUsernameByUserId(userId));
+        updateMainValue(userService.findUsernameById(userId));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class NameField extends SettingsField {
         if (StringUtils.isBlank(input))
             throw new ValidationException(getTranslation("exception.empty.field"));
 
-        Collection<String> usernames = userService.getAllUserUsernames();
+        Collection<String> usernames = userService.findAllUsernames();
         if (usernames.contains(input)) {
             throw new ValidationException(getTranslation("exception.user.exists"));
         }
@@ -40,14 +40,14 @@ public class NameField extends SettingsField {
 
     @Override
     protected void commitInput(String input) throws Exception {
-        userService.changeUsernameByUserId(userId, input);
+        userService.changeUsernameById(userId, input);
 
         Notification notification = new Notification(getTranslation("notification.username.changed") + " \"" + input + "\"",
                 NotificationType.SHORT.getDuration(), Notification.Position.TOP_END);
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         notification.open();
 
-        emailService.sendEmail(userService.getUserById(userId), EmailType.NEWUSERNAME);
-        updateMainValue(userService.getUsernameByUserId(userId));
+        emailService.sendEmail(userService.findById(userId), EmailType.NEWUSERNAME);
+        updateMainValue(userService.findUsernameById(userId));
     }
 }

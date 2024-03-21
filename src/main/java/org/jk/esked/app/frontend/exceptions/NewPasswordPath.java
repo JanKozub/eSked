@@ -55,12 +55,12 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
                 validateFields(newPassword.getValue(), confirmPassword.getValue());
                 confirmPassword.setInvalid(false);
 
-                userService.changePasswordByUserId(userId, securityService.encodePassword(confirmPassword.getValue()));
+                userService.changePasswordById(userId, securityService.encodePassword(confirmPassword.getValue()));
 
                 new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
 
                 Message message = new Message();
-                message.setUser(userService.getUserById(userId));
+                message.setUser(userService.findById(userId));
                 message.setText(getTranslation("notification.password.changed"));
                 messageService.saveMessage(message);
 
@@ -82,7 +82,7 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
             if (tokenValue.getUserId() == null) return null;
             if (tokenValue.getValue().equals("forgot")) return tokenValue.getUserId();
 
-            userService.changePasswordByUserId(tokenValue.getUserId(), tokenValue.getValue());
+            userService.changePasswordById(tokenValue.getUserId(), tokenValue.getValue());
             new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());

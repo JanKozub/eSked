@@ -31,10 +31,10 @@ class GroupsView extends VerticalLayout implements HasDynamicTitle {
             button.getStyle().set("color", "red");
             button.addClickListener(event -> {
                 groupsService.deleteGroupByGroupCode(e.getGroupCode());
-                Collection<User> users = userService.getAllUsers();
+                Collection<User> users = userService.findAllUsers();
                 for (User user : users) {
                     if (user.getGroupCode() == e.getGroupCode()) {
-                        userService.changeGroupCodeByUserId(user.getId(), 0);
+                        userService.changeGroupCodeById(user.getId(), 0);
                     }
                 }
                 Collection<Group> groups = groupsService.getAllGroups();

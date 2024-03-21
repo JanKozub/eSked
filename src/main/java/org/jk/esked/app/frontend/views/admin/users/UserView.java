@@ -35,7 +35,7 @@ public class UserView extends VerticalLayout implements BeforeEnterObserver, Has
     public void beforeEnter(BeforeEnterEvent event) {
         UUID userId = UUID.fromString(event.getRouteParameters().get("id").orElse(""));
 
-        add(new UserLayout(userService.getUserById(userId), userService, emailService,
+        add(new UserLayout(userService.findById(userId), userService, emailService,
                 groupService, scheduleEntryService, eventService, hourService, messageService));
     }
 

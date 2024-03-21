@@ -29,11 +29,11 @@ public class SecurityService {
     }
 
     public User getUser() {
-        return userService.getUserByUsername(getAuthenticatedUser().getUsername());
+        return userService.findUserByUsername(getAuthenticatedUser().getUsername());
     }
 
     public UUID getUserId() {
-        return userService.getUserByUsername(getAuthenticatedUser().getUsername()).getId();
+        return userService.findUserByUsername(getAuthenticatedUser().getUsername()).getId();
     }
 
     public void logout() {

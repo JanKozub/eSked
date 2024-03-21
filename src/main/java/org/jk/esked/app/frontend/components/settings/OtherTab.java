@@ -17,19 +17,19 @@ public class OtherTab extends SettingsTab {
         scheduleHours.setItems(getTranslation("yes"), getTranslation("no"));
         if (userService.isHourEnabled(userId)) scheduleHours.setValue(getTranslation("yes"));
         else scheduleHours.setValue(getTranslation("no"));
-        scheduleHours.addValueChangeListener(valueChange -> userService.changeHourByUserId(userId, valueChange.getValue().equals(getTranslation("yes"))));
+        scheduleHours.addValueChangeListener(valueChange -> userService.changeHourById(userId, valueChange.getValue().equals(getTranslation("yes"))));
 
         RadioButtonGroup<String> theme = new RadioButtonGroup<>();
         theme.setLabel(getTranslation("schedule.theme"));
         theme.setItems(getTranslation("schedule.theme.light"), getTranslation("schedule.theme.dark"));
-        if (userService.getThemeByUserId(userId) == ThemeType.DARK)
+        if (userService.findThemeById(userId) == ThemeType.DARK)
             theme.setValue(getTranslation("schedule.theme.dark"));
         else theme.setValue(getTranslation("schedule.theme.light"));
         theme.addValueChangeListener(valueChange -> {
             if (valueChange.getValue().equals(getTranslation("schedule.theme.dark")))
-                userService.changeThemeByUserId(userId, ThemeType.DARK);
+                userService.changeThemeById(userId, ThemeType.DARK);
             else
-                userService.changeThemeByUserId(userId, ThemeType.WHITE);
+                userService.changeThemeById(userId, ThemeType.WHITE);
         });
 
         add(new FormLayout(scheduleHours, theme));

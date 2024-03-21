@@ -43,7 +43,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
     private User validateInput(UserService userService, String input) throws ValidationException {
         if (input.isEmpty()) throw new ValidationException(getTranslation("exception.empty.field"));
 
-        User user = userService.getUserByUsername(input);
+        User user = userService.findUserByUsername(input);
         if (user == null) throw new ValidationException(getTranslation("exception.user.not.exists"));
 
         return user;

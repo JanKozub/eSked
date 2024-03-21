@@ -27,7 +27,7 @@ public class UserCreator extends VerticalLayout {
         PasswordField password = new PasswordField(getTranslation("password"));
 
         Button addUser = new Button(getTranslation("add"), e -> {
-            boolean canBeCreated = !userService.getAllUserUsernames().contains(username.getValue()) && !userService.getAllUserEmails().contains(email.getValue());
+            boolean canBeCreated = !userService.findAllUsernames().contains(username.getValue()) && !userService.findAllRegisteredEmails().contains(email.getValue());
 
             if (canBeCreated) createUser(userService, username.getValue(), email.getValue(), password.getValue());
             else denyUserCreation();

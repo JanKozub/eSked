@@ -27,7 +27,7 @@ public class GroupTab extends SettingsTab {
 
     public GroupTab(UUID userId, UserService userService, GroupService groupService, MessageService messageService) {
         super(SettingsTabType.GROUP);
-        this.user = userService.getUserById(userId);
+        this.user = userService.findById(userId);
         this.userService = userService;
         this.groupService = groupService;
         leaveButton.addClassName("leave-button");
@@ -41,12 +41,12 @@ public class GroupTab extends SettingsTab {
         SettingsRadioGroup eventSync = new SettingsRadioGroup("group.sync.events",
                 "enable", "disable", user.isEventSync());
         eventSync.addValueChangeListener(valueChange ->
-                userService.changeEventsSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
+                userService.changeEventsSynById(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
         SettingsRadioGroup tableSync = new SettingsRadioGroup("group.sync.schedule",
                 "enable", "disable", user.isTableSync());
         tableSync.addValueChangeListener(valueChange ->
-                userService.changeTableSynByUserId(userId, valueChange.getValue().equals(getTranslation("enable"))));
+                userService.changeTableSynById(userId, valueChange.getValue().equals(getTranslation("enable"))));
 
         newGroup.addClickListener(e -> createNewGroup(groupCodeField));
 
@@ -73,7 +73,7 @@ public class GroupTab extends SettingsTab {
         group.setGroupCode(getUniqueGroupCode());
         groupService.saveGroup(group);
 
-        userService.changeGroupCodeByUserId(user.getId(), group.getGroupCode());
+        userService.changeGroupCodeById(user.getId(), group.getGroupCode());
         groupCodeField.updateMainValue(String.valueOf(group.getGroupCode()));
         newGroup.setEnabled(false);
         leaveButton.setText(getTranslation("group.pending"));
@@ -108,7 +108,7 @@ public class GroupTab extends SettingsTab {
 
     private void resetLayout(GroupCodeField groupCodeField, Button groupButton, String notification) {
         new SuccessNotification(notification, NotificationType.SHORT).open();
-        userService.changeGroupCodeByUserId(user.getId(), 0);
+        userService.changeGroupCodeById(user.getId(), 0);
         groupCodeField.updateMainValue("");
         groupButton.setVisible(false);
         newGroup.setEnabled(true);

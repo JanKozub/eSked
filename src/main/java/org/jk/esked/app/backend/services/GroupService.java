@@ -56,19 +56,19 @@ public class GroupService {
     }
 
     public void synchronizeWGroup(UUID userId, int groupCode) {
-        if (userService.getUserById(userId).getGroupCode() == 0) return;
+        if (userService.findById(userId).getGroupCode() == 0) return;
 
         if (userId.compareTo(getLeaderIdByGroupCode(groupCode)) != 0) {
-            if (userService.isEventsSynByUserId(userId))
+            if (userService.isEventsSynById(userId))
                 synchronizeEvents(userId);
 
-            if (userService.isTableSyn(userId))
+            if (userService.isTableSynById(userId))
                 synchronizeTable(userId, groupCode);
         }
     }
 
     private void synchronizeEvents(UUID userId) {
-        List<Event> groupEvents = eventService.getEventsByUserId(getLeaderIdByGroupCode(userService.getGroupCodeByUserId(userId)));
+        List<Event> groupEvents = eventService.getEventsByUserId(getLeaderIdByGroupCode(userService.findGroupCodeById(userId)));
         List<Event> events = eventService.getEventsByUserId(userId);
         for (Event parseEvent : groupEvents) {
             if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {

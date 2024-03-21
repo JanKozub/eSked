@@ -28,13 +28,13 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
             button.getStyle().set("color", "green");
             button.addClickListener(event -> {
                 groupsService.changeGroupAcceptedByGroupCode(group.getGroupCode(), true);
-                userService.changeGroupCodeByUserId(group.getLeader().getId(), group.getGroupCode());
+                userService.changeGroupCodeById(group.getLeader().getId(), group.getGroupCode());
                 List<Group> groups = groupsService.getAllGroups();
                 groups.removeIf(Group::isAccepted);
                 groupEntryGrid.setItems(new ListDataProvider<>(groups));
 
                 Message message = new Message();
-                message.setUser(userService.getUserById(group.getLeader().getId()));
+                message.setUser(userService.findById(group.getLeader().getId()));
                 message.setText(getTranslation("groups.accept.info"));
 
                 messageService.saveMessage(message);

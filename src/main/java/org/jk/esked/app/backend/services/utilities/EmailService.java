@@ -50,6 +50,8 @@ public class EmailService {
     }
 
     public void sendEmail(User user, EmailType emailType) throws Exception {
+        if (user == null) return;
+
         String subject = "", emailBody = "";
         UUID userId = user.getId();
         I18NProvider i18NProvider = VaadinService.getCurrent().getInstantiator().getI18NProvider();
@@ -64,7 +66,7 @@ public class EmailService {
                 subject = i18NProvider.getTranslation("email.new.password.subject", locale);
                 emailBody = i18NProvider.getTranslation("email.new.password.body", locale) + getUrl(userId, user.getPassword(), "password");
             }
-            case FORGOTPASS -> {
+            case FORGOTPASS -> { //TODO password reset not working
                 subject = i18NProvider.getTranslation("email.forgot.password.subject", locale);
                 emailBody = i18NProvider.getTranslation("email.forgot.password.body", locale) + getUrl(userId, "forgot", "password");
             }

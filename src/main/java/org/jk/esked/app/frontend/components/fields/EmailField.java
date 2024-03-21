@@ -24,7 +24,7 @@ public class EmailField extends SettingsField {
         this.userService = userService;
         this.emailService = emailService;
 
-        updateMainValue(userService.getEmailByUserId(userId));
+        updateMainValue(userService.findEmailById(userId));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class EmailField extends SettingsField {
         if (!input.contains("@"))
             throw new ValidationException(getTranslation("exception.non.email.syntax"));
 
-        Collection<String> emails = userService.getAllUserEmails();
+        Collection<String> emails = userService.findAllRegisteredEmails();
         if (emails.stream().anyMatch(s -> s.equals(input))) {
             throw new ValidationException(getTranslation("exception.email.taken"));
         }
@@ -43,7 +43,7 @@ public class EmailField extends SettingsField {
 
     @Override
     protected void commitInput(String input) throws Exception {
-        User user = userService.getUserById(userId);
+        User user = userService.findById(userId);
         user.setEmail(input);
         new SuccessNotification(getTranslation("notification.email.link.sent"), NotificationType.SHORT).open();
         emailService.sendEmail(user, EmailType.NEWEMAIL);

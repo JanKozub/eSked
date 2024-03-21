@@ -46,9 +46,9 @@ public class GroupCodeField extends SettingsField {
 
     @Override
     protected void commitInput(String input) {
-        userService.changeGroupCodeByUserId(user.getId(), Integer.parseInt(input));
+        userService.changeGroupCodeById(user.getId(), Integer.parseInt(input));
         new SuccessNotification(getTranslation("notification.code.changed") + " \"" + input + "\"", NotificationType.SHORT).open();
-        updateMainValue(Integer.toString(userService.getGroupCodeByUserId(user.getId())));
+        updateMainValue(Integer.toString(userService.findGroupCodeById(user.getId())));
 
         Message message = new Message();
         message.setUser(user);

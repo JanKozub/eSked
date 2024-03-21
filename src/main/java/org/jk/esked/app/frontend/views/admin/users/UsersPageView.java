@@ -34,7 +34,7 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
                         e -> {
                             userService.changeUserTypeById(user.getId(),
                                     user.getUserType() == UserType.USER ? UserType.ADMIN : UserType.USER);
-                            UserType userType = userService.getUserTypeByUserId(user.getId());
+                            UserType userType = userService.findUserTypeById(user.getId());
                             user.setUserType(userType);
                             e.getSource().setText(userType.getDescription());
                         }))).setFlexGrow(0).setHeader(getTranslation("type"));
@@ -46,12 +46,12 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
         userGrid.addColumn(new ComponentRenderer<>(user -> {
             Button button = new Button(getTranslation("delete"), event -> {
                 userService.deleteUser(user.getId());
-                userGrid.setItems(userService.getAllUsers());
+                userGrid.setItems(userService.findAllUsers());
             });
             button.getStyle().set("color", "red");
             return new HorizontalLayout(button);
         })).setFlexGrow(0);
-        userGrid.setItems(userService.getAllUsers());
+        userGrid.setItems(userService.findAllUsers());
         userGrid.setRowsDraggable(false);
         userGrid.getColumns().forEach(column -> column.setAutoWidth(true));
         add(new AdminReturnButton(), userGrid);

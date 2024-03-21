@@ -18,7 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
@@ -30,99 +30,99 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public User getUserById(UUID userId) {
+    public User findById(UUID userId) {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public List<String> getAllUserUsernames() {
-        return userRepository.getAllUsersUsernames();
+    public List<String> findAllUsernames() {
+        return userRepository.findAllUsernames();
     }
 
-    public String getUsernameByUserId(UUID id) {
-        return userRepository.getUserUsernameById(id);
+    public String findUsernameById(UUID id) {
+        return userRepository.findUsernameById(id);
     }
 
-    public void changeUsernameByUserId(UUID id, String username) {
-        userRepository.changeUserUsernameById(id, username);
+    public void changeUsernameById(UUID id, String username) {
+        userRepository.changeUsernameById(id, username);
     }
 
-    public void changePasswordByUserId(UUID userId, String newPassword) {
-        userRepository.changeUserPasswordById(userId, newPassword);
+    public void changePasswordById(UUID id, String newPassword) {
+        userRepository.changePasswordById(id, newPassword);
     }
 
-    public List<String> getAllUserEmails() {
-        return userRepository.getAllUsersEmails();
+    public List<String> findAllRegisteredEmails() {
+        return userRepository.findAllEmails();
     }
 
-    public String getEmailByUserId(UUID userId) {
-        return userRepository.getUserEmailById(userId);
+    public String findEmailById(UUID userId) {
+        return userRepository.findEmailById(userId);
     }
 
-    public void changeEmailByUserId(UUID userId, String newEmail) {
-        userRepository.changeUserEmailById(userId, newEmail);
+    public void changeEmailById(UUID userId, String newEmail) {
+        userRepository.changeEmailById(userId, newEmail);
     }
 
-    public ThemeType getThemeByUserId(UUID userId) {
-        return (userRepository.getUserDarkThemeById(userId)) ? ThemeType.DARK : ThemeType.WHITE;
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
-    public void changeThemeByUserId(UUID userId, ThemeType themeType) {
-        userRepository.changeThemeByUserId(userId, themeType == ThemeType.DARK);
+    public ThemeType findThemeById(UUID id) {
+        return (userRepository.findUserDarkThemeById(id)) ? ThemeType.DARK : ThemeType.WHITE;
     }
 
-    public int getGroupCodeByUserId(UUID userId) {
-        return userRepository.getGroupCodeByUserId(userId);
+    public void changeThemeById(UUID id, ThemeType themeType) {
+        userRepository.changeThemeById(id, themeType == ThemeType.DARK);
     }
 
-    public void changeGroupCodeByUserId(UUID userId, int groupCode) {
-        userRepository.changeGroupCodeByUserId(userId, groupCode);
+    public int findGroupCodeById(UUID id) {
+        return userRepository.findGroupCodeById(id);
     }
 
-    public boolean isHourEnabled(UUID userId) {
-        return userRepository.isScheduleHourEnabledById(userId);
+    public void changeGroupCodeById(UUID id, int groupCode) {
+        userRepository.changeGroupCodeById(id, groupCode);
     }
 
-    public void changeHourByUserId(UUID userId, boolean state) {
-        userRepository.changeHoursByUserId(userId, state);
+    public boolean isHourEnabled(UUID id) {
+        return userRepository.isScheduleHourEnabledById(id);
     }
 
-    public boolean isEventsSynByUserId(UUID userId) {
-        return userRepository.isEventSynByUserId(userId);
+    public void changeHourById(UUID id, boolean state) {
+        userRepository.changeHoursById(id, state);
     }
 
-    public boolean isTableSyn(UUID userId) {
-        return userRepository.isTableSynByUserId(userId);
+    public boolean isEventsSynById(UUID id) {
+        return userRepository.isEventSynById(id);
     }
 
-    public void changeEventsSynByUserId(UUID userId, boolean state) {
-        userRepository.changeEventsSynByUserId(userId, state);
+    public boolean isTableSynById(UUID id) {
+        return userRepository.isTableSynById(id);
     }
 
-    public void changeTableSynByUserId(UUID userId, boolean state) {
-        userRepository.changeTableSynByUserId(userId, state);
+    public void changeEventsSynById(UUID id, boolean state) {
+        userRepository.changeEventsSynById(id, state);
     }
 
-    public void changeVerifiedByUserId(UUID userId, boolean newState) {
-        userRepository.changeUserVerifiedById(userId, newState);
+    public void changeTableSynById(UUID id, boolean state) {
+        userRepository.changeTableSynById(id, state);
     }
 
-    public UUID getIdByUsername(String username) {
-        return userRepository.getUserIdByUsername(username);
+    public void changeVerifiedById(UUID id, boolean newState) {
+        userRepository.changeUserVerifiedById(id, newState);
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
-    public UserType getUserTypeByUserId(UUID id) {
-        return userRepository.getUserTypeByUserId(id);
+    public UserType findUserTypeById(UUID id) {
+        return userRepository.findUserTypeById(id);
     }
 
     public void changeUserTypeById(UUID id, UserType userType) {
         userRepository.changeUserTypeById(id, userType);
     }
 
-    public void changeLastLoggedIn(UUID id) {
-        userRepository.changeLastLoggedIn(id, TimeService.now());
+    public void changeLastLoggedInById(UUID id) {
+        userRepository.changeLastLoggedInById(id, TimeService.now());
     }
 }

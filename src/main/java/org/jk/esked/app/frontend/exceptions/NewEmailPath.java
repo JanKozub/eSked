@@ -37,7 +37,7 @@ public class NewEmailPath extends VerticalLayout implements HasUrlParameter<Stri
     public void setParameter(BeforeEvent event, String url) {
         TokenValue tokenValue = checkUrl(url);
         if (tokenValue != null) {
-            userService.changeEmailByUserId(tokenValue.getUserId(), tokenValue.getValue());
+            userService.changeEmailById(tokenValue.getUserId(), tokenValue.getValue());
 
             new SuccessNotification(getTranslation("notification.email.successful.change"), NotificationType.LONG).open();
             UI.getCurrent().navigate("/schedule");

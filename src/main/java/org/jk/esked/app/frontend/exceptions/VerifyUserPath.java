@@ -36,11 +36,11 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
             if (tokenValue.getUserId() != null) {
-                userService.changeVerifiedByUserId(tokenValue.getUserId(), true);
+                userService.changeVerifiedById(tokenValue.getUserId(), true);
                 confirmed = true;
 
                 Message message = new Message();
-                message.setUser(userService.getUserById(tokenValue.getUserId()));
+                message.setUser(userService.findById(tokenValue.getUserId()));
                 message.setText(getTranslation("notification.account.activated"));
 
                 messagesService.saveMessage(message);

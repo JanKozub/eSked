@@ -18,16 +18,21 @@ public class JpaUserDetailsManager implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String data) {
         try {
-            User user = userService.getUserByUsername(username);
-            if (user == null) return null;
 
-            userService.changeLastLoggedIn(user.getId());
+            User user = userService.findUserByUsername(data);
+            if (user == null) {
+                user = userService.findUserByEmail(data);
+                if (user == null)
+                    throw new UsernameNotFoundException("username not found in database");
+            }
+
+            userService.changeLastLoggedInById(user.getId());
             return user;
         } catch (UsernameNotFoundException | DataAccessException exception) {
             log.error(exception.getMessage());
         }
-        return null;
+        throw new UsernameNotFoundException("username not found in database");
     }
 }

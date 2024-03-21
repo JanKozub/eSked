@@ -58,6 +58,15 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(name = "verified", nullable = false)
     private boolean verified = false;
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User() {
+    }
+
     @Override
     public UUID getId() {
         return id;
