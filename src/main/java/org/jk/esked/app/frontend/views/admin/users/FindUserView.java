@@ -1,6 +1,7 @@
 package org.jk.esked.app.frontend.views.admin.users;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -10,17 +11,15 @@ import jakarta.annotation.security.RolesAllowed;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.security.SecurityService;
-import org.jk.esked.app.backend.services.*;
-import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
 import org.jk.esked.app.frontend.components.admin.UserCreator;
-import org.jk.esked.app.frontend.components.admin.UserLayout;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 @Route(value = "admin/user", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 class FindUserView extends VerticalLayout implements HasDynamicTitle {
-    FindUserView(ScheduleEntryService scheduleEntryService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, SecurityService securityService, MessageService messageService) {
+    FindUserView(UserService userService, SecurityService securityService) {
         TextField textField = new TextField(getTranslation("username"));
         textField.setWidth("50%");
         textField.focus();
@@ -28,11 +27,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
         Button searchForUserButton = new Button(getTranslation("search"), event -> {
             try {
                 User user = validateInput(userService, textField.getValue());
-                textField.setInvalid(false);
-                removeAll();
-
-                add(new UserLayout(user, userService, emailService, groupService, scheduleEntryService, eventService, hourService, messageService));
-                setAlignItems(Alignment.CENTER);
+                UI.getCurrent().navigate("user/" + user.getId().toString());
             } catch (ValidationException ex) {
                 textField.setErrorMessage(ex.getMessage());
                 textField.setInvalid(true);

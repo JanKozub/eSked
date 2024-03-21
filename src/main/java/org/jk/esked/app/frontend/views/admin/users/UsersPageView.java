@@ -1,5 +1,6 @@
 package org.jk.esked.app.frontend.views.admin.users;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -38,9 +39,8 @@ class UsersPageView extends VerticalLayout implements HasDynamicTitle {
                             e.getSource().setText(userType.getDescription());
                         }))).setFlexGrow(0).setHeader(getTranslation("type"));
         userGrid.addColumn(new ComponentRenderer<>(user -> {
-            Button button = new Button(getTranslation("groups.details"), event -> {
-                //TODO implement
-            });
+            Button button = new Button(getTranslation("groups.details"), event ->
+                    UI.getCurrent().navigate("user/" + user.getId().toString()));
             return new HorizontalLayout(button);
         })).setFlexGrow(0);
         userGrid.addColumn(new ComponentRenderer<>(user -> {
