@@ -20,8 +20,8 @@ import java.util.List;
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
-    public GroupsPendingView(SecurityService securityService, ScheduleService scheduleService, GroupService groupsService, UserService userService, MessageService messageService, HourService hourService) {
-        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleService, userService, hourService);
+    public GroupsPendingView(SecurityService securityService, ScheduleEntryService scheduleEntryService, GroupService groupsService, UserService userService, MessageService messageService, HourService hourService) {
+        GroupsGrid groupEntryGrid = new GroupsGrid(securityService.getUser(), scheduleEntryService, userService, hourService);
 
         groupEntryGrid.addColumn(new ComponentRenderer<>(group -> {
             Button button = new Button(getTranslation("groups.accept"));

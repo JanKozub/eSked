@@ -12,7 +12,7 @@ import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.EventType;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.EventService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.jk.esked.app.frontend.components.fields.TopicField;
@@ -24,7 +24,7 @@ import java.time.LocalDate;
 public class AddNewEventDialog extends Dialog {
     private Runnable action;
 
-    public AddNewEventDialog(User user, ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry) {
+    public AddNewEventDialog(User user, ScheduleEntryService scheduleEntryService, EventService eventService, LocalDate startOfWeek, ScheduleEntry scheduleEntry) {
         LocalDate eventDate = startOfWeek.plusDays(scheduleEntry.getDay());
 
         Text title = new Text(getTranslation("new.event.title"));
@@ -59,7 +59,7 @@ public class AddNewEventDialog extends Dialog {
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setWidth("100%");
 
-        EventGrid eventGrid = new EventGrid(user.getId(), scheduleService, eventService, startOfWeek);
+        EventGrid eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, startOfWeek);
 
         add(layout, eventGrid);
     }

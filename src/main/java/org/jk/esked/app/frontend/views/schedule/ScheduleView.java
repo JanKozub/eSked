@@ -8,7 +8,7 @@ import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.HourService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
 import org.jk.esked.app.frontend.views.MainLayout;
@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Scope;
 @Scope("prototype")
 @Route(value = "", layout = MainLayout.class)
 public class ScheduleView extends VerticalLayout implements HasDynamicTitle {
-    public ScheduleView(SecurityService securityService, ScheduleService scheduleService, EventService eventService, UserService userService, HourService hoursService) {
-        add(new ScheduleGrid(securityService.getUser(), scheduleService, eventService, userService, hoursService));
+    public ScheduleView(SecurityService securityService, ScheduleEntryService scheduleEntryService, EventService eventService, UserService userService, HourService hoursService) {
+        add(new ScheduleGrid(securityService.getUser(), scheduleEntryService, eventService, userService, hoursService));
     }
 
     @Override

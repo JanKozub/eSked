@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleGrid extends VerticalLayout {
-    private final ScheduleService scheduleService;
+    private final ScheduleEntryService scheduleEntryService;
     private final EventService eventService;
     private final HourService hourService;
     private final User user;
@@ -32,13 +32,13 @@ public class ScheduleGrid extends VerticalLayout {
     private List<ScheduleEntry> entries;
     private List<Event> events;
 
-    public ScheduleGrid(User user, ScheduleService scheduleService, EventService eventService, UserService userService, HourService hoursService) {
-        this.scheduleService = scheduleService;
+    public ScheduleGrid(User user, ScheduleEntryService scheduleEntryService, EventService eventService, UserService userService, HourService hoursService) {
+        this.scheduleEntryService = scheduleEntryService;
         this.eventService = eventService;
         this.hourService = hoursService;
         this.user = user;
 
-        entries = scheduleService.getScheduleEntriesByUserId(user.getId());
+        entries = scheduleEntryService.getAllByUserId(user.getId());
         events = eventService.getEventsForWeek(user.getId(), startOfWeek);
 
         scheduleGrid = new Schedule(userService, user.getId()) {
@@ -86,7 +86,7 @@ public class ScheduleGrid extends VerticalLayout {
     }
 
     private void refresh() {
-        entries = scheduleService.getScheduleEntriesByUserId(user.getId());
+        entries = scheduleEntryService.getAllByUserId(user.getId());
         events = eventService.getEventsForWeek(user.getId(), startOfWeek);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setItems(dataProvider);
@@ -136,7 +136,7 @@ public class ScheduleGrid extends VerticalLayout {
     }
 
     private void addNewEvent(ScheduleEntry scheduleEntry) {
-        AddNewEventDialog dialog = new AddNewEventDialog(user, scheduleService, eventService, startOfWeek, scheduleEntry);
+        AddNewEventDialog dialog = new AddNewEventDialog(user, scheduleEntryService, eventService, startOfWeek, scheduleEntry);
         dialog.addDialogCloseActionListener(close -> {
             refresh();
             dialog.close();

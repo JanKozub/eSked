@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.model.entities.User;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class AddEntryDialog extends Dialog {
     private final ComboBox<String> comboBox = new ComboBox<>();
     private final TextField textField = new TextField();
 
-    public AddEntryDialog(User user, ScheduleService scheduleService, int hour, int day) {
+    public AddEntryDialog(User user, ScheduleEntryService scheduleEntryService, int hour, int day) {
         Text label = new Text(getTranslation("schedule.dialog.new.title"));
 
         setCloseOnOutsideClick(true);
@@ -51,7 +51,7 @@ public class AddEntryDialog extends Dialog {
                 return;
             }
 
-            scheduleService.saveScheduleEntry(new ScheduleEntry(user, hour, day, name));
+            scheduleEntryService.save(new ScheduleEntry(user, hour, day, name));
 
             close();
         });

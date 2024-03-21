@@ -16,14 +16,14 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final UserService userService;
     private final EventService eventService;
-    private final ScheduleService scheduleService;
+    private final ScheduleEntryService scheduleEntryService;
     private final HourService hourService;
 
-    public GroupService(GroupRepository groupRepository, UserService userService, EventService eventService, ScheduleService scheduleService, HourService hourService) {
+    public GroupService(GroupRepository groupRepository, UserService userService, EventService eventService, ScheduleEntryService scheduleEntryService, HourService hourService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
         this.eventService = eventService;
-        this.scheduleService = scheduleService;
+        this.scheduleEntryService = scheduleEntryService;
         this.hourService = hourService;
     }
 
@@ -82,8 +82,8 @@ public class GroupService {
     }
 
     private void synchronizeTable(UUID userId, int groupCode) {
-        scheduleService.deleteAllScheduleEntriesForId(userId);
-        scheduleService.setScheduleEntries(userId, scheduleService.getScheduleEntriesByUserId(getLeaderIdByGroupCode(groupCode)));
+        scheduleEntryService.deleteAllByUserId(userId);
+        scheduleEntryService.setAllByUserId(userId, scheduleEntryService.getAllByUserId(getLeaderIdByGroupCode(groupCode)));
 
         List<Hour> hours = hourService.getHourByUserId(getLeaderIdByGroupCode(groupCode));
         List<Hour> newHours = new ArrayList<>();

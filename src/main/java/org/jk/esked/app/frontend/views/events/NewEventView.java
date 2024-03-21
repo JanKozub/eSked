@@ -19,7 +19,7 @@ import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
@@ -43,10 +43,10 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
     private final NumberField hourNum = new NumberField();
     private final TopicField topicField = new TopicField();
 
-    public NewEventView(ScheduleService scheduleService, EventService eventService, SecurityService securityService) {
+    public NewEventView(ScheduleEntryService scheduleEntryService, EventService eventService, SecurityService securityService) {
         User user = securityService.getUser();
         this.eventService = eventService;
-        this.eventGrid = new EventGrid(user.getId(), scheduleService, eventService, LocalDate.now());
+        this.eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
 
         Span formLabel = new Span(getTranslation("new.event.title"));
 

@@ -10,7 +10,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.schedule.DatePanel;
 import org.jk.esked.app.frontend.views.MainLayout;
@@ -28,8 +28,8 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
     private final EventGrid eventGrid;
     private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 
-    public EventsView(ScheduleService scheduleService, EventService eventService, SecurityService securityService) {
-        eventGrid = new EventGrid(securityService.getUserId(), scheduleService, eventService, startOfWeek);
+    public EventsView(ScheduleEntryService scheduleEntryService, EventService eventService, SecurityService securityService) {
+        eventGrid = new EventGrid(securityService.getUserId(), scheduleEntryService, eventService, startOfWeek);
 
         HorizontalLayout datePanel = new DatePanel(startOfWeek) {
             @Override

@@ -12,7 +12,10 @@ import java.util.UUID;
 public interface ScheduleRepository extends JpaRepository<ScheduleEntry, UUID> {
 
     @Query("select e from ScheduleEntry e where e.user.id = :id")
-    List<ScheduleEntry> getScheduleEntriesByUserId(UUID id);
+    List<ScheduleEntry> findByUserId(UUID id);
+
+    @Query("select e from ScheduleEntry e where e.user.id = :id and e.day = :day and e.hour = :hour")
+    List<ScheduleEntry> findByUserIdAndDayAndHour(UUID id, int day, int hour);
 
     @Transactional
     @Modifying

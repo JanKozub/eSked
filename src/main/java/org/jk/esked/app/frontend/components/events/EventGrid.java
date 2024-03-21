@@ -9,7 +9,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import org.jk.esked.app.backend.model.entities.Event;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.services.EventService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 
 import java.time.LocalDate;
@@ -20,12 +20,12 @@ public class EventGrid extends Grid<Event> {
     private final UUID userId;
     private LocalDate startOfWeek;
 
-    public EventGrid(UUID userId, ScheduleService scheduleService, EventService eventService, LocalDate startOfWeek) {
+    public EventGrid(UUID userId, ScheduleEntryService scheduleEntryService, EventService eventService, LocalDate startOfWeek) {
         this.eventService = eventService;
         this.userId = userId;
         this.startOfWeek = startOfWeek;
 
-        Collection<ScheduleEntry> entries = scheduleService.getScheduleEntriesByUserId(userId);
+        Collection<ScheduleEntry> entries = scheduleEntryService.getAllByUserId(userId);
 
         setSelectionMode(SelectionMode.NONE);
         setWidth("100%");

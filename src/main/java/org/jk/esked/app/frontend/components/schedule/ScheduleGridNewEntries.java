@@ -12,39 +12,34 @@ import org.jk.esked.app.backend.model.entities.Hour;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.HourService;
-import org.jk.esked.app.backend.services.ScheduleService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.fields.TimePicker24h;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class ScheduleGridNewEntries extends VerticalLayout {//TODO code cleanup
-    private final ScheduleService scheduleService;
+public class ScheduleGridNewEntries extends VerticalLayout {
+    private final ScheduleEntryService scheduleEntryService;
     private final HourService hourService;
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
     private final UUID userId;
-    private Collection<ScheduleEntry> entries;
 
-    public ScheduleGridNewEntries(User user, ScheduleService scheduleService, UserService userService, HourService hourService) { //TODO unused??
-        this.scheduleService = scheduleService;
+    public ScheduleGridNewEntries(User user, ScheduleEntryService scheduleEntryService, UserService userService, HourService hourService) {
+        this.scheduleEntryService = scheduleEntryService;
         this.hourService = hourService;
         this.userId = user.getId();
-
-        entries = scheduleService.getScheduleEntriesByUserId(userId);
 
         scheduleGrid = new Schedule(userService, userId) {
             @Override
             Component rowRenderer(Button e, int day) {
-                return ScheduleGridNewEntries.this.rowRenderer(user, e, day);
+                return ScheduleGridNewEntries.this.rowRenderer(user, day, Integer.parseInt(e.getText()));
             }
 
             @Override
             Component hourRenderer(Button e) {
-                return ScheduleGridNewEntries.this.hourRenderer(user, e);
+                return ScheduleGridNewEntries.this.hourRenderer(user, Integer.parseInt(e.getText()));
             }
         };
         scheduleGrid.setAllRowsVisible(true);
@@ -52,30 +47,31 @@ public class ScheduleGridNewEntries extends VerticalLayout {//TODO code cleanup
         Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid));
         more.setWidth("100%");
 
-        for (int i = 0; i < hourService.getScheduleMaxHour(userId) + 1; i++) ScheduleGrid.addRow(buttons, scheduleGrid);
+        for (int i = 0; i < hourService.getScheduleMaxHour(userId) + 1; i++)
+            ScheduleGrid.addRow(buttons, scheduleGrid);
 
-        add(scheduleGrid);
         setSizeFull();
-        add(more);
+        add(scheduleGrid, more);
     }
 
-    private Button rowRenderer(User user, Button e, int day) {
+    private Button rowRenderer(User user, int day, int hour) {
         Button button = new Button(getTranslation("add"));
         button.setSizeFull();
-        for (ScheduleEntry entry : entries) {
-            if (entry.getHour() == Integer.parseInt(e.getText()) && entry.getDay() == day) {
-                button.setText(entry.getSubject());
-                button.addClickListener(clickEvent -> {
-                    DeleteEntryDialog dialog = new DeleteEntryDialog(user.getId(), scheduleService, entry);
-                    dialog.addDetachListener(action -> refresh());
-                    dialog.open();
-                });
-                button.getStyle().set("color", "green");
-                return button;
-            }
+
+        ScheduleEntry entry = scheduleEntryService.findByUserIdAndDayAndHour(user.getId(), day, hour);
+        if (entry != null) {
+            button.setText(entry.getSubject());
+            button.addClickListener(clickEvent -> {
+                DeleteEntryDialog dialog = new DeleteEntryDialog(user.getId(), scheduleEntryService, entry);
+                dialog.addDetachListener(action -> refresh());
+                dialog.open();
+            });
+            button.getStyle().set("color", "green");
+            return button;
         }
+
         button.addClickListener(clickEvent -> {
-            AddEntryDialog dialog = new AddEntryDialog(user, scheduleService, Integer.parseInt(e.getText()), day);
+            AddEntryDialog dialog = new AddEntryDialog(user, scheduleEntryService, hour, day);
             dialog.addDetachListener(action -> refresh());
             dialog.open();
         });
@@ -83,46 +79,23 @@ public class ScheduleGridNewEntries extends VerticalLayout {//TODO code cleanup
         return button;
     }
 
-    private Button hourRenderer(User user, Button e) {
-        int value = Integer.parseInt(e.getText()) + 1;
-        String finalValue = String.valueOf(value);
-        Hour hour = hourService.getHourValueByHour(userId, value);
+    private Button hourRenderer(User user, int scheduleHour) {
+        String finalValue = String.valueOf(scheduleHour);
+        Hour hour = hourService.getHourValueByHour(userId, scheduleHour);
         if (hour != null) finalValue = hour.getData();
 
         return new Button(finalValue, h -> {
-            Dialog dialog = new Dialog();
-            dialog.setCloseOnOutsideClick(true);
-            dialog.addDetachListener(d -> refresh());
-
-            if (hourService.getHourValueByHour(userId, value) != null) { //TODO translations
-                Button delete =  new Button("delete", s -> {
-                    hourService.deleteHourByUserIdAndHour(userId, value);
-
-                    h.getSource().setText(String.valueOf(value));
-                    dialog.close();
-                });
-                dialog.add(delete);
+            Dialog dialog;
+            if (hourService.getHourValueByHour(userId, scheduleHour) != null) {
+                dialog = new DeleteHourDialog(hourService, h.getSource(), user, scheduleHour);
             } else {
-                TimePicker24h timePicker =  new TimePicker24h();
-                Button submit = new Button("submit", s -> {
-                    if (hourService.getHourValueByHour(user.getId(), value) != null) return;
-
-                    Hour newHour = new Hour();
-                    newHour.setUser(user);
-                    newHour.setHour(value);
-                    newHour.setData(timePicker.getValueIn24h());
-                    hourService.saveHour(newHour);
-                    h.getSource().setText(timePicker.getValueIn24h());
-                    dialog.close();
-                });
-                dialog.add(new VerticalLayout(timePicker, submit));
+                dialog = new AddHourDialog(hourService, h.getSource(), user, scheduleHour);
             }
-            dialog.open();
+            dialog.addDetachListener(d -> refresh());
         });
     }
 
     private void refresh() {
-        entries = scheduleService.getScheduleEntriesByUserId(userId);
         ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
         scheduleGrid.setItems(dataProvider);
     }

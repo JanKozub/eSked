@@ -20,7 +20,7 @@ import org.jk.esked.app.frontend.views.MainLayout;
 @Route(value = "admin/user", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 class FindUserView extends VerticalLayout implements HasDynamicTitle {
-    FindUserView(ScheduleService scheduleService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, SecurityService securityService, MessageService messageService) {
+    FindUserView(ScheduleEntryService scheduleEntryService, UserService userService, EventService eventService, HourService hourService, EmailService emailService, GroupService groupService, SecurityService securityService, MessageService messageService) {
         TextField textField = new TextField(getTranslation("username"));
         textField.setWidth("50%");
         textField.focus();
@@ -31,7 +31,7 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
                 textField.setInvalid(false);
                 removeAll();
 
-                add(new UserLayout(user, userService, emailService, groupService, scheduleService, eventService, hourService, messageService));
+                add(new UserLayout(user, userService, emailService, groupService, scheduleEntryService, eventService, hourService, messageService));
                 setAlignItems(Alignment.CENTER);
             } catch (ValidationException ex) {
                 textField.setErrorMessage(ex.getMessage());

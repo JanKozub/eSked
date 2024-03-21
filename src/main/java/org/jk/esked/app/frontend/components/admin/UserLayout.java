@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 public class UserLayout extends VerticalLayout {
     public UserLayout(User user, UserService userService, EmailService emailService, GroupService groupService,
-                      ScheduleService scheduleService, EventService eventService, HourService hourService, MessageService messageService) {
+                      ScheduleEntryService scheduleEntryService, EventService eventService, HourService hourService, MessageService messageService) {
         InfoBox id = new InfoBox("ID: " + user.getId().toString());
         NameField username = new NameField(user.getId(), userService, emailService);
         MyPasswordField password = new MyPasswordField(user.getId(), userService, emailService);
@@ -33,9 +33,9 @@ public class UserLayout extends VerticalLayout {
         InfoBox lastLoggedDate = new InfoBox(getTranslation("user.last.logged") + ": " + TimeService.timestampToFormatedString(user.getLastLoggedTimestamp()));
 
         Text scheduleLabel = new Text(getTranslation("page.schedule"));
-        VerticalLayout scheduleGrid = new ScheduleGrid(user, scheduleService, eventService, userService, hourService);
+        VerticalLayout scheduleGrid = new ScheduleGrid(user, scheduleEntryService, eventService, userService, hourService);
         Text eventsLabel = new Text(getTranslation("page.events"));
-        EventGrid eventGrid = new EventGrid(user.getId(), scheduleService, eventService, LocalDate.now());
+        EventGrid eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
 
         Button deleteButton = new Button(getTranslation("settings.tab.delete"), e -> {
             userService.deleteUser(user.getId());

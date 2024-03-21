@@ -24,6 +24,14 @@ public class Hour extends AbstractEntity {
     @Column(name = "data", nullable = false)
     private String data = "";
 
+    public Hour(User user, int hour, String data) {
+        this.user = user;
+        this.hour = hour;
+        this.data = data;
+    }
+
+    public Hour() {}
+
     @Override
     public UUID getId() {
         return id;
