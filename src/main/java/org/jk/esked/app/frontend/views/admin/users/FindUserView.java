@@ -3,6 +3,7 @@ package org.jk.esked.app.frontend.views.admin.users;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.HasDynamicTitle;
@@ -18,10 +19,10 @@ import org.jk.esked.app.frontend.views.MainLayout;
 
 @Route(value = "admin/user", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
+@CssImport("./styles/admin-styles.css")
 class FindUserView extends VerticalLayout implements HasDynamicTitle {
     FindUserView(UserService userService, SecurityService securityService) {
         TextField textField = new TextField(getTranslation("username"));
-        textField.setWidth("50%");
         textField.focus();
 
         Button searchForUserButton = new Button(getTranslation("search"), event -> {
@@ -34,9 +35,8 @@ class FindUserView extends VerticalLayout implements HasDynamicTitle {
             }
         });
         searchForUserButton.addClickShortcut(Key.ENTER);
-        searchForUserButton.setWidth("50%");
 
-        setAlignItems(Alignment.CENTER);
+        addClassName("find-user-view");
         add(new AdminReturnButton(), textField, searchForUserButton, new UserCreator(userService, securityService));
     }
 

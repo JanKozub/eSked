@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ScheduleGridNewEntries extends VerticalLayout {
+public class ScheduleGridNewEntries extends VerticalLayout { //TODO cleanup
     private final ScheduleEntryService scheduleEntryService;
     private final HourService hourService;
     private final Grid<Button> scheduleGrid;

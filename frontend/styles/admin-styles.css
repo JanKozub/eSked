@@ -1,0 +1,21 @@
+.find-user-view {
+    align-items: center;
+}
+
+.find-user-view vaadin-button {
+    width: 50%;
+}
+
+.find-user-view vaadin-text-field {
+    width: 50%;
+}
+
+.groups-view {
+    width: 100%;
+    height: 100%;
+}
+
+.groups-view vaadin-grid {
+    width: 100%;
+    height: 100%;
+}

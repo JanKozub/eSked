@@ -40,7 +40,7 @@ public class GroupCodeField extends SettingsField {
             throw new ValidationException(getTranslation("exception.code.length"));
 
         int value = Integer.parseInt(input);
-        if (groupService.getAllGroupCodes().stream().noneMatch(integer -> integer == value))
+        if (groupService.findAllGroupCodes().stream().noneMatch(integer -> integer == value))
             throw new ValidationException(getTranslation("exception.group.not.exist"));
     }
 

@@ -37,9 +37,7 @@ public abstract class MessageBox extends Div {
     }
 
     private VerticalLayout getMiddleLayout(Message message) {
-        return new VerticalLayout(
-                new Span(getTranslation("message.title")),
-                new Span(message.getText()));
+        return new VerticalLayout(new Span(getTranslation("message.title")), new Span(message.getText()));
     }
 
     private VerticalLayout getRightLayout(Message message) {
@@ -48,11 +46,10 @@ public abstract class MessageBox extends Div {
             this.setEnabled(false);
         });
 
-        Button deleteButton = new Button(VaadinIcon.CLOSE_SMALL.create(), e -> {
+        Button deleteButton = new RedButton(VaadinIcon.CLOSE_SMALL.create(), e -> {
             messagesService.deleteMessageById(message.getId());
             refresh();
         });
-        deleteButton.getStyle().set("color", "red");
 
         if (message.isCheckedFlag()) checkButton.setEnabled(false);
 

@@ -78,6 +78,10 @@ public class UserService {
         return userRepository.findGroupCodeById(id);
     }
 
+    public List<User> findAllUsersByGroupCode(int groupCode) {
+        return userRepository.findAllUsersByGroupCode(groupCode);
+    }
+
     public void changeGroupCodeById(UUID id, int groupCode) {
         userRepository.changeGroupCodeById(id, groupCode);
     }

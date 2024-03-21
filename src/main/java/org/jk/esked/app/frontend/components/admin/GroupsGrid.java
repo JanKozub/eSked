@@ -12,7 +12,7 @@ import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGridNewEntries;
 
-public class GroupsGrid extends Grid<Group> {
+public class GroupsGrid extends Grid<Group> { //TODO cleanup
     private final ScheduleEntryService scheduleEntryService;
     private final UserService userService;
     private final HourService hourService;

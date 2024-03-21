@@ -9,6 +9,7 @@ import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
+import org.jk.esked.app.frontend.components.other.RedButton;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
 import org.jk.esked.app.frontend.components.fields.EmailField;
 import org.jk.esked.app.frontend.components.fields.GroupCodeField;
@@ -37,11 +38,10 @@ public class UserLayout extends VerticalLayout {
         Text eventsLabel = new Text(getTranslation("page.events"));
         EventGrid eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
 
-        Button deleteButton = new Button(getTranslation("settings.tab.delete"), e -> {
+        Button deleteButton = new RedButton(getTranslation("settings.tab.delete"), e -> {
             userService.deleteUser(user.getId());
             UI.getCurrent().navigate("admin");
         });
-        deleteButton.getStyle().set("color", "red");
         deleteButton.setWidth("100%");
 
         add(id, username, password, email, groupCode, darkTheme, scheduleHours, synWGroup, createdDate,

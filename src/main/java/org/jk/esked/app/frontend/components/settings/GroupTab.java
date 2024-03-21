@@ -53,7 +53,7 @@ public class GroupTab extends SettingsTab {
         if (user.getGroupCode() != 0) {
             newGroup.setEnabled(false);
 
-            if (groupService.getGroupByGroupCode(user.getGroupCode()).isAccepted()) {
+            if (groupService.findByGroupCode(user.getGroupCode()).isAccepted()) {
                 showLeaveButton(groupCodeField);
             } else {
                 leaveButton.setText(getTranslation("group.pending"));
@@ -82,7 +82,7 @@ public class GroupTab extends SettingsTab {
 
     private int getUniqueGroupCode() {
         int code = new Random().nextInt(899999) + 100000;
-        List<Integer> codes = groupService.getAllGroupCodes();
+        List<Integer> codes = groupService.findAllGroupCodes();
 
         while (codes.contains(code))
             code = new Random().nextInt(899999) + 100000;
@@ -91,11 +91,11 @@ public class GroupTab extends SettingsTab {
     }
 
     private void showLeaveButton(GroupCodeField groupCodeField) {
-        UUID leaderId = groupService.getLeaderIdByGroupCode(user.getGroupCode());
+        UUID leaderId = groupService.findLeaderIdByGroupCode(user.getGroupCode());
         if (leaderId.compareTo(user.getId()) == 0) {
             leaveButton.setText(getTranslation("group.delete"));
             leaveButton.addClickListener(click -> {
-                groupService.deleteGroupByGroupCode(user.getGroupCode());
+                groupService.deleteByGroupCode(user.getGroupCode());
                 resetLayout(groupCodeField, leaveButton, getTranslation("group.deleted"));
             });
         } else {

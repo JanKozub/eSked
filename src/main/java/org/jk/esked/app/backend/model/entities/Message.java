@@ -28,6 +28,13 @@ public class Message extends AbstractEntity {
     @Column(name = "checked_flag", nullable = false)
     private boolean checked_flag = false;
 
+    public Message(User user, String text) {
+        this.user = user;
+        this.text = text;
+    }
+
+    public Message() {}
+
     @Override
     public UUID getId() {
         return id;
@@ -45,10 +52,6 @@ public class Message extends AbstractEntity {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getText() {
         return text;
     }
@@ -59,9 +62,5 @@ public class Message extends AbstractEntity {
 
     public boolean isCheckedFlag() {
         return checked_flag;
-    }
-
-    public void setCheckedFlag(boolean checked_flag) {
-        this.checked_flag = checked_flag;
     }
 }

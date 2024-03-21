@@ -11,21 +11,24 @@ import java.util.UUID;
 
 public interface GroupRepository extends JpaRepository<Group, UUID> {
     @Query("select g.group_code from Group g")
-    List<Integer> getAllGroupCodes();
+    List<Integer> findAllGroupCodes();
 
     @Query("select g.leader.id from Group g where g.group_code = :groupCode")
-    UUID getLeaderIdByGroupCode(int groupCode);
+    UUID findLeaderIdByGroupCode(int groupCode);
 
     @Query("select g from Group g where g.group_code = :groupCode")
-    Group getGroupByGroupCode(int groupCode);
+    Group findByGroupCode(int groupCode);
+
+    @Query("select g from Group g where g.is_accepted = :accepted")
+    List<Group> findAllGroupsByAccepted(boolean accepted);
 
     @Transactional
     @Modifying
     @Query("delete from Group g where g.group_code = :groupCode")
-    void deleteGroupByGroupCode(int groupCode);
+    void deleteByGroupCode(int groupCode);
 
     @Transactional
     @Modifying
     @Query("UPDATE Group g SET g.is_accepted = :state WHERE g.group_code = :groupCode")
-    void changeGroupAcceptedByGroupCode(int groupCode, boolean state);
+    void changeAcceptedByGroupCode(int groupCode, boolean state);
 }

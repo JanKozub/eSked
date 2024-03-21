@@ -48,6 +48,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("select u from User u where u.email = :email")
     User findUserByEmail(String email);
 
+    @Query("select u from User u where u.group_code = :groupCode")
+    List<User> findAllUsersByGroupCode(int groupCode);
+
     @Transactional
     @Modifying
     @Query("UPDATE User u SET u.username = :username WHERE u.id = :id")

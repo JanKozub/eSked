@@ -6,6 +6,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.other.RedButton;
 
 import java.util.UUID;
 
@@ -13,18 +14,14 @@ public class DeleteTab extends SettingsTab {
     public DeleteTab(UUID userId, UserService userService) {
         super(SettingsTabType.DELETE);
 
-        Button deleteButton = new Button(getTranslation("settings.tab.delete"));
-        deleteButton.getStyle().set("color", "red");
-        deleteButton.addClickListener(buttonClickEvent -> {
+        Button deleteButton = new RedButton(getTranslation("settings.tab.delete"), c -> {
             Dialog dialog = new Dialog();
-            Button button = new Button(getTranslation("confirm"));
-            button.getStyle().set("color", "red");
-            button.setWidth("100%");
-            button.addClickListener(buttonClickEvent1 -> {
+            Button button = new RedButton(getTranslation("confirm"), e -> {
                 userService.deleteUser(userId);
                 UI.getCurrent().navigate("login");
                 VaadinSession.getCurrent().close();
             });
+            button.setWidth("100%");
             dialog.add(button);
             dialog.open();
         });

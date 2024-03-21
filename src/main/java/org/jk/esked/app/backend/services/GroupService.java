@@ -31,34 +31,34 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    public Group getGroupByGroupCode(int groupCode) {
-        return groupRepository.getGroupByGroupCode(groupCode);
+    public Group findByGroupCode(int groupCode) {
+        return groupRepository.findByGroupCode(groupCode);
     }
 
-    public List<Integer> getAllGroupCodes() {
-        return groupRepository.getAllGroupCodes();
+    public List<Integer> findAllGroupCodes() {
+        return groupRepository.findAllGroupCodes();
     }
 
-    public List<Group> getAllGroups() {
-        return groupRepository.findAll();
+    public List<Group> findAllGroupsByAccepted(boolean accepted) {
+        return groupRepository.findAllGroupsByAccepted(accepted);
     }
 
-    public void deleteGroupByGroupCode(int groupCode) {
-        groupRepository.deleteGroupByGroupCode(groupCode);
+    public void deleteByGroupCode(int groupCode) {
+        groupRepository.deleteByGroupCode(groupCode);
     }
 
-    public UUID getLeaderIdByGroupCode(int groupCode) {
-        return groupRepository.getLeaderIdByGroupCode(groupCode);
+    public UUID findLeaderIdByGroupCode(int groupCode) {
+        return groupRepository.findLeaderIdByGroupCode(groupCode);
     }
 
-    public void changeGroupAcceptedByGroupCode(int groupCode, boolean state) {
-        groupRepository.changeGroupAcceptedByGroupCode(groupCode, state);
+    public void changeAcceptedByGroupCode(int groupCode, boolean state) {
+        groupRepository.changeAcceptedByGroupCode(groupCode, state);
     }
 
     public void synchronizeWGroup(UUID userId, int groupCode) {
         if (userService.findById(userId).getGroupCode() == 0) return;
 
-        if (userId.compareTo(getLeaderIdByGroupCode(groupCode)) != 0) {
+        if (userId.compareTo(findLeaderIdByGroupCode(groupCode)) != 0) {
             if (userService.isEventsSynById(userId))
                 synchronizeEvents(userId);
 
@@ -68,7 +68,7 @@ public class GroupService {
     }
 
     private void synchronizeEvents(UUID userId) {
-        List<Event> groupEvents = eventService.getEventsByUserId(getLeaderIdByGroupCode(userService.findGroupCodeById(userId)));
+        List<Event> groupEvents = eventService.getEventsByUserId(findLeaderIdByGroupCode(userService.findGroupCodeById(userId)));
         List<Event> events = eventService.getEventsByUserId(userId);
         for (Event parseEvent : groupEvents) {
             if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {
@@ -83,9 +83,9 @@ public class GroupService {
 
     private void synchronizeTable(UUID userId, int groupCode) {
         scheduleEntryService.deleteAllByUserId(userId);
-        scheduleEntryService.setAllByUserId(userId, scheduleEntryService.getAllByUserId(getLeaderIdByGroupCode(groupCode)));
+        scheduleEntryService.setAllByUserId(userId, scheduleEntryService.getAllByUserId(findLeaderIdByGroupCode(groupCode)));
 
-        List<Hour> hours = hourService.getHourByUserId(getLeaderIdByGroupCode(groupCode));
+        List<Hour> hours = hourService.getHourByUserId(findLeaderIdByGroupCode(groupCode));
         List<Hour> newHours = new ArrayList<>();
         for (Hour hour : hours) {
             Hour newHour = new Hour();
