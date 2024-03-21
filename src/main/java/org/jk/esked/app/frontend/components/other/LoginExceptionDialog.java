@@ -40,7 +40,9 @@ public class LoginExceptionDialog extends Dialog {
         getHeader().add(closeButton);
 
         setWidth("800px");
-        add(new HorizontalLayout(layoutLeft(), new VerticalLine(), layoutRight()));
+        HorizontalLayout layout = new HorizontalLayout(layoutLeft(), new VerticalLine(), layoutRight());
+        layout.setHeight("100%");
+        add(layout);
     }
 
     private VerticalLayout layoutLeft() {
@@ -62,6 +64,7 @@ public class LoginExceptionDialog extends Dialog {
 
     private VerticalLayout layoutRight() {
         Span passLabel = new Span(getTranslation("login.exception.password"));
+        passLabel.addClassName("pass-label");
         TextField usernameField = new TextField(getTranslation("username"));
         Span orLabel = new Span(getTranslation("or"));
         orLabel.addClassName("or-label");

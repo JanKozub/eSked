@@ -38,7 +38,7 @@ vaadin-tab {
 .vertical-line {
     background-color: #d8e1ed;
     width: 3px;
-    height: 415px; /*TODO relative*/
+    height: 100%;
 }
 
 .messages-view {
