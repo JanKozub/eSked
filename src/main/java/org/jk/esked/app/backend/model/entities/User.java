@@ -158,10 +158,6 @@ public class User extends AbstractEntity implements UserDetails {
         return last_logged_timestamp;
     }
 
-    public void setLastLoggedTimestamp(long last_logged_timestamp) { //TODO implement last time logged in
-        this.last_logged_timestamp = last_logged_timestamp;
-    }
-
     public boolean isVerified() {
         return verified;
     }

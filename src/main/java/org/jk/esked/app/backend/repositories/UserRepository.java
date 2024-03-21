@@ -98,5 +98,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("UPDATE User u SET u.user_type = :userType WHERE u.id = :id")
     void changeUserTypeById(UUID id, UserType userType);
 
-
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.last_logged_timestamp = :now WHERE u.id = :id")
+    void changeLastLoggedIn(UUID id, long now);
 }

@@ -4,6 +4,7 @@ import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.ThemeType;
 import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.repositories.UserRepository;
+import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -119,5 +120,9 @@ public class UserService {
 
     public void changeUserTypeById(UUID id, UserType userType) {
         userRepository.changeUserTypeById(id, userType);
+    }
+
+    public void changeLastLoggedIn(UUID id) {
+        userRepository.changeLastLoggedIn(id, TimeService.now());
     }
 }

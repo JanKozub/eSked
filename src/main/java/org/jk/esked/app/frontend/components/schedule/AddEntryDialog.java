@@ -56,6 +56,7 @@ public class AddEntryDialog extends Dialog {
             close();
         });
         addButton.addClickShortcut(Key.ENTER);
+        addButton.addClassName("add-entry-button");
 
         add(new VerticalLayout(label, layout, addButton));
     }

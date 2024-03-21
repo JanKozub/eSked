@@ -14,8 +14,6 @@ public abstract class AbstractEntity {
     @Version
     private int version;
 
-    public AbstractEntity() {}
-
     public UUID getId() {
         return id;
     }

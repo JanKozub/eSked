@@ -1,5 +1,6 @@
 package org.jk.esked.app.backend.security;
 
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,11 @@ public class JpaUserDetailsManager implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         try {
-            return userService.getUserByUsername(username);
+            User user = userService.getUserByUsername(username);
+            if (user == null) return null;
+
+            userService.changeLastLoggedIn(user.getId());
+            return user;
         } catch (UsernameNotFoundException | DataAccessException exception) {
             log.error(exception.getMessage());
         }
