@@ -1,7 +1,6 @@
 package org.jk.esked.app.frontend.components.settings;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import org.jk.esked.app.backend.model.entities.Group;
 import org.jk.esked.app.backend.model.entities.User;
@@ -10,6 +9,7 @@ import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.GroupService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 import org.jk.esked.app.frontend.components.fields.GroupCodeField;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 
@@ -17,11 +17,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-@CssImport("./styles/group-tab.css")
 public class GroupTab extends SettingsTab {
     private final UserService userService;
     private final GroupService groupService;
-    private final Button leaveButton = new Button(getTranslation("group.leave"));
+    private final Button leaveButton = new RedButton(getTranslation("group.leave"));
     private final Button newGroup = new Button(getTranslation("group.new"));
     private final User user;
 
@@ -30,7 +29,6 @@ public class GroupTab extends SettingsTab {
         this.user = userService.findById(userId);
         this.userService = userService;
         this.groupService = groupService;
-        leaveButton.addClassName("leave-button");
         leaveButton.setVisible(false);
 
         GroupCodeField groupCodeField = new GroupCodeField(user, userService, groupService, messageService);

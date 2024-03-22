@@ -6,13 +6,12 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
 import org.jk.esked.app.frontend.components.admin.GroupsGrid;
-import org.jk.esked.app.frontend.components.other.GreenButton;
-import org.jk.esked.app.frontend.components.other.RedButton;
+import org.jk.esked.app.frontend.components.buttons.GreenButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 @Route(value = "admin/groups/pending", layout = MainLayout.class)
@@ -27,7 +26,7 @@ class GroupsPendingView extends VerticalLayout implements HasDynamicTitle {
                     userService.changeGroupCodeById(group.getLeader().getId(), group.getGroupCode());
                     groupEntryGrid.setItems(new ListDataProvider<>(groupsService.findAllGroupsByAccepted(false)));
 
-                    messageService.saveMessage(new Message(userService.findById(group.getLeader().getId()), getTranslation("groups.accept.info")));
+                    messageService.saveMessage(userService.findById(group.getLeader().getId()), getTranslation("groups.accept.info"));
                 }))).setHeader(getTranslation("groups.accept"));
         groupEntryGrid.addColumn(new ComponentRenderer<>(e ->
                 new RedButton(getTranslation("groups.deny"), event -> {

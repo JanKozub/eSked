@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.components.other;
+package org.jk.esked.app.frontend.components.buttons;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;

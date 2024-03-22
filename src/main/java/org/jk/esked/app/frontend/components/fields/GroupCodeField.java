@@ -1,7 +1,6 @@
 package org.jk.esked.app.frontend.components.fields;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.FieldType;
@@ -50,9 +49,6 @@ public class GroupCodeField extends SettingsField {
         new SuccessNotification(getTranslation("notification.code.changed") + " \"" + input + "\"", NotificationType.SHORT).open();
         updateMainValue(Integer.toString(userService.findGroupCodeById(user.getId())));
 
-        Message message = new Message();
-        message.setUser(user);
-        message.setText(getTranslation("notification.code.changed") + " " + input);
-        messageService.saveMessage(message);
+        messageService.saveMessage(user, getTranslation("notification.code.changed") + " " + input);
     }
 }

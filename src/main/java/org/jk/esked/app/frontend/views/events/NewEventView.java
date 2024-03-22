@@ -36,7 +36,6 @@ import java.util.ArrayList;
 @CssImport("./styles/new-event.css")
 @Route(value = "events/new", layout = MainLayout.class)
 public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
-    private final EventService eventService;
     private final EventGrid eventGrid;
     private final DatePicker datePicker = new MyDatePicker();
     private final EventTypeComboBox eventType = new EventTypeComboBox();
@@ -45,26 +44,17 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
     public NewEventView(ScheduleEntryService scheduleEntryService, EventService eventService, SecurityService securityService) {
         User user = securityService.getUser();
-        this.eventService = eventService;
         this.eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
 
         Span formLabel = new Span(getTranslation("new.event.title"));
 
-        datePicker.addValueChangeListener(e -> {
-            try {
-                validateDate(datePicker.getValue());
-                datePicker.setInvalid(false);
-            } catch (ValidationException ex) {
-                datePicker.setErrorMessage(ex.getMessage());
-                datePicker.setInvalid(true);
-            }
-        });
+        datePicker.addValueChangeListener(e -> validateDate(datePicker.getValue()));
 
         hourNum.setStepButtonsVisible(true);
         hourNum.setMin(1);
         hourNum.setPlaceholder(getTranslation("hour"));
 
-        Button addButton = new Button(getTranslation("add"), onClick -> addEvent(user));
+        Button addButton = new Button(getTranslation("add"), onClick -> addEvent(user, eventService));
 
         FormLayout eventForm = new FormLayout();
         eventForm.setResponsiveSteps(
@@ -83,19 +73,25 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         add(new VerticalLayout(eventForm), new VerticalLayout(gridLabel, eventGrid));
     }
 
-    private void validateDate(LocalDate date) throws ValidationException {
-        if (date == null) throw new ValidationException(getTranslation("exception.empty.field"));
+    private void validateDate(LocalDate date) {
+        try {
+            if (date == null) throw new ValidationException(getTranslation("exception.empty.field"));
 
-        if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
-            throw new ValidationException(getTranslation("exception.sat.sun.not.exist"));
+            if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
+                throw new ValidationException(getTranslation("exception.sat.sun.not.exist"));
 
-        if (date.isBefore(LocalDate.now()))
-            throw new ValidationException(getTranslation("exception.event.in.past"));
+            if (date.isBefore(LocalDate.now()))
+                throw new ValidationException(getTranslation("exception.event.in.past"));
 
+            datePicker.setInvalid(false);
+        } catch (ValidationException exception) {
+            datePicker.setErrorMessage(exception.getMessage());
+            datePicker.setInvalid(true);
+        }
         eventGrid.reloadForDay(date);
     }
 
-    private void addEvent(User user) {
+    private void addEvent(User user, EventService eventService) {
         try {
             validateEvent();
 

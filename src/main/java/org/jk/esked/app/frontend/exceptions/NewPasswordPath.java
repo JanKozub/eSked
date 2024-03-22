@@ -10,7 +10,6 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.jk.esked.app.backend.model.TokenValue;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.security.SecurityService;
@@ -54,16 +53,10 @@ public class NewPasswordPath extends VerticalLayout implements HasUrlParameter<S
             try {
                 validateFields(newPassword.getValue(), confirmPassword.getValue());
                 confirmPassword.setInvalid(false);
-
                 userService.changePasswordById(userId, securityService.encodePassword(confirmPassword.getValue()));
 
                 new SuccessNotification(getTranslation("notification.password.changed"), NotificationType.LONG).open();
-
-                Message message = new Message();
-                message.setUser(userService.findById(userId));
-                message.setText(getTranslation("notification.password.changed"));
-                messageService.saveMessage(message);
-
+                messageService.saveMessage(userService.findById(userId), getTranslation("notification.password.changed"));
                 UI.getCurrent().navigate("login");
             } catch (ValidationException ex) {
                 confirmPassword.setErrorMessage(ex.getMessage());

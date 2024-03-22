@@ -7,7 +7,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.services.ScheduleEntryService;
-import org.jk.esked.app.frontend.components.other.RedButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 
 import java.util.UUID;
 

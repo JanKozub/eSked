@@ -9,7 +9,7 @@ import org.jk.esked.app.backend.services.*;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
-import org.jk.esked.app.frontend.components.other.RedButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 import org.jk.esked.app.frontend.components.schedule.ScheduleGrid;
 import org.jk.esked.app.frontend.components.fields.EmailField;
 import org.jk.esked.app.frontend.components.fields.GroupCodeField;

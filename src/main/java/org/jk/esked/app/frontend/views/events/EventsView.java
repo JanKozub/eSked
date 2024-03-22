@@ -11,6 +11,7 @@ import jakarta.annotation.security.PermitAll;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleEntryService;
+import org.jk.esked.app.frontend.components.buttons.WideButton;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.schedule.DatePanel;
 import org.jk.esked.app.frontend.views.MainLayout;
@@ -38,9 +39,7 @@ public class EventsView extends VerticalLayout implements HasDynamicTitle {
             }
         };
 
-        Button newEventButton = new Button(getTranslation("events.add.new.event"),
-                e -> UI.getCurrent().navigate("events/new"));
-        newEventButton.setWidth("100%");
+        Button newEventButton = new WideButton(getTranslation("events.add.new.event"), e -> UI.getCurrent().navigate("events/new"));
 
         add(datePanel, eventGrid, newEventButton);
     }

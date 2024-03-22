@@ -6,12 +6,12 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.TokenValue;
+import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,26 +32,19 @@ public class VerifyUserPath extends VerticalLayout implements HasUrlParameter<St
 
     @Override
     public void setParameter(BeforeEvent event, String url) {
-        boolean confirmed = false;
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
-            if (tokenValue.getUserId() != null) {
-                userService.changeVerifiedById(tokenValue.getUserId(), true);
-                confirmed = true;
+            if (tokenValue.getUserId() == null) throw new ValidationException("token not found(null)");
 
-                Message message = new Message();
-                message.setUser(userService.findById(tokenValue.getUserId()));
-                message.setText(getTranslation("notification.account.activated"));
-
-                messagesService.saveMessage(message);
-            } else
-                log.error("Token not found(null)");
+            userService.changeVerifiedById(tokenValue.getUserId(), true);
+            messagesService.saveMessage(userService.findById(tokenValue.getUserId()), getTranslation("notification.account.activated"));
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());
+            UI.getCurrent().navigate("login");
+            return;
         }
 
         UI.getCurrent().navigate("login");
-        if (confirmed)
-            new SuccessNotification(getTranslation("notification.account.activated"), NotificationType.LONG).open();
+        new SuccessNotification(getTranslation("notification.account.activated"), NotificationType.LONG).open();
     }
 }

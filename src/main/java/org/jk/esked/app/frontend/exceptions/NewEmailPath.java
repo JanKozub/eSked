@@ -6,13 +6,12 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.model.TokenValue;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
-import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.utilities.TokenService;
 import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,25 +35,22 @@ public class NewEmailPath extends VerticalLayout implements HasUrlParameter<Stri
     @Override
     public void setParameter(BeforeEvent event, String url) {
         TokenValue tokenValue = checkUrl(url);
-        if (tokenValue != null) {
-            userService.changeEmailById(tokenValue.getUserId(), tokenValue.getValue());
-
-            new SuccessNotification(getTranslation("notification.email.successful.change"), NotificationType.LONG).open();
+        if (tokenValue == null) {
             UI.getCurrent().navigate("/schedule");
+            return;
+        }
+        userService.changeEmailById(tokenValue.getUserId(), tokenValue.getValue());
 
-            Message message = new Message();
-            message.setUser(securityService.getUser());
-            message.setText(getTranslation("notification.email.changed.to") + " \"" + tokenValue.getValue() + "\"");
-            messageService.saveMessage(message);
-        } else UI.getCurrent().navigate("/schedule");
+        new SuccessNotification(getTranslation("notification.email.successful.change"), NotificationType.LONG).open();
+        UI.getCurrent().navigate("/schedule");
+        messageService.saveMessage(securityService.getUser(), getTranslation("notification.email.changed.to") + " \"" + tokenValue.getValue() + "\"");
     }
 
     private TokenValue checkUrl(String url) {
         try {
             TokenValue tokenValue = tokenService.decodeToken(url);
-            if (tokenValue.getUserId() != null && tokenValue.getValue().contains("@")) {
-                return tokenValue;
-            } else return null;
+            if (tokenValue.getUserId() == null || !tokenValue.getValue().contains("@")) return null;
+            return tokenValue;
         } catch (Exception ex) {
             log.error("token decoding exception = {}", ex.getMessage());
             return null;

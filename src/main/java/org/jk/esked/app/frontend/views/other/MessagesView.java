@@ -5,7 +5,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.frontend.components.other.HorizontalLine;
@@ -26,16 +25,15 @@ public class MessagesView extends VerticalLayout implements HasDynamicTitle {
     }
 
     private void renderMessages(MessageService messagesService, SecurityService securityService) {
-        for (Message message : messagesService.getAllMessagesForUserSortedByDate(securityService.getUserId())) {
-            add(new MessageBox(messagesService, message) {
-                @Override
-                public void refresh() {
-                    MessagesView.this.removeAll();
-                    MessagesView.this.add(title, horizontalLine);
-                    renderMessages(messagesService, securityService);
-                }
-            });
-        }
+        messagesService.getAllMessagesForUserSortedByDate(securityService.getUserId())
+                .forEach(m -> add(new MessageBox(messagesService, m) {
+                    @Override
+                    public void refresh() {
+                        MessagesView.this.removeAll();
+                        MessagesView.this.add(title, horizontalLine);
+                        renderMessages(messagesService, securityService);
+                    }
+                }));
     }
 
     @Override

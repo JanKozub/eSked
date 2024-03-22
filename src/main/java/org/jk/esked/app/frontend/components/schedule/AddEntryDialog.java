@@ -12,6 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.ScheduleEntryService;
+import org.jk.esked.app.frontend.components.buttons.WideButton;
 
 import java.util.ArrayList;
 
@@ -30,11 +31,12 @@ public class AddEntryDialog extends Dialog {
 
         comboBox.setItems(lessons);
         comboBox.setPlaceholder(getTranslation("schedule.dialog.new.pick.lesson"));
+        comboBox.addClassName("entry-combo-box");
         textField.setPlaceholder(getTranslation("schedule.dialog.new.own.lesson"));
 
         HorizontalLayout layout = new HorizontalLayout(comboBox, textField);
 
-        Button addButton = new Button(getTranslation("add"), event -> {
+        Button addButton = new WideButton(getTranslation("add"), event -> {
             String name = "";
             if (isNonEmpty(comboBox.getValue())) name = comboBox.getValue();
 
@@ -56,7 +58,6 @@ public class AddEntryDialog extends Dialog {
             close();
         });
         addButton.addClickShortcut(Key.ENTER);
-        addButton.addClassName("add-entry-button");
 
         add(new VerticalLayout(label, layout, addButton));
     }

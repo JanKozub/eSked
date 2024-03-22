@@ -6,7 +6,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.server.VaadinSession;
 import org.jk.esked.app.backend.model.types.SettingsTabType;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.other.RedButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 
 import java.util.UUID;
 

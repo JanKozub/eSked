@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.jk.esked.app.backend.model.entities.Message;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 
 @CssImport("./styles/message-box.css")
 public abstract class MessageBox extends Div {

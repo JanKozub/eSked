@@ -1,6 +1,7 @@
 package org.jk.esked.app.backend.services;
 
 import org.jk.esked.app.backend.model.entities.Message;
+import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.repositories.MessageRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void saveMessage(Message message) {
-        messageRepository.save(message);
+    public void saveMessage(User user, String text) {
+        messageRepository.save(new Message(user, text));
     }
 
     public List<Message> getAllMessagesForUserSortedByDate(UUID userId) {

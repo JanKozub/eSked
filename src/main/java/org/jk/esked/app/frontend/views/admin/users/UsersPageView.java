@@ -13,7 +13,7 @@ import org.jk.esked.app.backend.model.types.UserType;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.admin.AdminReturnButton;
-import org.jk.esked.app.frontend.components.other.RedButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 @Route(value = "admin/users", layout = MainLayout.class)

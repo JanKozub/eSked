@@ -7,21 +7,18 @@ injectGlobalCss($cssFromFile_0.toString(), 'CSSImport end', document);
 import $cssFromFile_1 from 'Frontend/styles/add-entry-dialog.css?inline';
 
 injectGlobalCss($cssFromFile_1.toString(), 'CSSImport end', document);
-import $cssFromFile_2 from 'Frontend/styles/group-tab.css?inline';
+import $cssFromFile_2 from 'Frontend/styles/login.css?inline';
 
 injectGlobalCss($cssFromFile_2.toString(), 'CSSImport end', document);
-import $cssFromFile_3 from 'Frontend/styles/login.css?inline';
+import $cssFromFile_3 from 'Frontend/styles/styles.css?inline';
 
 injectGlobalCss($cssFromFile_3.toString(), 'CSSImport end', document);
-import $cssFromFile_4 from 'Frontend/styles/styles.css?inline';
+import $cssFromFile_4 from 'Frontend/styles/admin-styles.css?inline';
 
 injectGlobalCss($cssFromFile_4.toString(), 'CSSImport end', document);
-import $cssFromFile_5 from 'Frontend/styles/admin-styles.css?inline';
+import $cssFromFile_5 from 'Frontend/styles/new-event.css?inline';
 
 injectGlobalCss($cssFromFile_5.toString(), 'CSSImport end', document);
-import $cssFromFile_6 from 'Frontend/styles/new-event.css?inline';
-
-injectGlobalCss($cssFromFile_6.toString(), 'CSSImport end', document);
 import '@vaadin/field-highlighter/theme/lumo/vaadin-field-highlighter.js';
 import '@vaadin/common-frontend/ConnectionIndicator.js';
 import '@vaadin/polymer-legacy-adapter/style-modules.js';
