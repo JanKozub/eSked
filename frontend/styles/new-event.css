@@ -1,25 +1,4 @@
-vaadin-form-layout {
+.new-event-dialog vaadin-vertical-layout {
+    align-items: center;
     width: 100%;
-    height: 100%;
-}
-
-span {
-    width: 100%;
-}
-
-vaadin-number-field {
-    width: 100%;
-}
-
-vaadin-form-layout vaadin-button {
-    width: 100%;
-}
-
-vaadin-form-layout span {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-vaadin-vertical-layout {
-    width: 50%;
 }

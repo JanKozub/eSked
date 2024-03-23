@@ -35,6 +35,18 @@ public class Event extends AbstractEntity {
     @Column(name = "created_timestamp", nullable = false)
     private long created_timestamp = 0;
 
+    public Event(User user, EventType event_type, String topic, int hour, boolean checked_flag, long timestamp) {
+        this.user = user;
+        this.event_type = event_type;
+        this.topic = topic;
+        this.hour = hour;
+        this.checked_flag = checked_flag;
+        this.timestamp = timestamp;
+    }
+
+    public Event() {
+    }
+
     @Override
     public UUID getId() {
         return id;

@@ -1,6 +1,8 @@
 package org.jk.esked.app.backend.services;
 
 import org.jk.esked.app.backend.model.entities.Event;
+import org.jk.esked.app.backend.model.entities.User;
+import org.jk.esked.app.backend.model.types.EventType;
 import org.jk.esked.app.backend.repositories.EventRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,10 @@ public class EventService {
 
     public void saveEvent(Event event) {
         eventRepository.save(event);
+    }
+
+    public void saveEvent(User user, EventType eventType, String topic, int hour, boolean checkedFlag, long timestamp) {
+        eventRepository.save(new Event(user, eventType, topic, hour, checkedFlag, timestamp));
     }
 
     public void deleteEvent(UUID id) {

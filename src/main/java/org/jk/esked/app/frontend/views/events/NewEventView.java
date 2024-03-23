@@ -11,7 +11,6 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import org.jk.esked.app.backend.model.entities.Event;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.NotificationType;
@@ -46,13 +45,10 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         this.eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
 
         Span formLabel = new Span(getTranslation("new.event.title"));
-
         datePicker.addValueChangeListener(e -> validateDate(datePicker.getValue()));
-
         hourNum.setStepButtonsVisible(true);
         hourNum.setMin(1);
         hourNum.setPlaceholder(getTranslation("hour"));
-
         Button addButton = new Button(getTranslation("add"), onClick -> addEvent(user, eventService));
 
         FormLayout eventForm = new FormLayout();
@@ -68,7 +64,6 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
         eventForm.setColspan(addButton, 2);
 
         Span gridLabel = new Span(getTranslation("new.event.event.list.label"));
-
         add(new VerticalLayout(eventForm), new VerticalLayout(gridLabel, eventGrid));
     }
 
@@ -83,26 +78,19 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
                 throw new ValidationException(getTranslation("exception.event.in.past"));
 
             datePicker.setInvalid(false);
+            eventGrid.reloadForDay(date);
         } catch (ValidationException exception) {
             datePicker.setErrorMessage(exception.getMessage());
             datePicker.setInvalid(true);
         }
-        eventGrid.reloadForDay(date);
     }
 
     private void addEvent(User user, EventService eventService) {
         try {
             validateEvent();
 
-            Event event = new Event();
-            event.setUser(user);
-            event.setEventType(eventType.getValue());
-            event.setTopic(topicField.getValue());
-            event.setHour((int) Math.round(hourNum.getValue()));
-            event.setCheckedFlag(true);
-            event.setTimestamp(TimeService.localDateToTimestamp(datePicker.getValue()));
-
-            eventService.saveEvent(event);
+            eventService.saveEvent(user, eventType.getValue(), topicField.getValue(), (int) Math.round(hourNum.getValue()),
+                    true, TimeService.localDateToTimestamp(datePicker.getValue()));
             new SuccessNotification(getTranslation("new.event.added") + ": " + topicField.getValue(), NotificationType.SHORT).open();
 
             datePicker.clear();
