@@ -19,6 +19,9 @@ injectGlobalCss($cssFromFile_4.toString(), 'CSSImport end', document);
 import $cssFromFile_5 from 'Frontend/styles/new-event.css?inline';
 
 injectGlobalCss($cssFromFile_5.toString(), 'CSSImport end', document);
+import $cssFromFile_6 from 'Frontend/styles/settings.css?inline';
+
+injectGlobalCss($cssFromFile_6.toString(), 'CSSImport end', document);
 import '@vaadin/field-highlighter/theme/lumo/vaadin-field-highlighter.js';
 import '@vaadin/common-frontend/ConnectionIndicator.js';
 import '@vaadin/polymer-legacy-adapter/style-modules.js';

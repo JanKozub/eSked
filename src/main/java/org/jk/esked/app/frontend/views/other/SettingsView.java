@@ -1,5 +1,6 @@
 package org.jk.esked.app.frontend.views.other;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @PermitAll
 @Scope("prototype")
 @Route(value = "settings", layout = MainLayout.class)
+@CssImport("./styles/settings.css")
 public class SettingsView extends VerticalLayout implements HasDynamicTitle {
     public SettingsView(SecurityService securityService, UserService userService, GroupService groupService, EmailService emailService, MessageService messageService) {
         UUID userId = securityService.getUserId();
@@ -30,7 +32,7 @@ public class SettingsView extends VerticalLayout implements HasDynamicTitle {
                 new AccountTab(userId, userService, emailService),
                 new GroupTab(userId, userService, groupService, messageService),
                 new OtherTab(userId, userService),
-                new DeleteTab(userId, userService)
+                new DeleteTab(userId, userService, securityService)
         );
         setSizeFull();
     }
