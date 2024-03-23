@@ -36,3 +36,23 @@
     height: 100px;
     margin-top: 15px;
 }
+
+.user-view {
+    align-items: center;
+}
+
+.user-view vaadin-button {
+    width: 100%;
+}
+
+.user-creator {
+    align-items: center;
+}
+
+.user-creator vaadin-email-field {
+    width: 50%;
+}
+
+.user-creator vaadin-password-field {
+    width: 50%;
+}

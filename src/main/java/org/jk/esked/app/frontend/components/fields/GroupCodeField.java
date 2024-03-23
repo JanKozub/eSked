@@ -8,7 +8,7 @@ import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.GroupService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 
 public class GroupCodeField extends SettingsField {
     private final User user;

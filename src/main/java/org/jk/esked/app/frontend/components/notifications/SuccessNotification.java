@@ -1,4 +1,4 @@
-package org.jk.esked.app.frontend.components.other;
+package org.jk.esked.app.frontend.components.notifications;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;

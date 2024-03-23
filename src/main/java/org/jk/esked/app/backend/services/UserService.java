@@ -26,6 +26,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void saveUser(String username, String password, String email) {
+        userRepository.save(new User(username, password, email));
+    }
+
     public void deleteUser(UUID userId) {
         userRepository.deleteById(userId);
     }
@@ -36,6 +40,10 @@ public class UserService {
 
     public List<String> findAllUsernames() {
         return userRepository.findAllUsernames();
+    }
+
+    public boolean isUsernameRegistered(String username) {
+        return userRepository.findAllUsernames().contains(username);
     }
 
     public String findUsernameById(UUID id) {
@@ -52,6 +60,10 @@ public class UserService {
 
     public List<String> findAllRegisteredEmails() {
         return userRepository.findAllEmails();
+    }
+
+    public boolean isEmailRegistered(String email) {
+        return userRepository.findAllEmails().contains(email);
     }
 
     public String findEmailById(UUID userId) {

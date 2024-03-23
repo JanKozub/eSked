@@ -5,8 +5,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -24,8 +22,9 @@ import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.events.EventTypeComboBox;
 import org.jk.esked.app.frontend.components.fields.TopicField;
+import org.jk.esked.app.frontend.components.notifications.ErrorNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 import org.jk.esked.app.frontend.components.other.MyDatePicker;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
 import org.jk.esked.app.frontend.views.MainLayout;
 
 import java.time.DayOfWeek;
@@ -114,9 +113,7 @@ public class NewEventView extends HorizontalLayout implements HasDynamicTitle {
 
             eventGrid.setItems(new ArrayList<>());
         } catch (ValidationException ex) {
-            Notification notification = new Notification(ex.getMessage(), 5000, Notification.Position.TOP_END);
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            notification.open();
+            new ErrorNotification(ex.getMessage(), 5000).open();
         }
     }
 

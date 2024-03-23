@@ -22,6 +22,7 @@ import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 
 import java.util.List;
 

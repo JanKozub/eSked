@@ -14,7 +14,7 @@ import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.EventService;
 import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.utilities.TimeService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 import org.jk.esked.app.frontend.components.fields.TopicField;
 import org.jk.esked.app.frontend.components.events.EventGrid;
 import org.jk.esked.app.frontend.components.events.EventTypeComboBox;

@@ -11,7 +11,7 @@ import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.frontend.components.buttons.RedButton;
 import org.jk.esked.app.frontend.components.fields.GroupCodeField;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 
 import java.util.List;
 import java.util.Random;

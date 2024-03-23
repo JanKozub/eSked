@@ -12,7 +12,7 @@ import org.jk.esked.app.backend.security.SecurityService;
 import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.TokenService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

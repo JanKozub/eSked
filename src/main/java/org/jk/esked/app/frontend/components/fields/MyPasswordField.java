@@ -7,7 +7,7 @@ import org.jk.esked.app.backend.model.types.FieldType;
 import org.jk.esked.app.backend.model.types.NotificationType;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.backend.services.UserService;
-import org.jk.esked.app.frontend.components.other.SuccessNotification;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 
 import java.util.UUID;
 
