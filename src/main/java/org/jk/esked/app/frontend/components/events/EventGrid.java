@@ -63,15 +63,15 @@ public class EventGrid extends Grid<Event> {
     }
 
     public void reloadForWeek() {
-        Collection<Event> events = eventService.getEventsForWeek(userId, startOfWeek);
+        Collection<Event> events = eventService.findByStarOfWeek(userId, startOfWeek);
         events.stream().filter(event -> !event.isCheckedFlag())
-                .forEach(event -> eventService.setCheckedFlag(event.getId(), true));
+                .forEach(event -> eventService.changeCheckedFlag(event.getId(), true));
         setItems(events);
     }
 
     public void reloadForDay(LocalDate date) {
         List<Event> eventsOnDay = new ArrayList<>();
-        for (Event event : eventService.getEventsForWeek(userId, date)) {
+        for (Event event : eventService.findByStarOfWeek(userId, date)) {
             if (TimeService.timestampToLocalDateTime(event.getTimestamp()).toLocalDate().equals(date))
                 eventsOnDay.add(event);
         }

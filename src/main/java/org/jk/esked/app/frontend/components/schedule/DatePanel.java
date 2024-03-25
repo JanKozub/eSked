@@ -23,23 +23,17 @@ public abstract class DatePanel extends HorizontalLayout {
 
         DatePicker dateTo = new DatePicker();
         dateTo.setEnabled(false);
-        dateTo.setWidth("25%");
 
-        Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT));
-        prevWeek.addClickListener(e -> refreshDates(changeWeek(NEXT_WEEK), dateFrom, dateTo));
+        Button prevWeek = new Button(new Icon(VaadinIcon.ARROW_LEFT),
+                e -> refreshDates(changeWeek(NEXT_WEEK), dateFrom, dateTo));
 
         Icon arrowIcon = new Icon(VaadinIcon.ARROW_RIGHT);
 
-        Button nextWeek = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
-        nextWeek.addClickListener(f -> refreshDates(changeWeek(PREVIOUS_WEEK), dateFrom, dateTo));
+        Button nextWeek = new Button(new Icon(VaadinIcon.ARROW_RIGHT),
+                e -> refreshDates(changeWeek(PREVIOUS_WEEK), dateFrom, dateTo));
 
+        addClassName("date-panel");
         add(prevWeek, dateFrom, arrowIcon, dateTo, nextWeek);
-        setWidth("100%");
-        prevWeek.setWidth("20%");
-        arrowIcon.getStyle().set("width", "10%");
-        nextWeek.setWidth("20%");
-        setDefaultVerticalComponentAlignment(Alignment.CENTER);
-
         refreshDates(startOfWeek, dateFrom, dateTo);
     }
 

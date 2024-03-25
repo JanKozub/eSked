@@ -1,5 +1,6 @@
 package org.jk.esked.app.frontend.views.schedule;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 @PermitAll
 @Scope("prototype")
 @Route(value = "", layout = MainLayout.class)
+@CssImport("./styles/schedule.css")
 public class ScheduleView extends VerticalLayout implements HasDynamicTitle {
     public ScheduleView(SecurityService securityService, ScheduleEntryService scheduleEntryService, EventService eventService, UserService userService, HourService hoursService) {
         add(new ScheduleGrid(securityService.getUser(), scheduleEntryService, eventService, userService, hoursService));

@@ -14,12 +14,14 @@ import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.services.HourService;
 import org.jk.esked.app.backend.services.ScheduleEntryService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.frontend.components.buttons.GreenButton;
+import org.jk.esked.app.frontend.components.buttons.RedButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ScheduleGridNewEntries extends VerticalLayout { //TODO cleanup
+public class ScheduleGridNewEntries extends VerticalLayout {
     private final ScheduleEntryService scheduleEntryService;
     private final HourService hourService;
     private final Grid<Button> scheduleGrid;
@@ -42,41 +44,27 @@ public class ScheduleGridNewEntries extends VerticalLayout { //TODO cleanup
                 return ScheduleGridNewEntries.this.hourRenderer(user, Integer.parseInt(e.getText()));
             }
         };
-        scheduleGrid.setAllRowsVisible(true);
-
-        Button more = new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid));
-        more.setWidth("100%");
 
         for (int i = 0; i < hourService.getScheduleMaxHour(userId) + 1; i++)
             ScheduleGrid.addRow(buttons, scheduleGrid);
 
-        setSizeFull();
-        add(scheduleGrid, more);
+        addClassName("schedule-grid");
+        add(scheduleGrid, new Button(new Icon(VaadinIcon.ARROW_DOWN), event -> ScheduleGrid.addRow(buttons, scheduleGrid)));
     }
 
     private Button rowRenderer(User user, int day, int hour) {
-        Button button = new Button(getTranslation("add"));
-        button.setSizeFull();
-
         ScheduleEntry entry = scheduleEntryService.findByUserIdAndDayAndHour(user.getId(), day, hour);
-        if (entry != null) {
-            button.setText(entry.getSubject());
-            button.addClickListener(clickEvent -> {
+        if (entry == null) {
+            return new RedButton(getTranslation("add"), c -> {
+                AddEntryDialog dialog = new AddEntryDialog(user, scheduleEntryService, hour, day);
+                dialog.addDetachListener(action -> refresh());
+            });
+        } else {
+            return new GreenButton(entry.getSubject(), c -> {
                 DeleteEntryDialog dialog = new DeleteEntryDialog(user.getId(), scheduleEntryService, entry);
                 dialog.addDetachListener(action -> refresh());
-                dialog.open();
             });
-            button.getStyle().set("color", "green");
-            return button;
         }
-
-        button.addClickListener(clickEvent -> {
-            AddEntryDialog dialog = new AddEntryDialog(user, scheduleEntryService, hour, day);
-            dialog.addDetachListener(action -> refresh());
-            dialog.open();
-        });
-        button.getStyle().set("color", "red");
-        return button;
     }
 
     private Button hourRenderer(User user, int scheduleHour) {

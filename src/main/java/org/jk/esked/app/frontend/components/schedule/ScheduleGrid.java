@@ -11,9 +11,10 @@ import org.jk.esked.app.backend.model.entities.Event;
 import org.jk.esked.app.backend.model.entities.Hour;
 import org.jk.esked.app.backend.model.entities.ScheduleEntry;
 import org.jk.esked.app.backend.model.entities.User;
-import org.jk.esked.app.backend.model.types.ThemeType;
-import org.jk.esked.app.backend.services.*;
-import org.jk.esked.app.backend.services.utilities.TimeService;
+import org.jk.esked.app.backend.services.EventService;
+import org.jk.esked.app.backend.services.HourService;
+import org.jk.esked.app.backend.services.ScheduleEntryService;
+import org.jk.esked.app.backend.services.UserService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -29,8 +30,6 @@ public class ScheduleGrid extends VerticalLayout {
     private final Grid<Button> scheduleGrid;
     private final List<Button> buttons = new ArrayList<>();
     private LocalDate startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY);
-    private List<ScheduleEntry> entries;
-    private List<Event> events;
 
     public ScheduleGrid(User user, ScheduleEntryService scheduleEntryService, EventService eventService, UserService userService, HourService hoursService) {
         this.scheduleEntryService = scheduleEntryService;
@@ -38,13 +37,10 @@ public class ScheduleGrid extends VerticalLayout {
         this.hourService = hoursService;
         this.user = user;
 
-        entries = scheduleEntryService.getAllByUserId(user.getId());
-        events = eventService.getEventsForWeek(user.getId(), startOfWeek);
-
         scheduleGrid = new Schedule(userService, user.getId()) {
             @Override
             Component rowRenderer(Button e, int day) {
-                return ScheduleGrid.this.rowRenderer(userService, e, day);
+                return ScheduleGrid.this.rowRenderer(e, day);
             }
 
             @Override
@@ -52,9 +48,8 @@ public class ScheduleGrid extends VerticalLayout {
                 return ScheduleGrid.this.hourRenderer(e);
             }
         };
-        scheduleGrid.setAllRowsVisible(true);
 
-        for (int i = 0; i < getMaxHour(); i++) addRow(buttons, scheduleGrid);
+        for (int i = 0; i < hoursService.getScheduleMaxHour(user.getId()); i++) addRow(buttons, scheduleGrid);
 
         HorizontalLayout datePanel = new DatePanel(startOfWeek) {
             @Override
@@ -65,6 +60,7 @@ public class ScheduleGrid extends VerticalLayout {
             }
         };
 
+        addClassName("schedule-grid");
         add(datePanel, scheduleGrid);
     }
 
@@ -77,61 +73,27 @@ public class ScheduleGrid extends VerticalLayout {
         scheduleGrid.setItems(buttons);
     }
 
-    private int getMaxHour() {
-        int maxHour = 0;
-        for (ScheduleEntry entry : entries) {
-            if (entry.getHour() > maxHour) maxHour = entry.getHour();
-        }
-        return maxHour + 1;
-    }
-
     private void refresh() {
-        entries = scheduleEntryService.getAllByUserId(user.getId());
-        events = eventService.getEventsForWeek(user.getId(), startOfWeek);
-        ListDataProvider<Button> dataProvider = new ListDataProvider<>(buttons);
-        scheduleGrid.setItems(dataProvider);
+        scheduleGrid.setItems(new ListDataProvider<>(buttons));
     }
 
-    private Component rowRenderer(UserService userService, Button e, int day) {
+    private Component rowRenderer(Button e, int day) {
+        int hour = Integer.parseInt(e.getText());
         Button button = new Button("-");
-        button.setSizeFull();
-        for (ScheduleEntry entry : entries) {
-            int hour = Integer.parseInt(e.getText());
-            if (entry.getHour() == hour && entry.getDay() == day) {
-                List<Event> entryEvents = new ArrayList<>();
-                String color;
-                if (userService.findThemeById(ScheduleGrid.this.user.getId()) == ThemeType.DARK) {
-                    button.getStyle().set("color", "white");
-                    color = "#2c3d52";
-                } else {
-                    button.getStyle().set("color", "#1676f3");
-                    color = "#f3f5f7";
-                }
-                for (Event event : events) {
-                    if (event.getHour() == hour && TimeService.timestampToLocalDateTime(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
-                        entryEvents.add(event);
-                        color = switch (event.getEventType()) {
-                            case TEST -> "#c43737";
-                            case QUIZ -> "#e88133";
-                            case QUESTIONS -> "#ebbf23";
-                            case HOMEWORK -> "#46c768";
-                        };
-                    }
-                }
-                String subject = entry.getSubject();
-                button.addClickListener(event -> {
-                    ScheduleEntry scheduleEntry = new ScheduleEntry();
-                    scheduleEntry.setUser(user);
-                    scheduleEntry.setHour(hour);
-                    scheduleEntry.setDay(day);
-                    scheduleEntry.setSubject(subject);
-                    addNewEvent(scheduleEntry);
-                });
-                button.setText(subject + "(" + entryEvents.size() + ")");
-                button.getStyle().set("background-color", color);
-                return button;
-            }
-        }
+        ScheduleEntry entry = scheduleEntryService.findByUserIdAndDayAndHour(user.getId(), day, hour);
+
+        if (entry == null) return button;
+
+        String color = ""; //TODO add font colors
+        List<Event> entryEvents = eventService.findByUserIdAndHourAndDay(user.getId(), hour, day, startOfWeek);
+        for (Event event : entryEvents)
+            color = event.getEventType().getColor(); //TODO if last is green the button is green
+
+        String subject = entry.getSubject();
+        button.addClickListener(event -> addNewEvent(new ScheduleEntry(user, hour, day, subject)));
+        button.setText(subject + "(" + entryEvents.size() + ")");
+        if (!color.isEmpty())
+            button.getStyle().set("background-color", color);
         return button;
     }
 

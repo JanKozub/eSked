@@ -60,6 +60,7 @@ public class AddEntryDialog extends Dialog {
         addButton.addClickShortcut(Key.ENTER);
 
         add(new VerticalLayout(label, layout, addButton));
+        open();
     }
 
     private void setError(String msg) {

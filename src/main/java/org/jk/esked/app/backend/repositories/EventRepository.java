@@ -12,13 +12,13 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<Event, UUID> {
 
     @Query("select e from Event e where e.user.id = :userId")
-    List<Event> findEventByUserId(UUID userId);
+    List<Event> findByUserId(UUID userId);
 
     @Query("select e from Event e where e.timestamp >= :startOfWeek AND e.timestamp < :startOfWeek + CAST(7*24*3600 AS LONG) * 1000 AND e.user.id = :id")
-    List<Event> findEventByUserIdAndWeek(UUID id, long startOfWeek);
+    List<Event> findByStartOfWeek(UUID id, long startOfWeek);
 
     @Transactional
     @Modifying
     @Query("update Event e set e.checked_flag = :state where e.id = :id")
-    void updateEventSetCheckedFlagForEvent(UUID id, boolean state);
+    void changeCheckedFlag(UUID id, boolean state);
 }

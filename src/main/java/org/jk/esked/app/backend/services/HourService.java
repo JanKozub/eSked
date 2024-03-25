@@ -47,8 +47,8 @@ public class HourService {
     public int getScheduleMaxHour(UUID userId) {
         int maxHour = 0;
         for (ScheduleEntry scheduleEntry : scheduleRepository.findByUserId(userId)) {
-            int checkedHour = scheduleEntry.getHour() + 1;
-            if (checkedHour > maxHour) maxHour = checkedHour;
+            if (scheduleEntry.getHour() > maxHour)
+                maxHour = scheduleEntry.getHour();
         }
         return maxHour;
     }

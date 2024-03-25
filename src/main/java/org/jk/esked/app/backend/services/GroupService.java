@@ -68,8 +68,8 @@ public class GroupService {
     }
 
     private void synchronizeEvents(UUID userId) {
-        List<Event> groupEvents = eventService.getEventsByUserId(findLeaderIdByGroupCode(userService.findGroupCodeById(userId)));
-        List<Event> events = eventService.getEventsByUserId(userId);
+        List<Event> groupEvents = eventService.findByUserId(findLeaderIdByGroupCode(userService.findGroupCodeById(userId)));
+        List<Event> events = eventService.findByUserId(userId);
         for (Event parseEvent : groupEvents) {
             if (events.stream().noneMatch(event -> event.getId().compareTo(parseEvent.getId()) == 0)) {
                 User user = new User();

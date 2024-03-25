@@ -24,7 +24,7 @@ abstract class Schedule extends Grid<Button> {
         getColumns().forEach(column -> column.setTextAlign(ColumnTextAlign.CENTER));
         setSelectionMode(SelectionMode.NONE);
         recalculateColumnWidths();
-        setHeight("60%");
+        setAllRowsVisible(true);
     }
 
     abstract Component rowRenderer(Button e, int day);

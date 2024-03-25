@@ -1,0 +1,30 @@
+.schedule-grid {
+    width: 100%;
+    height: 100%;
+}
+
+.schedule-grid vaadin-button {
+    width: 100%;
+}
+
+.date-panel {
+    width: 100%;
+    align-items: center;
+}
+
+.date-panel vaadin-button {
+    width: 20%;
+}
+
+
+.date-panel vaadin-date-picker {
+    width: 25%;
+}
+
+.delete-dialog vaadin-vertical-layout {
+    align-items: center;
+}
+
+.delete-dialog vaadin-button {
+    width: 100%;
+}
