@@ -56,3 +56,12 @@
 .user-creator vaadin-password-field {
     width: 50%;
 }
+
+.info-box {
+    width: 100%;
+    align-self: center;
+}
+
+.info-box vaadin-text-field {
+    width: 100%;
+}

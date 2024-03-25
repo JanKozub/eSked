@@ -5,13 +5,10 @@ import com.vaadin.flow.component.textfield.TextField;
 
 public class InfoBox extends HorizontalLayout {
     public InfoBox(String value) {
-        TextField textField = new TextField();
-        textField.setValue(value);
+        TextField textField = new TextField(value);
         textField.setReadOnly(true);
-        textField.setWidth("100%");
 
         add(textField);
-        setVerticalComponentAlignment(Alignment.CENTER, textField);
-        setWidth("100%");
+        addClassName("info-box");
     }
 }

@@ -39,6 +39,16 @@ public class EventService {
         return eventRepository.findByUserId(userId);
     }
 
+    public List<Event> findEventsOnDay(UUID userId, LocalDate day) { //TODO make a query
+        List<Event> eventsOnDay = new ArrayList<>();
+        for (Event event : findByStarOfWeek(userId, day)) {
+            if (TimeService.timestampToLocalDateTime(event.getTimestamp()).toLocalDate().equals(day))
+                eventsOnDay.add(event);
+        }
+
+        return eventsOnDay;
+    }
+
     public List<Event> findByUserIdAndHourAndDay(UUID userId, int hour, int day, LocalDate startOfWeek) { //TODO make a query
         List<Event> events = findByStarOfWeek(userId, startOfWeek);
 
