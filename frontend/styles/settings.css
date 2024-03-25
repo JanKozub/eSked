@@ -1,3 +1,17 @@
-.delete-tab vaadin-button {
+.settings-tab {
+    flex-shrink: 0;
+    padding-top: 8px;
+}
+
+.settings-tab vaadin-button {
+    margin-top: auto;
+}
+
+.settings-tab span {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.other-tab vaadin-button {
     width: 100%;
 }

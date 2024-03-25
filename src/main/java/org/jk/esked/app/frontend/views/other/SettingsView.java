@@ -12,7 +12,6 @@ import org.jk.esked.app.backend.services.MessageService;
 import org.jk.esked.app.backend.services.UserService;
 import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.frontend.components.settings.AccountTab;
-import org.jk.esked.app.frontend.components.settings.DeleteTab;
 import org.jk.esked.app.frontend.components.settings.GroupTab;
 import org.jk.esked.app.frontend.components.settings.OtherTab;
 import org.jk.esked.app.frontend.views.MainLayout;
@@ -31,8 +30,7 @@ public class SettingsView extends VerticalLayout implements HasDynamicTitle {
         add(
                 new AccountTab(userId, userService, emailService),
                 new GroupTab(userId, userService, groupService, messageService),
-                new OtherTab(userId, userService),
-                new DeleteTab(userId, userService, securityService)
+                new OtherTab(userId, userService, securityService)
         );
         setSizeFull();
     }

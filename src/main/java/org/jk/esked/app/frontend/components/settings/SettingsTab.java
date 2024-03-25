@@ -8,9 +8,7 @@ import org.jk.esked.app.frontend.components.other.HorizontalLine;
 abstract class SettingsTab extends VerticalLayout {
     public SettingsTab(SettingsTabType settingsTabType) {
         Span label = new Span(getTranslation("settings.tab." + settingsTabType.getDescription()));
-        label.addClassName("centered-text");
         add(label, new HorizontalLine());
-        getStyle().set("flex-shrink", "0");
-        getStyle().set("padding-top", "8px");
+        addClassName("settings-tab");
     }
 }
