@@ -50,3 +50,7 @@ vaadin-tab {
 .messages-view .horizontal-line {
     width: 60vw;
 }
+
+.custom-field {
+    width: 100%;
+}

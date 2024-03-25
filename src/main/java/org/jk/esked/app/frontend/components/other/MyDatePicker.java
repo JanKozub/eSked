@@ -14,7 +14,6 @@ public class MyDatePicker extends DatePicker {
                 .setMonthNames(getMonthsNames())
                 .setWeekdays(getDaysNames())
                 .setWeekdaysShort(getShortDaysNames()));
-        setWidth("25%");
     }
 
     private List<String> getMonthsNames() {

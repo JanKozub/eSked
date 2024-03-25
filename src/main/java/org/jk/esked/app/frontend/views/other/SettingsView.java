@@ -32,7 +32,7 @@ public class SettingsView extends VerticalLayout implements HasDynamicTitle {
                 new GroupTab(userId, userService, groupService, messageService),
                 new OtherTab(userId, userService, securityService)
         );
-        setSizeFull();
+        addClassName("settings-view");
     }
 
     @Override

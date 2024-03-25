@@ -42,9 +42,7 @@ public class LoginExceptionDialog extends Dialog {
         getHeader().add(closeButton);
 
         setWidth("800px");
-        HorizontalLayout layout = new HorizontalLayout(layoutLeft(), new VerticalLine(), layoutRight());
-        layout.setHeight("100%");
-        add(layout);
+        add(new HorizontalLayout(layoutLeft(), new VerticalLine(), layoutRight()));
     }
 
     private VerticalLayout layoutLeft() {
@@ -56,9 +54,9 @@ public class LoginExceptionDialog extends Dialog {
         PasswordField passwordField = new PasswordField(getTranslation("password"));
         PasswordField passwordFieldCheck = new PasswordField(getTranslation("new.user.repeat.password"));
 
-        Button addButton = new Button(getTranslation("new.user.register"));
+        Button addButton = new Button(getTranslation("new.user.register"),
+                e -> addUser(usernameField, emailField, passwordField, passwordFieldCheck));
         addButton.addClickShortcut(Key.ENTER);
-        addButton.addClickListener(e -> addUser(usernameField, emailField, passwordField, passwordFieldCheck));
         layout.add(nameOfDialog, usernameField, emailField, passwordField, passwordFieldCheck, addButton);
         layout.addClassName("login-layout");
         return layout;
@@ -72,8 +70,8 @@ public class LoginExceptionDialog extends Dialog {
         orLabel.addClassName("or-label");
         EmailField emailField = new EmailField("Email");
 
-        Button confirmButton = new Button(getTranslation("login.exception.email"));
-        confirmButton.addClickListener(event -> onConfirm(usernameField, emailField));
+        Button confirmButton = new Button(getTranslation("login.exception.email"),
+                e -> onConfirm(usernameField, emailField));
 
         VerticalLayout layoutRight = new VerticalLayout(passLabel, usernameField, orLabel, emailField, confirmButton);
         layoutRight.addClassName("login-layout");

@@ -1,14 +1,13 @@
 package org.jk.esked.app.frontend.components.fields;
 
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import org.apache.commons.lang3.StringUtils;
 import org.jk.esked.app.backend.model.exceptions.ValidationException;
 import org.jk.esked.app.backend.model.types.EmailType;
 import org.jk.esked.app.backend.model.types.FieldType;
 import org.jk.esked.app.backend.model.types.NotificationType;
-import org.jk.esked.app.backend.services.utilities.EmailService;
 import org.jk.esked.app.backend.services.UserService;
+import org.jk.esked.app.backend.services.utilities.EmailService;
+import org.jk.esked.app.frontend.components.notifications.SuccessNotification;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -42,10 +41,8 @@ public class NameField extends SettingsField {
     protected void commitInput(String input) throws Exception {
         userService.changeUsernameById(userId, input);
 
-        Notification notification = new Notification(getTranslation("notification.username.changed") + " \"" + input + "\"",
-                NotificationType.SHORT.getDuration(), Notification.Position.TOP_END);
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-        notification.open();
+        new SuccessNotification(getTranslation("notification.username.changed") + " \"" + input + "\"",
+                NotificationType.SHORT).open();
 
         emailService.sendEmail(userService.findById(userId), EmailType.NEWUSERNAME);
         updateMainValue(userService.findUsernameById(userId));

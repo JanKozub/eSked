@@ -10,12 +10,12 @@
 .date-panel {
     width: 100%;
     align-items: center;
+    justify-content: space-between;
 }
 
 .date-panel vaadin-button {
     width: 20%;
 }
-
 
 .date-panel vaadin-date-picker {
     width: 25%;

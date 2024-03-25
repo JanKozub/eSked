@@ -10,36 +10,24 @@ import org.jk.esked.app.backend.model.types.FieldType;
 
 public abstract class SettingsField extends VerticalLayout {
     private final TextField textField = new TextField();
-    private final Button normalButton = new Button();
-    private final Button commitButton = new Button();
+    private final Button normalButton;
+    private final Button commitButton;
     private final HorizontalLayout buttons = new HorizontalLayout();
 
     public SettingsField(FieldType fieldType) {
-        Span label = new Span(getTranslation("field." + fieldType.getDescription() + ".title"));
-        label.getStyle().set("font-size", "var(--lumo-font-size-s)");
-        label.getStyle().set("font-weight", "500");
-        label.getStyle().set("color", "var(--lumo-secondary-text-color)");
-        add(label);
-
         textField.setReadOnly(true);
-        textField.setWidth("70%");
         textField.setPlaceholder(getTranslation("field." + fieldType.getDescription() + ".placeholder"));
 
-        normalButton.setText(getTranslation("change"));
+        normalButton = new Button(getTranslation("change"), b -> onStartEdit());
         normalButton.setWidth("30%");
-        normalButton.addClickListener(b -> onStartEdit());
 
-        commitButton.setText(getTranslation("confirm"));
+        commitButton = new Button(getTranslation("confirm"), b -> onConfirm());
         commitButton.setWidth("40%");
-        commitButton.addClickListener(b -> onConfirm());
 
-        buttons.add(textField);
-        buttons.setWidth("100%");
-        buttons.add(normalButton);
+        buttons.add(textField, normalButton);
 
-        setPadding(false);
-        setSpacing(false);
-        add(buttons);
+        addClassName("settings-field");
+        add(new Span(getTranslation("field." + fieldType.getDescription() + ".title")), buttons);
     }
 
     public void updateMainValue(String value) {
@@ -60,7 +48,6 @@ public abstract class SettingsField extends VerticalLayout {
             commitInput(textField.getValue());
 
             buttons.replace(commitButton, normalButton);
-
             textField.setReadOnly(true);
             textField.setWidth("70%");
         } catch (Exception ex) {
