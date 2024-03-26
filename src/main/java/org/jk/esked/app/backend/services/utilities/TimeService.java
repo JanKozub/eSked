@@ -9,6 +9,10 @@ public class TimeService {
         return localDate.atStartOfDay().toInstant(ZoneOffset.UTC).getEpochSecond();
     }
 
+    public static int timestampToDayOfWeek(long timestamp) {
+        return timestampToLocalDateTime(timestamp).getDayOfWeek().getValue();
+    }
+
     public static LocalDateTime timestampToLocalDateTime(long timestamp) {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
