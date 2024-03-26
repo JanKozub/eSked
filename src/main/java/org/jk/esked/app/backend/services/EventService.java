@@ -4,13 +4,10 @@ import org.jk.esked.app.backend.model.entities.Event;
 import org.jk.esked.app.backend.model.entities.User;
 import org.jk.esked.app.backend.model.types.EventType;
 import org.jk.esked.app.backend.repositories.EventRepository;
-import org.jk.esked.app.backend.services.utilities.TimeService;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

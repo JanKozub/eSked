@@ -8,7 +8,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "\"hour\"")
 public class Hour extends AbstractEntity {
-
     @Id
     @GeneratedValue
     private UUID id;

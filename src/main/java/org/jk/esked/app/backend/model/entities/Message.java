@@ -9,7 +9,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "message")
 public class Message extends AbstractEntity {
-
     @Id
     @GeneratedValue
     private UUID id;

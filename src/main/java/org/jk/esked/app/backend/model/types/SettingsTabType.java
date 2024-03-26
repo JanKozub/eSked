@@ -3,8 +3,7 @@ package org.jk.esked.app.backend.model.types;
 public enum SettingsTabType {
     ACCOUNT("account"),
     GROUP("group"),
-    OTHER("other"),
-    DELETE("delete");
+    OTHER("other");
 
     private final String description;
 
