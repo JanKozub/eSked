@@ -28,7 +28,7 @@ public class EventGrid extends Grid<Event> {
 
         addColumn(event -> getTranslation(event.getEventType().getDescription())).setHeader(getTranslation("type"));
         addColumn(new BasicRenderer<>(this::getLesson) {}).setHeader(getTranslation("events.hour.header"));
-        addColumn(new BasicRenderer<>(this::getDay) {}).setHeader(getTranslation("day"));
+        addColumn(new BasicRenderer<>(this::getDay) {}).setHeader(getTranslation("day")); //TODO showing wrong day of week in new event view
         addColumn(event -> TimeService.timestampToFormatedString(event.getTimestamp())).setHeader(getTranslation("date"));
         addColumn(Event::getTopic).setHeader(getTranslation("topic"));
         addColumn(new ComponentRenderer<>(this::getIcon)).setHeader(getTranslation("delete"));

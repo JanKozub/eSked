@@ -39,14 +39,8 @@ public class EventService {
         return eventRepository.findByUserId(userId);
     }
 
-    public List<Event> findEventsOnDay(UUID userId, LocalDate day) { //TODO make a query
-        List<Event> eventsOnDay = new ArrayList<>();
-        for (Event event : findByStarOfWeek(userId, day)) {
-            if (TimeService.timestampToLocalDateTime(event.getTimestamp()).toLocalDate().equals(day))
-                eventsOnDay.add(event);
-        }
-
-        return eventsOnDay;
+    public List<Event> findEventsOnDay(UUID userId, LocalDate day) {
+        return eventRepository.findOnDay(userId, getStartOfDayInEpochSeconds(day));
     }
 
     public List<Event> findByUserIdAndHourAndDay(UUID userId, int hour, int day, LocalDate startOfWeek) { //TODO make a query
@@ -70,10 +64,11 @@ public class EventService {
         eventRepository.changeCheckedFlag(eventId, newState);
     }
 
+    private long getStartOfDayInEpochSeconds(LocalDate day) {
+        return day.atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond();
+    }
+
     private long getStartOfWeekInEpochSeconds(LocalDate startOfWeek) {
-        return startOfWeek.atTime(0, 0)
-                .atZone(ZoneId.systemDefault())
-                .toInstant()
-                .getEpochSecond();
+        return startOfWeek.atTime(0, 0).atZone(ZoneId.systemDefault()).toEpochSecond();
     }
 }
