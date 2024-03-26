@@ -20,7 +20,7 @@ public class OtherTab extends SettingsTab {
         scheduleHours.addValueChangeListener(valueChange ->
                 userService.changeHourById(userId, valueChange.getValue().equals(getTranslation("yes"))));
 
-        SettingsRadioGroup theme = new SettingsRadioGroup("schedule.theme", "schedule.theme.light",
+        SettingsRadioGroup theme = new SettingsRadioGroup("schedule.theme", "schedule.theme.light", //TODO themes are not working
                 "schedule.theme.dark", userService.findThemeById(userId) == ThemeType.WHITE);
         theme.addValueChangeListener(v -> userService.changeThemeById(userId,
                         v.getValue().equals(getTranslation("schedule.theme.dark")) ? ThemeType.DARK : ThemeType.WHITE));

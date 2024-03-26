@@ -85,7 +85,7 @@ public class ScheduleGrid extends VerticalLayout {
         if (entry == null) return button;
 
         String color = ""; //TODO add font colors
-        List<Event> entryEvents = eventService.findByUserIdAndHourAndDay(user.getId(), hour, day, startOfWeek);
+        List<Event> entryEvents = eventService.findByUserIdAndHourAndDay(user.getId(), hour, startOfWeek.plusDays(day));
         for (Event event : entryEvents)
             color = event.getEventType().getColor(); //TODO if last is green the button is green
 

@@ -40,20 +40,11 @@ public class EventService {
     }
 
     public List<Event> findEventsOnDay(UUID userId, LocalDate day) {
-        return eventRepository.findOnDay(userId, getStartOfDayInEpochSeconds(day));
+        return eventRepository.findByUserIdAndDay(userId, getStartOfDayInEpochSeconds(day));
     }
 
-    public List<Event> findByUserIdAndHourAndDay(UUID userId, int hour, int day, LocalDate startOfWeek) { //TODO make a query
-        List<Event> events = findByStarOfWeek(userId, startOfWeek);
-
-        List<Event> entryEvents = new ArrayList<>();
-        for (Event event : events) {
-            if (event.getHour() == hour && TimeService.timestampToLocalDateTime(event.getTimestamp()).getDayOfWeek() == DayOfWeek.of(day + 1)) {
-                entryEvents.add(event);
-            }
-        }
-
-        return entryEvents;
+    public List<Event> findByUserIdAndHourAndDay(UUID userId, int hour, LocalDate day) {
+        return eventRepository.findByUserIdAndDayAndHour(userId, hour, getStartOfDayInEpochSeconds(day));
     }
 
     public void deleteEvent(UUID id) {

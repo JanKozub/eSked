@@ -8,7 +8,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "event")
 public class Event extends AbstractEntity {
-
     @Id
     @GeneratedValue
     private UUID id;
@@ -31,9 +30,6 @@ public class Event extends AbstractEntity {
 
     @Column(name = "timestamp", nullable = false)
     private long timestamp = 0;
-
-    @Column(name = "created_timestamp", nullable = false)
-    private long created_timestamp = 0;
 
     public Event(User user, EventType event_type, String topic, int hour, boolean checked_flag, long timestamp) {
         this.user = user;
@@ -94,17 +90,5 @@ public class Event extends AbstractEntity {
 
     public long getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public long getCreatedTimestamp() {
-        return created_timestamp;
-    }
-
-    public void setCreatedTimestamp(long created_timestamp) {
-        this.created_timestamp = created_timestamp;
     }
 }
