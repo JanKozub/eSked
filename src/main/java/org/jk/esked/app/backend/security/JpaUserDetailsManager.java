@@ -20,7 +20,6 @@ public class JpaUserDetailsManager implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String data) {
         try {
-
             User user = userService.findUserByUsername(data);
             if (user == null) {
                 user = userService.findUserByEmail(data);

@@ -49,8 +49,11 @@ public class AddNewEventDialog extends Dialog {
             close();
         });
 
+        EventGrid eventGrid = new EventGrid(user.getId(), scheduleEntryService, eventService, LocalDate.now());
+        eventGrid.reloadForDay(eventDate);
+
         addClassName("new-event-dialog");
-        add(new VerticalLayout(title, topicField, eventType, confirm), new EventGrid(user.getId(), scheduleEntryService, eventService, startOfWeek));
+        add(new VerticalLayout(title, topicField, eventType, confirm), eventGrid);
     }
 
     void setRefreshAction(Runnable action) {

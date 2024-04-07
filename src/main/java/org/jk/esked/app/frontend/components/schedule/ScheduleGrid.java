@@ -84,16 +84,23 @@ public class ScheduleGrid extends VerticalLayout {
 
         if (entry == null) return button;
 
-        String color = ""; //TODO add font colors
         List<Event> entryEvents = eventService.findByUserIdAndHourAndDay(user.getId(), hour, startOfWeek.plusDays(day));
-        for (Event event : entryEvents)
-            color = event.getEventType().getColor(); //TODO if last is green the button is green
+        if (!entryEvents.isEmpty()) {
+            Event maxEvent = entryEvents.get(0);
+
+            for (Event event : entryEvents) {
+                if (event.getEventType().getId() > maxEvent.getEventType().getId())
+                    maxEvent = event;
+            }
+
+            button.getStyle().set("background-color", maxEvent.getEventType().getColor());
+            button.getStyle().set("color", "white");
+        }
 
         String subject = entry.getSubject();
         button.addClickListener(event -> addNewEvent(new ScheduleEntry(user, hour, day, subject)));
         button.setText(subject + "(" + entryEvents.size() + ")");
-        if (!color.isEmpty())
-            button.getStyle().set("background-color", color);
+
         return button;
     }
 
