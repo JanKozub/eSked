@@ -66,7 +66,7 @@ public class EmailService {
                 subject = i18NProvider.getTranslation("email.new.password.subject", locale);
                 emailBody = i18NProvider.getTranslation("email.new.password.body", locale) + getUrl(userId, user.getPassword(), "password");
             }
-            case FORGOTPASS -> { //TODO password reset not working
+            case FORGOTPASS -> {
                 subject = i18NProvider.getTranslation("email.forgot.password.subject", locale);
                 emailBody = i18NProvider.getTranslation("email.forgot.password.body", locale) + getUrl(userId, "forgot", "password");
             }

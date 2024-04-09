@@ -5,7 +5,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.icon.SvgIcon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.jk.esked.app.backend.model.types.UserType;
@@ -28,19 +28,21 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        HorizontalLayout header = new HorizontalLayout(new Image("icons/icon.png", "logo"), new H1("eSked"));
+        HorizontalLayout header = new HorizontalLayout(new SvgIcon("icons/logo.svg"), new H1("eSked"));
         header.addClassName("header");
 
-        Button settings = new Button(VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings"));
-        HorizontalLayout buttons = new HorizontalLayout(settings);
+        addToNavbar(header, createButtons());
+    }
+
+    private HorizontalLayout createButtons() {
+        HorizontalLayout buttons = new HorizontalLayout(new Button(getTranslation("page.settings"), VaadinIcon.COG_O.create(), e -> UI.getCurrent().navigate("settings")));
         buttons.addClassName("header-buttons");
 
         if (securityService.getUser().getUserType() == UserType.ADMIN)
-            buttons.add(new Button(VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin")));
+            buttons.add(new Button("Manager", VaadinIcon.CALC_BOOK.create(), e -> UI.getCurrent().navigate("admin")));
 
-        buttons.add(new Button(VaadinIcon.POWER_OFF.create(), e -> securityService.logout()));
-
-        addToNavbar(header, buttons);
+        buttons.add(new Button(getTranslation("log.out"), VaadinIcon.POWER_OFF.create(), e -> securityService.logout()));
+        return buttons;
     }
 
     private void createDrawer() {

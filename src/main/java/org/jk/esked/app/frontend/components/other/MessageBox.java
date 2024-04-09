@@ -45,6 +45,7 @@ public abstract class MessageBox extends Div {
         Button checkButton = new Button(VaadinIcon.CHECK.create(), e -> {
             messagesService.changeCheckedFlagByMessageId(message.getId(), true);
             this.setEnabled(false);
+            refresh();
         });
 
         Button deleteButton = new RedButton(VaadinIcon.CLOSE_SMALL.create(), e -> {

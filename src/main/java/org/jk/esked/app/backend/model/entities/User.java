@@ -115,10 +115,6 @@ public class User extends AbstractEntity implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
