@@ -7,6 +7,6 @@ import com.vaadin.flow.component.button.Button;
 public class GreenButton extends Button {
     public GreenButton(String text, ComponentEventListener<ClickEvent<Button>> clickListener) {
         super(text, clickListener);
-        getStyle().set("color", "green");
+        getStyle().set("color", "var(--lumo-success-text-color)");
     }
 }

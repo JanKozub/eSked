@@ -39,9 +39,9 @@
 .right-layout vaadin-button {
     width: 30px;
     height: 30px;
-    color: green;
+    color: var(--lumo-success-text-color);
 }
 
 .right-layout vaadin-button[disabled] {
-    color: gray;
+    color: var(--lumo-disabled-text-color);
 }
