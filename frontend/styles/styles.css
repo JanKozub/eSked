@@ -15,8 +15,12 @@ vaadin-tab {
     padding-bottom: 0;
 }
 
-.header h1 {
+.header span {
     color: var(--lumo-secondary-text-color);
+    font-size: 40px;
+    position: relative;
+    top: 2px;
+    left: -6px;
 }
 
 .header vaadin-icon {

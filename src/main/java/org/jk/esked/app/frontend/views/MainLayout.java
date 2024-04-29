@@ -4,7 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.SvgIcon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -28,7 +28,7 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        HorizontalLayout header = new HorizontalLayout(new SvgIcon("icons/logo.svg"), new H1("eSked"));
+        HorizontalLayout header = new HorizontalLayout(new SvgIcon("icons/logo.svg"), new Span("eSked"));
         header.addClassName("header");
 
         addToNavbar(header, createButtons());
