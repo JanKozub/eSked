@@ -1,1 +1,0 @@
-passwords.properties has to be supplied to resources for app to start
